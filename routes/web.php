@@ -20,3 +20,6 @@ Route::get('/',  'Home\IndexController@index');
 
 //商品列表页
 Route::get('/home-goods-index',  'Home\GoodsController@index');
+
+//商品详情页
+Route::get('/home-goods-goodsInfo',  'Home\GoodsController@goodsInfo');

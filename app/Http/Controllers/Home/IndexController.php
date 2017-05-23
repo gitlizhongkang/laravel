@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Illuminate\Support\Facades\Redis;
 
 class IndexController extends Controller
 {
@@ -37,10 +38,16 @@ class IndexController extends Controller
      */
     public function getCategory()
     {
-    	$category = new Category;
-    	$arr = $category->all()->toArray();
-    	$res = $this->tree($arr);
-
+    	if (!empty(Redis::get('category'))) {
+    		$res = unserialize(Redis::get('category'));
+    	} else {
+    		$category = new Category;
+    		$arr = $category->all()->toArray();
+    		$res = $this->tree($arr);
+    		$info = serialize($res);
+    		Redis::set('category',$info);
+    	}
+    	
     	return $res;
     }
 

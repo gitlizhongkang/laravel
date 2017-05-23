@@ -63,7 +63,7 @@
 
 
             <dl class="col-links">
-                <dt>小米之家</dt>
+                <dt>宝宝之家</dt>
                 <dd>
                     <a href="javascript:void(0)" target="_blank" title="预约亲临到店服务" rel="nofollow">预约亲临到店服务</a>
                 </dd>
@@ -71,34 +71,34 @@
                     <a href="javascript:void(0)" target="_blank" title="服务网点" rel="nofollow">服务网点</a>
                 </dd>
                 <dd>
-                    <a href="javascript:void(0)" target="_blank" title="小米之家" rel="nofollow">小米之家</a>
+                    <a href="javascript:void(0)" target="_blank" title="小米之家" rel="nofollow">宝宝之家</a>
                 </dd>
 
             </dl>
 
 
             <dl class="col-links">
-                <dt>关于小米</dt>
+                <dt>关于我们</dt>
                 <dd>
-                    <a href="javascript:void(0)" target="_blank" title="联系小米" rel="nofollow">联系小米</a>
+                    <a href="javascript:void(0)" target="_blank" title="联系小米" rel="nofollow">联系我们</a>
                 </dd>
                 <dd>
-                    <a href="javascript:void(0)" target="_blank" title="加入小米" rel="nofollow">加入小米</a>
+                    <a href="javascript:void(0)" target="_blank" title="加入小米" rel="nofollow">加入我们</a>
                 </dd>
                 <dd>
-                    <a href="javascript:void(0)" target="_blank" title="了解小米" rel="nofollow">了解小米</a>
+                    <a href="javascript:void(0)" target="_blank" title="了解小米" rel="nofollow">了解我们</a>
                 </dd>
 
             </dl>
 
 
             <dl class="col-links">
-                <dt>关注小米</dt>
+                <dt>关注我们</dt>
                 <dd>
                     <a href="javascript:void(0)" target="_blank" title="官方微信" rel="nofollow">官方微信</a>
                 </dd>
                 <dd>
-                    <a href="javascript:void(0)" target="_blank" title="小米部落" rel="nofollow">小米部落</a>
+                    <a href="javascript:void(0)" target="_blank" title="小米部落" rel="nofollow">baby部落</a>
                 </dd>
                 <dd>
                     <a href="javascript:void(0)" target="_blank" title="新浪微博" rel="nofollow">新浪微博</a>
@@ -107,7 +107,7 @@
             </dl>
 
             <div class="col-contact">
-                <p class="phone">4001-021-758</p>
+                <p class="phone">0001-000-000</p>
                 <p>周一至周日 8:00-18:00<br>（仅收市话费）</p>
                 <a rel="nofollow" class="btn btn-line-primary btn-small" href="javascript:void(0)" target="_blank">
                     <i class="iconfont"></i> 24小时在线客服
@@ -118,7 +118,7 @@
 </div>
 <div class="site-info">
     <div class="container">
-        <div class="logo ir">小米商城</div>
+        <div class="logo ir">baby商城</div>
         <div class="info-text">
             <p class="sites">
                 <a href="javascript:void(0)" target="_blank" title="买否网">买否网</a>
