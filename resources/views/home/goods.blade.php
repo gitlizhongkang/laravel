@@ -14,8 +14,8 @@
                 <div class="span13  J_mi_goodsPic_block goods-detail-left-info">
                     <div class="goods-pic-box" id="detail_img">
                         <div class="goods-big-pic">
-                            <a href="images/201507/goods_img/27_P_1437074702951.jpg" class="MagicZoomPlus" id="Zoomer" rel="hint-text: ; selectors-effect: false; selectors-class: current; zoom-distance: 60;zoom-width: 400; zoom-height: 400;" >
-                                <img  alt="小米电视2 40英寸" src="images/201507/goods_img/27_P_1437074702951.jpg">
+                            <a href="images/goods.jpg" class="MagicZoomPlus" id="Zoomer" rel="hint-text: ; selectors-effect: false; selectors-class: current; zoom-distance: 60;zoom-width: 400; zoom-height: 400;" >
+                                <img  alt="" src="images/goods.jpg">
                             </a>
                         </div>
                         <div class="goods-small-pic" id="item-thumbs">
@@ -25,13 +25,13 @@
                                 <ul class="cle">
 
                                     <li class="current">
-                                        <a href="images/201507/goods_img/27_P_1437074702951.jpg" rel="zoom-id: Zoomer" rev="images/201507/goods_img/27_P_1437074702951.jpg">
-                                            <img alt="小米电视2 40英寸" src="images/goods.jpg">
+                                        <a href="" rel="zoom-id: Zoomer" rev="images/goods.jpg">
+                                            <img alt="" src="images/goods.jpg">
                                         </a>
                                     </li>
                                     <li >
-                                        <a href="images/201507/goods_img/27_P_1437074010553.jpg" rel="zoom-id: Zoomer" rev="images/201507/goods_img/27_P_1437074010553.jpg">
-                                            <img alt="小米电视2 40英寸" src="images/goods.jpg">
+                                        <a href="images/goods.jpg" rel="zoom-id: Zoomer" rev="images/goods.jpg">
+                                            <img alt="" src="images/goods.jpg">
                                         </a>
                                     </li>
                                     
@@ -50,13 +50,12 @@
                             <dl class="loaded">
                                 <dt class="goods-info-head">
                                 <dl>
-                                    <dt class="goods-name">小米电视2 40英寸</dt>
-                                    <dd class="goods-phone-type"><p>40/49/55英寸 现货购买</p></dd>
-                                    <del>专柜价： <em class="cancel">2640<em>元</em></em></del>
+                                    <dt class="goods-name">{{$goodsInfo['goods_name']}}</dt>
+                                    <dd class="goods-phone-type"><p> 现货购买</p></dd>
+                                    <del>专柜价： <em class="cancel">{{$goodsInfo['goods_low_price']}}<em>元</em></em></del>
                                     <dd class="goods-info-head-price clearfix">
 
-                                        <span>本店价：</span> <span class="unit"> <b class="nala_price red" id="ECS_SHOPPRICE">2200<em>元</em> </b> </span>
-
+                                        <span>本店价：</span> <span class="unit"> <b class="nala_price red" id="ECS_SHOPPRICE">{{$goodsInfo['goods_low_price']}}<em>元</em> </b> </span>
 
                                         <a href="javascript:;" id="membership" data-type="normal" class="membership">高级会员购买享有折扣</a>
                                         <div class="membership_con">
@@ -70,90 +69,44 @@
                                                     </tr>
                                                     <tr id="ECS_RANKPRICE_1">
                                                         <td>注册用户</td>
-                                                        <td>2200<em>元</em></td>
+                                                        <td>280<em>元</em></td>
                                                     </tr>
                                                     <tr id="ECS_RANKPRICE_2">
                                                         <td>vip</td>
-                                                        <td>2090<em>元</em></td>
+                                                        <td>240<em>元</em></td>
                                                     </tr>
                                                     <tr id="ECS_RANKPRICE_99">
                                                         <td>微信用户</td>
-                                                        <td>2200<em>元</em></td>
+                                                        <td>260<em>元</em></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-
-
-
-
                                     </dd>
                                     <dd>
-
                                         <ul>
-
-
-
-
-
-
-
-
-
                                             <li><span>此商品可使用：<em class="red">2200</em>积分</span></li>
-
-
                                         </ul>
-
                                     </dd>
                                     <dd class="goods-info-choose">
-
-
                                         <div id="choose" class="spec_list_box">
                                             <ul>
-
-
-
-                                                <li>
-                                                    <div class="dt">尺寸：</div>
+                                                @foreach ($norms as $k=>$v)
+                                                <li  class="GeneralAttrImg">
+                                                    <div class="dt">{{$v['norms_name']}}</div>
                                                     <div class="dd">
+                                                     @foreach ($v['norms_value'] as $k1=>$v1)
                                                         <div class="item selected">
                                                             <b></b>
-                                                            <a href="#none" title="45">45</a>
-                                                            <input id="spec_value_37" style="display:none;" type="radio" name="spec_10" value="37" checked />
+                                                           
+                                                            <a href="" title="" rel="zoom-id: Zoomer" rev="images/goods.jpg"><img src="images/goods1.jpg" width="30" height="30" /><span>{{$v1}}</span></a>
+                                                           
+                                                            <input id="spec_value_37" style="display:none;" type="radio" name="spec_10" value="37"  />
                                                         </div>
-
+                                                     @endforeach
                                                     </div>
-                                                </li>
-
-
-                                                <li class="GeneralAttrImg">
-                                                    <div class="dt">颜色：</div>
-                                                    <div class="dd">
-                                                        <div class="item selected">
-                                                            <b></b>
-                                                            <a href="images/201507/source_img/27_P_1437074702620.jpg" title="黄" rel="zoom-id: Zoomer" rev="images/201507/source_img/27_P_1437074702620.jpg"><img src="images/201507/thumb_img/27_thumb_P_1437074702931.jpg" width="30" height="30" /><span>黄</span></a>
-                                                            <input id="spec_value_38" style="display:none;" type="radio" name="spec_11" value="38" checked />
-                                                        </div>
-                                                        <div class="item">
-                                                            <b></b>
-                                                            <a href="images/201508/source_img/27_P_1440636492732.jpg" title="黑白" rel="zoom-id: Zoomer" rev="images/201508/source_img/27_P_1440636492732.jpg"><img src="images/201508/thumb_img/27_thumb_P_1440636492790.jpg" width="30" height="30" /><span>黑白</span></a>
-                                                            <input id="spec_value_81" style="display:none;" type="radio" name="spec_11" value="81"  />
-                                                        </div>
-                                                        <div class="item">
-                                                            <b></b>
-                                                            <a href="images/201508/source_img/27_P_1440636386348.jpg" title="红" rel="zoom-id: Zoomer" rev="images/201508/source_img/27_P_1440636386348.jpg"><img src="images/201508/thumb_img/27_thumb_P_1440636386334.jpg" width="30" height="30" /><span>红</span></a>
-                                                            <input id="spec_value_82" style="display:none;" type="radio" name="spec_11" value="82"  />
-                                                        </div>
-                                                        <div class="item">
-                                                            <b></b>
-                                                            <a href="images/201508/source_img/27_P_1440636396708.png" title="灰" rel="zoom-id: Zoomer" rev="images/201508/source_img/27_P_1440636396708.png"><img src="images/201508/thumb_img/27_thumb_P_1440636396876.jpg" width="30" height="30" /><span>灰</span></a>
-                                                            <input id="spec_value_83" style="display:none;" type="radio" name="spec_11" value="83"  />
-                                                        </div>
-                                                    </div>
-                                                </li>
-
+                                                </li>                                                @endforeach                                            
 
                                             </ul>
                                         </div>
@@ -166,7 +119,7 @@
                                             #choose .dd .item a{border:1px solid #ccc; padding:4px 6px; float:left;}
                                             #choose .dd .item a span{padding:0 3px; line-height:30px;}
                                             #choose .dd .item a img{width:30px; height:30px;}
-                                            #choose .dd .item b{width:12px; height:12px; background:url(themes/xiaomi/images/gou.png) no-repeat; position:absolute; bottom:1px; right:1px; overflow:hidden; display:none;}
+                                            #choose .dd .item b{width:12px; height:12px; background:url(images/gou.png) no-repeat; position:absolute; bottom:1px; right:1px; overflow:hidden; display:none;}
                                             #choose .dd .item.selected a{border-width:2px; border-color:#e4393c; padding:3px 5px;}
                                             #choose .dd .item.selected b{display:block;}
                                             #choose li.GeneralAttrImg .dt{padding-top:10px;}
@@ -222,13 +175,13 @@
                         <ul id="history_list">
 
                             <li>
-                                <a href="goods.php?id=40" target="_blank" title="小米体重秤"> <img alt="小米体重秤" src="images/201507/thumb_img/40_thumb_G_1437082798686.jpg">
+                                <a href="goods.php?id=40" target="_blank" title=""> <img alt="" src="images/luyou.jpg">
                                     <p class="price">99<em>元</em></p>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="goods.php?id=45" target="_blank" title="小米活塞耳机标准版"> <img alt="小米活塞耳机标准版" src="images/201507/thumb_img/45_thumb_G_1437092199733.jpg">
+                                <a href="goods.php?id=45" target="_blank" title=""> <img alt="" src="images/luyou.jpg">
                                     <p class="price">89<em>元</em></p>
                                 </a>
                             </li>
@@ -256,412 +209,8 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="taocan_box">
-        <div class="hd"> <strong>最体贴的优惠</strong> <span>要优惠？自己凑单还不如来这划算</span> </div>
-        <div class="taocan_bd">
-            <div class="tabs_bar_warp">
-                <div class="tabs_bar taocan_tabs" id="taocan_tabs">
-                    <ul>
-                        <li class="on"><a href="javascript:;">套餐<span class="icon_step">一</span></a>
-                        </li>
-                        <li ><a href="javascript:;">套餐<span class="icon_step">二</span></a>
-                        </li>
-                        <li ><a href="javascript:;">套餐<span class="icon_step">三</span></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="taocan_panels" id="taocan_panels">
-                <div class="panel" style="display: block;">
-                    <form name="m_goods_1" method="post" action="" onSubmit="return false;">
-                        <h4></h4>
-                        <ul class="clearfix">
-                            <div style="float:left;"><li><a target="_blank" class="pic" href=""> <img alt="小米电视2 40英寸" src="images/201507/thumb_img/27_thumb_G_1437074702008.jpg"></a>
-                                <p class="name"> <a target="_blank" href="">小米电视2 40英寸</a> </p>
-                                <p class="price">
-                                    <input type="checkbox" value="27" data="2200.00 " spare="0" stock="0" class="m_goods_body m_goods_1" item="m_goods_1">
-                                    2200<em>元</em></p>
-                            </li>
-                            </div>
-                            <div id="fittingBox" class="fittingitem">
-                                <ul>
-
-
-                                    <li class="plus"></li>
-                                    <li> <a target="_blank" class="pic" href="goods.php?id=31"> <img alt="小米移动电源10000mAh" src="images/201507/thumb_img/31_thumb_G_1437075539254.jpg"></a>
-                                        <p class="name"> <a target="_blank" href="goods.php?id=31">小米移动电源10000mAh</a> </p>
-                                        <p class="price">
-                                            <input class="m_goods_list m_goods_1" item="m_goods_1" type="checkbox" value="31" data="60<em></em>" spare="19<em></em>" stock="0">
-                                            ￥60<em></em></p>
-                                    </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                    <li class="plus"></li>
-                                    <li> <a target="_blank" class="pic" href="goods.php?id=44"> <img alt="小米移动电源5000mAh" src="images/201507/thumb_img/44_thumb_G_1437092148601.jpg"></a>
-                                        <p class="name"> <a target="_blank" href="goods.php?id=44">小米移动电源5000mAh</a> </p>
-                                        <p class="price">
-                                            <input class="m_goods_list m_goods_1" item="m_goods_1" type="checkbox" value="44" data="40<em></em>" spare="9<em></em>" stock="0">
-                                            ￥40<em></em></p>
-                                    </li>
-
-
-
-
-
-
-                                    <li class="plus"></li>
-                                    <li> <a target="_blank" class="pic" href="goods.php?id=73"> <img alt="刀锋移动电源" src="images/201508/thumb_img/73_thumb_G_1440983937959.jpg"></a>
-                                        <p class="name"> <a target="_blank" href="goods.php?id=73">刀锋移动电源</a> </p>
-                                        <p class="price">
-                                            <input class="m_goods_list m_goods_1" item="m_goods_1" type="checkbox" value="73" data="200<em></em>" spare="99<em></em>" stock="0">
-                                            ￥200<em></em></p>
-                                    </li>
-
-
-
-
-                                    <li class="plus"></li>
-                                    <li> <a target="_blank" class="pic" href="goods.php?id=75"> <img alt="多彩电源适配器" src="images/201508/thumb_img/75_thumb_G_1440984011595.jpg"></a>
-                                        <p class="name"> <a target="_blank" href="goods.php?id=75">多彩电源适配器</a> </p>
-                                        <p class="price">
-                                            <input class="m_goods_list m_goods_1" item="m_goods_1" type="checkbox" value="75" data="16<em></em>" spare="4<em></em>" stock="0">
-                                            ￥16<em></em></p>
-                                    </li>
-
-
-
-                                </ul>
-                            </div>
-                            <li class="equal"></li>
-                            <li class="price_info submit_1">
-                                <p class="count"> <b>0</b> 件商品，套餐购买立省 <span class="number tip_spare">0.00 元</span> </p>
-                                <p>原&nbsp;价：<del class="res-totalprice totalprice">¥0.00</del></p>
-                                <p>套餐价：<span class="number res-totalprice combo_price">¥0.00 </span></p>
-                                <p class="buy"><a href="javascript:addMultiToCart('m_goods_1', '27')" class="btn btn-primary">购买套餐</a></p>
-                                <input type="hidden" name="m_goods_1_number" value="1" />
-                            </li>
-                        </ul>
-                    </form>
-                </div>
-                <div class="panel" >
-                    <form name="m_goods_2" method="post" action="" onSubmit="return false;">
-                        <h4></h4>
-                        <ul class="clearfix">
-                            <div style="float:left;"><li><a target="_blank" class="pic" href=""> <img alt="小米电视2 40英寸" src="images/201507/thumb_img/27_thumb_G_1437074702008.jpg"></a>
-                                <p class="name"> <a target="_blank" href="">小米电视2 40英寸</a> </p>
-                                <p class="price">
-                                    <input type="checkbox" value="27" data="2200.00 " spare="0" stock="0" class="m_goods_body m_goods_2" item="m_goods_2">
-                                    2200<em>元</em></p>
-                            </li>
-                            </div>
-                            <div id="fittingBox" class="fittingitem">
-                                <ul>
-
-
-
-
-                                    <li class="plus"></li>
-                                    <li> <a target="_blank" class="pic" href="goods.php?id=32"> <img alt="小米路由器 mini" src="images/201507/thumb_img/32_thumb_G_1437075765802.jpg"></a>
-                                        <p class="name"> <a target="_blank" href="goods.php?id=32">小米路由器 mini</a> </p>
-                                        <p class="price">
-                                            <input class="m_goods_list m_goods_2" item="m_goods_2" type="checkbox" value="32" data="120<em></em>" spare="9<em></em>" stock="0">
-                                            ￥120<em></em></p>
-                                    </li>
-
-
-
-
-
-
-                                    <li class="plus"></li>
-                                    <li> <a target="_blank" class="pic" href="goods.php?id=34"> <img alt="小蚁运动相机" src="images/201507/thumb_img/34_thumb_G_1437076036973.jpg"></a>
-                                        <p class="name"> <a target="_blank" href="goods.php?id=34">小蚁运动相机</a> </p>
-                                        <p class="price">
-                                            <input class="m_goods_list m_goods_2" item="m_goods_2" type="checkbox" value="34" data="299<em></em>" spare="100<em></em>" stock="0">
-                                            ￥299<em></em></p>
-                                    </li>
-
-
-
-
-                                    <li class="plus"></li>
-                                    <li> <a target="_blank" class="pic" href="goods.php?id=35"> <img alt="小米空气净化器" src="images/201507/thumb_img/35_thumb_G_1437081702649.jpg"></a>
-                                        <p class="name"> <a target="_blank" href="goods.php?id=35">小米空气净化器</a> </p>
-                                        <p class="price">
-                                            <input class="m_goods_list m_goods_2" item="m_goods_2" type="checkbox" value="35" data="799<em></em>" spare="100<em></em>" stock="0">
-                                            ￥799<em></em></p>
-                                    </li>
-
-
-
-
-
-
-
-
-
-
-                                    <li class="plus"></li>
-                                    <li> <a target="_blank" class="pic" href="goods.php?id=67"> <img alt="小米手环" src="images/201508/thumb_img/67_thumb_G_1440983638116.jpg"></a>
-                                        <p class="name"> <a target="_blank" href="goods.php?id=67">小米手环</a> </p>
-                                        <p class="price">
-                                            <input class="m_goods_list m_goods_2" item="m_goods_2" type="checkbox" value="67" data="50<em></em>" spare="19<em></em>" stock="0">
-                                            ￥50<em></em></p>
-                                    </li>
-
-
-
-
-
-
-
-                                </ul>
-                            </div>
-                            <li class="equal"></li>
-                            <li class="price_info submit_2">
-                                <p class="count"> <b>0</b> 件商品，套餐购买立省 <span class="number tip_spare">0.00 元</span> </p>
-                                <p>原&nbsp;价：<del class="res-totalprice totalprice">¥0.00</del></p>
-                                <p>套餐价：<span class="number res-totalprice combo_price">¥0.00 </span></p>
-                                <p class="buy"><a href="javascript:addMultiToCart('m_goods_2', '27')" class="btn btn-primary">购买套餐</a></p>
-                                <input type="hidden" name="m_goods_2_number" value="1" />
-                            </li>
-                        </ul>
-                    </form>
-                </div>
-                <div class="panel" >
-                    <form name="m_goods_3" method="post" action="" onSubmit="return false;">
-                        <h4></h4>
-                        <ul class="clearfix">
-                            <div style="float:left;"><li><a target="_blank" class="pic" href=""> <img alt="小米电视2 40英寸" src="images/201507/thumb_img/27_thumb_G_1437074702008.jpg"></a>
-                                <p class="name"> <a target="_blank" href="">小米电视2 40英寸</a> </p>
-                                <p class="price">
-                                    <input type="checkbox" value="27" data="2200.00 " spare="0" stock="0" class="m_goods_body m_goods_3" item="m_goods_3">
-                                    2200<em>元</em></p>
-                            </li>
-                            </div>
-                            <div id="fittingBox" class="fittingitem">
-                                <ul>
-
-
-
-
-
-
-                                    <li class="plus"></li>
-                                    <li> <a target="_blank" class="pic" href="goods.php?id=33"> <img alt="小蚁智能摄像机 标准" src="images/201507/thumb_img/33_thumb_G_1437075865379.jpg"></a>
-                                        <p class="name"> <a target="_blank" href="goods.php?id=33">小蚁智能摄像机 标准</a> </p>
-                                        <p class="price">
-                                            <input class="m_goods_list m_goods_3" item="m_goods_3" type="checkbox" value="33" data="119<em></em>" spare="10<em></em>" stock="0">
-                                            ￥119<em></em></p>
-                                    </li>
-
-
-
-
-
-
-
-
-                                    <li class="plus"></li>
-                                    <li> <a target="_blank" class="pic" href="goods.php?id=36"> <img alt="iHealth智能血压计" src="images/201507/thumb_img/36_thumb_G_1437082145888.jpg"></a>
-                                        <p class="name"> <a target="_blank" href="goods.php?id=36">iHealth智能血压计</a> </p>
-                                        <p class="price">
-                                            <input class="m_goods_list m_goods_3" item="m_goods_3" type="checkbox" value="36" data="129<em></em>" spare="70<em></em>" stock="0">
-                                            ￥129<em></em></p>
-                                    </li>
-
-
-
-
-                                    <li class="plus"></li>
-                                    <li> <a target="_blank" class="pic" href="goods.php?id=37"> <img alt="小米智能插座" src="images/201507/thumb_img/37_thumb_G_1437082214575.jpg"></a>
-                                        <p class="name"> <a target="_blank" href="goods.php?id=37">小米智能插座</a> </p>
-                                        <p class="price">
-                                            <input class="m_goods_list m_goods_3" item="m_goods_3" type="checkbox" value="37" data="49<em></em>" spare="30<em></em>" stock="0">
-                                            ￥49<em></em></p>
-                                    </li>
-
-
-
-
-
-
-
-
-
-
-
-                                </ul>
-                            </div>
-                            <li class="equal"></li>
-                            <li class="price_info submit_3">
-                                <p class="count"> <b>0</b> 件商品，套餐购买立省 <span class="number tip_spare">0.00 元</span> </p>
-                                <p>原&nbsp;价：<del class="res-totalprice totalprice">¥0.00</del></p>
-                                <p>套餐价：<span class="number res-totalprice combo_price">¥0.00 </span></p>
-                                <p class="buy"><a href="javascript:addMultiToCart('m_goods_3', '27')" class="btn btn-primary">购买套餐</a></p>
-                                <input type="hidden" name="m_goods_3_number" value="1" />
-                            </li>
-                        </ul>
-                    </form>
-                </div>
-
-
-            </div>
-        </div>
-    </div>
         <script type="text/javascript">
-            var btn_buy = "确定";
-            var is_cancel = "取消";
-            var select_spe = "请选择商品属性";
-            var select_base = '请选择套餐基本件';
-            var select_shop = '请选择套餐商品';
-            var data_not_complete = '数据格式不完整';
-            var understock = '库存不足，请选择其他商品';
-            $(function(){
-
-                $(".fittingitem").each(function(i, e) {
-                    var a = $(this).find(".plus");
-                    var b = a.size();
-                    var c = $(this).find("li:not(.plus)");
-                    var d = c.size();
-                    $(this).find("ul").width(b*40+d*170);
-                });
-
-                //组合套餐tab切换
-                var _tab = $('#cn_b h2');
-                var _con = $('#cn_h blockquote');
-                var _index = 0;
-                _con.eq(0).show().siblings('blockquote').hide();
-                _tab.css('cursor','pointer');
-                _tab.click(function(){
-                    _index = _tab.index(this);
-                    _tab.eq(_index).removeClass('h2bg').siblings('h2').addClass('h2bg');
-                    _con.eq(_index).show().siblings('blockquote').hide();
-                })
-                //选择基本件
-                $('.m_goods_body').click(function(){
-                    if($(this).prop('checked')){
-                        ec_group_addToCart($(this).attr('item'), 27); //基本件(组,主件)
-                    }else{
-                        ec_group_delInCart($(this).attr('item'), 27); //删除基本件(组,主件)
-                        display_Price($(this).attr('item'),$(this).attr('item').charAt($(this).attr('item').length-1));
-                    }
-                })
-                //变更选购的配件
-                $('.m_goods_list').click(function(){
-                    //是否选择主件
-                    if(!$(this).parents('form').find('.m_goods_body').prop('checked')){
-                        alert(select_base);
-                        return false;
-                    }
-                    if($(this).prop('checked')){
-                        ec_group_addToCart($(this).attr('item'), $(this).val(),27); //新增配件(组,配件,主件)
-                    }else{
-                        ec_group_delInCart($(this).attr('item'), $(this).val(),27); //删除基本件(组,配件,主件)
-                        display_Price($(this).attr('item'),$(this).attr('item').charAt($(this).attr('item').length-1));
-                    }
-                })
-                //可以购买套餐的最大数量
-                $(".combo_stock").keyup(function(){
-                    var group = $(this).parents('form').attr('name');
-                    getMaxStock(group);//根据套餐获取该套餐允许购买的最大数
-                });
-            })
-            //允许购买套餐的最大数量
-            function getMaxStock(group){
-                var obj = $('input[name="'+group+'_number"]');
-                var original = parseInt(Number(obj.val()));
-                var stock = $("."+group).eq(0).attr('stock');
-                //是否是数字
-                if(isNaN(original)){
-                    original = 1;
-                    obj.val(original);
-                }
-                $("."+group).each(function(index){
-                    if($("."+group).eq(index).prop('checked')){
-                        var item_stock = parseInt($("."+group).eq(index).attr('stock'));
-                        stock = (stock > item_stock)?item_stock:stock;//取最小值
-                    }
-                });
-                //更新
-                original = (original < 1)?1:original;
-                stock = (stock < 1)?1:stock;
-                if(original > stock){
-                    obj.val(stock);
-                }
-            }
-            function accAdd(arg1, arg2) {
-                var r1, r2, m, c;
-                try {
-                    r1 = arg1.toString().split(".")[1].length;
-                }
-                catch (e) {
-                    r1 = 0;
-                }
-                try {
-                    r2 = arg2.toString().split(".")[1].length;
-                }
-                catch (e) {
-                    r2 = 0;
-                }
-                c = Math.abs(r1 - r2);
-                m = Math.pow(10, Math.max(r1, r2));
-                if (c > 0) {
-                    var cm = Math.pow(10, c);
-                    if (r1 > r2) {
-                        arg1 = Number(arg1.toString().replace(".", ""));
-                        arg2 = Number(arg2.toString().replace(".", "")) * cm;
-                    } else {
-                        arg1 = Number(arg1.toString().replace(".", "")) * cm;
-                        arg2 = Number(arg2.toString().replace(".", ""));
-                    }
-                } else {
-                    arg1 = Number(arg1.toString().replace(".", ""));
-                    arg2 = Number(arg2.toString().replace(".", ""));
-                }
-                return (arg1 + arg2) / m;
-            }
-            //统计套餐价格
-            function display_Price(_item,indexTab){
-                var _size = $('.'+_item).size();
-                var _amount_shop_price = 0;
-                var _amount_spare_price = 0;
-                indexTab = indexTab - 1;
-                var fitting_num = 0;
-                for(i=0; i<_size; i++){
-                    obj = $('.'+_item).eq(i);
-                    if(obj.prop('checked')){
-                        _amount_shop_price = accAdd(_amount_shop_price,parseFloat(obj.attr('data'))); //原件合计
-                        _amount_spare_price = accAdd(_amount_spare_price,parseFloat(obj.attr('spare'))); //优惠合计
-                        fitting_num++;
-                    }
-                }
-                $('.price_info:eq('+indexTab+') .count b').text(fitting_num);//配件数量
-
-                var tip_spare = $('.tip_spare:eq('+indexTab+')');//节省文本
-                tip_spare.text(_amount_spare_price+"元");//省钱显示提示信息
-
-                //显示总价
-                $('.combo_price:eq('+indexTab+')').text("¥"+_amount_shop_price);
-
-                //显示参考价
-                $('.totalprice:eq('+indexTab+')').text("¥"+(parseInt(_amount_shop_price)+_amount_spare_price));
-            }
+            
             //处理添加商品到购物车
             function ec_group_addToCart(group,goodsId,parentId){
                 var goods        = new Object();
@@ -874,25 +423,7 @@
                 }
                 cancel_checkboxed(group, goods_id);//取消checkbox
             }
-            /*
-             *套餐提交到购物车 by mike
-             */
-            function addMultiToCart(group,goodsId){
-                var goods     = new Object();
-                var number    = $('input[name="'+group+'_number"]').val();
-
-                goods.group = group;
-                goods.goods_id = goodsId;
-                goods.number = (number < 1) ? 1:number;
-
-                //判断是否勾选套餐
-                if(!$("."+group).is(':checked')){
-                    alert(select_shop);
-                    return false;
-                }
-
-                Ajax.call('flow.php?step=add_to_cart_group', 'goods=' + $.toJSON(goods), addMultiToCartResponse, 'POST', 'JSON'); //兼容jQuery by mike
-            }
+            
             //回调
             function addMultiToCartResponse(result){
                 if(result.error > 0){
@@ -933,11 +464,12 @@
             <div class="goods-detail-desc goods_con_item">
                 <div class="container">
                     <div class="shape-container">
-                        <p><img width="720" height="598" alt="" src="/xiaomi2015273/images/upload/Image/20150818160807.png" /></p>
-                        <p><img width="720" height="508" alt="" src="/xiaomi2015273/images/upload/Image/20150818160858.png" /></p>
-                        <p><img width="720" height="572" alt="" src="/xiaomi2015273/images/upload/Image/20150818160916.png" /></p>
-                        <p><img src="/xiaomi2015273/images/upload/Image/er08150123.png" width="1351" height="762" alt="" /></p>
-                        <p><img src="/xiaomi2015273/images/upload/Image/ger908150140.png" width="1138" height="867" alt="" /></p>                            </div>
+                        <p><img width="720" height="598" alt="" src="images/goods1.jpg" /></p>
+                        <p><img width="720" height="508" alt="" src="images/goods1.jpg" /></p>
+                        <p><img width="720" height="572" alt="" src="images/goods1.jpg" /></p>
+                        <p><img src="images/goods1.jpg" width="1351" height="762" alt="" /></p>
+                        <p><img src="images/goods1.jpg" width="1138" height="867" alt="" /></p>
+                    </div>
                 </div>
             </div>
 
@@ -950,7 +482,7 @@
             <div class="goods-detail-param">
                 <div class="container">
                     <ul class="param-list">
-                        <li class="goods-img"><img src="images/201508/thumb_img/27_thumb_P_1440636492790.jpg" alt="小米电视2 40英寸" /></li>
+                        <li class="goods-img"><img src="images/goods1.jpg" alt="小米电视2 40英寸" /></li>
                         <li class="goods-tech-spec">
                             <ul>
                                 <li>产品名称：小米电视2 40英寸</li>
@@ -1015,7 +547,7 @@
                                     <ul class="comment-box-list">
 
                                         <li class="item-rainbow-1">
-                                            <div class="user-image"> <img class="face_img" src="themes/xiaomi/images/default_45.png"> </div>
+                                            <div class="user-image"> <img class="face_img" src="images/goods1.jpg"> </div>
                                             <div class="user-emoj">
                                                 超爱<i class="iconfont"></i>
                                             </div>
@@ -1033,7 +565,7 @@
                                         </li>
 
                                         <li class="item-rainbow-2">
-                                            <div class="user-image"> <img class="face_img" src="themes/xiaomi/images/default_45.png"> </div>
+                                            <div class="user-image"> <img class="face_img" src="images/goods1.jpg"> </div>
                                             <div class="user-emoj">
                                                 超爱<i class="iconfont"></i>
                                             </div>
@@ -1049,104 +581,9 @@
                                                 </dd>
                                             </dl>
                                         </li>
-
-                                        <li class="item-rainbow-3">
-                                            <div class="user-image"> <img class="face_img" src="themes/xiaomi/images/default_45.png"> </div>
-                                            <div class="user-emoj">
-                                                一般<i class="iconfont"></i>
-                                            </div>
-                                            <div class="user-name-info">
-                                                <span class="user-name">匿名用户</span>
-                                                <span class="user-time">2015-09-08 15:00:06</span>
-                                                <span class="pro-info"></span>
-                                            </div>
-                                            <dl class="user-comment">
-                                                <dt class="user-comment-content"><p class="content-detail">颜色好看，音质和简装版一样，有点小贵</p></dt>
-                                                <dd class="user-comment-self-input hide">
-                                                    <div class="input-block"><input type="text" placeholder="回复楼主" class="J_commentAnswerInput"><a href="javascript:void(0);" class="btn  answer-btn J_commentAnswerBtn">回复</a></div>
-                                                </dd>
-                                            </dl>
-                                        </li>
-
-                                        <li class="item-rainbow-4">
-                                            <div class="user-image"> <img class="face_img" src="themes/xiaomi/images/default_45.png"> </div>
-                                            <div class="user-emoj">
-                                                超爱<i class="iconfont"></i>
-                                            </div>
-                                            <div class="user-name-info">
-                                                <span class="user-name">匿名用户</span>
-                                                <span class="user-time">2015-09-08 14:59:47</span>
-                                                <span class="pro-info"></span>
-                                            </div>
-                                            <dl class="user-comment">
-                                                <dt class="user-comment-content"><p class="content-detail">这个冰川蓝我非常喜欢！颜色很亮！感觉很清爽呢！像是夏天的海洋！音质棒棒的！来吧！打开DJ一起摇…！</p></dt>
-                                                <dd class="user-comment-self-input hide">
-                                                    <div class="input-block"><input type="text" placeholder="回复楼主" class="J_commentAnswerInput"><a href="javascript:void(0);" class="btn  answer-btn J_commentAnswerBtn">回复</a></div>
-                                                </dd>
-                                            </dl>
-                                        </li>
-
-                                        <li class="item-rainbow-5">
-                                            <div class="user-image"> <img class="face_img" src="themes/xiaomi/images/default_45.png"> </div>
-                                            <div class="user-emoj">
-                                                满意<i class="iconfont"></i>
-                                            </div>
-                                            <div class="user-name-info">
-                                                <span class="user-name">匿名用户</span>
-                                                <span class="user-time">2015-09-08 14:59:25</span>
-                                                <span class="pro-info"></span>
-                                            </div>
-                                            <dl class="user-comment">
-                                                <dt class="user-comment-content"><p class="content-detail">东西不错，是正品，现在高仿小米的产品太多了，只有选择官网购买，一分钱一分货</p></dt>
-                                                <dd class="user-comment-self-input hide">
-                                                    <div class="input-block"><input type="text" placeholder="回复楼主" class="J_commentAnswerInput"><a href="javascript:void(0);" class="btn  answer-btn J_commentAnswerBtn">回复</a></div>
-                                                </dd>
-                                            </dl>
-                                        </li>
-
-                                        <li class="item-rainbow-6">
-                                            <div class="user-image"> <img class="face_img" src="themes/xiaomi/images/default_45.png"> </div>
-                                            <div class="user-emoj">
-                                                超爱<i class="iconfont"></i>
-                                            </div>
-                                            <div class="user-name-info">
-                                                <span class="user-name">匿名用户</span>
-                                                <span class="user-time">2015-09-08 14:56:42</span>
-                                                <span class="pro-info"></span>
-                                            </div>
-                                            <dl class="user-comment">
-                                                <dt class="user-comment-content"><p class="content-detail">电视太漂亮了，外观很时尚</p></dt>
-                                                <dd class="user-comment-self-input hide">
-                                                    <div class="input-block"><input type="text" placeholder="回复楼主" class="J_commentAnswerInput"><a href="javascript:void(0);" class="btn  answer-btn J_commentAnswerBtn">回复</a></div>
-                                                </dd>
-                                            </dl>
-                                        </li>
-
-                                        <li class="item-rainbow-7">
-                                            <div class="user-image"> <img class="face_img" src="themes/xiaomi/images/default_45.png"> </div>
-                                            <div class="user-emoj">
-                                                超爱<i class="iconfont"></i>
-                                            </div>
-                                            <div class="user-name-info">
-                                                <span class="user-name">匿名用户</span>
-                                                <span class="user-time">2015-09-08 14:56:09</span>
-                                                <span class="pro-info"></span>
-                                            </div>
-                                            <dl class="user-comment">
-                                                <dt class="user-comment-content"><p class="content-detail">不买盒子可以直接放电视吗</p></dt>
-                                                <dd class="user-comment-self-input hide">
-                                                    <div class="input-block"><input type="text" placeholder="回复楼主" class="J_commentAnswerInput"><a href="javascript:void(0);" class="btn  answer-btn J_commentAnswerBtn">回复</a></div>
-                                                </dd>
-                                            </dl>
-                                        </li>
-
-
                                         <li class="pagenav">
                                             <form name="selectPageForm" action="/mishop/goods.php" method="get">
                                                 <a href="javascript:;" class="step" style="border:1px solid #eee; color:#ccc;">上一页</a>
-
-
-
                                                 <a href="javascript:;" class="step" style="border:1px solid #eee; color:#ccc;">下一页</a>
 
                                             </form>
@@ -1192,15 +629,15 @@
                                     <li>
                                         <label>评价等级</label>
                                         <input name="comment_rank" type="radio" value="1" id="comment_rank1" />
-                                        <img src="themes/xiaomi/images/stars1.gif" />
+                                        <img src="images/stars1.gif" />
                                         <input name="comment_rank" type="radio" value="2" id="comment_rank2" />
-                                        <img src="themes/xiaomi/images/stars2.gif" />
+                                        <img src="images/stars2.gif" />
                                         <input name="comment_rank" type="radio" value="3" id="comment_rank3" />
-                                        <img src="themes/xiaomi/images/stars3.gif" />
+                                        <img src="images/stars3.gif" />
                                         <input name="comment_rank" type="radio" value="4" id="comment_rank4" />
-                                        <img src="themes/xiaomi/images/stars4.gif" />
+                                        <img src="images/stars4.gif" />
                                         <input name="comment_rank" type="radio" value="5" checked="checked" id="comment_rank5" />
-                                        <img src="themes/xiaomi/images/stars5.gif" />
+                                        <img src="images/stars5.gif" />
                                     </li>
                                     <li>
                                         <label>评论内容</label>
@@ -1210,7 +647,7 @@
                                         <label>验证码</label>
 
                                         <input type="text" class="txt" name="captcha" maxlength="6">
-                                        <img src="captcha.php?1955126501" alt="captcha" id="captcha" onClick="this.src='captcha.php?'+Math.random()" width="100" height="34" style="height:34px;" > </li>
+                                        <img src="" alt="captcha" id="captcha" onClick="this.src='captcha.php?'+Math.random()" width="100" height="34" style="height:34px;" > </li>
 
 
 
@@ -1341,7 +778,7 @@
                 <li><a class="J_scrollHref" href="javascript:void(0);" name="pjxqitem" rel="nofollow">评价晒单(<em>7</em>)</a></li>
             </ul>
             <dl class="goods-sub-bar-info clearfix">
-                <dt><img src="images/201508/thumb_img/27_thumb_P_1440636492790.jpg" alt="小米电视2 40英寸" /></dt>
+                <dt><img src="images/goods.jpg" alt="小米电视2 40英寸" /></dt>
                 <dd>
                     <strong>小米电视2 40英寸</strong>
                     <p><em>40/49/55英寸 现货购买</em></p>
@@ -1382,9 +819,9 @@
      */
     function changePrice()
     {
-        var attr = getSelectedAttributes(document.forms['ECS_FORMBUY']);
-        var qty = document.forms['ECS_FORMBUY'].elements['number'].value;
-        Ajax.call('goods.php', 'act=price&id=' + goodsId + '&attr=' + attr + '&number=' + qty, changePriceResponse, 'GET', 'JSON');
+    //     var attr = getSelectedAttributes(document.forms['ECS_FORMBUY']);
+    //     var qty = document.forms['ECS_FORMBUY'].elements['number'].value;
+    //     Ajax.call('goods.php', 'act=price&id=' + goodsId + '&attr=' + attr + '&number=' + qty, changePriceResponse, 'GET', 'JSON');
     }
     /**
      * 接收返回的信息

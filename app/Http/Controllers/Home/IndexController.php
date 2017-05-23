@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Support\Facades\Redis;
+use App\Models\Goods;
 
 class IndexController extends Controller
 {
@@ -27,6 +28,13 @@ class IndexController extends Controller
     {
     	//获取分类列表
     	$data['category'] = $this->getCategory();
+    	$goods = new Goods;
+    	$data['milk'] = $goods -> where('category_id','in','25,26,27,28') 
+    	-> orderBy('add_time') -> offset(0)
+    	-> limit(10) -> get() -> toArray();
+    	$data['diapers'] = $goods -> where('category_id','in','31,32,33,35') 
+    	-> orderBy('add_time') -> offset(0)
+    	-> limit(10) -> get() -> toArray();
 
     	return view('/home/index' , $data);
     }
