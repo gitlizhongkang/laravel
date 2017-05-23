@@ -1054,7 +1054,7 @@ a:hover {
 	-webkit-transition: color 0.2s;
 	transition: color 0.2s;
 }
-.site-header .header-nav .nav-list .nav-category .site-category-list .children-list li .link:hover {
+.site-header .header-nav .nav-list .nav-category .site-category-list .children-list .thumb:hover {
 	color: #ff6700;
 }
 .site-header .header-nav .nav-list .nav-category .site-category-list .children-list .thumb {

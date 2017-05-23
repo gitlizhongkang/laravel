@@ -13,4 +13,10 @@
 Route::group(['middleware' => ['web']], function () {
     //
 });
+
+
+//前台首页
 Route::get('/',  'Home\IndexController@index');
+
+//商品列表页
+Route::get('/home-goods-index',  'Home\GoodsController@index');
