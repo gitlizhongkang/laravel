@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Goods extends Model
+class Category extends Model
 {
     //表名
-    protected $table = 'goods';
+    protected $table = 'category';
 
     //指定主键
-    protected $primaryKey = 'goods_id';
-
+    protected $primaryKey = 'category_id';
 }

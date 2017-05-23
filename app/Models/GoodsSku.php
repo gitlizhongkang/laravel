@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Goods extends Model
+class GoodsSku extends Model
 {
     //表名
-    protected $table = 'goods';
+    protected $table = 'goods_sku';
 
     //指定主键
-    protected $primaryKey = 'goods_id';
-
+    protected $primaryKey = 'sku_id';
 }
