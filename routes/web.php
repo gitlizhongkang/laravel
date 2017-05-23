@@ -14,3 +14,10 @@ Route::group(['middleware' => ['web']], function () {
     //
 });
 Route::get('/',  'Home\IndexController@index');
+
+
+//商品添加页面
+Route::get('/admin-goods-addView',  'Admin\GoodsController@addView');
+Route::get('/admin-goods-normsName',  'Admin\GoodsController@normsName');
+Route::get('/admin-goods-normsValue',  'Admin\GoodsController@normsValue');
+Route::get('/admin-goods-createSku',  'Admin\GoodsController@createSku');
