@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Attributes;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Norms;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,15 +13,57 @@ use Illuminate\Support\Facades\Redis;
 
 class GoodsController extends Controller
 {
-    //
-    public function addView()
+
+    /**
+     * @brief 分类下拉
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function category()
     {
-        return view('admin.goods-add');
+        //从redis读取
+        if(Redis::exists('dataCategory'))
+        {
+            $data = Redis::get('dataCategory');
+            $dataCategory = unserialize($data);
+
+            return response()->json($dataCategory);
+        }
+
+        //实例化表
+        $db = new Category();
+        $data = $db->findAll();
+
+        //层及分类
+        $dataCategory = $db->tree($data);
+
+
+        //序列化写入内存
+        $dealDataCategory = serialize($dataCategory);
+        Redis::set('dataCategory', $dealDataCategory);
+
+
+        return response()->json($dataCategory);
     }
 
 
+
     /**
-     * @brief 获取规格名称
+     * @brief 品牌下拉
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function brand()
+    {
+        //实例化表
+        $db = new Brand();
+        $dataBrand = $db->findAll();
+
+        return response()->json($dataBrand);
+    }
+
+
+
+    /**
+     * @brief 规格名称下拉
      * @return \Illuminate\Http\JsonResponse
      */
     public function normsName()
@@ -60,7 +105,7 @@ class GoodsController extends Controller
 
             $dataNorms[$id] = $val;
         }
-        //序列化存入
+        //序列化存入$dataNorms[norms_id] = [norms_name,[norms_value]]
         $dataNorms = serialize($dataNorms);
         Redis::setex('dataNorms', 1200, $dataNorms);
 
@@ -68,9 +113,8 @@ class GoodsController extends Controller
         return response()->json($normsName);
     }
 
-
     /**
-     * @brief 获取规格对应的值
+     * @brief 规格对应的值
      * @return \Illuminate\Http\JsonResponse
      */
     public function normsValue()
@@ -92,6 +136,7 @@ class GoodsController extends Controller
             return response()->json($normsValue);
         }
     }
+
 
 
     /**
@@ -157,5 +202,60 @@ class GoodsController extends Controller
 
 
 
+    /**
+     * @brief 属性类型下拉
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function attributesType()
+    {
+        $id = Input::get('category_id');
+
+        //实例化表
+        $db = new Category();
+        $data = $db->findTopCategory();
+
+        //循环处理数据
+        $dataCategoryTop = [];
+        foreach ($data as $val)
+        {
+            $dataCategoryTop[$val['category_id']] = $val['category_name'];
+        }
+
+
+        return response()->json($dataCategoryTop);
+    }
+
+    /**
+     * @brief 属性和属性值
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function attributes()
+    {
+        $categoryId = Input::get('category_id');
+
+        //实例化表
+        $db = new Attributes();
+        $dataAttribute = $db->findByCategoryId($categoryId);
+
+        //属性值处理成数组
+        foreach ($dataAttribute as &$val)
+        {
+            if (!empty($val['attr_value']))
+            {
+                $val['attr_value'] = explode(',', $val['attr_value']);
+            }
+        }
+
+
+        return response()->json($dataAttribute);
+    }
+
+
+
+
+    public function add()
+    {
+
+    }
 
 }

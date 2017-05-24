@@ -62,16 +62,16 @@ h1 .action-span a {
   border:1px solid #278296;
   border-right:2px solid #278296;
   border-bottom:2px solid #278296;
-  background:#DDEEF2 url(../images/icon_add.gif) no-repeat 3px center;
-  *background:#DDEEF2 url(../images/icon_add.gif) no-repeat 3px 3px;
+  background:#DDEEF2  no-repeat 3px center;
+  *background:#DDEEF2  no-repeat 3px 3px;
 }
 
 h1 .action-span a:hover {
   border:1px solid #5FA6B6;
   border-right:2px solid #5FA6B6;
   border-bottom:2px solid #5FA6B6;
-  background:#FFF url(../images/icon_add.gif) no-repeat 3px center;
-  *background:#FFF url(../images/icon_add.gif) no-repeat 3px 3px;
+  background:#FFF  no-repeat 3px center;
+  *background:#FFF  no-repeat 3px 3px;
   color:#666;
   text-decoration:none;
 }
