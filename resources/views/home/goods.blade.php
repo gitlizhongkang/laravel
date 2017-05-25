@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="span7 goods-info-rightbox">
-                    <form action="javascript:addToCart(27)" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" >
+                    <!-- <form action="" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" > -->
 
 
                         <div class="goods-info-box" id="item-info">
@@ -52,10 +52,10 @@
                                 <dl>
                                     <dt class="goods-name">{{$goodsInfo['goods_name']}}</dt>
                                     <dd class="goods-phone-type"><p> 现货购买</p></dd>
-                                    <del>专柜价： <em class="cancel">{{$goodsInfo['goods_low_price']}}<em>元</em></em></del>
+                                   <!--  <del>专柜价： <em class="cancel">{{$goodsInfo['goods_low_price']}}<em>元</em></em></del> -->
                                     <dd class="goods-info-head-price clearfix">
 
-                                        <span>本店价：</span> <span class="unit"> <b class="nala_price red" id="ECS_SHOPPRICE">{{$goodsInfo['goods_low_price']}}<em>元</em> </b> </span>
+                                        <span>本店价：</span> <span class="unit"> <b class="nala_price red" ><span id="ECS_SHOPPRICE">{{$goodsInfo['goods_low_price']}}</span><em>元</em> </b> </span>
 
                                         <a href="javascript:;" id="membership" data-type="normal" class="membership">高级会员购买享有折扣</a>
                                         <div class="membership_con">
@@ -90,24 +90,21 @@
                                         </ul>
                                     </dd>
                                     <dd class="goods-info-choose">
-                                        <div id="choose" class="spec_list_box">
+                                        <div id="choose" class="spec_list_box" len="{{count($norms)}}" sku-id='' sku-norms='' sku-num=''>
                                             <ul>
                                                 @foreach ($norms as $k=>$v)
                                                 <li  class="GeneralAttrImg">
                                                     <div class="dt">{{$v['norms_name']}}</div>
                                                     <div class="dd">
                                                      @foreach ($v['norms_value'] as $k1=>$v1)
-                                                        <div class="item selected">
-                                                            <b></b>
-                                                           
-                                                            <a href="" title="" rel="zoom-id: Zoomer" rev="images/goods.jpg"><img src="images/goods1.jpg" width="30" height="30" /><span>{{$v1}}</span></a>
-                                                           
-                                                            <input id="spec_value_37" style="display:none;" type="radio" name="spec_10" value="37"  />
+                                                        <div class="item ">
+                                                           <b></b>
+                                                            <a href="" title="" rel="zoom-id: Zoomer" rev="images/goods1.jpg" ><span>{{$v1}}</span></a>
+                                                            <input id="spec_value_81" style="display:none;" type="radio" name="norms{{$k}}" value="{{$v1}}" />                                                            
                                                         </div>
                                                      @endforeach
                                                     </div>
                                                 </li>                                                @endforeach                                            
-
                                             </ul>
                                         </div>
                                         <style>
@@ -128,31 +125,66 @@
                                             #choose li.GeneralAttrImg .dd .item.selected a{padding:0;}
                                         </style>
 
-                                        <script>
-                                            $(".spec_list_box .item a").click(function(){
-                                                $(this).parents(".dd").find(".item").removeClass("selected");
-                                                $(this).parent().addClass("selected");
-                                                $(this).parents(".dd").find("input:radio").prop("checked",false);
-                                                $(this).parent().find("input:radio").prop("checked",true);
-                                                changePrice();
-                                            })
-                                        </script>
-
                                         <ul class="sku">
                                             <li class="skunum_li clearfix">
                                                 <div class="ghd">数量：</div>
                                                 <div class="skunum gbd" id="skunum">
                                                     <span class="minus" title="减少1个数量"></span>
-                                                    <input id="number" name="number" type="text" min="1" value="1" onchange="countNum(0)">
-                                                    <span class="add" title="增加1个数量"></span>&nbsp;件
+                                                    <input id="number" name="number" type="text" min="1" value="1" onchange="">
+                                                    <span class="add" title="增加1个数量"></span>&nbsp;件<br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class='sku-num' style='color: red'></i>
                                                 </div>
                                             </li>
                                         </ul>
                                     </dd>
+                                       <script>
+                                            $(".spec_list_box .item a").click(function(){
+                                                $(this).parents(".dd").find(".item").removeClass("selected");
+                                                $(this).parent().addClass("selected");
+                                                $(this).parents(".dd").find("input:radio").prop("checked",false);
+                                                $(this).parent().find("input:radio").prop("checked",true);
+                                                
+                                                var goods_id = "{{$goodsInfo['goods_id']}}";
+                                                var len =$('#choose').attr('len');
+                                                var norms_value = '';
+                                                for (var i = 0; i<= len-1; i++) {
+                                                    var norms = $('input[name=norms'+i+']');
+                                                    for (var j = norms.length - 1; j >= 0; j--) {
+                                                        if (norms.eq(j).prop('checked')) {
+                                                            norms_value += ',' + norms.eq(j).val();
+                                                        }
+                                                    }
+                                                }
+                                                norms_value = norms_value.substr(1);
+                                                var norms_length = norms_value.split(",");
+                                                if (norms_length.length < len) {
+                                                   return false;
+                                                } else {
+                                                   $.ajax({
+                                                        type:'post',
+                                                        url:'home-goods-getSku',
+                                                        data:{
+                                                            goods_id:goods_id,
+                                                            norms_value:norms_value,
+                                                            _token:"{{csrf_token()}}"
+                                                        },
+                                                        dataType:'json',
+                                                        success:function(msg){
+                                                            $('#choose').attr('sku-id',msg.sku_id);
+                                                            $('#choose').attr('sku-norms',norms_value);
+                                                            $('#choose').attr('sku-num',msg.sku_num);
+                                                            $('.sku-num').html('剩余库存：'+msg.sku_num);
+                                                            $('#ECS_SHOPPRICE').html(msg.sku_price);
+                                                        }
+                                                   }) 
+                                                }                                               
+                                            })
+
+                                        </script>
 
                                     <dd class="goods-info-head-cart">
-                                        <a href="javascript:addToCart(27)" class="btn  btn-primary goods-add-cart-btn" id="buy_btn"><i class="iconfont"></i>加入购物车</a>
-                                        <a href="javascript:collect(27)" class=" btn btn-gray  goods-collect-btn " id="fav-btn"><i class="iconfont"></i>喜欢</a>
+                                        <a href="javascript:;" class="btn  btn-primary goods-add-cart-btn" id="buy_btn"><i class="iconfont"></i>加入购物车</a>
+                                        <a href="javascript:;" class=" btn btn-gray  goods-collect-btn " id="fav-btn"><i class="iconfont"></i>购买</a>
                                     </dd>
                                     <dd class="goods-info-head-userfaq clearfix">
                                         <ul>
@@ -163,291 +195,56 @@
                                     </dd>
                                 </dl>
                                 </dt>
-
-
-
+                            <script>
+                            $('#buy_btn').click(function(){     
+                                var sku_id =  $('#choose').attr('sku-id');                           
+                                if (sku_id == '') {
+                                    alert('您还没有选择规格哦！！！');
+                                    return false;
+                                }
+                               
+                                var num = $('#number').val();
+                                var sku_num = $('#choose').attr('sku-num');
+                                if (parseInt(sku_num) < num) {
+                                    alert('库存不足');
+                                    return false;
+                                }
+                                if (confirm('您还没有登录，添加购物车将只保存一次哦！')){
+                                    $.ajax({                               
+                                        type:'post',
+                                        url:'home-cart-add',
+                                        data:{
+                                            sku_id:sku_id,
+                                            num:num,
+                                            _token:"{{csrf_token()}}"
+                                        },
+                                        dataType:'json',
+                                        success:function(msg){
+                                           if(msg.error == 0) {
+                                                alert('添加购物车成功！');
+                                           }
+                                        }
+                                   }) 
+                                }
+                               
+                            })
+                            </script>
 
                             </dl>
                         </div>
-                    </form><div class="seemore_items" id="seemore_items" style="display:none;">
-                    <h3>看了又看<a href="javascript:;" class="next refresh" title="换一组"><i class="iconfont"></i></a></h3>
-                    <div class="bd">
-                        <ul id="history_list">
-
-                            <li>
-                                <a href="goods.php?id=40" target="_blank" title=""> <img alt="" src="images/luyou.jpg">
-                                    <p class="price">99<em>元</em></p>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="goods.php?id=45" target="_blank" title=""> <img alt="" src="images/luyou.jpg">
-                                    <p class="price">89<em>元</em></p>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                    <!-- </form> -->
                     <script type="text/javascript">
-                        if (document.getElementById('history_list').innerHTML.replace(/\s/g,'').length<1)
-                        {
-                            document.getElementById('seemore_items').style.display='none';
-                        }
-                        else
-                        {
-                            //document.getElementById('seemore_items').style.display='block';
-                        }
-                        function clear_history()
-                        {
-                            Ajax.call('user.php', 'act=clear_history',clear_history_Response, 'GET', 'TEXT',1,1);
-                        }
-                        function clear_history_Response(res)
-                        {
-                            document.getElementById('history_list').innerHTML = '您已清空最近浏览过的商品';
-                        }
-                    </script></div>
+                    //添加购物车
+                    $('#buy_btn').click(function(){
+                        var goods_id = "{{$goodsInfo['goods_id']}}";
+
+                    })
+                    </script>
             </div>
         </div>
     </div>
         <script type="text/javascript">
-            
-            //处理添加商品到购物车
-            function ec_group_addToCart(group,goodsId,parentId){
-                var goods        = new Object();
-                var spec_arr     = new Array();
-                var fittings_arr = new Array();
-                var number       = 1;
-                var quick		   = 0;
-                var group_item   = (typeof(parentId) == "undefined") ? goodsId : parseInt(parentId);
-                goods.quick    = quick;
-                goods.spec     = spec_arr;
-                goods.goods_id = goodsId;
-                goods.number   = number;
-                goods.parent   = (typeof(parentId) == "undefined") ? 0 : parseInt(parentId);
-                goods.group = group + '_' + group_item;//组名
-                Ajax.call('flow.php?step=add_to_cart_combo', 'goods=' + $.toJSON(goods), ec_group_addToCartResponse, 'POST', 'JSON'); //兼容jQuery by mike
-            }
-            //处理添加商品到购物车的反馈信息
-            function ec_group_addToCartResponse(result)
-            {
-                if (result.error > 0)
-                {
-                    // 如果需要缺货登记，跳转
-                    if (result.error == 2)
-                    {
-                        alert(understock);
-                        cancel_checkboxed(result.group, result.goods_id);//取消checkbox
-                    }
-                    // 没选规格，弹出属性选择框
-                    else if (result.error == 6)
-                    {
-                        ec_group_openSpeDiv(result.message, result.group, result.goods_id, result.parent);
-                    }
-                    else
-                    {
-                        alert(result.message);
-                        cancel_checkboxed(result.group, result.goods_id);//取消checkbox
-                    }
-                }
-                else
-                {
-                    //处理Ajax数据
-                    var group = result.group.substr(0,result.group.lastIndexOf("_"));
-                    $("."+group).each(function(index){
-                        if($("."+group).eq(index).val()==result.goods_id){
-                            //主件显示价格、配件显示基本件+属性价
-                            var goods_price = (result.parent > 0) ? (parseFloat(result.fittings_price)+parseFloat(result.spec_price)):result.goods_price;
-                            $("."+group).eq(index).attr('data',goods_price);//赋值到文本框data参数
-                            $("."+group).eq(index).attr('stock',result.stock);//赋值到文本框stock参数
-                            $('.'+group+'_display').eq(index).text(goods_price);//前台显示
-                        }
-                    });
-                    getMaxStock(group);//根据套餐获取该套餐允许购买的最大数
-                    display_Price(group,group.charAt(group.length-1));//显示套餐价格
-                }
-            }
-            //处理删除购物车中的商品
-            function ec_group_delInCart(group,goodsId,parentId){
-                var goods        = new Object();
-                var group_item   = (typeof(parentId) == "undefined") ? goodsId : parseInt(parentId);
-                goods.goods_id = goodsId;
-                goods.parent   = (typeof(parentId) == "undefined") ? 0 : parseInt(parentId);
-                goods.group = group + '_' + group_item;//组名
-                Ajax.call('flow.php?step=del_in_cart_combo', 'goods=' + $.toJSON(goods), ec_group_delInCartResponse, 'POST', 'JSON'); //兼容jQuery by mike
-            }
-            //处理删除购物车中的商品的反馈信息
-            function ec_group_delInCartResponse(result)
-            {
-                var group = result.group;
-                if (result.error > 0){
-                    alert(data_not_complete);
-                }else if(result.parent == 0){
-                    $('.'+group).attr("checked",false);
-                }
-                display_Price(group,group.charAt(group.length-1));//显示套餐价格
-            }
-            //生成属性选择层
-            function ec_group_openSpeDiv(message, group, goods_id, parent)
-            {
-                var _id = "speDiv";
-                var m = "mask";
-                if (docEle(_id)) document.removeChild(docEle(_id));
-                if (docEle(m)) document.removeChild(docEle(m));
-                //计算上卷元素值
-                var scrollPos;
-                if (typeof window.pageYOffset != 'undefined')
-                {
-                    scrollPos = window.pageYOffset;
-                }
-                else if (typeof document.compatMode != 'undefined' && document.compatMode != 'BackCompat')
-                {
-                    scrollPos = document.documentElement.scrollTop;
-                }
-                else if (typeof document.body != 'undefined')
-                {
-                    scrollPos = document.body.scrollTop;
-                }
-                var i = 0;
-                var sel_obj = document.getElementsByTagName('select');
-                while (sel_obj[i])
-                {
-                    sel_obj[i].style.visibility = "hidden";
-                    i++;
-                }
-                // 新激活图层
-                var newDiv = document.createElement("div");
-                newDiv.id = _id;
-                newDiv.style.position = "absolute";
-                newDiv.style.zIndex = "10000";
-                newDiv.style.width = "300px";
-                newDiv.style.height = "260px";
-                newDiv.style.top = (parseInt(scrollPos + 200)) + "px";
-                newDiv.style.left = (parseInt(document.body.offsetWidth) - 200) / 2 + "px"; // 屏幕居中
-                newDiv.style.overflow = "auto";
-                newDiv.style.background = "#FFF";
-                newDiv.style.border = "3px solid #59B0FF";
-                newDiv.style.padding = "5px";
-                //生成层内内容
-                newDiv.innerHTML = '<h4 style="font-size:14; margin:15 0 0 15;">' + select_spe + "</h4>";
-                for (var spec = 0; spec < message.length; spec++)
-                {
-                    newDiv.innerHTML += '<hr style="color: #EBEBED; height:1px;"><h6 style="text-align:left; background:#ffffff; margin-left:15px;">' +  message[spec]['name'] + '</h6>';
-                    if (message[spec]['attr_type'] == 1)
-                    {
-                        for (var val_arr = 0; val_arr < message[spec]['values'].length; val_arr++)
-                        {
-                            if (val_arr == 0)
-                            {
-                                newDiv.innerHTML += "<input style='margin-left:15px;' type='radio' name='spec_" + message[spec]['attr_id'] + "' value='" + message[spec]['values'][val_arr]['id'] + "' id='spec_value_" + message[spec]['values'][val_arr]['id'] + "' checked /><font color=#555555>" + message[spec]['values'][val_arr]['label'] + '</font> [' + message[spec]['values'][val_arr]['format_price'] + ']</font><br />';
-                            }
-                            else
-                            {
-                                newDiv.innerHTML += "<input style='margin-left:15px;' type='radio' name='spec_" + message[spec]['attr_id'] + "' value='" + message[spec]['values'][val_arr]['id'] + "' id='spec_value_" + message[spec]['values'][val_arr]['id'] + "' /><font color=#555555>" + message[spec]['values'][val_arr]['label'] + '</font> [' + message[spec]['values'][val_arr]['format_price'] + ']</font><br />';
-                            }
-                        }
-                        newDiv.innerHTML += "<input type='hidden' name='spec_list' value='" + val_arr + "' />";
-                    }
-                    else
-                    {
-                        for (var val_arr = 0; val_arr < message[spec]['values'].length; val_arr++)
-                        {
-                            newDiv.innerHTML += "<input style='margin-left:15px;' type='checkbox' name='spec_" + message[spec]['attr_id'] + "' value='" + message[spec]['values'][val_arr]['id'] + "' id='spec_value_" + message[spec]['values'][val_arr]['id'] + "' /><font color=#555555>" + message[spec]['values'][val_arr]['label'] + ' [' + message[spec]['values'][val_arr]['format_price'] + ']</font><br />';
-                        }
-                        newDiv.innerHTML += "<input type='hidden' name='spec_list' value='" + val_arr + "' />";
-                    }
-                }
-                newDiv.innerHTML += "<br /><center>[<a href='javascript:ec_group_submit_div(\"" + group + "\"," + goods_id + "," + parent + ")' class='f6' >" + btn_buy + "</a>]&nbsp;&nbsp;[<a href='javascript:ec_group_cancel_div(\"" + group + "\"," + goods_id + ")' class='f6' >" + is_cancel + "</a>]</center>";
-                document.body.appendChild(newDiv);
-                // mask图层
-                var newMask = document.createElement("div");
-                newMask.id = m;
-                newMask.style.position = "absolute";
-                newMask.style.zIndex = "9999";
-                newMask.style.width = document.body.scrollWidth + "px";
-                newMask.style.height = document.body.scrollHeight + "px";
-                newMask.style.top = "0px";
-                newMask.style.left = "0px";
-                newMask.style.background = "#FFF";
-                newMask.style.filter = "alpha(opacity=30)";
-                newMask.style.opacity = "0.40";
-                document.body.appendChild(newMask);
-            }
-            //获取选择属性后，再次提交到购物车
-            function ec_group_submit_div(group, goods_id, parentId)
-            {
-                var goods        = new Object();
-                var spec_arr     = new Array();
-                var fittings_arr = new Array();
-                var number       = 1;
-                var input_arr      = document.getElementById('speDiv').getElementsByTagName('input'); //by mike
-                var quick		   = 1;
-                var spec_arr = new Array();
-                var j = 0;
-                for (i = 0; i < input_arr.length; i ++ )
-                {
-                    var prefix = input_arr[i].name.substr(0, 5);
-                    if (prefix == 'spec_' && (
-                            ((input_arr[i].type == 'radio' || input_arr[i].type == 'checkbox') && input_arr[i].checked)))
-                    {
-                        spec_arr[j] = input_arr[i].value;
-                        j++ ;
-                    }
-                }
-                goods.quick    = quick;
-                goods.spec     = spec_arr;
-                goods.goods_id = goods_id;
-                goods.number   = number;
-                goods.parent   = (typeof(parentId) == "undefined") ? 0 : parseInt(parentId);
-                goods.group    = group;//组名
-                Ajax.call('flow.php?step=add_to_cart_combo', 'goods=' + $.toJSON(goods), ec_group_addToCartResponse, 'POST', 'JSON'); //兼容jQuery by mike
-                document.body.removeChild(docEle('speDiv'));
-                document.body.removeChild(docEle('mask'));
-                var i = 0;
-                var sel_obj = document.getElementsByTagName('select');
-                while (sel_obj[i])
-                {
-                    sel_obj[i].style.visibility = "";
-                    i++;
-                }
-            }
-            //关闭mask和新图层的同时取消选择
-            function ec_group_cancel_div(group, goods_id){
-                document.body.removeChild(docEle('speDiv'));
-                document.body.removeChild(docEle('mask'));
-                var i = 0;
-                var sel_obj = document.getElementsByTagName('select');
-                while (sel_obj[i])
-                {
-                    sel_obj[i].style.visibility = "";
-                    i++;
-                }
-                cancel_checkboxed(group, goods_id);//取消checkbox
-            }
-            
-            //回调
-            function addMultiToCartResponse(result){
-                if(result.error > 0){
-                    alert(result.message);
-                }else{
-                    window.location.href = 'flow.php';
-                }
-            }
-            //取消选项
-            function cancel_checkboxed(group, goods_id){
-                //取消选择
-                group = group.substr(0,group.lastIndexOf("_"));
-                $("."+group).each(function(index){
-                    if($("."+group).eq(index).val()==goods_id){
-                        $("."+group).eq(index).attr("checked",false);
-                    }
-                });
-            }
-            /*
-             //sleep
-             function sleep(d){
-             for(var t = Date.now();Date.now() - t <= d;);
-             }
-             */
+          
         </script></div>
     <div class="full-screen-border"></div>
     <div class="goods-detail-main">
@@ -466,9 +263,9 @@
                     <div class="shape-container">
                         <p><img width="720" height="598" alt="" src="images/goods1.jpg" /></p>
                         <p><img width="720" height="508" alt="" src="images/goods1.jpg" /></p>
-                        <p><img width="720" height="572" alt="" src="images/goods1.jpg" /></p>
-                        <p><img src="images/goods1.jpg" width="1351" height="762" alt="" /></p>
-                        <p><img src="images/goods1.jpg" width="1138" height="867" alt="" /></p>
+                        <p><img width="720" height="572" alt="" src="images/goods2.jpg" /></p>
+                        <p><img src="images/goods2.jpg" width="1351" height="762" alt="" /></p>
+                        <p><img src="images/goods2.jpg" width="1138" height="867" alt="" /></p>
                     </div>
                 </div>
             </div>
@@ -482,13 +279,18 @@
             <div class="goods-detail-param">
                 <div class="container">
                     <ul class="param-list">
-                        <li class="goods-img"><img src="images/goods1.jpg" alt="小米电视2 40英寸" /></li>
+                        <li class="goods-img"><img src="images/goods2.jpg" alt="小米电视2 40英寸" /></li>
+                        @foreach ($goodsAttr as $k=>$v)
                         <li class="goods-tech-spec">
                             <ul>
-                                <li>产品名称：小米电视2 40英寸</li>
-
-                            </ul>
+                                <li>{{$v['attr_name']}}：</li>                               
+                                @foreach ($v['attr_value'] as $k1=>$v1)
+                                <li>{{$v1}}</li>
+                                @endforeach
+                                
+                            </ul>                           
                         </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -545,50 +347,28 @@
                                         <div class="right-title J_showImg"><i class="iconfont">√</i> 只显示带图评价</div>
                                     </div>
                                     <ul class="comment-box-list">
-
+                                        @foreach ($comment as $k=>$v)
                                         <li class="item-rainbow-1">
                                             <div class="user-image"> <img class="face_img" src="images/goods1.jpg"> </div>
                                             <div class="user-emoj">
                                                 超爱<i class="iconfont"></i>
                                             </div>
                                             <div class="user-name-info">
-                                                <span class="user-name">匿名用户</span>
-                                                <span class="user-time">2015-10-23 00:00:47</span>
+                                                <span class="user-name">{{$v['user_id']}}</span>
+                                                <span class="user-time">{{date('Y-m-d h:i:s',$v['add_time'])}}</span>
                                                 <span class="pro-info"></span>
                                             </div>
                                             <dl class="user-comment">
-                                                <dt class="user-comment-content"><p class="content-detail">buc水水水水</p></dt>
+                                                <dt class="user-comment-content"><p class="content-detail">{{$v['comment_desc']}}</p></dt>
                                                 <dd class="user-comment-self-input hide">
                                                     <div class="input-block"><input type="text" placeholder="回复楼主" class="J_commentAnswerInput"><a href="javascript:void(0);" class="btn  answer-btn J_commentAnswerBtn">回复</a></div>
                                                 </dd>
                                             </dl>
                                         </li>
-
-                                        <li class="item-rainbow-2">
-                                            <div class="user-image"> <img class="face_img" src="images/goods1.jpg"> </div>
-                                            <div class="user-emoj">
-                                                超爱<i class="iconfont"></i>
-                                            </div>
-                                            <div class="user-name-info">
-                                                <span class="user-name">匿名用户</span>
-                                                <span class="user-time">2015-09-08 15:00:30</span>
-                                                <span class="pro-info"></span>
-                                            </div>
-                                            <dl class="user-comment">
-                                                <dt class="user-comment-content"><p class="content-detail">收到实物后，看见耳机确实是蓝色的，有一点像小清新的天空蓝，颜色真好看，超喜欢的说≧◇≦</p></dt>
-                                                <dd class="user-comment-self-input hide">
-                                                    <div class="input-block"><input type="text" placeholder="回复楼主" class="J_commentAnswerInput"><a href="javascript:void(0);" class="btn  answer-btn J_commentAnswerBtn">回复</a></div>
-                                                </dd>
-                                            </dl>
-                                        </li>
-                                        <li class="pagenav">
-                                            <form name="selectPageForm" action="/mishop/goods.php" method="get">
-                                                <a href="javascript:;" class="step" style="border:1px solid #eee; color:#ccc;">上一页</a>
-                                                <a href="javascript:;" class="step" style="border:1px solid #eee; color:#ccc;">下一页</a>
-
-                                            </form>
-                                        </li>
+                                        @endforeach
                                     </ul>
+                                 <!--    <a class="pagenav" href="home-goods-comment?goods_id={{$goodsInfo['goods_id']}}" >查看更多</a> -->
+                                     <a href="home-goods-comment?goods_id={{$goodsInfo['goods_id']}}" class="btn  btn-primary goods-add-cart-btn">查看更多</a>
                                 </div>
                             </div>
                         </div>
@@ -675,87 +455,7 @@
                             /**
                              * 提交评论信息
                              */
-                            function submitComment(frm)
-                            {
-                                var cmt = new Object;
-
-                                //cmt.username        = frm.elements['username'].value;
-                                cmt.email           = frm.elements['email'].value;
-                                cmt.content         = frm.elements['content'].value;
-                                cmt.type            = frm.elements['cmt_type'].value;
-                                cmt.id              = frm.elements['id'].value;
-                                cmt.enabled_captcha = frm.elements['enabled_captcha'] ? frm.elements['enabled_captcha'].value : '0';
-                                cmt.captcha         = frm.elements['captcha'] ? frm.elements['captcha'].value : '';
-                                cmt.rank            = 0;
-
-                                for (i = 0; i < frm.elements['comment_rank'].length; i++)
-                                {
-                                    if (frm.elements['comment_rank'][i].checked)
-                                    {
-                                        cmt.rank = frm.elements['comment_rank'][i].value;
-                                    }
-                                }
-
-//  if (cmt.username.length == 0)
-//  {
-//     alert(cmt_empty_username);
-//     return false;
-//  }
-
-                                if (cmt.email.length > 0)
-                                {
-                                    if (!(Utils.isEmail(cmt.email)))
-                                    {
-                                        alert(cmt_error_email);
-                                        return false;
-                                    }
-                                }
-                                else
-                                {
-                                    alert(cmt_empty_email);
-                                    return false;
-                                }
-
-                                if (cmt.content.length == 0)
-                                {
-                                    alert(cmt_empty_content);
-                                    return false;
-                                }
-
-                                if (cmt.enabled_captcha > 0 && cmt.captcha.length == 0 )
-                                {
-                                    alert(captcha_not_null);
-                                    return false;
-                                }
-
-                                Ajax.call('comment.php', 'cmt=' + $.toJSON(cmt), commentResponse, 'POST', 'JSON');
-                                return false;
-                            }
-
-                            /**
-                             * 处理提交评论的反馈信息
-                             */
-                            function commentResponse(result)
-                            {
-                                if (result.message)
-                                {
-                                    alert(result.message);
-                                    document.getElementById("captcha").src='captcha.php?'+Math.random();
-                                }
-
-                                if (result.error == 0)
-                                {
-                                    var layer = document.getElementById('ECS_COMMENT');
-
-                                    if (layer)
-                                    {
-                                        layer.innerHTML = result.content;
-                                    }
-                                    easyDialog.close();
-                                    window.location.reload();
-                                }
-                            }
-
+                            
                             function commentsFrom(){
                                 easyDialog.open({
                                     container : 'commentsFrom'
@@ -778,10 +478,10 @@
                 <li><a class="J_scrollHref" href="javascript:void(0);" name="pjxqitem" rel="nofollow">评价晒单(<em>7</em>)</a></li>
             </ul>
             <dl class="goods-sub-bar-info clearfix">
-                <dt><img src="images/goods.jpg" alt="小米电视2 40英寸" /></dt>
+                <dt><img src="images/goods.jpg" alt="" /></dt>
                 <dd>
-                    <strong>小米电视2 40英寸</strong>
-                    <p><em>40/49/55英寸 现货购买</em></p>
+                    <strong>{{$goodsInfo['goods_name']}}</strong>
+                    <p><em></em></p>
                 </dd>
             </dl>
             <a href="javascript:addToCart(27)" class="btn btn-primary goods-add-cart-btn"><i class="iconfont"></i> 加入购物车</a>
@@ -793,57 +493,12 @@
         </div>
         <div class="go">
             <a href="javascript:easyDialog.close();" class="back">&lt;&lt;继续购物</a>
-            <a href="flow.php" class="btn">去结算</a>
+            <a href="" class="btn">去结算</a>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    var goods_id = 27;
-    var goodsattr_style = 1;
-    var gmt_end_time = 0;
-    var day = "天";
-    var hour = "小时";
-    var minute = "分钟";
-    var second = "秒";
-    var end = "结束";
-    var goodsId = 27;
-    var now_time = 1495336981;
-    onload = function(){
-        changePrice();
-        fixpng();
-        try {onload_leftTime();}
-        catch (e) {}
-    }
-    /**
-     * 点选可选属性或改变数量时修改商品价格的函数
-     */
-    function changePrice()
-    {
-    //     var attr = getSelectedAttributes(document.forms['ECS_FORMBUY']);
-    //     var qty = document.forms['ECS_FORMBUY'].elements['number'].value;
-    //     Ajax.call('goods.php', 'act=price&id=' + goodsId + '&attr=' + attr + '&number=' + qty, changePriceResponse, 'GET', 'JSON');
-    }
-    /**
-     * 接收返回的信息
-     */
-    function changePriceResponse(res)
-    {
-        if (res.err_msg.length > 0)
-        {
-            alert(res.err_msg);
-        }
-        else
-        {
-
-            if (document.getElementById('ECS_SHOPPRICE'))
-                document.getElementById('ECS_SHOPPRICE').innerHTML = res.result;
-            if (document.getElementById('ECS_SHOPPRICE_TOP'))
-                document.getElementById('ECS_SHOPPRICE_TOP').innerHTML = res.result;
-            if (document.getElementById('ECS_GOODS_AMOUNT'))
-                document.getElementById('ECS_GOODS_AMOUNT').innerHTML = res.result;
-
-        }
-    }
+  
 </script>
 
 

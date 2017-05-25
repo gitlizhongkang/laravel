@@ -23,3 +23,12 @@ Route::get('/home-goods-index',  'Home\GoodsController@index');
 
 //商品详情页
 Route::get('/home-goods-goodsInfo',  'Home\GoodsController@goodsInfo');
+
+//商品评价页面
+Route::get('/home-goods-comment',  'Home\GoodsController@comment');
+
+//获取商品的sku
+Route::post('/home-goods-getSku',  'Home\GoodsController@getSku');
+
+//添加商品到购物车
+Route::post('/home-cart-add',  'Home\CartController@add');

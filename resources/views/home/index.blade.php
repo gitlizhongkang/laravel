@@ -115,27 +115,14 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="link" href="" class="current"><span>首页</span></a>
-                    <div class='item-children'>
-                        <div class="container">
-                            <ul class="children-list clearfix">
-                                <li class="first">
-                                    <div class="figure figure-thumb"><a href="goods.php?id=27"><img
-                                            src="images/goods.jpg" alt="小米电视2 40英寸"></a>
-                                    </div>
-                                    <div class="title"><a href="goods.php?id=27">小米电视2 40英寸</a></div>
-                                    <p class="price">2200<em>元</em>元</p>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
+                    <a class="link" href="" class="current"><span>首页</span></a>                    
                 </li>
                 <li class="nav-item">
-                    <a class="link" href="category.php?id=69"><span>儿童</span></a>
+                    <a class="link" href="home-goods-index"><span>儿童</span></a>
                     <div class='item-children'>
                         <div class="container">
                             <ul class="children-list clearfix">
+
                                 <li class="first">
                                     <div class="figure figure-thumb"><a href="goods.php?id=82"><img
                                             src="images/goods.jpg" alt="红米手机2A"></a>
@@ -181,19 +168,6 @@
                 </li>
                  <li class="nav-item">
                     <a class="link" href="category.php?id=69"><span>论坛</span></a>
-                    <div class='item-children'>
-                        <div class="container">
-                            <ul class="children-list clearfix">
-                                <li class="first">
-                                    <div class="figure figure-thumb"><a href="goods.php?id=82"><img
-                                            src="images/goods.jpg" alt="红米手机2A"></a>
-                                    </div>
-                                    <div class="title"><a href="goods.php?id=82">红米手机2A</a></div>
-                                    <p class="price">899<em>元</em>元</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                 </li>
             </ul>
         </div>
@@ -344,19 +318,21 @@
             <div class="box-bd">
                 <div class="xm-carousel-wrapper J_carouselWrap">
                     <ul class="xm-carousel-list xm-carousel-col-5-list goods-list rainbow-list clearfix J_carouselList">
+                        @foreach ($recommendation as $k=>$v)
                         <li class="rainbow-item-1">
-                            <a class="thumb" href="goods.php?id=27" target="_blank">
+                            <a class="thumb" href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" target="_blank">
                                 <img src="images/goods.jpg"/>
                             </a>
                             <h3 class="title">
-                                <a href="goods.php?id=27" target="_blank">小米电视2 40英寸</a>
+                                <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" target="_blank">{{$v['goods_name']}}</a>
                             </h3>
-                            <p class="desc">40/49/55英寸 现货购买</p>
+                            <p class="desc">{{$v['category_name']}}</p>
                             <p class="price">
 
-                                2200<em>元</em>
+                               {{$v['goods_low_price']}}<em>元</em>
                             </p>
                         </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -394,18 +370,11 @@
     <div class="container">
         <div class="home-brick-box home-brick-row-2-box xm-plain-box J_itemBox J_brickBox is-visible loaded">
             <div class="box-hd">
-                <h2 class="title">路由器与智能硬件</h2>
+                <h2 class="title">最新商品</h2>
                 <div class="more J_brickNav">
-                    <a class="more-link" href="category.php?id=80" style=" display:inline-block;">
+                    <a class="more-link" href="home-goods-index" style=" display:inline-block;">
                         查看全部<i class="iconfont"></i>
                     </a>
-                    <ul class="tab-list J_brickTabSwitch">
-                        <li class="tab-active">热门</li>
-                        <li>小米手环</li>
-                        <li>智能灯泡</li>
-                        <li>摄像机</li>
-                        <li>智能家庭套装</li>
-                    </ul>
                 </div>
             </div>
             <div class="box-bd J_brickBd">
@@ -420,85 +389,83 @@
 
                     </div>
                     <div class="span16">
-
-
                         <ul class="brick-list clearfix">
+                            @foreach ($new as $k=>$v)
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
-                                    <a href="goods.php?id=35">
+                                    <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">
                                         <img src="images/goods.jpg" width="160"
                                              height="160" alt="小米空气净化器">
                                     </a>
                                 </div>
                                 <h3 class="title">
-                                    <a href="goods.php?id=35">小米空气净化器</a>
+                                    <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">{{$v['goods_name']}}</a>
                                 </h3>
                                 <p class="desc"></p>
                                 <p class="price">
-                                    899<em>元</em></p>
-                                <p class="rank">1人评价</p>
+                                   {{$v['goods_low_price']}}<em>元</em></p>
+                                <p class="rank">商品描述</p>
                                 <div class="review-wrapper">
                                     <a href="javascript:void(0)">
-                                        <span class="review"> 很好，很不错！</span>
-                                        <span class="author"> 来自于 aaa 的评价 </span>
+                                        <span class="review">{{$v['brand_name']}} </span>
+                                        <span class="author"> </span>
                                     </a>
                                 </div>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+       <div class="container">
+        <div class="home-brick-box home-brick-row-2-box xm-plain-box J_itemBox J_brickBox is-visible loaded">
+            <div class="box-hd">
+                <h2 class="title">秒杀商品</h2>
+                <div class="more J_brickNav">
+                    <a class="more-link" href="home-goods-index" style=" display:inline-block;">
+                        查看全部<i class="iconfont"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-bd J_brickBd">
+                <div class="row">
+                    <div class="span4 span-first">
+                        <ul class="brick-promo-list clearfix">
+                            <li class="brick-item brick-item-l">
+                                <a target="_blank" href=""> 
+                                <img src="images/1449710786109632841.jpg" width="234" height="614"/> </a>
                             </li>
                         </ul>
 
-
+                    </div>
+                    <div class="span16">
                         <ul class="brick-list clearfix">
+                            @foreach ($second as $k=>$v)
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
-                                    <a href="goods.php?id=67">
-                                        <img src="images/goods.jpg" width="160"
+                                    <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">
+                                        <img src="images/goods1.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
                                 <h3 class="title">
-                                    <a href="goods.php?id=67">小米手环</a>
+                                    <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">{{$v['goods_name']}}</a>
                                 </h3>
                                 <p class="desc"></p>
                                 <p class="price">
-                                    69<em>元</em></p>
-                                <p class="rank">0人评价</p>
-                            </li>
-                        </ul>
-                        <ul class="brick-list clearfix">
-                        </ul>
-                        <ul class="brick-list clearfix">
-                            <li class="brick-item brick-item-m">
-                                <div class="figure figure-img">
-                                    <a href="goods.php?id=33">
-                                        <img src="images/goods.jpg" width="160"
-                                             height="160" alt="">
+                                   {{$v['goods_low_price']}}<em>元</em></p>
+                                <p class="rank">商品描述</p>
+                                <div class="review-wrapper">
+                                    <a href="javascript:void(0)">
+                                        <span class="review">{{$v['goods_desc']}} </span>
+                                        <span class="author"> </span>
                                     </a>
                                 </div>
-                                <h3 class="title">
-                                    <a href="goods.php?id=33">小蚁智能摄像机 标准</a>
-                                </h3>
-                                <p class="desc">能看能听能说，手机远程观看</p>
-                                <p class="price">
-                                    129<em>元</em></p>
-                                <p class="rank">0人评价</p>
                             </li>
-                        </ul>
-                        <ul class="brick-list clearfix">
-                            <li class="brick-item brick-item-m">
-                                <div class="figure figure-img">
-                                    <a href="goods.php?id=42">
-                                        <img src="images/goods.jpg" width="160"
-                                             height="160" alt="">
-                                    </a>
-                                </div>
-                                <h3 class="title">
-                                    <a href="goods.php?id=42">小米蓝牙手柄</a>
-                                </h3>
-                                <p class="desc"></p>
-                                <p class="price">
-                                    99<em>元</em></p>
-                                <p class="rank">0人评价</p>
-                            </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>

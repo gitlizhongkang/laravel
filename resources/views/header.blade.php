@@ -9,7 +9,7 @@
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link href="css/goods.css" rel="stylesheet" type="text/css" />
 
-    <script type="text/javascript" src="js/common.js"></script>
+    <!-- <script type="text/javascript" src="js/common.js"></script> -->
     <script type="text/javascript">
     function $id(element) {
         return document.getElementById(element);
@@ -116,20 +116,6 @@
                 <!--导航栏-->
                 <li class="nav-item">
                     <a class="link" href="" class="current"><span>首页</span></a>
-                    <div class='item-children'>
-                        <div class="container">
-                            <ul class="children-list clearfix">
-                                <li class="first">
-                                    <div class="figure figure-thumb"><a href="goods.php?id=27"><img
-                                            src="images/goods.jpg" alt="小米电视2 40英寸"></a>
-                                    </div>
-                                    <div class="title"><a href="goods.php?id=27">小米电视2 40英寸</a></div>
-                                    <p class="price">2200<em>元</em>元</p>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="link" href="category.php?id=69"><span>儿童</span></a>
@@ -181,19 +167,6 @@
                 </li>
                  <li class="nav-item">
                     <a class="link" href="category.php?id=69"><span>论坛</span></a>
-                    <div class='item-children'>
-                        <div class="container">
-                            <ul class="children-list clearfix">
-                                <li class="first">
-                                    <div class="figure figure-thumb"><a href="goods.php?id=82"><img
-                                            src="images/goods.jpg" alt="红米手机2A"></a>
-                                    </div>
-                                    <div class="title"><a href="goods.php?id=82">红米手机2A</a></div>
-                                    <p class="price">899<em>元</em>元</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                 </li>
             </ul>
         </div>
