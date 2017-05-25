@@ -5,17 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <title>商城</title>
     <link rel="shortcut icon" href="favicon.ico"/>
-    <link href="baby/css/style.css" rel="stylesheet" type="text/css"/>
-    <link href="baby/css/index.css" rel="stylesheet" type="text/css"/>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="css/index.css" rel="stylesheet" type="text/css"/>
 
-    <script type="text/javascript" src="baby/js/common.js"></script>
-    <script type="text/javascript" src="baby/js/index.js"></script>
-    <script type="text/javascript" src="baby/js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="baby/js/jquery.json.js"></script>
-    <script type="text/javascript" src="baby/js/transport_jquery.js"></script>
-    <script type="text/javascript" src="baby/js/utils.js"></script>
-    <script type="text/javascript" src="baby/js/jquery.SuperSlide.js"></script>
-    <script type="text/javascript" src="baby/js/xiaomi_common.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.json.js"></script>
+    <script type="text/javascript" src="js/transport_jquery.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/jquery.SuperSlide.js"></script>
+    <script type="text/javascript" src="js/xiaomi_common.js"></script>
     <script type="text/javascript">
         function checkSearchForm() {
             if (document.getElementById('keyword').value) {
@@ -27,7 +27,7 @@
             }
         }
     </script>
-    <script type="text/javascript" src="baby/js/xiaomi_index.js"></script>
+    <script type="text/javascript" src="js/xiaomi_index.js"></script>
 </head>
 <body>
 <div class="site-topbar">
@@ -78,7 +78,7 @@
 <div class="site-header" style="clear:both;">
     <div class="container">
         <div class="header-logo">
-            <a href="index.php" title="小米商城"><img src="baby/themes/xiaomi/images/logo.gif"/></a>
+            <a href="index.php" title="小米商城"><img src="themes/xiaomi/images/logo.gif"/></a>
         </div>
         <div class="header-nav">
             <ul class="nav-list">
@@ -92,14 +92,14 @@
                                     <ul class="children-list">
                                         <li>
                                             <a href="category.php?id=70" class="link">
-                                                <img class="thumb" src="baby/data/catthumb/1440694830757590201.jpg"
+                                                <img class="thumb" src="data/catthumb/1440694830757590201.jpg"
                                                      width="40" height="40">
                                                 <span>小米Note</span>
                                             </a>
                                         </li>
                                         <li>
                                             <a href="category.php?id=71" class="link">
-                                                <img class="thumb" src="baby/data/catthumb/1440714333309950345.jpg"
+                                                <img class="thumb" src="data/catthumb/1440714333309950345.jpg"
                                                      width="40" height="40">
                                                 <span>小米手机4</span>
                                             </a>
@@ -138,14 +138,14 @@
                             <ul class="children-list clearfix">
                                 <li class="first">
                                     <div class="figure figure-thumb"><a href="goods.php?id=27"><img
-                                            src="baby/images/goods.jpg" alt="小米电视2 40英寸"></a>
+                                            src="images/goods.jpg" alt="小米电视2 40英寸"></a>
                                     </div>
                                     <div class="title"><a href="goods.php?id=27">小米电视2 40英寸</a></div>
                                     <p class="price">2200<em>元</em>元</p>
                                 </li>
                                 <li class="first">
                                     <div class="figure figure-thumb"><a href="goods.php?id=28"><img
-                                            src="baby/images/goods.jpg"
+                                            src="images/goods.jpg"
                                             alt="小米平板 16G"></a></div>
                                     <div class="title"><a href="goods.php?id=28">小米平板 16G</a></div>
                                     <p class="price">1299<em>元</em>元</p>
@@ -161,14 +161,14 @@
                             <ul class="children-list clearfix">
                                 <li class="first">
                                     <div class="figure figure-thumb"><a href="goods.php?id=82"><img
-                                            src="baby/images/201509/thumb_img/82_thumb_G_1441050801926.jpg" alt="红米手机2A"></a>
+                                            src="images/201509/thumb_img/82_thumb_G_1441050801926.jpg" alt="红米手机2A"></a>
                                     </div>
                                     <div class="title"><a href="goods.php?id=82">红米手机2A</a></div>
                                     <p class="price">899<em>元</em>元</p>
                                 </li>
                                 <li class="first">
                                     <div class="figure figure-thumb"><a href="goods.php?id=80"><img
-                                            src="baby/images/201509/thumb_img/80_thumb_G_1441050558701.jpg" alt="小米NOTE"></a>
+                                            src="images/201509/thumb_img/80_thumb_G_1441050558701.jpg" alt="小米NOTE"></a>
                                     </div>
                                     <div class="title"><a href="goods.php?id=80">小米NOTE</a></div>
                                     <p class="price">2199<em>元</em>元</p>
@@ -209,22 +209,22 @@
                     <div class="xm-slider-control">
                         <div class="slide xm-slider-slide">
                             <a target="_blank" href="http://note.sdufa.com/goods.php?id=35">
-                                <img src="baby/images/20151020cqlfjj.jpg"/>
+                                <img src="images/20151020cqlfjj.jpg"/>
                             </a>
                         </div>
                         <div class="slide xm-slider-slide">
                             <a target="_blank" href="http://note.sdufa.com/goods.php?id=54">
-                                <img src="baby/images/20151020eefgbq.jpg"/>
+                                <img src="images/20151020eefgbq.jpg"/>
                             </a>
                         </div>
                         <div class="slide xm-slider-slide">
                             <a target="_blank" href="http://note.sdufa.com/goods.php?id=56">
-                                <img src="baby/images/20151020etwxly.jpg"/>
+                                <img src="images/20151020etwxly.jpg"/>
                             </a>
                         </div>
                         <div class="slide xm-slider-slide">
                             <a target="_blank" href="http://">
-                                <img src="baby/images/20151020cvzklv.jpg"/>
+                                <img src="images/20151020cvzklv.jpg"/>
                             </a>
                         </div>
                     </div>
@@ -289,15 +289,15 @@
 
                 <ul class="home-promo-list clearfix">
                     <li class="first"><a href='affiche.php?ad_id=9&amp;uri=https%3A%2F%2Fshop115008598.taobao.com%2F'
-                                         target='_blank'><img src='baby/images/1439235663686851046.jpg' width='316'
+                                         target='_blank'><img src='images/1439235663686851046.jpg' width='316'
                                                               height='170'
                                                               border='0'/></a></li>
                     <li class=""><a href='affiche.php?ad_id=7&amp;uri=https%3A%2F%2Fshop115008598.taobao.com%2F'
-                                    target='_blank'><img src='baby/images/1439235680072464326.jpg' width='316'
+                                    target='_blank'><img src='images/1439235680072464326.jpg' width='316'
                                                          height='170'
                                                          border='0'/></a></li>
                     <li class=""><a href='affiche.php?ad_id=8&amp;uri=https%3A%2F%2Fshop115008598.taobao.com%2F'
-                                    target='_blank'><img src='baby/images/1439235672175247984.jpg' width='316'
+                                    target='_blank'><img src='images/1439235672175247984.jpg' width='316'
                                                          height='170'
                                                          border='0'/></a></li>
                 </ul>
@@ -324,7 +324,7 @@
                     <ul class="xm-carousel-list xm-carousel-col-5-list goods-list rainbow-list clearfix J_carouselList">
                         <li class="rainbow-item-1">
                             <a class="thumb" href="goods.php?id=27" target="_blank">
-                                <img src="baby/images/goods.jpg"/>
+                                <img src="images/goods.jpg"/>
                             </a>
                             <h3 class="title">
                                 <a href="goods.php?id=27" target="_blank">小米电视2 40英寸</a>
@@ -337,7 +337,7 @@
                         </li>
                         <li class="rainbow-item-2">
                             <a class="thumb" href="goods.php?id=45" target="_blank">
-                                <img src="baby/images/goods.jpg"/>
+                                <img src="images/goods.jpg"/>
                             </a>
                             <h3 class="title">
                                 <a href="goods.php?id=45" target="_blank">小米活塞耳机标准版</a>
@@ -350,7 +350,7 @@
                         </li>
                         <li class="rainbow-item-3">
                             <a class="thumb" href="goods.php?id=31" target="_blank">
-                                <img src="baby/images/goods.jpg"/>
+                                <img src="images/goods.jpg"/>
                             </a>
                             <h3 class="title">
                                 <a href="goods.php?id=31" target="_blank">小米移动电源10000mAh</a>
@@ -363,7 +363,7 @@
                         </li>
                         <li class="rainbow-item-4">
                             <a class="thumb" href="goods.php?id=40" target="_blank">
-                                <img src="baby/images/goods.jpg"/>
+                                <img src="images/goods.jpg"/>
                             </a>
                             <h3 class="title">
                                 <a href="goods.php?id=40" target="_blank">小米体重秤</a>
@@ -376,7 +376,7 @@
                         </li>
                         <li class="rainbow-item-5">
                             <a class="thumb" href="goods.php?id=32" target="_blank">
-                                <img src="baby/images/goods.jpg"/>
+                                <img src="images/goods.jpg"/>
                             </a>
                             <h3 class="title">
                                 <a href="goods.php?id=32" target="_blank">小米路由器 mini</a>
@@ -389,7 +389,7 @@
                         </li>
                         <li class="rainbow-item-6">
                             <a class="thumb" href="goods.php?id=41" target="_blank">
-                                <img src="baby/images/goods.jpg"/>
+                                <img src="images/goods.jpg"/>
                             </a>
                             <h3 class="title">
                                 <a href="goods.php?id=41" target="_blank">小米移动电源16000mAh</a>
@@ -402,7 +402,7 @@
                         </li>
                         <li class="rainbow-item-7">
                             <a class="thumb" href="goods.php?id=33" target="_blank">
-                                <img src="baby/images/goods.jpg"/>
+                                <img src="images/goods.jpg"/>
                             </a>
                             <h3 class="title">
                                 <a href="goods.php?id=33" target="_blank">小蚁智能摄像机 标准</a>
@@ -415,7 +415,7 @@
                         </li>
                         <li class="rainbow-item-8">
                             <a class="thumb" href="goods.php?id=42" target="_blank">
-                                <img src="baby/images/goods.jpg"/>
+                                <img src="images/goods.jpg"/>
                             </a>
                             <h3 class="title">
                                 <a href="goods.php?id=42" target="_blank">小米蓝牙手柄</a>
@@ -428,7 +428,7 @@
                         </li>
                         <li class="rainbow-item-9">
                             <a class="thumb" href="goods.php?id=34" target="_blank">
-                                <img src="baby/images/goods.jpg"/>
+                                <img src="images/goods.jpg"/>
                             </a>
                             <h3 class="title">
                                 <a href="goods.php?id=34" target="_blank">小蚁运动相机</a>
@@ -441,7 +441,7 @@
                         </li>
                         <li class="rainbow-item-10">
                             <a class="thumb" href="goods.php?id=104" target="_blank">
-                                <img src="baby/images/201509/thumb_img/104_thumb_G_1441747447591.jpg"/>
+                                <img src="images/201509/thumb_img/104_thumb_G_1441747447591.jpg"/>
                             </a>
                             <h3 class="title">
                                 <a href="goods.php?id=104" target="_blank">课程</a>
@@ -463,7 +463,7 @@
                     <li class="video-item video-item-first">
                         <div class="figure figure-img">
                             <a href="javascript:void(0)" data-video="http://player.youku.com/embed/XODcyMjA1MTQw">
-                                <img src="baby/themes/xiaomi/images/v-face1.jpg" width="296" height="180"><span class="play"><i
+                                <img src="themes/xiaomi/images/v-face1.jpg" width="296" height="180"><span class="play"><i
                                     class="iconfont"></i></span>
                             </a>
                         </div>
@@ -474,7 +474,7 @@
                     <li class="video-item">
                         <div class="figure figure-img">
                             <a href="javascript:void(0)" data-video="http://player.youku.com/embed/XMTMwODUxNzAwMA==">
-                                <img src="baby/themes/xiaomi/images/v-face2.jpg" width="296" height="180"><span class="play"><i
+                                <img src="themes/xiaomi/images/v-face2.jpg" width="296" height="180"><span class="play"><i
                                     class="iconfont"></i></span>
                             </a>
                         </div>
@@ -485,7 +485,7 @@
                     <li class="video-item">
                         <div class="figure figure-img">
                             <a href="javascript:void(0)" data-video="http://player.youku.com/embed/XMTI1NTI5NzM4MA">
-                                <img src="baby/themes/xiaomi/images/v-face3.jpg" width="296" height="180"><span class="play"><i
+                                <img src="themes/xiaomi/images/v-face3.jpg" width="296" height="180"><span class="play"><i
                                     class="iconfont"></i></span>
                             </a>
                         </div>
@@ -496,7 +496,7 @@
                     <li class="video-item">
                         <div class="figure figure-img">
                             <a href="javascript:void(0)" data-video="http://player.youku.com/embed/XMTMxMTY2MDY2NA==">
-                                <img src="baby/themes/xiaomi/images/v-face4.jpg" width="296" height="180"><span class="play"><i
+                                <img src="themes/xiaomi/images/v-face4.jpg" width="296" height="180"><span class="play"><i
                                     class="iconfont"></i></span>
                             </a>
                         </div>
@@ -543,7 +543,7 @@
                             <li class="brick-item brick-item-l">
                                 <a target="_blank"
                                    href="affiche.php?ad_id=16&amp;uri=https%3A%2F%2Fshop115008598.taobao.com%2F"> <img
-                                        src="baby/images/1449710786109632841.jpg" width="234" height="614"/> </a>
+                                        src="images/1449710786109632841.jpg" width="234" height="614"/> </a>
                             </li>
                         </ul>
 
@@ -555,7 +555,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=35">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="小米空气净化器">
                                     </a>
                                 </div>
@@ -576,7 +576,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=40">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="小米体重秤">
                                     </a>
                                 </div>
@@ -597,7 +597,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=32">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="小米路由器 mini">
                                     </a>
                                 </div>
@@ -612,7 +612,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=33">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="小蚁智能摄像机 标准">
                                     </a>
                                 </div>
@@ -627,7 +627,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=34">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="小蚁运动相机">
                                     </a>
                                 </div>
@@ -642,7 +642,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=104">
-                                        <img src="baby/images/201509/thumb_img/104_thumb_G_1441747447591.jpg" width="160"
+                                        <img src="images/201509/thumb_img/104_thumb_G_1441747447591.jpg" width="160"
                                              height="160" alt="课程">
                                     </a>
                                 </div>
@@ -657,7 +657,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=67">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="小米手环">
                                     </a>
                                 </div>
@@ -672,7 +672,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=65">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="全新小米路由器">
                                     </a>
                                 </div>
@@ -691,7 +691,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=67">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -710,7 +710,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=33">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -727,7 +727,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=42">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -769,12 +769,12 @@
                             <li class="brick-item brick-item-m">
                                 <a target="_blank"
                                    href="affiche.php?ad_id=19&amp;uri=https%3A%2F%2Fshop115008598.taobao.com%2F"> <img
-                                        src="baby/images/1439257211458415529.jpg" width="234" height="300"/> </a>
+                                        src="images/1439257211458415529.jpg" width="234" height="300"/> </a>
                             </li>
                             <li class="brick-item brick-item-m">
                                 <a target="_blank"
                                    href="affiche.php?ad_id=20&amp;uri=https%3A%2F%2Fshop115008598.taobao.com%2F"> <img
-                                        src="baby/images/1439257230078103078.jpg" width="234" height="300"/> </a>
+                                        src="images/1439257230078103078.jpg" width="234" height="300"/> </a>
                             </li>
                         </ul>
 
@@ -786,7 +786,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=38">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="小米活塞耳机 炫彩版">
                                     </a>
                                 </div>
@@ -807,7 +807,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=45">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="小米活塞耳机标准版">
                                     </a>
                                 </div>
@@ -828,7 +828,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=46">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="小钢炮蓝牙音箱">
                                     </a>
                                 </div>
@@ -843,7 +843,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=101">
-                                        <img src="baby/images/201509/thumb_img/101_thumb_G_1441738730692.jpg" width="160"
+                                        <img src="images/201509/thumb_img/101_thumb_G_1441738730692.jpg" width="160"
                                              height="160" alt="中锘基B97S运动蓝牙耳机">
                                     </a>
                                 </div>
@@ -858,7 +858,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=102">
-                                        <img src="baby/images/201509/thumb_img/102_thumb_G_1441738765271.jpg" width="160"
+                                        <img src="images/201509/thumb_img/102_thumb_G_1441738765271.jpg" width="160"
                                              height="160" alt="QCY 杰克J02蓝牙耳机">
                                     </a>
                                 </div>
@@ -873,7 +873,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=64">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="魔声Beats Studio HD 2.0耳机">
                                     </a>
                                 </div>
@@ -888,7 +888,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=59">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="小米方盒子蓝牙音箱">
                                     </a>
                                 </div>
@@ -903,7 +903,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=60">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="先锋APS-BA202蓝牙音箱">
                                     </a>
                                 </div>
@@ -922,7 +922,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=30">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -939,7 +939,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=46">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -954,7 +954,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=61">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -969,7 +969,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=60">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -984,7 +984,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=59">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -1001,7 +1001,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=103">
-                                        <img src="baby/images/201509/thumb_img/103_thumb_G_1441738795942.jpg" width="160"
+                                        <img src="images/201509/thumb_img/103_thumb_G_1441738795942.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -1016,7 +1016,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=102">
-                                        <img src="baby/images/201509/thumb_img/102_thumb_G_1441738765271.jpg" width="160"
+                                        <img src="images/201509/thumb_img/102_thumb_G_1441738765271.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -1031,7 +1031,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=101">
-                                        <img src="baby/images/201509/thumb_img/101_thumb_G_1441738730692.jpg" width="160"
+                                        <img src="images/201509/thumb_img/101_thumb_G_1441738730692.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -1046,7 +1046,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=100">
-                                        <img src="baby/images/201509/thumb_img/100_thumb_G_1441738698084.jpg" width="160"
+                                        <img src="images/201509/thumb_img/100_thumb_G_1441738698084.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -1061,7 +1061,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=99">
-                                        <img src="baby/images/201509/thumb_img/99_thumb_G_1441738667754.jpg" width="160"
+                                        <img src="images/201509/thumb_img/99_thumb_G_1441738667754.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -1076,7 +1076,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=98">
-                                        <img src="baby/images/201509/thumb_img/98_thumb_G_1441738620606.jpg" width="160"
+                                        <img src="images/201509/thumb_img/98_thumb_G_1441738620606.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -1091,7 +1091,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=97">
-                                        <img src="baby/images/201509/thumb_img/97_thumb_G_1441738581513.jpg" width="160"
+                                        <img src="images/201509/thumb_img/97_thumb_G_1441738581513.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -1106,7 +1106,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=95">
-                                        <img src="baby/images/201509/thumb_img/95_thumb_G_1441738494824.jpg" width="160"
+                                        <img src="images/201509/thumb_img/95_thumb_G_1441738494824.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -1123,7 +1123,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=38">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
@@ -1144,7 +1144,7 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="goods.php?id=45">
-                                        <img src="baby/images/goods.jpg" width="160"
+                                        <img src="images/goods.jpg" width="160"
                                              height="160" alt="">
                                     </a>
                                 </div>
