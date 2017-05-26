@@ -33,7 +33,7 @@
                             <label><input type="checkbox" value="1" name="remember" id="remember" class="remember-me">请保存我这次的登录信息。</label>
                         </div>
                         <div class="ng-link-area">
-                            <span><a href="https://api.weibo.com/oauth2/authorize?client_id=699688608&redirect_uri={{ urlencode("http://www.sale.com/public/index.php/home-user-bind") }}" >微博</a><span> | </span></span>
+                            </span><a href="{{ URL::to("home-user-register") }}">注册</a></span> | <span><a href="https://api.weibo.com/oauth2/authorize?client_id=699688608&redirect_uri={{ urlencode("http://www.sale.com/public/index.php/home-user-bind") }}" >微博</a><span> |
                             <span><a href="{{ URL::to("home-user-forgetPassword") }}">忘记密码?</a></span>
                         </div>
                     </div>
