@@ -1,7 +1,8 @@
-@include('header')
-<?php 
+@extends('layouts.home-header')
+<?php  
 $user_id = Session::get('uid');
-?>
+?>     
+@section('content')
 <!--通栏-->
 <div class="breadcrumbs">
     <div class="container">
@@ -508,8 +509,7 @@ $user_id = Session::get('uid');
 <script type="text/javascript">
   
 </script>
-
+@endsection
 
 
 <!--脚部-->
-@include('footer')
