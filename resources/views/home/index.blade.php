@@ -1,6 +1,7 @@
 @extends('layouts.home-header')
   
 @section('content')
+
 <div class="home-hero-container container">
     <div class="home-hero">
         <div class="home-hero-slider">
@@ -283,7 +284,3 @@
     </div>
 </div>
 @endsection
-
-
-
-<!--脚部-->
