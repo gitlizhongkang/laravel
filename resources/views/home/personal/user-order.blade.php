@@ -1,7 +1,6 @@
+@extends('layouts.home-header')
 
-
-{{--头部--}}
-@include('header')
+@section('content')
 <link href="css/user.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/user.js"></script>
@@ -108,10 +107,7 @@
     var msg_content_empty = "留言内容为空";
     var msg_title_limit = "留言标题不能超过200个字";
 </script>
-
-
-<!--脚部-->
-{{--@include('footer')--}}
+@endsection
 <script>
     $(document).on('click','.deleteOrder',function () {
         var status = $(this).attr('status');

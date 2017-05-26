@@ -64,7 +64,7 @@ class PersonalController extends Controller
         $orderGoods = $this->curl('home-personal-getOrderGoods', "order_id=".$order_id, true);
         $data['orderGoods'] = json_decode($orderGoods,true);
 
-        return view('/home/personal/user-order',$data);
+        return view('/home/personal/order-detail',$data);
     }
 
     /**
@@ -277,18 +277,17 @@ class PersonalController extends Controller
      * @brief 查询订单-接口
      * @param string $param
      * @return array
-     */
-    public function getUserOrder()
-    {
+     * */
+    public function getUserOrder(){
         $Order = new Order();
         $uid = Input::get('uid');
         $order_id = Input::get('order_id')?Input::get('order_id'):'';
-        if($order_id == ''){
+        if(!$order_id){
             $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status')->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
         } else {
-            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status')->where(['user_id'=>$uid,'order_id'=>$order_id])->orderBy('order_time','desc')->get()->toArray();
+            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_type','logistics_price','consignee_tel','consignee_name','consignee_address')->where(['user_id'=>$uid,'order_id'=>$order_id])->first()->toArray();
             if (!$userOrders) {
-               echo '不可操作他人订单！';die;
+                echo '不可操作他人订单！';die;
             }
         }
 
@@ -296,12 +295,11 @@ class PersonalController extends Controller
     }
 
     /**
-     * @brief 查询订单详细-接口
-     * @param string $param
-     * @return array
-     */
-    public function getOrderGoods()
-    {
+    * @brief 查询订单详细-接口
+    * @param string $param
+    * @return array
+    * */
+    public function getOrderGoods(){
         $order_id = Input::all();
         $OrderGoods = new OrderGoods();
         $userOrders = $OrderGoods->select('goods_id','goods_name','sku_norms_value','sku_price','num')->where('order_id',$order_id)->get()->toArray();

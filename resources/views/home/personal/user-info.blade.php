@@ -1,5 +1,6 @@
+@extends('layouts.home-header')
 
-@include('header');
+@section('content')
 <link href="css/user.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
@@ -107,6 +108,5 @@
 </script>
 </body>
 
-@include('footer')
 <script type="text/javascript" src="js/parsonal/userInfo.js"></script>
-
+@endsection
