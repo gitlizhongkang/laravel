@@ -75,7 +75,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     protected $withCount = [];
 
     /**
-     * The number of models to return for pagination.
+     * The number of Models to return for pagination.
      *
      * @var int
      */
@@ -110,7 +110,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     protected static $dispatcher;
 
     /**
-     * The array of booted models.
+     * The array of booted Models.
      *
      * @var array
      */
@@ -197,7 +197,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Clear the list of booted models so they will be re-booted.
+     * Clear the list of booted Models so they will be re-booted.
      *
      * @return void
      */
@@ -332,7 +332,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Get all of the models from the database.
+     * Get all of the Models from the database.
      *
      * @param  array|mixed  $columns
      * @return \Illuminate\Database\Eloquent\Collection|static[]
@@ -569,7 +569,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     protected function performUpdate(Builder $query)
     {
         // If the updating event returns false, we will cancel the update operation so
-        // developers can hook Validation systems into their models and cancel this
+        // developers can hook Validation systems into their Models and cancel this
         // operation if the model does not pass validation. Otherwise, we update.
         if ($this->fireModelEvent('updating') === false) {
             return false;
@@ -584,7 +584,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
         // Once we have run the update operation, we will fire the "updated" event for
         // this model instance. This will allow developers to hook into these after
-        // models are updated, giving them a chance to do any special processing.
+        // Models are updated, giving them a chance to do any special processing.
         $dirty = $this->getDirty();
 
         if (count($dirty) > 0) {
@@ -651,7 +651,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
         // If the table isn't incrementing we'll simply insert these attributes as they
         // are. These attribute arrays must contain an "id" column previously placed
-        // there by the developer as the manually determined key for these models.
+        // there by the developer as the manually determined key for these Models.
         else {
             if (empty($attributes)) {
                 return true;
@@ -687,7 +687,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Destroy the models for the given IDs.
+     * Destroy the Models for the given IDs.
      *
      * @param  array|int  $ids
      * @return int
@@ -701,7 +701,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
         $ids = is_array($ids) ? $ids : func_get_args();
 
-        // We will actually pull the models from the database table and call delete on
+        // We will actually pull the Models from the database table and call delete on
         // each of them individually so that their events get fired properly with a
         // correct set of attributes in case the developers wants to check these.
         $key = with($instance = new static)->getKeyName();
@@ -739,8 +739,8 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
             return false;
         }
 
-        // Here, we'll touch the owning models, verifying these timestamps get updated
-        // for the models. This will allow any caching to get broken on the parents
+        // Here, we'll touch the owning Models, verifying these timestamps get updated
+        // for the Models. This will allow any caching to get broken on the parents
         // by the timestamp. Then we will go ahead and delete the model instance.
         $this->touchOwners();
 
@@ -969,7 +969,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Determine if two models have the same ID and belong to the same table.
+     * Determine if two Models have the same ID and belong to the same table.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return bool
@@ -1047,7 +1047,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Unset the connection resolver for models.
+     * Unset the connection resolver for Models.
      *
      * @return void
      */
@@ -1213,7 +1213,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Get the number of models to return per page.
+     * Get the number of Models to return per page.
      *
      * @return int
      */
@@ -1223,7 +1223,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Set the number of models to return per page.
+     * Set the number of Models to return per page.
      *
      * @param  int  $perPage
      * @return $this

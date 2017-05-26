@@ -23,7 +23,7 @@ class Response extends BaseResponse
         $this->original = $content;
 
         // If the content is "JSONable" we will set the appropriate header and convert
-        // the content to JSON. This is useful when returning something like models
+        // the content to JSON. This is useful when returning something like Models
         // from routes that will be automatically transformed to their JSON form.
         if ($this->shouldBeJson($content)) {
             $this->header('Content-Type', 'application/json');

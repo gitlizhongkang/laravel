@@ -13,6 +13,7 @@ use App\Models\GoodsSecond;
 
 class IndexController extends Controller
 {
+
 	/*
     |--------------------------------------------------------------------------
     | Index Controller

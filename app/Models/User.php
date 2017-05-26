@@ -11,6 +11,8 @@ class User extends Model
     protected $guarded = ['user_id'];
     protected $primaryKey = 'user_id';
 
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -19,6 +21,7 @@ class User extends Model
     protected $fillable = [
         'name', 'email', 'password',
     ];
+
     /**
      *  验证唯一性
      */

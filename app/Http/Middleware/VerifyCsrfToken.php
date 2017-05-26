@@ -7,7 +7,11 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
 class VerifyCsrfToken extends BaseVerifier {
 
     /**
+<<<<<<< HEAD
      * Handle an incoming request.
+=======
+     * 指定从 CSRF 验证中排除的URL
+>>>>>>> c918903a18c69ca6b3fd7fddfabb2daab3d31118
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -21,4 +25,12 @@ class VerifyCsrfToken extends BaseVerifier {
         return $next($request);
     }
 
+
+    protected $except = [
+        'home-personal-getUserOrder',
+        'home-personal-getOrderGoods',
+        'home-personal-getUserInfo',
+        'home-personal-getUserAddress',
+    ];
 }
+
