@@ -29,9 +29,7 @@ class GoodsController extends Controller
 	 */
     public function goodsInfo()
     {
-    	// $goods_id = Input::all()['goods_id'];
-       
-    	$goods_id = 1;
+    	$goods_id = Input::all()['goods_id'];
 
         //获取商品信息
         $data['goodsInfo'] = json_decode($this->getGoodsInfo($goods_id), true);
@@ -68,8 +66,12 @@ class GoodsController extends Controller
      * @param string $goods_id 商品ID
      * @return json
      */
-    public function getGoodsInfo($goods_id)
+    public function getGoodsInfo($goods_id = '')
     {
+        if ($goods_id =='') {
+            $goods_id = Input::get()['goods_id'];           
+        }
+
         $goods = new Goods;
         $res = $goods->find($goods_id);
         
@@ -81,8 +83,12 @@ class GoodsController extends Controller
      * @param string $goods_id 商品ID
      * @return json
      */
-    public function getGoodsNorms($goods_id)
+    public function getGoodsNorms($goods_id = '')
     {
+        if ($goods_id =='') {
+            $goods_id = Input::get()['goods_id'];           
+        }
+
         $goodsNorms = new GoodsNorms;
         $res = $goodsNorms -> where('goods_id',$goods_id) -> get();
         foreach ($res as $k => $v) {
@@ -97,8 +103,12 @@ class GoodsController extends Controller
      * @param string $goods_id 商品ID
      * @return json
      */
-    public function getGoodsAttr($goods_id)
+    public function getGoodsAttr($goods_id = '')
     {
+        if ($goods_id =='') {
+            $goods_id = Input::get()['goods_id'];           
+        }
+
         $goodsAttr = new GoodsAttr;
         $res = $goodsAttr -> where('goods_id',$goods_id) -> get();
         foreach ($res as $k => $v) {
@@ -113,8 +123,12 @@ class GoodsController extends Controller
      * @param string $goods_id 商品ID
      * @return json
      */
-    public function getGoodsComment($goods_id)
+    public function getGoodsComment($goods_id = '')
     {
+        if ($goods_id =='') {
+            $goods_id = Input::get()['goods_id'];           
+        }
+
         $goodsComment = new GoodsComment;
         $res = $goodsComment -> where('goods_id',$goods_id) -> orderBy('add_time') 
                 -> offset(0) -> limit(10) -> get() -> toArray();
@@ -122,8 +136,17 @@ class GoodsController extends Controller
         return json_encode($res);
     }
 
-    public function getGoodsComments($goods_id)
+    /**
+     * @brief 获取单个商品所有评价
+     * @param string $goods_id 商品ID
+     * @return array
+     */
+    public function getGoodsComments($goods_id = '')
     {
+        if ($goods_id =='') {
+            $goods_id = Input::get()['goods_id'];           
+        }
+        
         $goodsComment = new GoodsComment;
         $res = $goodsComment -> where('goods_id',$goods_id) -> paginate(5);
         
@@ -135,6 +158,8 @@ class GoodsController extends Controller
 
     /**
      * @brief 获取单个商品选中的sku
+     * @param string $goods_id 商品ID 
+     * @param string $norms_value  sku规格值
      * @return json
      */
     public function getSku()

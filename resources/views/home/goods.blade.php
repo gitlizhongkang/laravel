@@ -1,4 +1,7 @@
 @include('header')
+<?php 
+$user_id = Session::get('uid');
+?>
 <!--通栏-->
 <div class="breadcrumbs">
     <div class="container">
@@ -14,7 +17,7 @@
                 <div class="span13  J_mi_goodsPic_block goods-detail-left-info">
                     <div class="goods-pic-box" id="detail_img">
                         <div class="goods-big-pic">
-                            <a href="images/goods.jpg" class="MagicZoomPlus" id="Zoomer" rel="hint-text: ; selectors-effect: false; selectors-class: current; zoom-distance: 60;zoom-width: 400; zoom-height: 400;" >
+                            <a href="" class="MagicZoomPlus" id="Zoomer" rel="hint-text: ; selectors-effect: false; selectors-class: current; zoom-distance: 60;zoom-width: 400; zoom-height: 400;" >
                                 <img  alt="" src="images/goods.jpg">
                             </a>
                         </div>
@@ -99,7 +102,7 @@
                                                      @foreach ($v['norms_value'] as $k1=>$v1)
                                                         <div class="item ">
                                                            <b></b>
-                                                            <a href="" title="" rel="zoom-id: Zoomer" rev="images/goods1.jpg" ><span>{{$v1}}</span></a>
+                                                            <a href="" title="" rel="zoom-id: Zoomer" rev="images/goods.jpg"><span>{{$v1}}</span></a>
                                                             <input id="spec_value_81" style="display:none;" type="radio" name="norms{{$k}}" value="{{$v1}}" />                                                            
                                                         </div>
                                                      @endforeach
@@ -143,7 +146,7 @@
                                                 $(this).parent().addClass("selected");
                                                 $(this).parents(".dd").find("input:radio").prop("checked",false);
                                                 $(this).parent().find("input:radio").prop("checked",true);
-                                                
+                                                var obj =$(this);
                                                 var goods_id = "{{$goodsInfo['goods_id']}}";
                                                 var len =$('#choose').attr('len');
                                                 var norms_value = '';
@@ -157,6 +160,7 @@
                                                 }
                                                 norms_value = norms_value.substr(1);
                                                 var norms_length = norms_value.split(",");
+
                                                 if (norms_length.length < len) {
                                                    return false;
                                                 } else {
@@ -166,6 +170,7 @@
                                                         data:{
                                                             goods_id:goods_id,
                                                             norms_value:norms_value,
+                                                            category_id:"{{$goodsInfo['category_id']}}",
                                                             _token:"{{csrf_token()}}"
                                                         },
                                                         dataType:'json',
@@ -174,6 +179,9 @@
                                                             $('#choose').attr('sku-norms',norms_value);
                                                             $('#choose').attr('sku-num',msg.sku_num);
                                                             $('.sku-num').html('剩余库存：'+msg.sku_num);
+                                                            $(".spec_list_box .item a").attr('rev','images/goods2.jpg');
+
+
                                                             $('#ECS_SHOPPRICE').html(msg.sku_price);
                                                         }
                                                    }) 
@@ -195,51 +203,10 @@
                                     </dd>
                                 </dl>
                                 </dt>
-                            <script>
-                            $('#buy_btn').click(function(){     
-                                var sku_id =  $('#choose').attr('sku-id');                           
-                                if (sku_id == '') {
-                                    alert('您还没有选择规格哦！！！');
-                                    return false;
-                                }
-                               
-                                var num = $('#number').val();
-                                var sku_num = $('#choose').attr('sku-num');
-                                if (parseInt(sku_num) < num) {
-                                    alert('库存不足');
-                                    return false;
-                                }
-                                if (confirm('您还没有登录，添加购物车将只保存一次哦！')){
-                                    $.ajax({                               
-                                        type:'post',
-                                        url:'home-cart-add',
-                                        data:{
-                                            sku_id:sku_id,
-                                            num:num,
-                                            _token:"{{csrf_token()}}"
-                                        },
-                                        dataType:'json',
-                                        success:function(msg){
-                                           if(msg.error == 0) {
-                                                alert('添加购物车成功！');
-                                           }
-                                        }
-                                   }) 
-                                }
-                               
-                            })
-                            </script>
 
                             </dl>
                         </div>
                     <!-- </form> -->
-                    <script type="text/javascript">
-                    //添加购物车
-                    $('#buy_btn').click(function(){
-                        var goods_id = "{{$goodsInfo['goods_id']}}";
-
-                    })
-                    </script>
             </div>
         </div>
     </div>
@@ -368,7 +335,7 @@
                                         @endforeach
                                     </ul>
                                  <!--    <a class="pagenav" href="home-goods-comment?goods_id={{$goodsInfo['goods_id']}}" >查看更多</a> -->
-                                     <a href="home-goods-comment?goods_id={{$goodsInfo['goods_id']}}" class="btn  btn-primary goods-add-cart-btn">查看更多</a>
+                                     <a href="home-goods-comment?goods_id={{$goodsInfo['goods_id']}}" class="btn  btn-primary ">查看更多</a>
                                 </div>
                             </div>
                         </div>
@@ -484,16 +451,57 @@
                     <p><em></em></p>
                 </dd>
             </dl>
-            <a href="javascript:addToCart(27)" class="btn btn-primary goods-add-cart-btn"><i class="iconfont"></i> 加入购物车</a>
+            <a href="javascript:;" class="btn btn-primary goods-add-cart-btn"><i class="iconfont"></i> 加入购物车</a>
         </div>
     </div>
+     <script>
+    $('.goods-add-cart-btn').click(function(){     
+        var sku_id =  $('#choose').attr('sku-id');                           
+        if (sku_id == '') {
+            alert('您还没有选择规格哦！！！');
+            return false;
+        }
+       
+        var num = $('#number').val();
+        var sku_num = $('#choose').attr('sku-num');
+        if (parseInt(sku_num) < num) {
+            alert('库存不足');
+            return false;
+        }
+
+        var user_id = "{{$user_id}}";
+        if(user_id =='') {
+            if (!confirm('您还没有登录，添加购物车将只保存一次哦！')){
+               return false;
+            }
+        }
+        $.ajax({                               
+            type:'post',
+            url:'home-cart-add',
+            data:{
+                sku_id:sku_id,
+                num:num,
+                _token:"{{csrf_token()}}"
+            },
+            dataType:'json',
+            success:function(msg){
+               if(msg.error == 0) {
+                    easyDialog.open({
+                        container : 'cart_show'
+                     });
+               }
+            }
+       }) 
+       
+    })
+    </script>
     <div class="add_ok" id="cart_show">
         <div class="tip">
             <i class="iconfont"> </i>商品已成功加入购物车
         </div>
         <div class="go">
-            <a href="javascript:easyDialog.close();" class="back">&lt;&lt;继续购物</a>
-            <a href="" class="btn">去结算</a>
+            <a href="#" class="back">&lt;&lt;继续购物</a>
+            <a href="home-cart-cart" class="btn">去结算</a>
         </div>
     </div>
 </div>
