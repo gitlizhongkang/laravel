@@ -6,7 +6,6 @@
 	<link href="css/general.css" rel="stylesheet" type="text/css" />
 	<link href="css/main.css" rel="stylesheet" type="text/css" />
 	<script src="js/jquery-1.9.1.min.js"></script>
-	<script src="js/ajaxfileupload.js"></script>
 	<!--编辑器插件-->
 	<script src="plug/ueditor/ueditor.config.js"></script>
 	<script src="plug/ueditor/ueditor.all.min.js"></script>

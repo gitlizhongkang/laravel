@@ -186,15 +186,17 @@ h1 .action-span1 {
  */
 .tab-div {
   background: #EEF8F9;
-  border: 1px solid #BBDDE5;
+  border: 1px solid #8c8c8c;
   margin: 0 0 10px 0;
   padding: 1px;
+  border-radius: 5px;
 }
 #tabbar-div {
-  background: #80BDCB;
-  padding-left: 10px;
+  background: black;
+  padding-left: 40px;
   height: 22px;
   padding-top: 1px;
+  border-radius: 4px;
 }
 
 #tabbar-div p {
@@ -202,11 +204,11 @@ h1 .action-span1 {
 }
 
 .tab-front {
-  background: #BBDDE5;
+  background: #8c8c8c;
   line-height: 20px;
   font-weight: bold;
   padding: 4px 15px 4px 18px;
-  border-right: 2px solid #278296;
+  border-right: 1px solid #FFF;
   cursor: hand;
   cursor: pointer;
 }
@@ -231,7 +233,7 @@ h1 .action-span1 {
 }
 
 #tabbody-div {
-  border: 2px solid #BBDDE5;
+  border: 2px solid #c3c3c3;
   padding: 10px;
   background: #FFF;
 }

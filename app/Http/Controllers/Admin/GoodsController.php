@@ -291,9 +291,7 @@ class GoodsController extends Controller
         $dataImg = $this->upload($request);
         $dataInfo = Input::get();
         extract($dataInfo);
-        /*echo "<pre>";
-        print_r($dataImg);
-        print_r($dataInfo);die;*/
+
 
         //验证
         /* $this->validate($request, [
