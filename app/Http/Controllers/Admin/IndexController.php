@@ -19,13 +19,9 @@ class IndexController extends Controller
     }
 
     /**
-    * //登录验证
-    * @brief 方法简介
-    * @param $arr（接来的数据）
-    * @param $status（状态码）
-    * @param $admin_id（登录ID）
-    * @param $success (返回值)
-    */
+     * @brief 登录验证
+     * @return array
+     */
     public function login()
     {
         $arr=Input::all();
