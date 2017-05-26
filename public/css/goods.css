@@ -336,11 +336,11 @@
 	background-color: #fff;
 }
 .skunum span.add {
-	background-image:url(images/add.png);
+	background-image:url(../images/add.png);
 	margin-left: -2px;
 }
 .skunum span.minus{
-	background-image:url(images/minus.png);
+	background-image:url(../images/minus.png);
 }
 /*属性名称和属性值*/
 .ghd,gbd{

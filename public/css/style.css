@@ -1054,7 +1054,7 @@ a:hover {
 	-webkit-transition: color 0.2s;
 	transition: color 0.2s;
 }
-.site-header .header-nav .nav-list .nav-category .site-category-list .children-list li .link:hover {
+.site-header .header-nav .nav-list .nav-category .site-category-list .children-list .thumb:hover {
 	color: #ff6700;
 }
 .site-header .header-nav .nav-list .nav-category .site-category-list .children-list .thumb {
@@ -2050,7 +2050,7 @@ a:hover {
 	width: 36px;
 	height: 36px;
 	margin-right: 10px;
-	background: url(images/logo-footer.png) no-repeat 50% 50%;
+	background: url(../images/logo-footer.png) no-repeat 50% 50%;
 }
 .site-info .info-text {
 	float: left;
@@ -2380,7 +2380,7 @@ a:hover {
 	margin-right: 15px;
 	width:61px;
 	height:66px;
-	background:url(images/addok.png) no-repeat center 10px;
+	background:url(../images/addok.png) no-repeat center 10px;
 	display:inline-block;
 	zoom:1;
 	*display:inline;

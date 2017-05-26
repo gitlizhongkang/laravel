@@ -12,7 +12,7 @@ Oct-2005
 - updated version info to 1.2
 - equiv-trans attribute to <trans-unit> element 
 - merged-trans attribute for <group> element
-- Add the <seg-source> element as optional in the <trans-unit> and <alt-trans> content models, at the same level as <source> 
+- Add the <seg-source> element as optional in the <trans-unit> and <alt-trans> content Models, at the same level as <source>
 - Create a new value "seg" for the mtype attribute of the <mrk> element
 - Add mid as an optional attribute for the <alt-trans> element
 
