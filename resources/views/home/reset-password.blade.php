@@ -1,4 +1,4 @@
-@extends('layouts.header')
+@extends('layouts.user-header')
 
 @section('title')
     baby -- reset
@@ -17,7 +17,7 @@
                     <form id="resetPassword" name="resetPassword" onsubmit="return submitPwd();">
                         <input name="_token" type="hidden" value="{{ csrf_token() }}">
                         <input name="user_id" type="hidden" value="{{ $id }}">
-                        <input name="key" tppe="hidden" value="{{ $key }}">
+                        <input name="key" type="hidden" value="{{ $key }}">
                         <div class="inputbg">
                             <label class="labelbox">
                                 <input id="new_password" name="new_password" type="password" size="30" placeholder="新密码"/>

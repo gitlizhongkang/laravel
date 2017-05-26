@@ -30,9 +30,7 @@ class IndexController extends Controller
 	 */
     public function index()
     {
-    	//获取分类列表
-    	$data['category'] = json_decode($this->getCategory(), true);
-
+    	
     	//获取最新的商品信息
     	$data['new'] = json_decode($this -> getGoodsNew(), true) ;
 

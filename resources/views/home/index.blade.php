@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -187,6 +188,11 @@
 </div>
 
 
+=======
+@extends('layouts.home-header')
+  
+@section('content')
+>>>>>>> 3caa06eed8f5650d88e496c15ce6a2a5f15b9108
 <div class="home-hero-container container">
     <div class="home-hero">
         <div class="home-hero-slider">
@@ -468,9 +474,8 @@
 
     </div>
 </div>
-
+@endsection
 
 
 
 <!--脚部-->
-@include('footer')
