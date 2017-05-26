@@ -30,7 +30,10 @@ Route::get('/admin-goods-normsValue', 'Admin\GoodsController@normsValue');
 Route::get('/admin-goods-createSku', 'Admin\GoodsController@createSku');
 Route::get('/admin-goods-attributesType', 'Admin\GoodsController@attributesType');
 Route::get('/admin-goods-attributes', 'Admin\GoodsController@attributes');
-Route::get('/admin-goods-add', 'Admin\GoodsController@add');
+Route::post('/admin-goods-skuImg', 'Admin\GoodsController@skuImg');
+
+//商品添加方法
+Route::post('/admin-goods-add', 'Admin\GoodsController@add');
 
 
 //商品列表页

@@ -50,7 +50,7 @@ class Category extends Model
         {
             if($val['parent_id'] == $parent_id)
             {
-                $val['category_name'] = str_repeat('&nbsp;', $leave) . $val['category_name'];
+                $val['category_name'] = str_repeat('-', $leave) . $val['category_name'];
                 $tree[] = $val;
                 $this->tree($data,$val['category_id'],$leave + 1);
             }

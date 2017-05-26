@@ -16,7 +16,7 @@ class Norms extends Model
     //protected $fillable
 
     //不被赋值的字段
-    //protected $guarded = ['norms_id'];
+    protected $guarded = ['norms_id'];
 
     //隐藏字段
     //protected $hidden = [];

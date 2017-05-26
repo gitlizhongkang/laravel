@@ -26,4 +26,5 @@ class Attributes extends Model
         return $this->where('category_id', $categoryId)->get()->toArray();
     }
 
+
 }
