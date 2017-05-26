@@ -65,7 +65,7 @@
                 <a class="user-name" target="_blank" href="user.php"><span class="name">aaaa</span><i
                         class="iconfont"></i></a>
                 <ul class="user-menu">
-                    <li><a target="_blank" href="user.php">个人中心</a></li>
+                    <li><a target="_blank" href="home-personal-index">个人中心</a></li>
                     <li><a target="_blank" href="user.php?act=track_packages">跟踪包裹</a></li>
                     <li><a href="user.php?act=logout">退出登录</a></li>
                 </ul>
