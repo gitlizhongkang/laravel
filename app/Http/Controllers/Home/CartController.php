@@ -9,6 +9,7 @@ use App\Models\Cart;
 use App\Models\GoodsSku;
 use Illuminate\Support\Facades\Cookie;
 use Session;
+use App\Models\UserBrowerLog;
 
 class CartController extends Controller
 {
@@ -78,8 +79,8 @@ class CartController extends Controller
 				$info['category_id'] = Input::get()['category_id'];
 				$info['user_id'] = $user_id;
 				$info['add_time'] = time();
-				$log = new UerBrowerLog;
-				$count = $re->where('user_id',$user_id)->count();
+				$log = new UserBrowerLog;
+				$count = $log->where('user_id',$user_id)->count();
 				
 				//如果浏览记录小于3则继续添加，否则替换掉最旧的那个
 				if($count < 3){
@@ -104,10 +105,10 @@ class CartController extends Controller
 	 */
     public function index()
     {
-    	Session::flush();
-    	// Session::forget('aa');
-    	// Session::put('aa','1');
-    	echo Session::get('aa');
+    	// Session::flush();
+    	Session::forget('bb');
+    	// Session::put('bb','2');
+    	echo Session::get('bb');
 
     }
 

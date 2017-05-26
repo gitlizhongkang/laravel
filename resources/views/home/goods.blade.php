@@ -170,7 +170,6 @@ $user_id = Session::get('uid');
                                                         data:{
                                                             goods_id:goods_id,
                                                             norms_value:norms_value,
-                                                            category_id:"{{$goodsInfo['category_id']}}",
                                                             _token:"{{csrf_token()}}"
                                                         },
                                                         dataType:'json',
@@ -481,6 +480,7 @@ $user_id = Session::get('uid');
             data:{
                 sku_id:sku_id,
                 num:num,
+                category_id:"{{$goodsInfo['category_id']}}",
                 _token:"{{csrf_token()}}"
             },
             dataType:'json',
