@@ -11,28 +11,8 @@
 |
 */
 Route::group(['middleware' => ['web']], function () {
-<<<<<<< HEAD
-//   start 李仲康
-    Route::get('home/user/register',  'Home\UserController@register');
-    Route::post('home/user/commit',  'Home\UserController@commit');
-    Route::post('home/user/loginCheck',  'Home\UserController@loginCheck');
-    Route::get('home/user/login',  'Home\UserController@login');
-    Route::get('home/user/forgetPassword',  'Home\UserController@forgetPassword');
-    Route::get('home/user/findPassword',  'Home\UserController@findPassword');
-    Route::get('home/user/bind',  'Home\UserController@bind');
-    Route::get('home/user/babyBind',  'Home\UserController@babyBind');
-    Route::post('home/user/getPassword',  'Home\UserController@getPassword');
-    Route::post('home/user/resetPassword',  'Home\UserController@resetPassword');
-    Route::any('home/user/send',  'Home\UserController@send');
-    Route::get('home/user/uniqueCheck',  'Home\UserController@uniqueCheck');
-    Route::get('home/user/mobileCheck',  'Home\UserController@mobileCheck');
-    Route::get('home/user/codeCheck',  'Home\UserController@codeCheck');
-    Route::get("home/user/code",  'Home\UserController@code');
-//  stop 李仲康
-});
-=======
+
     /** 李钟康 start */
->>>>>>> 3caa06eed8f5650d88e496c15ce6a2a5f15b9108
 
     // 用户注册页面
     Route::get('home-user-register',  'Home\UserController@register');
@@ -135,50 +115,26 @@ Route::group(['middleware' => ['web']], function () {
 
     //个人中心-首页
     Route::get('home-personal-index',  'Home\PersonalController@index');
-    
+
     //个人中心-订单
     Route::get('home-personal-userOrder',  'Home\PersonalController@userOrder');
-    
-    //个人中心-获取订单
     Route::post('home-personal-getUserOrder',  'Home\PersonalController@getUserOrder');
-    
-    //个人中心-订单细节
     Route::get('home-personal-orderDetail',  'Home\PersonalController@orderDetail');
-    
-    //个人中心-获取订单细节
     Route::post('home-personal-getOrderGoods',  'Home\PersonalController@getOrderGoods');
-    
-    //个人中心-取消订单
     Route::post('home-personal-deleteOrder',  'Home\PersonalController@deleteOrder');
-    
+
     //个人中心-收货地址
     Route::get('home-personal-userAddress',  'Home\PersonalController@userAddress');
-    
-    //个人中心-获取收货地址信息
     Route::post('home-personal-getUserAddress',  'Home\PersonalController@getUserAddress');
-    
+    Route::post('home-personal-getDistrict',  'Home\PersonalController@getDistrict');
+    Route::post('home-personal-addUserAddress',  'Home\PersonalController@addUserAddress');
+    Route::post('home-personal-updateUserAddress',  'Home\PersonalController@updateUserAddress');
+    Route::post('home-personal-deleteUserAddress',  'Home\PersonalController@deleteUserAddress');
+
     //个人中心-用户信息
     Route::get('home-personal-userInfo',  'Home\PersonalController@userInfo');
-    
-    //个人中心-获取用户信息
     Route::post('home-personal-getUserInfo',  'Home\PersonalController@getUserInfo');
-    
-    //个人中心-收货地址-市 默认
-    Route::post('home-personal-getDistrict',  'Home\PersonalController@getDistrict');
-    
-    //个人中心-添加收货地址信息
-    Route::post('home-personal-addUserAddress',  'Home\PersonalController@addUserAddress');
-    
-    //个人中心-修改收货地址信息
-    Route::post('home-personal-updateUserAddress',  'Home\PersonalController@updateUserAddress');
-    
-    //个人中心-删除收货地址信息
-    Route::post('home-personal-deleteUserAddress',  'Home\PersonalController@deleteUserAddress');
-    
-    //个人中心-修改用户信息
     Route::post('home-personal-updateUserInfo',  'Home\PersonalController@updateUserInfo');
-    
-    //个人中心-修改用户密码
     Route::post('home-personal-updatePassword',  'Home\PersonalController@updatePassword');
     
     /** 薛天阔 end */
@@ -202,48 +158,4 @@ Route::group(['middleware' => ['web']], function () {
 
     /** 郭洪彬 end */
 });
-
-
-
-
-
-
-
-
-
-
-Route::auth();
-
-
-
- 
-
-
-<<<<<<< HEAD
-//个人中心-首页
-Route::get('home-personal-index',  'Home\PersonalController@index');
-
-//个人中心-订单
-Route::get('home-personal-userOrder',  'Home\PersonalController@userOrder');
-Route::post('home-personal-getUserOrder',  'Home\PersonalController@getUserOrder');
-Route::get('home-personal-orderDetail',  'Home\PersonalController@orderDetail');
-Route::post('home-personal-getOrderGoods',  'Home\PersonalController@getOrderGoods');
-Route::post('home-personal-deleteOrder',  'Home\PersonalController@deleteOrder');
-
-//个人中心-收货地址
-Route::get('home-personal-userAddress',  'Home\PersonalController@userAddress');
-Route::post('home-personal-getUserAddress',  'Home\PersonalController@getUserAddress');
-Route::post('home-personal-getDistrict',  'Home\PersonalController@getDistrict');
-Route::post('home-personal-addUserAddress',  'Home\PersonalController@addUserAddress');
-Route::post('home-personal-updateUserAddress',  'Home\PersonalController@updateUserAddress');
-Route::post('home-personal-deleteUserAddress',  'Home\PersonalController@deleteUserAddress');
-
-//个人中心-用户信息
-Route::get('home-personal-userInfo',  'Home\PersonalController@userInfo');
-Route::post('home-personal-getUserInfo',  'Home\PersonalController@getUserInfo');
-Route::post('home-personal-updateUserInfo',  'Home\PersonalController@updateUserInfo');
-Route::post('home-personal-updatePassword',  'Home\PersonalController@updatePassword');
-=======
-
->>>>>>> 3caa06eed8f5650d88e496c15ce6a2a5f15b9108
 

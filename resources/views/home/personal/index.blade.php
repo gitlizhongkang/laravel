@@ -1,6 +1,7 @@
 
- {{--头部--}}
- @include('header')
+@extends('layouts.home-header')
+
+@section('content')
  <link href="css/user.css" rel="stylesheet" type="text/css" />
  <script type="text/javascript" src="js/common.js"></script>
  <script type="text/javascript" src="js/user.js"></script>
@@ -63,6 +64,5 @@
     var msg_title_empty = "留言标题为空";
     var msg_content_empty = "留言内容为空";
     var msg_title_limit = "留言标题不能超过200个字";
-</script> 
-  <!--脚部-->
-@include('footer')
+</script>
+ @endsection

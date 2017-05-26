@@ -1,8 +1,6 @@
+@extends('layouts.home-header')
 
-<body class="user_center">
-
-{{--头部--}}
-@include('header')
+@section('content')
 <link href="css/user.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/user.js"></script>
@@ -12,6 +10,7 @@
 <script type="text/javascript" src="js/utils.js"></script>
 <script type="text/javascript" src="js/jquery.SuperSlide.js"></script>
 <script type="text/javascript" src="js/xiaomi_common.js"></script>
+<body class="user_center">
 <!--通栏-->
 <div class="breadcrumbs">
     <div class="container">
@@ -176,6 +175,5 @@
     var msg_title_limit = "留言标题不能超过200个字";
 </script>
 
-{{--脚部--}}
-@include('footer')
 <script type="text/javascript" src="js/parsonal/userAddress.js"></script>
+@endsection
