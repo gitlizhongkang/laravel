@@ -1,4 +1,358 @@
 /* $Id : user.js 4865 2007-01-31 14:04:10Z paulgao $ */
+$(function(){
+    $(".r-tab").mouseup(function(){
+        $(this).addClass("r-check");
+        if($(this).attr("id")=="has_login"){
+            $("#login-box").css("display","block");
+            $("#register-box").css("display","none");
+            $(this).addClass("r-check");
+            $("#no_login").removeClass("r-check");
+            $("input:text,input:password").val("");
+        }else{
+            $(this).addClass("r-check");
+            $("#has_login").removeClass("r-check");
+            $("#register-box").css("display","block");
+            $("#login-box").css("display","none");
+        }
+        $(".err_tip").html("");
+        $(".labelbox").removeClass('params_error');
+        $("input:text,input:password").val("");
+    })
+
+      var validate={
+        usernameValidate:"false",
+        telValidate:"false",
+        passwordValidate:"false",
+        confirmPasswordValidate:"false",
+        codeValidate:"false"
+        };
+    //用户名
+    
+    $("#username").blur(function(){
+        var username=$(this).val();
+        var unlen = username.replace(/[^\x00-\xff]/g, "**").length;
+        var obj = $(this);
+        if ( username == '' )
+        {
+            $('#username_notice').html(msg_un_blank);
+            validate.usernameValidate=false;
+            return false;
+        }
+
+        if ( !chkstr( username ) )
+        {
+           $('#username_notice').html(msg_un_format);
+            validate.usernameValidate=false;
+            return false;
+        }
+        if ( unlen < 3 )
+        {
+            $('#username_notice').html(username_shorter);
+            validate.usernameValidate=false;
+            return false;
+        }
+        if ( unlen > 14 )
+        {
+            $('#username_notice').html(msg_un_length);
+            validate.usernameValidate=false;
+            return false;
+        }
+        var type="username";
+           $.ajax({
+            type:"GET",
+            async:false,
+            url:uniqueCheck,
+            data:{
+                type:type,
+                value:username
+            },
+            dataType:"json",
+            success:function(msg){
+                if(msg['code']==1){
+                    $("#username").parent().removeClass("params_error");
+                    $("#username").parent().addClass("params_success");
+                   $('#username_notice').html("<em></em>"); //zhouhuan
+                    validate.usernameValidate=true;
+
+                }else{
+                    $("#username").parent().removeClass("params_success");
+                    $("#username").parent().addClass("params_error");
+                    $('#username_notice').html(msg_un_registered);
+                    validate.usernameValidate=false;
+                }
+            }
+
+          })            
+  })
+  $("#username").keyup(function(){
+      $("#username").parent().removeClass("params_success");
+      $("#username").parent().addClass("params_error");
+      $('#username_notice').html(username_invalid);
+  }).focus(function(){
+      $(this).triggerHandler("keyup");      
+  })
+
+  //电话号码
+  
+    $("#tel").blur(function(){
+
+          var tel = $(this).val();
+          var  obj=$(this);
+            var type="tel";
+              if (tel == '')
+              {
+                  $('#tel_notice').html(tel_empty);
+                  validate.telValidate=false;
+                  return false;
+              }
+              else if (!Utils.isTel(tel))
+              {
+                  $('#tel_notice').html(tel_msg);
+                  validate.telValidate=false;
+                  return false;
+              }
+
+              $.ajax({
+                  type:"GET",
+                  async:false,
+                  url:uniqueCheck,
+                  data:{
+                      type:type,
+                      value:tel
+                  },
+                  dataType:"json",
+
+                  success:function(msg){
+                      if(msg['code']==1)
+                      {
+                          $("#tel").parent().removeClass("params_error");
+                          $("#tel").parent().addClass("params_success");
+                          $('#tel_notice').html("<em></em>"); //zhouhuan
+                          validate.telValidate=true;
+
+                      }else
+                      {
+                          $("#tel").parent().removeClass("params_success");
+                          $("#tel").parent().addClass("params_error");
+                          $('#tel_notice').html(tel_registered);
+                          validate.telValidate=false;
+                      }
+                  }
+              });
+    })
+
+    $("#tel").keyup(function(){
+       $("#tel").parent().removeClass("params_success");
+        $("#tel").parent().addClass("params_error");
+        $('#tel_notice').html("完成验证后，你可以找回登录密码");
+    }).focus(function(){
+      $(this).triggerHandler("keyup");      
+    })
+
+    // 密码
+     
+    $("#password1").blur(function(){
+        var password=$(this).val();
+        if ( password.length < 6 )
+        {
+            $(this).parent().removeClass("params_success");
+            $(this).parent().addClass("params_error");
+            $('#password_notice').html(password_shorter) ;
+            validate.passwordValidate=false;
+            return false;
+        }
+        else
+        {
+            $(this).parent().removeClass("params_error");
+            $(this).parent().addClass("params_success");
+            $('#password_notice').html("<em></em>");//zhouhuan
+            validate.passwordValidate=true;
+            return true;
+        }
+    }).keyup(function(){
+      $(this).triggerHandler("blur");
+    }).focus(function(){
+      $(this).triggerHandler("blur");      
+    })
+
+    // 确认密码
+     
+    $("#conform_password").blur(function(){
+       var  password =$('#password1').val();
+       var conform_password=$(this).val();
+        if ( conform_password.length < 6 )
+        {
+            $(this).parent().removeClass("params_success");
+            $(this).parent().addClass("params_error");
+            $('#conform_password_notice').html(password_shorter);
+            validate.confirmPasswordValidate=false;
+            return false;
+        }
+        if ( conform_password != password )
+        {
+            $(this).parent().removeClass("params_success");
+            $(this).parent().addClass("params_error");
+            $('#conform_password_notice').html(confirm_password_invalid);
+            validate.confirmPasswordValidate=false;
+            return false;
+        }
+        else
+        {
+            $(this).parent().removeClass("params_error");
+            $(this).parent().addClass("params_success");
+            $('#conform_password_notice').html("<em></em>"); //zhouhuan
+            validate.confirmPasswordValidate=true;
+            return true;
+        }
+    }).keyup(function(){
+      $(this).triggerHandler("blur");
+    }).focus(function(){
+      $(this).triggerHandler("blur");      
+    })
+
+    // 验证码
+    // 
+    $("#code").blur(function(){
+      var code=$(this).val();
+      var obj = $(this);
+      if (code == '')
+      {
+          $('#code_notice').html(msg_code_blank);
+          validate.codeValidate=false;
+          return false;
+      }
+        $.ajax({
+          type:"GET",
+          url:codeCheck,
+          async:false,
+          data:{
+              code:code
+          },
+          dataType:"json",
+          success:function(msg){
+              if(msg['code']==1){
+                  $("#code").parent().removeClass("params_error");
+                  $("#code").parent().addClass("params_success");
+                  $('#code_notice').html("<em></em>"); //zhouhuan
+                  validate.codeValidate=true;
+              }else{
+                  $("#code").parent().removeClass("params_success");
+                  $("#code").parent().addClass("params_error");
+                  $('#code_notice').html(msg_code);
+                  $("#codeImg").triggerHandler("click");
+                 validate.codeValidate=false;
+
+              }
+          }
+
+        })     
+    })
+
+    $("#code").focus(function(){
+       $("#code").parent().removeClass("params_success");
+       $("#code").parent().addClass("params_error");
+       $('#code_notice').html("看不清点击图片即可更换验证码");
+    })
+       //发送短信验证码
+    $(".getCode").mousedown(function(){
+          var countdown = 120;
+          var _this = $(this);
+          $("#tel").trigger("blur");
+          $("#code").trigger("blur"); 
+         if(validate.telValidate && validate.codeValidate){ 
+              //设置button效果，开始计时
+              _this.attr("disabled", "true");
+              _this.html(countdown + "秒后重新获取");
+              //启动计时器，1秒执行一次
+              var timer = setInterval(function(){
+                  if (countdown == 0) {
+                      clearInterval(timer);//停止计时器
+                      _this.removeAttr("disabled");//启用按钮
+                      _this.html("重新发送验证码");
+                  }
+                  else {
+                      countdown--;
+                      _this.html(countdown + "秒后重新获取");
+                  }
+              }, 1000);
+              $.ajax({
+                  type : 'GET',
+                  url : sendUrl,
+                  async: false,
+                  data : {'tel':$("#tel").val()},
+                  dataType : 'json',  
+                  success : function(msg) {
+                      if(msg['code']==1){   
+                            $('#mobilecode_notice').html(msg['msg']); 
+                            validate.codeValidate=true;
+                      }else if(msg['code']==2){                           
+                             $('#mobilecode_notice').html(msg['msg']); 
+                             validate.codeValidate=true;
+                      }else{            
+                            $('#mobilecode_notice').html("短信发送失败"); 
+                            validate.codeValidate=false;
+                      }
+                  }
+              });      
+        }    
+    });
+
+  
+  
+// 表单提交
+    $("form[name='formUser']").submit(function(){
+        var obj=$(this);
+         var mobileCode=$("#mobileCode").val();
+         if($("input[name='agreement']").prop("checked") == false)
+        {
+          alert("请选择用户协议");
+            return false;
+        }
+          if(mobileCode==''){
+            $("#mobileCode").parent().removeClass("params_success");
+            $("#mobileCode").parent().addClass("params_error");
+            $('#mobilecode_notice').html("手机验证码非空");
+            return false;
+          }
+        
+        $("#username").trigger("blur");
+        $("#tel").trigger("blur");
+        $("#password1").trigger("blur") ;
+        $("#conform_password").trigger("blur");
+        $("#code").trigger("blur") ;
+        if(validate.usernameValidate  && validate.telValidate && validate.passwordValidate && validate.confirmPasswordValidate && validate.codeValidate )
+        {
+         
+          var tel=$("#tel").val();
+          var validateMobile=false;
+          $.ajax({
+              type:"GET",
+              url:mobileCheck,
+              async:false,
+              data:{
+                  tel:tel,
+                  mobileCode:mobileCode
+              },
+              dataType:"json",
+              success:function(msg){
+                  if(msg['code']==1){
+                     return validateMobile=true;
+                  }else{
+                      $("#mobileCode").parent().removeClass("params_success");
+                      $("#mobileCode").parent().addClass("params_error");
+                      $('#mobilecode_notice').html(msg_code);
+                      $("#codeImg").triggerHandler("click");
+                  }
+              }
+          })
+
+            return validateMobile;
+        }else {
+            return false;
+        }
+
+    })
+})
 
 /* *
  * 修改会员信息
@@ -138,7 +492,6 @@ function submitPwdInfo()
   var frm = document.forms['getPassword'];
   var user_name = frm.elements['user_name'].value;
   var email     = frm.elements['email'].value;
-
   var errorMsg = '';
   if (user_name.length == 0)
   {
@@ -162,8 +515,24 @@ function submitPwdInfo()
     alert(errorMsg);
     return false;
   }
-
-  return true;
+          $.ajax({
+              type:"post",
+              url:getPassword,
+              headers: {
+                  'X-CSRF-TOKEN': $('input[name="_token"]').val()
+              },
+              data:$("#getPassword").serialize(),
+              dataType:"json",
+              async:false,
+              success:function(msg){
+                  if(msg['code']==1){
+                      alert("发送邮件成功请查收重置密码");
+                  }else{
+                      alert(msg['msg']);
+                  }
+              }
+          })
+          return false;
 }
 
 /* *
@@ -171,12 +540,12 @@ function submitPwdInfo()
  */
 function submitPwd()
 {
-  var frm = document.forms['getPassword2'];
+  var frm = document.forms['resetPassword'];
   var password = frm.elements['new_password'].value;
   var confirm_password = frm.elements['confirm_password'].value;
 
   var errorMsg = '';
-  if (password.length == 0)
+  if (password.length == 0 || password.length<6)
   {
     errorMsg += new_password_empty + '\n';
   }
@@ -198,7 +567,26 @@ function submitPwd()
   }
   else
   {
-    return true;
+      $("#new_password,#confirm_password").val($.md5(password));
+      $.ajax({
+          type:"POST",
+          url:resetPassword,
+          headers: {
+              'X-CSRF-TOKEN': $('input[name="_token"]').val()
+          },
+          data:$("form[name='resetPassword']").serialize(),
+          dataType:"json",
+          async:false,
+          success:function(msg){
+              if(msg['code']==1){
+                  alert(msg['msg']);
+                  window.location.href=loginUrl;
+              }else{
+                  alert(msg['msg']);
+              }
+          }
+      })
+      return false;
   }
 }
 
@@ -271,19 +659,21 @@ function addBooking()
  */
 function userLogin()
 {
+  var  username= $("#formLogin input[name='username']");
+  var  password  = $("#formLogin input[name='password']");
   var frm      = document.forms['formLogin'];
-  var username = frm.elements['username'].value;
-  var password = frm.elements['password'].value;
-  var msg = '';
 
-  if (username.length == 0)
+  var msg = '';
+  if (username.val().length == 0)
   {
-    msg += username_empty + '\n';
+     msg += username_empty + '\n';
+    username.focus();
   }
 
-  if (password.length == 0)
+  if (password.val().length == 0)
   {
     msg += password_empty + '\n';
+    password.focus();
   }
 
   if (msg.length > 0)
@@ -293,7 +683,26 @@ function userLogin()
   }
   else
   {
-    return true;
+      password.val($.md5(password.val()));
+    $.ajax({
+      type:"post",
+      url:loginCheck,
+      headers: {
+      'X-CSRF-TOKEN': $('input[name="_token"]').val()
+      },
+      data:$("#formLogin").serialize(),
+      dataType:"json",
+      async:false,
+      success:function(msg){
+            if(msg['code']==1){
+                alert(msg['msg']);
+                window.location.href=indexUrl;
+            }else{
+                alert(msg['msg']);
+            }
+      }
+    })
+    return false;
   }
 }
 
@@ -308,6 +717,54 @@ function chkstr(str)
   }
   return true;
 }
+//密码大写输入提示
+// function capitalTip(id){
+//     $('#' + id).after('<div class="capslock" id="capital_'+id+'"><span>大写锁定已开启</span></div>');
+//     var capital = false; //聚焦初始化，防止刚聚焦时点击Caps按键提示信息显隐错误
+//     $('#capital_'+id).hide();
+//     // 获取大写提示的标签，并提供大写提示显示隐藏的调用接口
+//     var capitalTip = {
+//         $elem: $('#capital_'+id),
+//         toggle: function (s) {
+//             if(s === 'none'){
+//                 this.$elem.hide();
+//             }else if(s === 'block'){
+//                 this.$elem.show();
+//             }else if(this.$elem.is(':hidden')){
+//                 this.$elem.show();
+//             }else{
+//                 this.$elem.hide();
+//             }
+//         }
+//     }
+//     $('#' + id).on('keydown.caps',function(e){
+//         if (e.keyCode === 20 && capital) { // 点击Caps大写提示显隐切换
+//             capitalTip.toggle();
+//         }
+//     }).on('focus.caps',function(){capital = false}).on('keypress.caps',function(e){capsLock(e)}).on('blur.caps',function(e){
+
+//         //输入框失去焦点，提示隐藏
+//         capitalTip.toggle('none');
+//     });
+//     function capsLock(e){
+//         var keyCode = e.keyCode || e.which;// 按键的keyCode
+//         var isShift = e.shiftKey || keyCode === 16 || false;// shift键是否按住
+//         if(keyCode === 9){
+//             capitalTip.toggle('none');
+//         }else{
+//             //指定位置的字符的 Unicode 编码 , 通过与shift键对于的keycode，就可以判断capslock是否开启了
+//             // 90 Caps Lock 打开，且没有按住shift键
+//             if (((keyCode >= 65 && keyCode <= 90) && !isShift) || ((keyCode >= 97 && keyCode <= 122) && isShift)) {
+//                 // 122 Caps Lock打开，且按住shift键
+//                 capitalTip.toggle('block'); // 大写开启时弹出提示框
+//                 capital = true;
+//             } else {
+//                 capitalTip.toggle('none');
+//                 capital = true;
+//             }
+//         }
+//     }
+// };
 
 function check_password( password )
 {
@@ -317,273 +774,282 @@ function check_password( password )
 		$("#password1").parent().addClass("params_error");
 		
         document.getElementById('password_notice').innerHTML = password_shorter;
+        validate.passwordValidate=false;
+        return false;
     }
     else
     {
 		$("#password1").parent().removeClass("params_error");
 		$("#password1").parent().addClass("params_success");
 
-        document.getElementById('password_notice').innerHTML = "<em></em>"; //zhouhuan
+        document.getElementById('password_notice').innerHTML = "<em></em>";//zhouhuan
+        validate.passwordValidate=true;
+        return true;
     }
 }
 
 function check_conform_password( conform_password )
 {
     password = document.getElementById('password1').value;
-    
     if ( conform_password.length < 6 )
     {
 		$("#conform_password").parent().removeClass("params_success");
 		$("#conform_password").parent().addClass("params_error");
-		
         document.getElementById('conform_password_notice').innerHTML = password_shorter;
+        validate.confirmPasswordValidate=false;
         return false;
     }
     if ( conform_password != password )
     {
 		$("#conform_password").parent().removeClass("params_success");
 		$("#conform_password").parent().addClass("params_error");
-
         document.getElementById('conform_password_notice').innerHTML = confirm_password_invalid;
+        validate.confirmPasswordValidate=false;
+        return false;
     }
     else
     {
 		$("#conform_password").parent().removeClass("params_error");
 		$("#conform_password").parent().addClass("params_success");
-
         document.getElementById('conform_password_notice').innerHTML = "<em></em>"; //zhouhuan
+        validate.confirmPasswordValidate=true;
+        return true;
     }
 }
 
 function is_registered( username )
 {
-    var submit_disabled = false;
 	var unlen = username.replace(/[^\x00-\xff]/g, "**").length;
 
     if ( username == '' )
     {
         document.getElementById('username_notice').innerHTML = msg_un_blank;
-        var submit_disabled = true;
+        validate.usernameValidate=false;
+        return false;
     }
 
     if ( !chkstr( username ) )
     {
         document.getElementById('username_notice').innerHTML = msg_un_format;
-        var submit_disabled = true;
+        validate.usernameValidate=false;
+        return false;
     }
     if ( unlen < 3 )
     { 
         document.getElementById('username_notice').innerHTML = username_shorter;
-        var submit_disabled = true;
+        validate.usernameValidate=false;
+        return false;
     }
     if ( unlen > 14 )
     {
         document.getElementById('username_notice').innerHTML = msg_un_length;
-        var submit_disabled = true;
-    }
-    if ( submit_disabled )
-    {
-        document.forms['formUser'].elements['Submit'].disabled = 'disabled';
+        validate.usernameValidate=false;
         return false;
     }
-    Ajax.call( 'user.php?act=is_registered', 'username=' + username, registed_callback , 'GET', 'TEXT', true, true );
+    var type="username";
+    $.ajax({
+                type:"GET",
+                url:uniqueCheck,
+                async:false,
+                data:{
+                    type:type,
+                    value:username
+                },
+                dataType:"json",
+                error:function () {
+                    alert("连接失败");return false;
+                },
+                success:function(msg){
+                    if(msg['code']==1){
+                        $("#username").parent().removeClass("params_error");
+                        $("#username").parent().addClass("params_success");
+                        document.getElementById('username_notice').innerHTML = "<em></em>"; //zhouhuan
+                        validate.usernameValidate=true;
+
+                    }else{
+                        $("#username").parent().removeClass("params_success");
+                        $("#username").parent().addClass("params_error");
+                        document.getElementById('username_notice').innerHTML = msg_un_registered;
+                        validate.usernameValidate=false;
+
+                    }
+                }
+    })
+    return validate.usernameValidate;
+    //Ajax.call( uniqueCheck, "type=username&value=" + username, registed_callback , 'GET', 'Json', true, true );
 }
 
-
-
-function registed_callback(result)
-{
-  if ( result == "true" )
-  {
-
-	$("#username").parent().removeClass("params_error");
-	$("#username").parent().addClass("params_success");
-
-    document.getElementById('username_notice').innerHTML = "<em></em>"; //zhouhuan
-    document.forms['formUser'].elements['Submit'].disabled = '';
-  }
-  else
-  {
-
-	$("#username").parent().removeClass("params_success");
-	$("#username").parent().addClass("params_error");
-    document.getElementById('username_notice').innerHTML = msg_un_registered;
-    document.forms['formUser'].elements['Submit'].disabled = 'disabled';
-  }
-}
 
 function checkEmail(email)
 {
-  var submit_disabled = false;
-  
   if (email == '')
   {
     document.getElementById('email_notice').innerHTML = msg_email_blank;
-    submit_disabled = true;
+      validate.emailValidate=false;
+      return false;
   }
   else if (!Utils.isEmail(email))
   {
     document.getElementById('email_notice').innerHTML = msg_email_format;
-    submit_disabled = true;
+      validate.emailValidate=false;
+      return false;
   }
- 
-  if( submit_disabled )
-  {
-    document.forms['formUser'].elements['Submit'].disabled = 'disabled';
-    return false;
-  }
-  Ajax.call( 'user.php?act=check_email', 'email=' + email, check_email_callback , 'GET', 'TEXT', true, true );
-}
+    var type="email";
+    $.ajax({
+        type:"GET",
+        url:uniqueCheck,
+        async:false,
+        data:{
+            type:type,
+            value:email
+        },
+        dataType:"json",
+        error:function () {
+            alert("连接失败");return false;
+        },
+        success:function(msg){
+            if(msg['code']==1){
+                $("#email").parent().removeClass("params_error");
+                $("#email").parent().addClass("params_success");
+                document.getElementById('email_notice').innerHTML = "<em></em>"; //zhouhuan
+                validate.emailValidate=true;
 
-function check_email_callback(result)
+            }else{
+                $("#email").parent().removeClass("params_success");
+                $("#email").parent().addClass("params_error");
+                document.getElementById('email_notice').innerHTML = msg_email_registered;
+                validate.emailValidate=false;
+
+            }
+        }
+    })
+    return validate.emailValidate;
+  //Ajax.call(uniqueCheck, "type=email&value=" + email, check_email_callback , 'GET', 'json', true, true );
+}
+function check_code(code)
 {
-  if ( result == 'ok' )
-  {
-	$("#email").parent().removeClass("params_error");
-	$("#email").parent().addClass("params_success");
-	
-    document.getElementById('email_notice').innerHTML = "<em></em>"; //zhouhuan
-    document.forms['formUser'].elements['Submit'].disabled = '';
-  }
-  else
-  {
+    if (code == '')
+    {
+        document.getElementById('code_notice').innerHTML = msg_code_blank;
+        validate.codeValidate=false;
+        return false;
+    }
+    $.ajax({
+        type:"GET",
+        url:codeCheck,
+        async:false,
+        data:{
+            code:code
+        },
+        dataType:"json",
+        error:function () {
+            alert("连接失败");return false;
+        },
+        success:function(msg){
+            if(msg['code']==1){
+                $("#code").parent().removeClass("params_error");
+                $("#code").parent().addClass("params_success");
+                document.getElementById('code_notice').innerHTML = "<em></em>"; //zhouhuan
+                validate.codeValidate=true;
 
-	$("#email").parent().removeClass("params_success");
-	$("#email").parent().addClass("params_error");
+            }else{
+                $("#code").parent().removeClass("params_success");
+                $("#code").parent().addClass("params_error");
+                document.getElementById('code_notice').innerHTML = msg_code;
+                validate.codeValidate=false;
 
-    document.getElementById('email_notice').innerHTML = msg_email_registered;
-    document.forms['formUser'].elements['Submit'].disabled = 'disabled';
-  }
+            }
+        }
+    })
+    return  validate.codeValidate;
+    //Ajax.call( codeCheck, 'code=' + code, check_code_callback , 'GET', 'json', true, true );
 }
+// function check_code_callback(result)
+// {
+//     if ( result['code'] == 1 )
+//     {
+//         $("#code").parent().removeClass("params_error");
+//         $("#code").parent().addClass("params_success");
+//         document.getElementById('code_notice').innerHTML = "<em></em>"; //zhouhuan
+//         validate.codeValidate=true;
+//         return true;
+//     }
+//     else
+//     {
+//         $("#code").parent().removeClass("params_success");
+//         $("#code").parent().addClass("params_error");
+//         document.getElementById('code_notice').innerHTML = msg_code;
+//         validate.codeValidate=false;
+//         return false;
+//     }
+// }
 
-/* *
- * 处理注册用户
- */
-function register()
+function checkTel(tel)
 {
-  var frm  = document.forms['formUser'];
-  var username  = Utils.trim(frm.elements['username'].value);
-  var email  = frm.elements['email'].value;
-  var password  = Utils.trim(frm.elements['password'].value);
-  var confirm_password = Utils.trim(frm.elements['confirm_password'].value);
-  var checked_agreement = frm.elements['agreement'].checked;
-  var msn = frm.elements['extend_field1'] ? Utils.trim(frm.elements['extend_field1'].value) : '';
-  var qq = frm.elements['extend_field2'] ? Utils.trim(frm.elements['extend_field2'].value) : '';
-  var home_phone = frm.elements['extend_field4'] ? Utils.trim(frm.elements['extend_field4'].value) : '';
-  var office_phone = frm.elements['extend_field3'] ? Utils.trim(frm.elements['extend_field3'].value) : '';
-  var mobile_phone = frm.elements['extend_field5'] ? Utils.trim(frm.elements['extend_field5'].value) : '';
-  var passwd_answer = frm.elements['passwd_answer'] ? Utils.trim(frm.elements['passwd_answer'].value) : '';
-  var sel_question =  frm.elements['sel_question'] ? Utils.trim(frm.elements['sel_question'].value) : '';
-
-
-  var msg = "";
-  // 检查输入
-  var msg = '';
-  if (username.length == 0)
-  {
-    msg += username_empty + '\n';
-  }
-  else if (username.match(/^\s*$|^c:\\con\\con$|[%,\'\*\"\s\t\<\>\&\\]/))
-  {
-    msg += username_invalid + '\n';
-  }
-  else if (username.length < 3)
-  {
-    //msg += username_shorter + '\n';
-  }
-
-  if (email.length == 0)
-  {
-    msg += email_empty + '\n';
-  }
-  else
-  {
-    if ( ! (Utils.isEmail(email)))
+    if (tel == '')
     {
-      msg += email_invalid + '\n';
+        document.getElementById('tel_notice').innerHTML = tel_empty;
+        validate.telValidate=false;
+        return false;
     }
-  }
-  if (password.length == 0)
-  {
-    msg += password_empty + '\n';
-  }
-  else if (password.length < 6)
-  {
-    msg += password_shorter + '\n';
-  }
-  if (/ /.test(password) == true)
-  {
-	msg += passwd_balnk + '\n';
-  }
-  if (confirm_password != password )
-  {
-    msg += confirm_password_invalid + '\n';
-  }
-  if(checked_agreement != true)
-  {
-    msg += agreement + '\n';
-  }
-
-  if (msn.length > 0 && (!Utils.isEmail(msn)))
-  {
-    msg += msn_invalid + '\n';
-  }
-
-  if (qq.length > 0 && (!Utils.isNumber(qq)))
-  {
-    msg += qq_invalid + '\n';
-  }
-
-  if (office_phone.length>0)
-  {
-    var reg = /^[\d|\-|\s]+$/;
-    if (!reg.test(office_phone))
+    else if (!Utils.isTel(tel))
     {
-      msg += office_phone_invalid + '\n';
+        document.getElementById('tel_notice').innerHTML = tel_msg;
+        validate.telValidate=false;
+        return false;
     }
-  }
-  if (home_phone.length>0)
-  {
-    var reg = /^[\d|\-|\s]+$/;
+    var type="tel";
+    $.ajax({
+        type:"GET",
+        url:uniqueCheck,
+        async:false,
+        data:{
+            type:type,
+            value:tel
+        },
+        dataType:"json",
+        error:function () {
+            alert("连接失败");return false;
+        },
+        success:function(msg){
+            if(msg['code']==1){
+                $("#tel").parent().removeClass("params_error");
+                $("#tel").parent().addClass("params_success");
+                document.getElementById('tel_notice').innerHTML = "<em></em>"; //zhouhuan
+                validate.telValidate=true;
 
-    if (!reg.test(home_phone))
-    {
-      msg += home_phone_invalid + '\n';
-    }
-  }
-  if (mobile_phone.length>0)
-  {
-    var reg = /^[\d|\-|\s]+$/;
-    if (!reg.test(mobile_phone))
-    {
-      msg += mobile_phone_invalid + '\n';
-    }
-  }
-  if (passwd_answer.length > 0 && sel_question == 0 || document.getElementById('passwd_quesetion') && passwd_answer.length == 0)
-  {
-    msg += no_select_question + '\n';
-  }
+            }else{
+                $("#tel").parent().removeClass("params_success");
+                $("#tel").parent().addClass("params_error");
+                document.getElementById('tel_notice').innerHTML = tel_registered;
+                validate.telValidate=false;
 
-  for (i = 4; i < frm.elements.length - 4; i++)	// 从第五项开始循环检查是否为必填项
-  {
-	needinput = document.getElementById(frm.elements[i].name + 'i') ? document.getElementById(frm.elements[i].name + 'i') : '';
-
-	if (needinput != '' && frm.elements[i].value.length == 0)
-	{
-	  msg += '- ' + needinput.innerHTML + msg_blank + '\n';
-	}
-  }
-
-  if (msg.length > 0)
-  {
-    alert(msg);
-    return false;
-  }
-  else
-  {
-    return true;
-  }
+            }
+        }
+    })
+    return validate.telValidate;
+    //Ajax.call( uniqueCheck, "type=tel&value=" + tel, check_tel_callback , 'GET', 'json', true, true );
 }
+
+// function check_tel_callback(result)
+// {
+//     if ( result['code'] == 1 )
+//     {
+//         $("#tel").parent().removeClass("params_error");
+//         $("#tel").parent().addClass("params_success");
+//         document.getElementById('tel_notice').innerHTML = "<em></em>"; //zhouhuan
+//         validate.telValidate=true;
+//         return true;
+//     }
+//     else
+//     {
+//         $("#tel").parent().removeClass("params_success");
+//         $("#tel").parent().addClass("params_error");
+//         document.getElementById('tel_notice').innerHTML = tel_registered;
+//         validate.telValidate=false;
+//         return false;
+//     }
+// }
 
 /* *
  * 用户中心订单保存地址信息

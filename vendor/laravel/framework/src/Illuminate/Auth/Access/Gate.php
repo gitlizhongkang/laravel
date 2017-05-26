@@ -404,7 +404,7 @@ class Gate implements GateContract
 
             // If this first argument is a string, that means they are passing a class name
             // to the policy. We will remove the first argument from this argument array
-            // because this policy already knows what type of models it can authorize.
+            // because this policy already knows what type of Models it can authorize.
             if (isset($arguments[0]) && is_string($arguments[0])) {
                 array_shift($arguments);
             }

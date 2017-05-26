@@ -86,7 +86,7 @@ region.response = function(result, text_result)
     for (i = 0; i < result.regions.length; i ++ )
     {
       var opt = document.createElement("OPTION");
-      opt.value = result.regions[i].region_id;
+      opt.value = result.regions[i].region_name;
       opt.text  = result.regions[i].region_name;
 
       sel.options.add(opt);

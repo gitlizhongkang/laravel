@@ -15,6 +15,7 @@ class Goods extends Model
     //指定主键
     protected $primaryKey = 'goods_id';
 
+
     //默认添加开始时间create_at字段和结束时间updated_at，默认开启ture
     public $timestamps = false;
 

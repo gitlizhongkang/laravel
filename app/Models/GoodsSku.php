@@ -12,6 +12,7 @@ class GoodsSku extends Model
     //指定主键
     protected $primaryKey = 'sku_id';
 
+
     //不被赋值的字段
     protected $guarded = [];
 

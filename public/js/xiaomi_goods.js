@@ -31,7 +31,7 @@ $(function(){
 		$(this).addClass("selected");
 		$(this).parent().find("input:radio").prop("checked",false);
 		$(this).find("input:radio").prop("checked",true);
-		changePrice();
+		// changePrice();
 	})
 	
 //	//tabs_Top = $("#tabs_bar").offset().top;
@@ -80,12 +80,19 @@ function countNum(i) {
 	var $count_box = $("#skunum");
 	var $input = $count_box.find('input');
 	var num = $input.val();
+	var sku_num = $('#choose').attr('sku-num');
+	
     if (!$.isNumeric(num)) {
 		alert("请您输入正确的购买数量!");
         $input.val('1');
         return;
-	}
+	}	
     num = parseInt(num) + i;
+    if (parseInt(sku_num) < num) {
+		alert('库存不足');
+		$input.val(sku_num);
+		return false;
+	}
     switch (true) {
 		case num == 0:
 			$input.val('1');
@@ -95,7 +102,7 @@ function countNum(i) {
         	$input.val(num);
             break;
     }
-	changePrice();
+   
 }
 
 /*	//滚动固定选项卡

@@ -9,6 +9,7 @@ class GoodsAttr extends Model
    //表名
     protected $table = 'goods_attr';
 
+
     //不被赋值的字段
     protected $guarded = [];
 

@@ -51,7 +51,7 @@ class FactoryBuilder
     protected $faker;
 
     /**
-     * The number of models to build.
+     * The number of Models to build.
      *
      * @var int|null
      */
@@ -77,7 +77,7 @@ class FactoryBuilder
     }
 
     /**
-     * Set the amount of models you wish to create / make.
+     * Set the amount of Models you wish to create / make.
      *
      * @param  int  $amount
      * @return $this
@@ -116,7 +116,7 @@ class FactoryBuilder
     }
 
     /**
-     * Create a collection of models and persist them to the database.
+     * Create a collection of Models and persist them to the database.
      *
      * @param  array  $attributes
      * @return mixed
@@ -150,7 +150,7 @@ class FactoryBuilder
     }
 
     /**
-     * Create a collection of models.
+     * Create a collection of Models.
      *
      * @param  array  $attributes
      * @return mixed

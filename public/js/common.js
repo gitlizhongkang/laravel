@@ -27,7 +27,7 @@ function addToCart1(goodsId, parentId)
   goods.number   = number;
   goods.parent   = (typeof(parentId) == "undefined") ? 0 : parseInt(parentId);
 
-  Ajax.call('flow.php?step=add_to_cart', 'goods=' + $.toJSON(goods), addToCartResponse1, 'POST', 'JSON');
+  Ajax.call('home-cart-add', 'goods=' + $.toJSON(goods), addToCartResponse1, 'POST', 'JSON');
 }
 function addToCartResponse1(result)
 {
@@ -54,7 +54,7 @@ function addToCartResponse1(result)
   else
   {
     var cartInfo = document.getElementById('ECS_CARTINFO');
-    var cart_url = 'flow.php?step=cart';
+    var cart_url = 'home-cart-add?step=cart';
     if (cartInfo)
     {
       cartInfo.innerHTML = result.content;
@@ -197,7 +197,7 @@ function submit_div1(goods_id, parentId)
   goods.number   = number;
   goods.parent   = (typeof(parentId) == "undefined") ? 0 : parseInt(parentId);
 
-  Ajax.call('flow.php?step=add_to_cart', 'goods=' + $.toJSON(goods), addToCartResponse1, 'POST', 'JSON');
+  Ajax.call('home-cart-add', 'goods=' + $.toJSON(goods), addToCartResponse1, 'POST', 'JSON');
 
   document.body.removeChild(docEle('speDiv'));
   document.body.removeChild(docEle('mask'));
@@ -241,7 +241,7 @@ function addToCart(goodsId, parentId)
   goods.number   = number;
   goods.parent   = (typeof(parentId) == "undefined") ? 0 : parseInt(parentId);
 
-  Ajax.call('flow.php?step=add_to_cart', 'goods=' + $.toJSON(goods), addToCartResponse, 'POST', 'JSON');
+  Ajax.call('home-cart-add', 'goods=' + $.toJSON(goods), addToCartResponse, 'POST', 'JSON');
 }
 
 /**

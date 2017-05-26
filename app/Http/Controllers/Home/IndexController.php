@@ -7,9 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Support\Facades\Redis;
 use App\Models\Goods;
+use Session;
+use App\Models\UserBrowerLog;
+use App\Models\GoodsSecond;
 
 class IndexController extends Controller
 {
+
 	/*
     |--------------------------------------------------------------------------
     | Index Controller
@@ -27,22 +31,26 @@ class IndexController extends Controller
     public function index()
     {
     	//获取分类列表
-    	$data['category'] = $this->getCategory();
-    	$goods = new Goods;
-    	$data['milk'] = $goods -> where('category_id','in','25,26,27,28') 
-    	-> orderBy('add_time') -> offset(0)
-    	-> limit(10) -> get() -> toArray();
-    	$data['diapers'] = $goods -> where('category_id','in','31,32,33,35') 
-    	-> orderBy('add_time') -> offset(0)
-    	-> limit(10) -> get() -> toArray();
+    	$data['category'] = json_decode($this->getCategory(), true);
 
+    	//获取最新的商品信息
+    	$data['new'] = json_decode($this -> getGoodsNew(), true) ;
+
+    	//获取秒杀的商品信息
+    	$data['second'] = json_decode($this -> getGoodsSecond(6), true);
+
+    	//猜你喜欢  如果登录获取用户浏览记录  如果没有显示最热商品
+    	$user_id = 1;
+		$data['recommendation'] = json_decode($this -> getUserLike($user_id), true);
+
+    	
     	return view('/home/index' , $data);
     }
 
 
     /**
      * @brief 获取分类
-     * @return array
+     * @return json
      */
     public function getCategory()
     {
@@ -56,7 +64,7 @@ class IndexController extends Controller
     		Redis::set('category',$info);
     	}
     	
-    	return $res;
+    	return json_encode($res);
     }
 
 
@@ -89,6 +97,64 @@ class IndexController extends Controller
     	return $info;
     }
 
-    
+     /**
+     * @brief 获取最新的商品信息
+     * @return json
+     */
+    public function getGoodsNew()
+    {
+    	$goods = new Goods;
+
+    	$new= $goods -> where('is_on_sale', '1')-> orderBy('add_time') 
+    	-> offset(0) -> limit(6) -> get() -> toArray();
+
+    	return json_encode($new);
+    }
+
+	/**
+     * @brief 获取秒杀的商品信息
+     * @param int $limit = 6 获取前六条数据
+     * @return json
+     */
+    public function getGoodsSecond($limit)
+    {
+    	$second = new GoodsSecond;
+
+    	$second = $second -> orderBy('start_time') 
+    	-> offset(0)-> limit($limit) -> get() -> toArray();
+
+    	return json_encode($second);
+    }
+
+    /**
+     * @brief 获取用户浏览记录类似商品 猜你喜欢
+     * @param int $user_id 用户ID
+     * @return json
+     */
+    public function getUserLike($user_id = '')
+    {
+    	if (!empty($user_id)) {
+    		$log = new UserBrowerLog;
+    		$res = $log -> select('category_id') -> where('user_id', $user_id) -> get() -> toArray();
+    		
+    		if (!empty($res)) {
+    			//二维数组变为一维数组
+    			$category_id = array_column($res, 'category_id');
+
+    			$goods = new Goods;
+	    		$recommendation = $goods -> whereIn('category_id',$category_id)
+	    		->where('is_on_sale', '1') -> orderBy('add_time') 
+	    		-> offset(0) -> limit(8) -> get() -> toArray();
+    		}   		
+    	} else {
+    		$recommendation = $goods -> where([['is_hot', '=', 1],['is_on_sale', '=', 1]]) 
+    	    -> orderBy('add_time') -> offset(0)
+    	    -> limit(8) -> get() -> toArray();
+    	}
+
+    	return json_encode($recommendation);
+    }
+
+
 	
 }

@@ -12,6 +12,7 @@ class Category extends Model
     //指定主键
     protected $primaryKey = 'category_id';
 
+
     //默认添加开始时间create_at字段和结束时间updated_at，默认开启ture
     public $timestamps = false;
 
@@ -57,7 +58,5 @@ class Category extends Model
         }
         return $tree;
     }
-
-
 
 }
