@@ -1,4 +1,4 @@
-@extends('layouts.header')
+@extends('layouts.user-header')
 
 @section('title')
     baby -- bind
@@ -26,7 +26,7 @@
                     <h4 class="title-big"> Hi,<span style="color:red;">{{$uname}}</span> 欢迎来到Baby, 完成绑定后可以微博账号一键登录哦</h4>
                 </div>
                 <div class="regbox" >
-                    <form action="{{ URL::to('home/user/commit')}}" method="POST"  name="formUser">
+                    <form action="{{ URL::to('home-user-commit')}}" method="POST"  name="formUser">
                         {{ csrf_field() }}
                         <input type="hidden" name="type" value="bind-register">
                         <input type="hidden" name="weiboName" value="{{$uname}}">
@@ -75,7 +75,7 @@
                                 </label>
                                 <span class="t_text">验证码</span>
                                 <span class="error_icon"></span>
-                                <img src="{{ URL::to('home/user/code') }}" id="codeImg" alt="captcha" class="icode_image code-image chkcode_img" onClick="this.src='{{ URL::to("home/user/code?r=") }}'+Math.random()" />
+                                <img src="{{ URL::to('home-user-code') }}" id="codeImg" alt="captcha" class="icode_image code-image chkcode_img" onClick="this.src='{{ URL::to("home-user-code?r=") }}'+Math.random()" />
                             </div>
                             <div class="err_tip" id="code_notice"> <em></em> </div>
 
@@ -93,7 +93,7 @@
                             <div class="law">
                                 <label>
                                     <input name="agreement" type="checkbox" value="1" checked="checked"  tabindex="5" class="remember-me"/>
-                                    我已看过并接受《<a href="article.php?cat_id=-1" style="color:blue" target="_blank">用户协议</a>》</label>
+                                    我已看过并接受《<a href="javascript:;" style="color:blue" target="_blank">用户协议</a>》</label>
                             </div>
                             <div class="err_tip"> <em></em> </div>
                             <div class="fixed_bot mar_phone_dis1">
@@ -113,7 +113,7 @@
                 </div>
                 <div class="regbox" >
                     <div class="ng-form-area show-place">
-                        <form name="formLogin" id="formLogin" action="{{ URL::to("home/user/loginCheck") }}"  method="post" onSubmit="return userLogin()">
+                        <form name="formLogin" id="formLogin" action="{{ URL::to("home-user-loginCheck") }}"  method="post" onSubmit="return userLogin()">
                             <input name="_token" type="hidden" value="{{ csrf_token() }}">
                             <input type="hidden" name="type" value="bind-login">
                             <input type="hidden" name="weiboName" value="{{$uname}}">
@@ -134,7 +134,7 @@
                                 <div class="ng-cookie-area">
                                 </div>
                                 <div class="ng-link-area">
-                                    <span><a href="{{ URL::to("home/user/forgetPassword") }}">忘记密码?</a></span>
+                                    <span><a href="{{ URL::to("home-user-forgetPassword") }}">忘记密码?</a></span>
                                 </div>
                             </div>
                         </form>

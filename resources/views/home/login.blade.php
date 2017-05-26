@@ -1,17 +1,20 @@
-@extends('layouts.header')
+@extends('layouts.user-header')
 
 @section('title')
   baby -- login
 @stop
 
 @section('content')
+    <audio controls="controls">
+        <source src="https://download.miyabaobei.com/zaojiao10.mp3" type="audio/mpeg"> </source>
+    </audio>
 <div id="main" class="layout">
     <div class="nl-content">
         <h1 class="nl-login-title">login</h1>
         <p class="nl-login-intro"></p>
         <div id="login-box" class="nl-frame-container">
             <div class="ng-form-area show-place">
-                <form name="formLogin" id="formLogin" action="{{ URL::to("home/user/loginCheck") }}"  method="post" onSubmit="return userLogin()">
+                <form name="formLogin" id="formLogin" action="{{ URL::to("home-user-loginCheck") }}"  method="post" onSubmit="return userLogin()">
                <input name="_token" type="hidden" value="{{ csrf_token() }}">
                     <div class="shake-area">
                         <div class="enter-area">
@@ -30,8 +33,8 @@
                             <label><input type="checkbox" value="1" name="remember" id="remember" class="remember-me">请保存我这次的登录信息。</label>
                         </div>
                         <div class="ng-link-area">
-                            <span><a href="https://api.weibo.com/oauth2/authorize?client_id=699688608&redirect_uri={{ urlencode("http://www.sale.com/public/index.php/home/user/bind") }}" >微博</a><span> | </span></span>
-                            <span><a href="{{ URL::to("home/user/forgetPassword") }}">忘记密码?</a></span>
+                            <span><a href="https://api.weibo.com/oauth2/authorize?client_id=699688608&redirect_uri={{ urlencode("http://www.sale.com/public/index.php/home-user-bind") }}" >微博</a><span> | </span></span>
+                            <span><a href="{{ URL::to("home-user-forgetPassword") }}">忘记密码?</a></span>
                         </div>
                     </div>
                 </form>
