@@ -65,6 +65,8 @@ class UserController extends Controller
                 Session::forget("weiboUid");
                 Session::forget("weiboUname");
             }
+            Session::forget($info['tel']);
+            Session::forget("authCode");
             return redirect()->action("Home\\IndexController@index");
         }
     }
@@ -140,65 +142,14 @@ class UserController extends Controller
         }
         echo json_encode($data);
     }
-    /**     
-     * 生成随机数
-     */
-    public function make()
-    {
-        $count = 0;
-        $return = array();
-        while ($count < 4) 
-         {
-             $return[] = mt_rand(1, 9);
-             $return = array_flip(array_flip($return));
-             $count = count($return);
-         } 
-         $num='';
-           foreach ($return as $key => $value) {
-               $num.=$return[$key];
-           }
-         return $num;
-    }
-    /**
-     * 生成验证码
-     */
-    public function code()
-    {
-        $image=imagecreatetruecolor(100, 30);
-        $bgcolor=imagecolorallocate($image,255,255,255);
-        imagefill($image,0,0,$bgcolor);
-        $captch_code='';
-        for($i=0;$i<4;$i++){
-            $fontsize=20;
-            $fontcolor=imagecolorallocate($image,rand(0,120),rand(0,120),rand(0,120));
-            $data='abcdefghijklmnpqrstuvwxyz123456789';
-            $fontcontent=substr($data,rand(0,strlen($data)),1);
-            $captch_code.=$fontcontent;
-            Session::put("authCode",$captch_code);
-            $x=($i*100/4)+rand(5,10);
-            $y=rand(5,10);
-            imagestring($image, $fontsize, $x, $y, $fontcontent, $fontcolor);
-        }
-        //加点干扰
-        for($i=0;$i<200;$i++){
-            $pointcolor=imagecolorallocate($image,rand(50,200),rand(50,200),rand(50,200));
-            imagesetpixel($image, rand(1,99), rand(1,99), $pointcolor);
-        }
-        //加线干扰
-        for($i=0;$i<3;$i++){
-            $linecolor=imagecolorallocate($image,rand(80,220),rand(80,220),rand(80,220));
-            imageline($image, rand(1,99), rand(1,29), rand(1,99),rand(1,29),$linecolor);
-        }
-        header('content-type:image/png');
-        imagepng($image);
-    }
+
     /**
      * 登录页面
      * 
      */
     public function login()
     {
-       return view("home/login");
+        return view("home/login");
     }
     /**
      * 登录验证
@@ -293,6 +244,7 @@ class UserController extends Controller
         $info=$this->findApi($key);
         $data=json_decode($info,true);
         if($data['code']==1){
+            Session::forget("authEmail");
             return view('home/resetPassword',["id"=>$data['msg'],"key"=>$key]);
         }else{
             return redirect()->action('Home\UserController@forgetPassword');
@@ -323,15 +275,16 @@ class UserController extends Controller
         $key=Input::get("key");
         if(Session::get($key)==''){
            $info['msg']="验证失效重新发送";
-        }
-        $res=User::edit($where,$data);
-        if($res){
-            Session::forget($key);
-            $info['code']=1;
-            $info['msg']='修改成功';
         }else{
-            $info['code']=2;
-            $info['msg']="修改失败";
+            $res=User::edit($where,$data);
+            if($res){
+                Session::forget($key);
+                $info['code']=1;
+                $info['msg']='修改成功';
+            }else{
+                $info['code']=2;
+                $info['msg']="修改失败";
+            }
         }
         echo json_encode($info);
 
@@ -378,7 +331,7 @@ class UserController extends Controller
         if($uid && $uname){
             return view("home/bind",['uid'=>$uid,'uname'=>$uname]);
         }else{
-            return "已失效请重新授权";
+            return redirect("home/user/login");
         }
 
     }
@@ -449,6 +402,58 @@ class UserController extends Controller
             $data = floatval($data);  //获取变量的浮点值
         }
         return $data;
+    }
+    /**
+     * 生成随机数
+     */
+    public function make()
+    {
+        $count = 0;
+        $return = array();
+        while ($count < 4)
+        {
+            $return[] = mt_rand(1, 9);
+            $return = array_flip(array_flip($return));
+            $count = count($return);
+        }
+        $num='';
+        foreach ($return as $key => $value) {
+            $num.=$return[$key];
+        }
+        return $num;
+    }
+    /**
+     * 生成验证码
+     */
+    public function code()
+    {
+        $image=imagecreatetruecolor(100, 30);
+        $bgcolor=imagecolorallocate($image,255,255,255);
+        imagefill($image,0,0,$bgcolor);
+        $captch_code='';
+        for($i=0;$i<4;$i++){
+            $fontsize=20;
+            $fontcolor=imagecolorallocate($image,rand(0,120),rand(0,120),rand(0,120));
+            $data='abcdefghijklmnpqrstuvwxyz123456789';
+            $fontcontent=substr($data,rand(0,strlen($data)),1);
+            $captch_code.=$fontcontent;
+            Session::put("authCode",$captch_code);
+            $x=($i*100/4)+rand(5,10);
+            $y=rand(5,10);
+            imagestring($image, $fontsize, $x, $y, $fontcontent, $fontcolor);
+        }
+        //加点干扰
+        for($i=0;$i<200;$i++){
+            $pointcolor=imagecolorallocate($image,rand(50,200),rand(50,200),rand(50,200));
+            imagesetpixel($image, rand(1,99), rand(1,99), $pointcolor);
+        }
+        //加线干扰
+        for($i=0;$i<3;$i++){
+            $linecolor=imagecolorallocate($image,rand(80,220),rand(80,220),rand(80,220));
+            imageline($image, rand(1,99), rand(1,29), rand(1,99),rand(1,29),$linecolor);
+        }
+        header('content-type:image/png');
+        imagepng($image);
     }
 }
 
