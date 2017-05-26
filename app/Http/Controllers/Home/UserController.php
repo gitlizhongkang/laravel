@@ -49,7 +49,7 @@ class UserController extends Controller
         $type=Input::get("type")?Input::get("type"):'';
         if($type=="bind-register"){
             if( Session::get("weiboUid")=='' ){
-                return redirect("home/user/login");
+                return redirect("home-user-login");
             }
         }
         $info['username']= Input::get("username");
@@ -192,7 +192,7 @@ class UserController extends Controller
     public function forgetPassword()
     {
 
-        return view("home/forgetPassword");
+        return view("home/forget-password");
     }
     /**
      *  验证用户 发送邮箱
@@ -245,7 +245,7 @@ class UserController extends Controller
         $data=json_decode($info,true);
         if($data['code']==1){
             Session::forget("authEmail");
-            return view('home/resetPassword',["id"=>$data['msg'],"key"=>$key]);
+            return view('home/reset-password',["id"=>$data['msg'],"key"=>$key]);
         }else{
             return redirect()->action('Home\UserController@forgetPassword');
         }
@@ -318,7 +318,7 @@ class UserController extends Controller
                 return redirect()->action("Home\\UserController@babyBind");
             }
         }else{
-            return redirect("home/user/login");
+            return redirect("home-user-login");
         }
     }
     /**
@@ -331,7 +331,7 @@ class UserController extends Controller
         if($uid && $uname){
             return view("home/bind",['uid'=>$uid,'uname'=>$uname]);
         }else{
-            return redirect("home/user/login");
+            return redirect("home-user-login");
         }
 
     }

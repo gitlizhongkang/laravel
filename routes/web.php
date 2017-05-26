@@ -11,21 +11,66 @@
 |
 */
 Route::group(['middleware' => ['web']], function () {
-    Route::get('home/user/register',  'Home\UserController@register');
-    Route::post('home/user/commit',  'Home\UserController@commit');
-    Route::post('home/user/loginCheck',  'Home\UserController@loginCheck');
-    Route::get('home/user/login',  'Home\UserController@login');
-    Route::get('home/user/forgetPassword',  'Home\UserController@forgetPassword');
-    Route::get('home/user/findPassword',  'Home\UserController@findPassword');
-    Route::get('home/user/bind',  'Home\UserController@bind');
-    Route::get('home/user/babyBind',  'Home\UserController@babyBind');
-    Route::post('home/user/getPassword',  'Home\UserController@getPassword');
-    Route::post('home/user/resetPassword',  'Home\UserController@resetPassword');
-    Route::any('home/user/send',  'Home\UserController@send');
-    Route::get('home/user/uniqueCheck',  'Home\UserController@uniqueCheck');
-    Route::get('home/user/mobileCheck',  'Home\UserController@mobileCheck');
-    Route::get('home/user/codeCheck',  'Home\UserController@codeCheck');
-    Route::get("home/user/code",  'Home\UserController@code');
+    // 用户注册页面
+
+    Route::get('home-user-register',  'Home\UserController@register');
+
+    // 用户提交注册
+
+    Route::post('home-user-commit',  'Home\UserController@commit');
+
+    // 用户登录检查
+
+    Route::post('home-user-loginCheck',  'Home\UserController@loginCheck');
+
+    // 用户登录页面
+
+    Route::get('home-user-login',  'Home\UserController@login');
+
+    // 用户忘记密码页面
+
+    Route::get('home-user-forgetPassword',  'Home\UserController@forgetPassword');
+
+    // 用户找回密码页面
+
+    Route::get('home-user-findPassword',  'Home\UserController@findPassword');
+
+    // 第三方登录回调域
+
+    Route::get('home-user-bind',  'Home\UserController@bind');
+
+    // 用户绑定页面
+
+    Route::get('home-user-babyBind',  'Home\UserController@babyBind');
+
+    // 验证用户 发送邮箱
+
+    Route::post('home-user-getPassword',  'Home\UserController@getPassword');
+
+    // 重置密码
+
+    Route::post('home-user-resetPassword',  'Home\UserController@resetPassword');
+
+    // 发送验证码
+
+    Route::any('home-user-send',  'Home\UserController@send');
+
+    // 用户名-电话-邮箱唯一检测
+
+    Route::get('home-user-uniqueCheck',  'Home\UserController@uniqueCheck');
+
+    // 判断手机验证码
+
+    Route::get('home-user-mobileCheck',  'Home\UserController@mobileCheck');
+
+    // 验证码检测
+
+    Route::get('home-user-codeCheck',  'Home\UserController@codeCheck');
+
+    // 验证码
+
+    Route::get("home-user-code",  'Home\UserController@code');
+
 });
 
 

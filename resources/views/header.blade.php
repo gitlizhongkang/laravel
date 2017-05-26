@@ -8,7 +8,7 @@ $user_id = '';
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <title>商城</title>
     <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="icon" href="animated_favicon.gif" type="image/gif" />
+    <link rel="icon" href="{{ URL::asset }}animated_favicon.gif" type="image/gif" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link href="css/goods.css" rel="stylesheet" type="text/css" />
 

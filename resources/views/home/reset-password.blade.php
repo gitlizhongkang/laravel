@@ -1,4 +1,4 @@
-@extends('layouts.header')
+@extends('layouts.user-header')
 
 @section('title')
     baby -- reset

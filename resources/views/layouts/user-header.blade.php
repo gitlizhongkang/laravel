@@ -17,15 +17,15 @@
     </style>
     <script>
 
-        var codeCheck="{{ URL::to('home/user/codeCheck') }}";
-        var uniqueCheck="{{ URL::to('home/user/uniqueCheck') }}";
-        var mobileCheck="{{ URL::to('home/user/mobileCheck') }}";
-        var getPassword="{{ URL::to('home/user/getPassword') }}";
-        var commitUrl="{{ URL::to('home/user/commit') }}";
-        var loginCheck="{{ URL::to('home/user/loginCheck') }}";
-        var resetPassword="{{ URL::to('home/user/resetPassword') }}";
-        var loginUrl="{{ URL::to('home/user/login') }}";
-        var sendUrl="{{ URL::to('home/user/send') }}";
+        var codeCheck="{{ URL::to('home-user-codeCheck') }}";
+        var uniqueCheck="{{ URL::to('home-user-uniqueCheck') }}";
+        var mobileCheck="{{ URL::to('home-user-mobileCheck') }}";
+        var getPassword="{{ URL::to('home-user-getPassword') }}";
+        var commitUrl="{{ URL::to('home-user-commit') }}";
+        var loginCheck="{{ URL::to('home-user-loginCheck') }}";
+        var resetPassword="{{ URL::to('home-user-resetPassword') }}";
+        var loginUrl="{{ URL::to('home-user-login') }}";
+        var sendUrl="{{ URL::to('home-user-send') }}";
         var indexUrl="{{ URL::to('/') }}";
         var tel_registered= "该手机号已被注册";
         var msg_code="验证码不正确";

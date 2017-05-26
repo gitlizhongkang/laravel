@@ -30,6 +30,7 @@
     <script type="text/javascript" src="js/xiaomi_index.js"></script>
 </head>
 <body>
+
 <div class="site-topbar">
     <div class="container">
         <div class="topbar-cart" id="ECS_CARTINFO">
