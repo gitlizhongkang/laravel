@@ -42,7 +42,10 @@ class GoodsController extends Controller
 
         //获取商品的评论
         $data['comment'] = json_decode($this->getGoodsComment($goods_id), true);
-        // dd($data['comment']);
+
+        //获取商品的图片
+        $data['img'] = json_decode($this->getGoodsImg($goods_id), true);
+        // dd($data['img']);
 
     	return view('/home/goods',$data);
     }
@@ -73,7 +76,7 @@ class GoodsController extends Controller
         }
 
         $goods = new Goods;
-        $res = $goods->find($goods_id);
+        $res = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->find($goods_id);
         
         return json_encode($res);
     }
@@ -114,6 +117,23 @@ class GoodsController extends Controller
         foreach ($res as $k => $v) {
             $res[$k]['attr_value'] = explode(',', $v['attr_value']);
         }
+        
+        return json_encode($res);
+    }
+
+    /**
+     * @brief 获取单个商品的所有图片
+     * @param string $goods_id 商品ID 
+     * @return json
+     */
+    public function getGoodsImg($goods_id = '')
+    {
+        if ($goods_id =='') {
+            $goods_id = Input::get()['goods_id'];           
+        }
+
+        $goodsImg = new GoodsImg;
+        $res = $goodsImg ->select('img_url')-> where('goods_id',$goods_id) -> get();
         
         return json_encode($res);
     }

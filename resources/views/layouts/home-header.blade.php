@@ -12,7 +12,7 @@ $user_name = Session::get('name');
     <link rel="icon" href="animated_favicon.gif" type="image/gif" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link href="css/goods.css" rel="stylesheet" type="text/css" />
-
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript">
     function $id(element) {
@@ -38,7 +38,7 @@ $user_name = Session::get('name');
         $id(str+"_v").innerHTML=$id(str+"_h").getElementsByTagName("blockquote")[0].innerHTML;
     }
 </script>
-    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+
     <script type="text/javascript" src="js/jquery.json.js"></script>
     <script type="text/javascript" src="js/transport_jquery.js"></script>
     <script type="text/javascript" src="js/utils.js"></script>
@@ -97,7 +97,7 @@ $user_name = Session::get('name');
         <div class="topbar-info J_userInfo" id="ECS_MEMBERZONE">
             @if (!empty($user_id))
                 <span class="user">
-                    <a class="user-name" target="_blank" href="user.php"><span class="name">{{$user_name}}</span><i
+                    <a class="user-name" target="_blank" href="user.php"><span class="name">{{$user_id}}</span><i
                             class="iconfont"></i></a>
                     <ul class="user-menu">
                         <li><a target="_blank" href="user.php">个人中心</a></li>
@@ -132,10 +132,12 @@ $user_name = Session::get('name');
                         </ul>
                     </div>
                 </li>
-
+                <li class="nav-item">
+                    <a class="link" href="{{URL::to('/')}}"><span>首页</span></a>
+                </li>
                 <!--导航栏-->
                 <li class="nav-item">
-                    <a class="link" href="category.php?id=76"><span>儿童</span></a>
+                    <a class="link" href="home-goods-index?category_id=1"><span>儿童</span></a>
                     <div class='item-children'>
                         <div class="container">
                             <ul class="children-list clearfix">
@@ -154,7 +156,7 @@ $user_name = Session::get('name');
                 </li>
 
                 <li class="nav-item">
-                    <a class="link" href="category.php?id=69"><span>孕妇</span></a>
+                    <a class="link" href="home-goods-index?category_id=4"><span>孕妇</span></a>
                     <div class='item-children'>
                         <div class="container">
                             <ul class="children-list clearfix">

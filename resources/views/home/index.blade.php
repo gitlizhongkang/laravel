@@ -1,6 +1,9 @@
 @extends('layouts.home-header')
   
 @section('content')
+<link href="css/index.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/xiaomi_index.js"></script>
 <div class="home-hero-container container">
     <div class="home-hero">
         <div class="home-hero-slider">

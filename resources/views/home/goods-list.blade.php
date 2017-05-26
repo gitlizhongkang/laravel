@@ -1,11 +1,15 @@
 @extends('layouts.home-header')
   
 @section('content')
-
+<link href="css/category.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/xiaomi_category.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/compare.js"></script>
 <!--通栏-->
 <div class="breadcrumbs">
     <div class="container">
-        <a href=".">首页</a> <code>&gt;</code> <a href="category.php?id=76">购买电视与平板</a>
+        <a href="{{URL::to('/')}}">首页</a> 
+        <code>&gt;</code> <a href="category.php?id=76">购买电视与平板</a>
     </div>
 </div>
 
@@ -82,9 +86,9 @@
             </form>
             <ul class="type-list">
                 <li>显示方式：</li>
-                <li> <a href="javascript:;" onClick="javascript:display_mode('list')"><img src="themes/xiaomi/images/display_mode_list.gif" alt=""></a></li>
-                <li><a href="javascript:;" onClick="javascript:display_mode('grid')"><img src="themes/xiaomi/images/display_mode_grid_act.gif" alt=""></a></li>
-                <li><a href="javascript:;" onClick="javascript:display_mode('text')"><img src="themes/xiaomi/images/display_mode_text.gif" alt=""></a></li>&nbsp;&nbsp;
+                <li> <a href="javascript:;" onClick="javascript:display_mode('list')"><img src="images/display_mode_list.gif" alt=""></a></li>
+                <li><a href="javascript:;" onClick="javascript:display_mode('grid')"><img src="images/display_mode_grid_act.gif" alt=""></a></li>
+                <li><a href="javascript:;" onClick="javascript:display_mode('text')"><img src="images/display_mode_text.gif" alt=""></a></li>&nbsp;&nbsp;
             </ul>
         </div>
 
@@ -94,7 +98,7 @@
                 <div class="goods-list clearfix">
                     <div class="goods-item">
                         <div class="figure figure-img">
-                            <a href="goods.php?id=29"><img src="images/201507/thumb_img/29_thumb_G_1437074933275.jpg" alt="小米盒子增强版 1G" class="goodsimg" /></a>
+                            <a href="goods.php?id=29"><img src="images/goods.jpg" alt="小米盒子增强版 1G" class="goodsimg" /></a>
                         </div>
                         <p class="desc">首款4K超高清网络机顶盒</p>
                         <h2 class="title"><a href="goods.php?id=29" title="小米盒子增强版 1G">小米盒子增强版 1G</a></h2>
@@ -105,8 +109,8 @@
                         <div class="thumbs J_attrImg">
                             <div style="width:212px;margin:0 auto;">
                                 <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201507/thumb_img/29_thumb_P_1437074933782.jpg"}'>
-                                        <a><img src="images/201507/thumb_img/29_thumb_P_1437074933782.jpg" width="34" height="34"></a>
+                                    <li class="active" data-config='{figure:"images/goods.jpg"}'>
+                                        <a><img src="images/goods.jpg" width="34" height="34"></a>
                                     </li>
                                 </ul>
                             </div>
@@ -119,163 +123,10 @@
                             <div class="flag flag-saleoff">8.4折促销</div>
                         </div>
                     </div>
+                    
                     <div class="goods-item">
                         <div class="figure figure-img">
-                            <a href="goods.php?id=28"><img src="images/201507/thumb_img/28_thumb_G_1437074792369.jpg" alt="小米平板 16G" class="goodsimg" /></a>
-                        </div>
-                        <p class="desc">全球首款搭载 NVIDIA Tegra K1 处理器平板</p>
-                        <h2 class="title"><a href="goods.php?id=28" title="小米平板 16G">小米平板 16G</a></h2>
-                        <p class="price">
-                            本店价<font class="shop_s">1299<em>元</em></font>
-                            <del>专柜价<font class="market_s">1558<em>元</em></font></del>
-                        </p>
-                        <div class="thumbs J_attrImg">
-                            <div style="width:212px;margin:0 auto;">
-                                <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201507/thumb_img/28_thumb_P_1437074792079.jpg"}'>
-                                        <a><img src="images/201507/thumb_img/28_thumb_P_1437074792079.jpg" width="34" height="34"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(28);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(28)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
-
-                            <div class="flag flag-saleoff">8.3折促销</div>
-
-                        </div>
-                    </div>
-                    <div class="goods-item">
-                        <div class="figure figure-img">
-                            <a href="goods.php?id=27"><img src="images/201507/thumb_img/27_thumb_G_1437074702008.jpg" alt="小米电视2 40英寸" class="goodsimg" /></a>
-                        </div>
-                        <p class="desc">40/49/55英寸 现货购买</p>
-                        <h2 class="title"><a href="goods.php?id=27" title="小米电视2 40英寸">小米电视2 40英寸</a></h2>
-                        <p class="price">
-                            本店价<font class="shop_s">2200<em>元</em></font>
-                            <del>专柜价<font class="market_s">2640<em>元</em></font></del>
-                        </p>
-                        <div class="thumbs J_attrImg">
-                            <div style="width:212px;margin:0 auto;">
-                                <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201507/thumb_img/27_thumb_P_1437074702931.jpg"}'>
-                                        <a><img src="images/201507/thumb_img/27_thumb_P_1437074702931.jpg" width="34" height="34"></a>
-                                    </li>
-                                    <li  data-config='{figure:"images/201508/thumb_img/27_thumb_P_1440636492790.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/27_thumb_P_1440636492790.jpg" width="34" height="34"></a>
-                                    </li>
-                                    <li  data-config='{figure:"images/201508/thumb_img/27_thumb_P_1440636386334.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/27_thumb_P_1440636386334.jpg" width="34" height="34"></a>
-                                    </li>
-                                    <li  data-config='{figure:"images/201508/thumb_img/27_thumb_P_1440636396876.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/27_thumb_P_1440636396876.jpg" width="34" height="34"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(27);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(27)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
-
-                            <div class="flag flag-saleoff">8.3折促销</div>
-
-                        </div>
-                    </div>
-                    <div class="goods-item">
-                        <div class="figure figure-img">
-                            <a href="goods.php?id=76"><img src="images/201508/thumb_img/76_thumb_G_1440984280864.jpg" alt="小米盒子mini版" class="goodsimg" /></a>
-                        </div>
-                        <p class="desc"></p>
-                        <h2 class="title"><a href="goods.php?id=76" title="小米盒子mini版">小米盒子mini版</a></h2>
-                        <p class="price">
-                            本店价<font class="shop_s">199<em>元</em></font>
-                            <del>专柜价<font class="market_s">239<em>元</em></font></del>
-                        </p>
-                        <div class="thumbs J_attrImg">
-                            <div style="width:212px;margin:0 auto;">
-                                <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201508/thumb_img/76_thumb_G_1440984280864.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/76_thumb_G_1440984280864.jpg" width="34" height="34"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(76);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(76)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
-
-                            <div class="flag flag-saleoff">8.3折促销</div>
-
-                        </div>
-                    </div>
-                    <div class="goods-item">
-                        <div class="figure figure-img">
-                            <a href="goods.php?id=53"><img src="images/201508/thumb_img/53_thumb_G_1439511514539.jpg" alt="小米电视2S48英寸" class="goodsimg" /></a>
-                        </div>
-                        <p class="desc"></p>
-                        <h2 class="title"><a href="goods.php?id=53" title="小米电视2S48英寸">小米电视2S48英寸</a></h2>
-                        <p class="price">
-                            本店价<font class="shop_s">2999<em>元</em></font>
-                            <del>专柜价<font class="market_s">3599<em>元</em></font></del>
-                        </p>
-                        <div class="thumbs J_attrImg">
-                            <div style="width:212px;margin:0 auto;">
-                                <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201508/thumb_img/53_thumb_P_1439511514984.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/53_thumb_P_1439511514984.jpg" width="34" height="34"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(53);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(53)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
-
-                            <div class="flag flag-saleoff">8.3折促销</div>
-
-                        </div>
-                    </div>
-                    <div class="goods-item">
-                        <div class="figure figure-img">
-                            <a href="goods.php?id=54"><img src="images/201508/thumb_img/54_thumb_G_1439511600535.jpg" alt="小米电视2 55英寸" class="goodsimg" /></a>
-                        </div>
-                        <p class="desc"></p>
-                        <h2 class="title"><a href="goods.php?id=54" title="小米电视2 55英寸">小米电视2 55英寸</a></h2>
-                        <p class="price">
-                            本店价<font class="shop_s">4499<em>元</em></font>
-                            <del>专柜价<font class="market_s">5399<em>元</em></font></del>
-                        </p>
-                        <div class="thumbs J_attrImg">
-                            <div style="width:212px;margin:0 auto;">
-                                <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201508/thumb_img/54_thumb_P_1439511600402.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/54_thumb_P_1439511600402.jpg" width="34" height="34"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(54);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(54)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
-
-                            <div class="flag flag-saleoff">8.3折促销</div>
-
-                        </div>
-                    </div>
-                    <div class="goods-item">
-                        <div class="figure figure-img">
-                            <a href="goods.php?id=55"><img src="images/201508/thumb_img/55_thumb_G_1439511725721.jpg" alt="小米平板 64GB" class="goodsimg" /></a>
+                            <a href="goods.php?id=55"><img src="images/goods.jpg" alt="小米平板 64GB" class="goodsimg" /></a>
                         </div>
                         <p class="desc"></p>
                         <h2 class="title"><a href="goods.php?id=55" title="小米平板 64GB">小米平板 64GB</a></h2>
@@ -286,17 +137,17 @@
                         <div class="thumbs J_attrImg">
                             <div style="width:212px;margin:0 auto;">
                                 <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201508/thumb_img/55_thumb_P_1439511725800.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/55_thumb_P_1439511725800.jpg" width="34" height="34"></a>
+                                    <li class="active" data-config='{figure:"images/goods.jpg"}'>
+                                        <a><img src="images/goods.jpg" width="34" height="34"></a>
                                     </li>
                                     <li  data-config='{figure:"images/201509/thumb_img/55_thumb_P_1441498030464.jpg"}'>
-                                        <a><img src="images/201509/thumb_img/55_thumb_P_1441498030464.jpg" width="34" height="34"></a>
+                                        <a><img src="images/goods.jpg" width="34" height="34"></a>
                                     </li>
                                     <li  data-config='{figure:"images/201509/thumb_img/55_thumb_P_1441498030567.jpg"}'>
-                                        <a><img src="images/201509/thumb_img/55_thumb_P_1441498030567.jpg" width="34" height="34"></a>
+                                        <a><img src="images/goods.jpg" width="34" height="34"></a>
                                     </li>
                                     <li  data-config='{figure:"images/201509/thumb_img/55_thumb_P_1441498031661.jpg"}'>
-                                        <a><img src="images/201509/thumb_img/55_thumb_P_1441498031661.jpg" width="34" height="34"></a>
+                                        <a><img src="images/goods.jpg" width="34" height="34"></a>
                                     </li>
                                 </ul>
                             </div>
@@ -313,7 +164,7 @@
                     </div>
                     <div class="goods-item">
                         <div class="figure figure-img">
-                            <a href="goods.php?id=77"><img src="images/201508/thumb_img/77_thumb_G_1440984390480.jpg" alt="小米电视/盒子遥控器" class="goodsimg" /></a>
+                            <a href="goods.php?id=77"><img src="images/goods.jpg" alt="小米电视/盒子遥控器" class="goodsimg" /></a>
                         </div>
                         <p class="desc"></p>
                         <h2 class="title"><a href="goods.php?id=77" title="小米电视/盒子遥控器">小米电视/盒子遥控器</a></h2>
@@ -324,8 +175,8 @@
                         <div class="thumbs J_attrImg">
                             <div style="width:212px;margin:0 auto;">
                                 <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201508/thumb_img/77_thumb_G_1440984390480.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/77_thumb_G_1440984390480.jpg" width="34" height="34"></a>
+                                    <li class="active" data-config='{figure:"images/goods1.jpg"}'>
+                                        <a><img src="images/goods.jpg" width="34" height="34"></a>
                                     </li>
                                 </ul>
                             </div>
@@ -387,7 +238,7 @@
                 <ul class="xm-carousel-col-5-list xm-carousel-list clearfix">
                     <li class="J_xm-recommend-list">
                         <dl>
-                            <dt><a href="goods.php?id=27" target="_blank"><img src="images/201507/thumb_img/27_thumb_G_1437074702008.jpg" /></a></dt>
+                            <dt><a href="goods.php?id=27" target="_blank"><img src="images/goods.jpg" /></a></dt>
                             <dd class="xm-recommend-name"><a href="goods.php?id=27" target="_blank" title="小米电视2 40英寸">小米电视2 40英寸</a></dd>
                             <dd class="xm-recommend-price">2200<em>元</em></dd>
                             <dd class="xm-recommend-tips"> </dd>
@@ -396,7 +247,7 @@
 
                     <li class="J_xm-recommend-list">
                         <dl>
-                            <dt><a href="goods.php?id=28" target="_blank"><img src="images/201507/thumb_img/28_thumb_G_1437074792369.jpg" /></a></dt>
+                            <dt><a href="goods.php?id=28" target="_blank"><img src="images/goods.jpg" /></a></dt>
                             <dd class="xm-recommend-name"><a href="goods.php?id=28" target="_blank" title="小米平板 16G">小米平板 16G</a></dd>
                             <dd class="xm-recommend-price">1299<em>元</em></dd>
                             <dd class="xm-recommend-tips"> </dd>
@@ -405,7 +256,7 @@
 
                     <li class="J_xm-recommend-list">
                         <dl>
-                            <dt><a href="goods.php?id=29" target="_blank"><img src="images/201507/thumb_img/29_thumb_G_1437074933275.jpg" /></a></dt>
+                            <dt><a href="goods.php?id=29" target="_blank"><img src="images/goods.jpg" /></a></dt>
                             <dd class="xm-recommend-name"><a href="goods.php?id=29" target="_blank" title="小米盒子增强版 1G">小米盒子增强版 1G</a></dd>
                             <dd class="xm-recommend-price">299<em>元</em></dd>
                             <dd class="xm-recommend-tips"> </dd>
@@ -414,7 +265,7 @@
 
                     <li class="J_xm-recommend-list">
                         <dl>
-                            <dt><a href="goods.php?id=53" target="_blank"><img src="images/201508/thumb_img/53_thumb_G_1439511514539.jpg" /></a></dt>
+                            <dt><a href="goods.php?id=53" target="_blank"><img src="images/goods.jpg" /></a></dt>
                             <dd class="xm-recommend-name"><a href="goods.php?id=53" target="_blank" title="小米电视2S48英寸">小米电视2S48英寸</a></dd>
                             <dd class="xm-recommend-price">2999<em>元</em></dd>
                             <dd class="xm-recommend-tips"> </dd>
