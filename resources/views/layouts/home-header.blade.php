@@ -1,5 +1,6 @@
 <?php  
 $user_id = Session::get('uid');
+$user_name = Session::get('name');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -96,7 +97,7 @@ $user_id = Session::get('uid');
         <div class="topbar-info J_userInfo" id="ECS_MEMBERZONE">
             @if (!empty($user_id))
                 <span class="user">
-                    <a class="user-name" target="_blank" href="user.php"><span class="name">aaaa</span><i
+                    <a class="user-name" target="_blank" href="user.php"><span class="name">{{$user_name}}</span><i
                             class="iconfont"></i></a>
                     <ul class="user-menu">
                         <li><a target="_blank" href="user.php">个人中心</a></li>

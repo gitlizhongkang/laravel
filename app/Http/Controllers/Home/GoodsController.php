@@ -174,4 +174,12 @@ class GoodsController extends Controller
         echo json_encode($res);
     }
 
+    /**
+     * @brief 商品列表
+     */
+    public function index()
+    {
+        return view('home/goods-list');
+    }
+
 }
