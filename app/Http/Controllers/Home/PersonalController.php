@@ -8,6 +8,7 @@ use App\Models\UserAddress;
 use App\Models\District;
 use App\Models\Order;
 use App\Models\OrderGoods;
+use App\Models\Point;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Input;
@@ -21,7 +22,18 @@ class PersonalController extends Controller
      */
     public function index()
     {
-    	return view('/home/personal/index');
+        $uid = Session::get('uid');//session内拿用户uid
+        //查询用户信息
+        $userInfo = $this->curl('home-personal-getUserInfo', "uid=$uid", true);
+        $data['userInfo'] = json_decode($userInfo,true);
+        //查询地址数量
+        $countAddress = $this->curl('home-personal-getCountAddress', "uid=$uid", true);
+        $data['countAddress'] = json_decode($countAddress,true);
+        //30天内订单数量
+        $countOrder = $this->curl('home-personal-getCountOrder', ['uid'=>$uid,'time'=>30], true);
+        $data['countOrder'] = json_decode($countOrder,true);
+//        print_r($data);die;
+    	return view('/home/personal/index',$data);
     }
 
     /**
@@ -38,57 +50,6 @@ class PersonalController extends Controller
     }
 
     /**
-     * @brief 用户订单
-     */
-    public function userOrder()
-    {
-        $uid = Session::get('uid');//session内拿用户uid
-        //查询订单
-        $userOrder = $this->curl('home-personal-getUserOrder', "uid=$uid", true);
-        $data['userOrder'] = json_decode($userOrder,true);
-
-        return view('/home/personal/user-order',$data);
-    }
-
-    /**
-     * @brief 用户订单详细信息
-     */
-    public function orderDetail()
-    {
-        $order_id = Input::get('order_id');
-        $uid = Session::get('uid');//session内拿用户uid
-        //查询订单
-        $userOrder = $this->curl('home-personal-getUserOrder', "order_id=$order_id&uid=$uid", true);
-        $data['userOrder'] = json_decode($userOrder,true);
-        //查询订单详情
-        $orderGoods = $this->curl('home-personal-getOrderGoods', "order_id=".$order_id, true);
-        $data['orderGoods'] = json_decode($orderGoods,true);
-
-        return view('/home/personal/order-detail',$data);
-    }
-
-    /**
-     * @brief 用户收货地址
-     */
-    public function userAddress()
-    {
-        $uid = Session::get('uid');//session内拿用户uid
-        //查询用户收货地址信息
-        $userAddress = $this->curl('home-personal-getUserAddress', "uid=$uid", true);
-        $userAddress = json_decode($userAddress,true);
-        if ($userAddress['error'] == 0) {
-            $data['userAddressInfo'] = $userAddress['data'];
-        }
-        $province = $this->getDistrict();//查询所有省份
-        $province = json_decode($province,true);
-        if ($province['error'] == 0) {
-            $data['province'] = $province['data'];
-        }
-
-        return view('/home/personal/user-address',$data);
-    }
-
-    /**
      * @brief 查询用户信息-接口
      * @param string $param
      * @return array|string
@@ -97,9 +58,32 @@ class PersonalController extends Controller
     {
         $User = new User();
         $uid = Input::get('uid');
-        $UserInfos = $User->select('username','tel','email','sex','age')->find($uid)->toArray();
+        $UserInfos = $User->select('username','tel','email','sex','age','user_point','reg_time')->find($uid)->toArray();
 
         return json_encode($UserInfos);
+    }
+
+    /**
+     * @brief 查询省\市\县-接口
+     * @param string $param
+     * @return array
+     */
+    public function getDistrict($parent_id = 0){
+        if ($arr=Input::all()) {
+            $parent_id = $arr['parent_id'];
+        }
+        $District = new District();
+        $District = $District->where('parent_id',$parent_id)->get()->toArray();
+        if ($District) {
+            $data['error'] = 0;
+            $data['data'] = $District;
+            $data['msg'] = '查询成功';
+        } else {
+            $data['error'] = 1;
+            $data['msg'] = '查询失败';
+        }
+
+        return json_encode($data);
     }
 
     /**
@@ -155,6 +139,58 @@ class PersonalController extends Controller
         return json_encode($data);
     }
 
+
+    /**
+     * @brief 用户订单
+     */
+    public function userOrder()
+    {
+        $uid = Session::get('uid');//session内拿用户uid
+        //查询订单
+        $userOrder = $this->curl('home-personal-getUserOrder', "uid=$uid", true);
+        $data['userOrder'] = json_decode($userOrder,true);
+
+        return view('/home/personal/user-order',$data);
+    }
+
+    /**
+     * @brief 用户订单详细信息
+     */
+    public function orderDetail()
+    {
+        $order_id = Input::get('order_id');
+        $uid = Session::get('uid');//session内拿用户uid
+        //查询订单
+        $userOrder = $this->curl('home-personal-getUserOrder', "order_id=$order_id&uid=$uid", true);
+        $data['userOrder'] = json_decode($userOrder,true);
+        //查询订单详情
+        $orderGoods = $this->curl('home-personal-getOrderGoods', "order_id=".$order_id, true);
+        $data['orderGoods'] = json_decode($orderGoods,true);
+
+        return view('/home/personal/order-detail',$data);
+    }
+
+    /**
+     * @brief 用户收货地址
+     */
+    public function userAddress()
+    {
+        $uid = Session::get('uid');//session内拿用户uid
+        //查询用户收货地址信息
+        $userAddress = $this->curl('home-personal-getUserAddress', "uid=$uid", true);
+        $userAddress = json_decode($userAddress,true);
+        if ($userAddress['error'] == 0) {
+            $data['userAddressInfo'] = $userAddress['data'];
+        }
+        $province = $this->getDistrict();//查询所有省份
+        $province = json_decode($province,true);
+        if ($province['error'] == 0) {
+            $data['province'] = $province['data'];
+        }
+
+        return view('/home/personal/user-address',$data);
+    }
+
     /**
      * @brief 查询收货地址-接口
      * @param string $param
@@ -168,7 +204,7 @@ class PersonalController extends Controller
         if ($UserAddressInfo) {
             $data['error'] = 0;
             $data['data'] = $UserAddressInfo;
-            $data['msg'] = '';
+            $data['msg'] = '查询成功';
         } else {
             $data['error'] = 1;
             $data['msg'] = '查询失败';
@@ -176,6 +212,27 @@ class PersonalController extends Controller
 
         return json_encode($data);
     }
+
+    /**
+     * @brief 查询收货地址数量-接口
+     */
+    public function getCountAddress()
+    {
+        $uid = Input::get('uid');
+        $UserAddress = new UserAddress();
+        $countAddress = $UserAddress->where('user_id',$uid)->count();
+        if ($countAddress) {
+            $data['error'] = 0;
+            $data['data'] = $countAddress;
+            $data['msg'] = '查询成功';
+        } else {
+            $data['error'] = 1;
+            $data['msg'] = '查询失败';
+        }
+
+        return json_encode($data);
+    }
+
 
     /**
      * @brief 添加收货地址-接口
@@ -189,6 +246,10 @@ class PersonalController extends Controller
         $uid = Session::get('uid');//session内拿用户uid
         $arr['user_id'] = $uid;
         $UserAddress = new UserAddress();
+        if ($arr['is_default'] == '1') {
+            $UserAddresses = $UserAddress->where(['user_id'=>$uid]);
+            $UserAddresses->update(['is_default'=>'0']);
+        }
         $res = $UserAddress->fill($arr)->save();
         if ($res) {
             $data['error'] = 0;
@@ -197,7 +258,7 @@ class PersonalController extends Controller
             $data['error'] = 1;
             $data['msg'] = '添加失败';
         }
-        echo json_encode($data) ;
+        return json_encode($data) ;
     }
 
     /**
@@ -251,29 +312,6 @@ class PersonalController extends Controller
     }
 
     /**
-     * @brief 查询省\市\县-接口
-     * @param string $param
-     * @return array
-     */
-    public function getDistrict($parent_id = 0){
-        if ($arr=Input::all()) {
-            $parent_id = $arr['parent_id'];
-        }
-        $District = new District();
-        $District = $District->where('parent_id',$parent_id)->get()->toArray();
-        if ($District) {
-            $data['error'] = 0;
-            $data['data'] = $District;
-            $data['msg'] = '';
-        } else {
-            $data['error'] = 1;
-            $data['msg'] = '查询失败';
-        }
-
-        return json_encode($data);
-    }
-
-    /**
      * @brief 查询订单-接口
      * @param string $param
      * @return array
@@ -286,12 +324,31 @@ class PersonalController extends Controller
             $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status')->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
         } else {
             $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_type','logistics_price','consignee_tel','consignee_name','consignee_address')->where(['user_id'=>$uid,'order_id'=>$order_id])->first()->toArray();
-            if (!$userOrders) {
-                echo '不可操作他人订单！';die;
-            }
         }
 
         return json_encode($userOrders);
+    }
+
+    /**
+     * @brief 查询订单-接口
+     * @param string $param
+     * @return array
+     * */
+    public function getCountOrder(){
+        $Order = new Order();
+        $uid = Input::get('uid');
+        $time = Input::get('time');
+        $countOrder = $Order->where("order_time",">","time()-3600*24*$time")->where(['user_id'=>$uid])->count();
+        if ($countOrder) {
+            $data['error'] = 0;
+            $data['data'] = $countOrder;
+            $data['msg'] = '查询成功';
+        } else {
+            $data['error'] = 1;
+            $data['msg'] = '查询失败';
+        }
+
+        return json_encode($data);
     }
 
     /**
@@ -305,6 +362,30 @@ class PersonalController extends Controller
         $userOrders = $OrderGoods->select('goods_id','goods_name','sku_norms_value','sku_price','num')->where('order_id',$order_id)->get()->toArray();
 
         return json_encode($userOrders);
+    }
+    /**
+     * @brief 修改订单-接口
+     * @param array $param
+     * @return array
+     * */
+    public function updateOrder()
+    {
+        $arr = Input::all();
+        $Order = new Order();
+        $order_id = $arr['order_id'];
+        unset($arr['order_id']);
+        unset($arr['_token']);
+        $UserAddress = $Order->where(['order_id'=>$order_id]);
+        $res = $UserAddress->update($arr);
+        if ($res == 1){
+            $data['error'] = 0;
+            $data['msg'] = '修改成功';
+        } else {
+            $data['error'] = 1;
+            $data['msg'] = '修改失败';
+        }
+
+        return json_encode($data);
     }
 
     /**
@@ -328,6 +409,37 @@ class PersonalController extends Controller
         return json_encode($data);
     }
 
+    public function userPoint()
+    {
+        $uid = Session::get('uid');
+        //获取积分
+        $userInfo = $this->curl('home-personal-getUserInfo', "uid=$uid", true);
+        $userInfo = json_decode($userInfo,true);
+        $data['point'] = $userInfo['user_point'];
+        //获取积分详细
+        $points = $this->curl('home-personal-getPoint', "uid=$uid", true);
+        $data['points'] = json_decode($points,true)['data'];
+
+        return view('home.personal.user-point',$data);
+    }
+
+    public function getPoint()
+    {
+        $uid = Input::get('uid');
+        $point = new Point();
+        $points = $point ->where(['user_id'=>$uid])->get()->toArray();
+        if ($points) {
+            $data['error'] = 0;
+            $data['data'] = $points;
+            $data['msg'] = '查询成功';
+        } else {
+            $data['error'] = 1;
+            $data['msg'] = '查询失败';
+        }
+
+        return json_encode($data);
+    }
+
     /**
      * @param $url 请求网址
      * @param bool $params 请求参数
@@ -339,9 +451,7 @@ class PersonalController extends Controller
     {
         $httpInfo = array();
         $ch = curl_init();
-        $arr = explode('/',$_SERVER['PHP_SELF']);
-        unset($arr[count($arr)-1]);
-        $hurl = 'http://'.$_SERVER['SERVER_NAME'].implode('/',$arr).'/';
+        $hurl = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'].'/';
         $header = array("X-CSRF-TOKEN"=>csrf_token());
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36');

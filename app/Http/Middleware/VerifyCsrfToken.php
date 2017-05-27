@@ -31,6 +31,8 @@ class VerifyCsrfToken extends BaseVerifier {
         'home-personal-getOrderGoods',
         'home-personal-getUserInfo',
         'home-personal-getUserAddress',
+        'home-personal-getCountAddress',
+        'home-personal-getPoint'
     ];
 }
 
