@@ -313,6 +313,7 @@ $user_id = Session::get('uid');
                                         <div class="left-title"><h3 class="comment-name">最有帮助的评价 </h3></div>
                                         <div class="right-title J_showImg"><i class="iconfont">√</i> 只显示带图评价</div>
                                     </div>
+                                    @if (!empty($comment))
                                     <ul class="comment-box-list">
                                         @foreach ($comment as $k=>$v)
                                         <li class="item-rainbow-1">
@@ -334,8 +335,15 @@ $user_id = Session::get('uid');
                                         </li>
                                         @endforeach
                                     </ul>
-                                 <!--    <a class="pagenav" href="home-goods-comment?goods_id={{$goodsInfo['goods_id']}}" >查看更多</a> -->
                                      <a href="home-goods-comment?goods_id={{$goodsInfo['goods_id']}}" class="btn  btn-primary ">查看更多</a>
+                                    @else
+                                        <div class="add_ok" id="cart_show" style="display: block; border: none">
+                                            <div class="tip">
+                                                该商品暂无评价
+                                            </div>
+                                        </div> 
+                                    @endif  
+                                    <hr>     
                                 </div>
                             </div>
                         </div>

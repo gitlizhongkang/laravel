@@ -1,6 +1,6 @@
 <?php  
 $user_id = Session::get('uid');
-$user_name = Session::get('name');
+$user_name = Session::get('username');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,56 +67,38 @@ $user_name = Session::get('name');
 <div class="site-topbar">
     <div class="container">
         <div class="topbar-cart" id="ECS_CARTINFO">
-            <a class="cart-mini " href="flow.php">
+            <a class="cart-mini " href="home-cart-index">
                 <i class="iconfont">&#xe60c;</i>购物车
-                <span class="mini-cart-num J_cartNum" id="hd_cartnum">(0)</span>
-            </a>
-            <div id="J_miniCartList" class="cart-menu">
-                <p class="loading">购物车中还没有商品，赶紧选购吧！</p>
+                <span class="mini-cart-num J_cartNum" id="hd_cartnum"></span>
+            </a>         
+            <div id="J_miniCartList" class="cart-menu" style="display: none;  padding-top: 15px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
+                 
             </div>
-            <script type="text/javascript">
-
-                function deleteCartGoods(rec_id) {
-                    Ajax.call('delete_cart_goods.php', 'id=' + rec_id, deleteCartGoodsResponse, 'POST', 'JSON');
-                }
-
-                /**
-                 * 接收返回的信息
-                 */
-                function deleteCartGoodsResponse(res) {
-                    if (res.error) {
-                        alert(res.err_msg);
-                    }
-                    else {
-                        $("#ECS_CARTINFO").html(res.content);
-                    }
-                }
-
-            </script>
+           
         </div>
         <div class="topbar-info J_userInfo" id="ECS_MEMBERZONE">
             @if (!empty($user_id))
                 <span class="user">
-                    <a class="user-name" target="_blank" href="user.php"><span class="name">{{$user_id}}</span><i
+                    <a class="user-name" target="_blank" href="user.php"><span class="name">{{$user_name}}</span><i
                             class="iconfont"></i></a>
                     <ul class="user-menu">
-                        <li><a target="_blank" href="user.php">个人中心</a></li>
-                        <li><a target="_blank" href="user.php?act=track_packages">跟踪包裹</a></li>
-                        <li><a href="user.php?act=logout">退出登录</a></li>
+                        <li><a target="_blank" href="home-personal-index">个人中心</a></li>
+                        <li><a target="_blank" href="javascript:;">跟踪包裹</a></li>
+                        <li><a href="home-user-login">退出登录</a></li>
                     </ul>
                 </span>
             @else
                 <a href="home-user-login" class="link">登录</a>
                 <span class="sep">|</span> <a href="home-user-register" class="link">注册</a>
             @endif    
-            <span class="sep">|</span> <a href="user.php?act=order_list" class="link">我的订单</a>
+            <span class="sep">|</span> <a href="home-personal-userOrder" class="link">我的订单</a>
         </div>
     </div>
 </div>
 <div class="site-header" style="clear:both;">
     <div class="container">
         <div class="header-logo">
-            <a href="index.php" title="小米商城"><img src="images/logo.gif"/></a>
+            <a href="index.php" title="小米商城"><img src="images/logo.jpg" style="width: 60px;" /></a>
         </div>
 
         <div class="header-nav">
@@ -126,10 +108,7 @@ $user_name = Session::get('name');
                 <li class="nav-category">
                     <a class="btn-category-list" href="catalog.php">全部商品分类</a>
                     <div class="site-category category-hidden">
-                        <ul class="site-category-list clearfix" id="site-category-list">
-
-                                                 
-                        </ul>
+                        <ul class="site-category-list clearfix" id="site-category-list"></ul>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -164,7 +143,7 @@ $user_name = Session::get('name');
                                     <div class="figure figure-thumb">
                                         <a href="goods.php?id=82"><img src="images/goods.jpg" alt="红米手机2A"></a>
                                     </div>
-                                    <div class="title"><a href="goods.php?id=82">红米手机2A</a></div>
+                                    <div class="title"><a href="goods.php?id=82"></a></div>
                                     <p class="price">899<em>元</em>元</p>
                                 </li>
                             </ul>
@@ -173,10 +152,10 @@ $user_name = Session::get('name');
                 </li>
 
                 <li class="nav-item">
-                    <a class="link" href="group_buy.php"><span>早教</span></a>
+                    <a class="link" href="home-music-index"><span>早教</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="link" href="group_buy.php"><span>论坛</span></a>
+                    <a class="link" href="javascript:;"><span>论坛</span></a>
                 </li>
             </ul>
         </div>
@@ -346,6 +325,7 @@ $user_name = Session::get('name');
 </html>
 <script>
 $(function(){
+    //获取商品分类
     $.ajax({
         type:'post',
         url:'home-index-getCategory',
@@ -368,6 +348,36 @@ $(function(){
                  str+='</ul></div></li>';                                                              
             })
             $('#site-category-list').html(str);
+        }
+    })
+
+    // 获取mini购物车
+    $.ajax({
+        type:'post',
+        url:'home-cart-getCart',
+        data:{
+            limit:3
+        },
+        dataType:'json',
+        success:function(msg){
+            $('#hd_cartnum').html('('+msg.count+')')
+            var str = '';
+            if (msg.count == 0) {
+                str += ' <p class="loading">购物车中还没有商品，赶紧选购吧！</p>'
+            } else {
+                str += '<ul>'
+                $.each(msg.data,function(k,v){               
+                    str += '<li class="clearfix first"><div class="cart-item">'
+                    str += '<a class="thumb" target="_blank" href="home-goods-goodsInfo?goods_id='+v.goods_id+'"><img src="'+v.sku_img+'"></a>'
+                    str += '<a class="name" target="_blank" href="home-goods-goodsInfo?goods_id='+v.goods_id+'">'+v.goods_name+'</a>'
+                    str += '<span class="price">'+v.sku_price+'元 x '+v.num+'</span>'
+                    str += '</div></li>'
+                })
+                str += '</ul><div class="count clearfix"><strong>共计：<em id="hd_cart_total">'+msg.count+'</em>件</strong></span>'
+                str += '<a class="btn btn-primary" href="home-cart-index">去购物车结算</a></div>'
+            }
+            
+            $('#J_miniCartList').html(str);
         }
 
     })
