@@ -8,7 +8,7 @@ $user_id = '';
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <title>商城</title>
     <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="icon" href="{{ URL::asset }}animated_favicon.gif" type="image/gif" />
+    <link rel="icon" href="animated_favicon.gif" type="image/gif" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link href="css/goods.css" rel="stylesheet" type="text/css" />
 
@@ -98,7 +98,7 @@ $user_id = '';
                 <a class="user-name" target="_blank" href="user.php"><span class="name">aaaa</span><i
                         class="iconfont"></i></a>
                 <ul class="user-menu">
-                    <li><a target="_blank" href="user.php">个人中心</a></li>
+                    <li><a target="_blank" href="home-personal-index">个人中心</a></li>
                     <li><a target="_blank" href="user.php?act=track_packages">跟踪包裹</a></li>
                     <li><a href="user.php?act=logout">退出登录</a></li>
                 </ul>
