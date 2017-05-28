@@ -137,6 +137,7 @@ class CartController extends Controller
         if (!Session::has('uid')) {    
             $msg = Cookie::get('cart');
             if (!empty($msg)) {
+                
                $count = count($msg);
                 if (!empty($limit)) {
                     $num = 0;
