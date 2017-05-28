@@ -59,6 +59,14 @@ Route::group(['middleware' => ['web']], function () {
     // 验证码
     Route::get("home-user-code",  'Home\UserController@code');
 
+    // 早教音乐首页
+
+    Route::get("home-music-index",  'Home\MusicController@index');
+
+    // 单个音乐播放页
+
+    Route::get("home-music-detail",  'Home\MusicController@detail');
+
     /** 李钟康 end */
 
 
