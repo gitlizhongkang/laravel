@@ -119,6 +119,9 @@ Route::group(['middleware' => ['web']], function () {
     //获取秒杀的商品接口
     Route::get('/home-goods-getUserLike',  'Home\GoodsController@getUserLike');
 
+    //获取分类商品接口
+    Route::post('/home-goods-getCateGoods',  'Home\GoodsController@getCateGoods');
+
     //添加商品到购物车接口
     Route::post('/home-cart-add',  'Home\CartController@add');
 
@@ -127,6 +130,8 @@ Route::group(['middleware' => ['web']], function () {
 
     //获取购物车接口
     Route::post('/home-cart-getCart',  'Home\CartController@getCart');
+
+    
 
     /** 毛宏蕊 end */
 

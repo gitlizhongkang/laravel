@@ -61,7 +61,11 @@ class IndexController extends Controller
     		$arr = $category->all()->toArray();
     		$res = $this->tree($arr);
     		$info = serialize($res);
-    		Redis::set('category',$info);
+            Redis::set('category',$info);
+
+            $cate = $this->tree1($arr);
+            $cate_id = serialize($cate);    		
+            Redis::set('category_id',$info);
     	}
     	
     	return json_encode($res);
@@ -95,6 +99,35 @@ class IndexController extends Controller
 
     	
     	return $info;
+    }
+
+    /**
+     * @brief 获取分类ID
+     * @param array $arr['0'=>['category_id'=>1]]
+     * @return array
+     */
+    public function tree1($arr)
+    {
+        foreach ($arr as $k=>$v) {
+            if ($v['parent_id'] == 0) {
+                $info[$v['category_id']] = [];
+
+                foreach ($arr as $k1=>$v1) {
+                    if ($v1['parent_id'] == $v['category_id']) {
+                        $info[$v['category_id']][$v1['category_id']] = [];
+
+                        foreach ($arr as $k2=>$v2) {
+                            if ($v2['parent_id'] == $v1['category_id']) {
+                                $info[$v['category_id']][$v1['category_id']][] = $v2['category_id'];
+                            } 
+                        }
+                    } 
+                }
+            }
+        }
+
+        
+        return $info;
     }
 
    

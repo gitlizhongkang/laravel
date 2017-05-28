@@ -117,38 +117,24 @@ $user_name = Session::get('username');
                 <!--导航栏-->
                 <li class="nav-item">
                     <a class="link" href="home-goods-index?category_id=1"><span>儿童</span></a>
-                    <div class='item-children'>
+                    <!-- <div class='item-children'>
                         <div class="container">
-                            <ul class="children-list clearfix">
-                                <li class="first">
-                                    <div class="figure figure-thumb">
-                                        <a href="goods.php?id=27"><img src="images/goods.jpg" alt="小米电视2 40英寸"></a>
-                                    </div>
-                                    <div class="title">
-                                        <a href="goods.php?id=27">小米电视2 40英寸</a>
-                                    </div>
-                                    <p class="price">2200<em>元</em>元</p>
-                                </li>
+                            <ul class="children-list clearfix" id='child'>
+                                
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </li>
 
                 <li class="nav-item">
                     <a class="link" href="home-goods-index?category_id=4"><span>孕妇</span></a>
-                    <div class='item-children'>
+                   <!--  <div class='item-children'>
                         <div class="container">
-                            <ul class="children-list clearfix">
-                                <li class="first">
-                                    <div class="figure figure-thumb">
-                                        <a href="goods.php?id=82"><img src="images/goods.jpg" alt="红米手机2A"></a>
-                                    </div>
-                                    <div class="title"><a href="goods.php?id=82"></a></div>
-                                    <p class="price">899<em>元</em>元</p>
-                                </li>
+                            <ul class="children-list clearfix" id='women'>
+                               
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </li>
 
                 <li class="nav-item">
@@ -381,6 +367,51 @@ $(function(){
         }
 
     })
+
+    // $.ajax({
+    //     type:'post',
+    //     url:'home-goods-getCateGoods',
+    //     data:{
+    //         limit:5,
+    //         category_name:'奶粉'
+    //     },
+    //     dataType:'json',
+    //     success:function(msg){
+    //         var str = '';
+    //         $.each(msg,function(k,v){               
+    //             str += '<li class="first"><div class="figure figure-thumb">'
+    //             str += '<a href="goods.php?id=27"><img src="'+v.goods_img+'" alt="'+v.goods_name+'"></a>'
+    //             str += '</div><div class="title">'
+    //             str += '<a href="home-goods-goodsInfo?goods_id='+v.goods_id+'">'+v.goods_name+'</a></div>'
+    //             str += '<p class="price">'+v.goods_low_price+'<em>元</em></p></li>'
+    //         })
+                        
+    //         $('#child').html(str);
+    //     }
+    // })
+
+    // $.ajax({
+    //     type:'post',
+    //     url:'home-goods-getCateGoods',
+    //     data:{
+    //         limit:5,
+    //         category_name:'孕妈用品'
+    //     },
+    //     dataType:'json',
+    //     success:function(msg){
+    //         var str = '';
+    //         $.each(msg,function(k,v){               
+    //             str += '<li class="first"><div class="figure figure-thumb">'
+    //             str += '<a href="goods.php?id=27"><img src="'+v.goods_img+'" alt="'+v.goods_name+'"></a>'
+    //             str += '</div><div class="title">'
+    //             str += '<a href="home-goods-goodsInfo?goods_id='+v.goods_id+'">'+v.goods_name+'</a></div>'
+    //             str += '<p class="price">'+v.goods_low_price+'<em>元</em></p></li>'
+    //         })
+                        
+    //         $('#women').html(str);
+    //     }
+
+    // })
 })
 </script>
 

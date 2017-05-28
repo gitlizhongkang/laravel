@@ -96,12 +96,13 @@ $user_id = Session::get('uid');
                                                      @foreach ($v['norms_value'] as $k1=>$v1)
                                                         <div class="item ">
                                                            <b></b>
-                                                            <a href="" title="" rel="zoom-id: Zoomer" rev="{{$goodsInfo['goods_img']}}"><span>{{$v1}}</span></a>
+                                                            <a href="javascript:;" title="" rel="zoom-id: Zoomer" rev="images/goods1.jpg"><span>{{$v1}}</span></a>
                                                             <input id="spec_value_81" style="display:none;" type="radio" name="norms{{$k}}" value="{{$v1}}" />                                                            
                                                         </div>
                                                      @endforeach
                                                     </div>
-                                                </li>                                                @endforeach                                            
+                                                </li>
+                                                @endforeach                                            
                                             </ul>
                                         </div>
                                         <style>
@@ -221,11 +222,6 @@ $user_id = Session::get('uid');
             <div class="goods-detail-desc goods_con_item">
                 <div class="container">
                     <div class="shape-container">
-                        <!-- <p><img width="720" height="598" alt="" src="images/goods1.jpg" /></p>
-                        <p><img width="720" height="508" alt="" src="images/goods1.jpg" /></p>
-                        <p><img width="720" height="572" alt="" src="images/goods2.jpg" /></p>
-                        <p><img src="images/goods2.jpg" width="1351" height="762" alt="" /></p>
-                        <p><img src="images/goods2.jpg" width="1138" height="867" alt="" /></p> -->
                         <?=$goodsInfo['goods_desc']?>
                     </div>
                 </div>
@@ -337,11 +333,7 @@ $user_id = Session::get('uid');
                                     </ul>
                                      <a href="home-goods-comment?goods_id={{$goodsInfo['goods_id']}}" class="btn  btn-primary ">查看更多</a>
                                     @else
-                                        <div class="add_ok" id="cart_show" style="display: block; border: none">
-                                            <div class="tip">
-                                                该商品暂无评价
-                                            </div>
-                                        </div> 
+                                       <p>该商品暂无评价</p>
                                     @endif  
                                     <hr>     
                                 </div>

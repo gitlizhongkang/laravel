@@ -136,26 +136,30 @@ class CartController extends Controller
         $count = 0;
         if (!Session::has('uid')) {    
             $msg = Cookie::get('cart');
-            $count = count($msg);
-            if (!empty($limit)) {
-                $num = 0;
-                foreach ($msg as $k => $v) {
-                   if ($num>2) {
-                        unset($msg[$k]);
-                   }
-                   $num ++;
-                }
-            }             
+            if (!empty($msg)) {
+               $count = count($msg);
+                if (!empty($limit)) {
+                    $num = 0;
+                    foreach ($msg as $k => $v) {
+                       if ($num>2) {
+                            unset($msg[$k]);
+                       }
+                       $num ++;
+                    }
+                }      
+            }                   
         } else {
             $user = Session::get('user_id');
             $cart = new Cart;
             $count = $cart->where(['user_id',$user_id])->count();
             if (!empty($limit)) {
-                $msg = $cart->select('goods_sku.sku_img','cart.num','goods_sku.goods_name','goods_sku.sku_price','cart.sku_id','goods_sku.goods_id')
-                ->join('goods_sku','goods_sku.sku_id','=','cart.sku_id')->where(['user_id',$user_id])->offset(0)->limit(3)->get()->toArray();
+                $msg = $cart->select('goods_sku.sku_img','cart.num','goods_sku.goods_name','goods_sku.sku_price','cart.sku_id','goods_sku.goods_id')->join('goods_sku','goods_sku.sku_id','=','cart.sku_id')
+                    ->where(['user_id',$user_id])->offset(0)->limit(3)->get()->toArray();
+
+
             } else {
-                 $msg = $cart->select('goods_sku.sku_img','cart.num','goods_sku.goods_name','goods_sku.sku_price','cart.sku_id','goods_sku.goods_id')
-                 ->join('goods_sku','goods_sku.sku_id','=','cart.sku_id')->where(['user_id',$user_id])->paginate(10);
+                 $msg = $cart->select('goods_sku.sku_img','cart.num','goods_sku.goods_name','goods_sku.sku_price','cart.sku_id','goods_sku.goods_id')->joinin('goods_sku','goods_sku.sku_id','=','cart.sku_id')
+                    ->where(['user_id',$user_id])->orderBy('add_time')->paginate(10);
             }   
         }  
         $res['data'] = $msg;

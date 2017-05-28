@@ -11,6 +11,8 @@ use App\Models\GoodsImg;
 use App\Models\GoodsSku;
 use App\Models\GoodsComment;
 use App\Models\GoodsNorms;
+use App\Models\Category;
+use Illuminate\Support\Facades\Redis;
 
 class GoodsController extends Controller
 {
@@ -175,6 +177,7 @@ class GoodsController extends Controller
         $goods_id = Input::get()['goods_id'];
         $norms_value = Input::all()['norms_value'];
 
+        // echo $norms_value;die;
         $sku = new GoodsSku;
         $res = $sku -> select('sku_id','sku_sn','sku_price','sku_img','sku_num')
         -> where([['goods_id', $goods_id],['sku_norms', $norms_value]]) -> first();
@@ -200,15 +203,61 @@ class GoodsController extends Controller
      */
     public function getCateGoods()
     {
-        $category_id = Input::get()['category_id'];
+        $category_name = Input::get()['category_name'];
+        $limit = Input::get()['limit'];
 
-        $where = '1=1';
-        if (empty($category_id)) {
-            $category = new Category;
-        }   
+        $where = '1=1';       
+        if (!empty($category_name)) {
+            $category = unserialize(Redis::get('category'));
+            $names = '';
+            foreach ($category as $k => $v) {
+                if ($k == $category_name) {
+                    $names .= $category_name . ',';
+                    if (!empty($v)) {
+                        foreach ($v as $k1 => $v1) {
+                            $names .= $k1 . ',';
+                            if (!empty($v1)) {
+                                foreach ($v1 as $k2 => $v2) {
+                                    $names .= $v2 . ',';
+                                }
+                            }                      
+                        }
+                    }
+                } else {
+                    foreach ($v as $k1 => $v1) {
+                        if ($k1 == $category_name) {
+                            $names .= $k1 . ',';
+                            if (!empty($v1)) {
+                                foreach ($v1 as $k2 => $v2) {
+                                    $names .= $v2 . ',';
+                                } 
+                            }                           
+                        } else {
+                             foreach ($v1 as $k2 => $v2) {
+                                if ($v2 == $category_name) {
+                                     $names .= $v2 .  ',';
+                                }                             
+                            }
+                        }                      
+                    }
+                }
+            }
+        }  
+        
+        $len = strlen($names);
+        $names = substr($names, 0, $len-1);
+        $names = explode(',', $names);
 
         $goods = new Goods;
-        $arr = $goods->$goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->whereIn('category_id',$ids)->get();
+
+        if (empty($limit)) {
+            $arr = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->whereIn('category_name', $names)->get()->offset(0)
+                ->limit($limit)->toArray();
+        } else {
+            $arr = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->whereIn('category_name', $names)->get()->toArray();
+        }
+        
+       return json_encode($arr);
 
     }
 
