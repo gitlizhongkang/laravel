@@ -32,7 +32,7 @@ class PersonalController extends Controller
         //30天内订单数量
         $countOrder = $this->curl('home-personal-getCountOrder', ['uid'=>$uid,'time'=>30], true);
         $data['countOrder'] = json_decode($countOrder,true);
-//        print_r($data);die;
+
     	return view('/home/personal/index',$data);
     }
 
