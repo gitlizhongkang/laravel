@@ -47,7 +47,7 @@ class User extends Model
                $info['code']=1;
                $info['msg']="登录成功";
                $info['id']=$_res;
-               $info['username']=$res['username'];
+               $info['username']=$res;
            }else{
                $info['code']=2;
                $info['msg']='用户名和密码不匹配';

@@ -59,6 +59,14 @@ Route::group(['middleware' => ['web']], function () {
     // 验证码
     Route::get("home-user-code",  'Home\UserController@code');
 
+    // 早教音乐首页
+
+    Route::get("home-music-index",  'Home\MusicController@index');
+
+    // 单个音乐播放页
+
+    Route::get("home-music-detail",  'Home\MusicController@detail');
+
     /** 李钟康 end */
 
 
@@ -103,10 +111,35 @@ Route::group(['middleware' => ['web']], function () {
     //获取商品的sku
     Route::post('/home-goods-getSku',  'Home\GoodsController@getSku');
 
-    //添加商品到购物车
+    //获取单个商品信息接口
+    Route::get('/home-goods-getGoodsInfo', 'Home\GoodsController@getGoodsInfo');
+    Route::get('/home-goods-getGoodsNorms', 'Home\GoodsController@getGoodsNorms');
+    Route::get('/home-goods-getGoodsAttr', 'Home\GoodsController@getGoodsAttr');
+    Route::get('/home-goods-getGoodsImg', 'Home\GoodsController@getGoodsImg');
+    Route::get('/home-goods-getGoodsComment', 'Home\GoodsController@getGoodsComment');
+
+    //获取最新的商品接口
+    Route::get('/home-goods-getNew',  'Home\GoodsController@getNew');
+
+    //获取秒杀的商品接口
+    Route::get('/home-goods-getSecond',  'Home\GoodsController@getSecond');
+
+    //获取秒杀的商品接口
+    Route::get('/home-goods-getUserLike',  'Home\GoodsController@getUserLike');
+
+    //获取分类商品接口
+    Route::post('/home-goods-getCateGoods',  'Home\GoodsController@getCateGoods');
+
+    //添加商品到购物车接口
     Route::post('/home-cart-add',  'Home\CartController@add');
 
+    //购物车首页
     Route::get('/home-cart-index',  'Home\CartController@index');
+
+    //获取购物车接口
+    Route::post('/home-cart-getCart',  'Home\CartController@getCart');
+
+    
 
     /** 毛宏蕊 end */
 

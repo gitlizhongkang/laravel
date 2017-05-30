@@ -43,7 +43,14 @@ class CartController extends Controller
         	
         	//如果cookie已有数据，则修改数量，若没有则添加数据 
         	if (empty($cookie)) {
-        		$cookie[$data['sku_id']] = $data;
+                $sku = new GoodsSku;
+                $msg = $sku->select('sku_img','goods_name','sku_price','sku_id','goods_id')
+                ->where([['sku_id',$data['sku_id']]])->get()->toArray();
+        		
+                $res = $msg[0];
+                $res['num'] = $data['num'];
+
+                $cookie[$data['sku_id']] = $res;
         	} else {
         		foreach ($cookie as $k => $v) {
 	        		if ($k == $data['sku_id']) {
@@ -52,7 +59,14 @@ class CartController extends Controller
 	        		}
 	        	}
 	        	if (!isset($a)) {
-	        		$cookie[$data['sku_id']] = $data;
+                    $sku = new GoodsSku;
+                    $msg = $sku->select('sku_img','goods_name','sku_price','sku_id','goods_id')
+                    ->where([['sku_id',$data['sku_id']]])->get()->toArray();
+                   
+                    $res = $msg[0];
+                    $res['num'] = $data['num'];
+
+	        		$cookie[$data['sku_id']] = $res;
 	        	}
         	}
         	
@@ -97,7 +111,7 @@ class CartController extends Controller
 			}   
         }
 
-    	echo json_encode($msg);       
+    	return json_encode($msg);       
     }
 
 	/**
@@ -105,11 +119,53 @@ class CartController extends Controller
 	 */
     public function index()
     {
-    	// Session::flush();
-    	Session::forget('bb');
-    	// Session::put('bb','2');
-    	echo Session::get('bb');
+    	return view('home/goods-list');
 
+    }
+
+    /**
+        *@brief 购物车页面
+        *@param string $limit  
+        *@return   json  
+     */
+    public function getCart()
+    {
+        $limit = Input::all('limit');
+        $user_id = '';
+        $msg = [];
+        $count = 0;
+        if (!Session::has('uid')) {    
+            $msg = Cookie::get('cart');
+            if (!empty($msg)) {               
+               $count = count($msg);
+                if (!empty($limit)) {
+                    $num = 0;
+                    foreach ($msg as $k => $v) {
+                       if ($num>2) {
+                            unset($msg[$k]);
+                       }
+                       $num ++;
+                    }
+                }      
+            }                   
+        } else {
+            $user = Session::get('user_id');
+            $cart = new Cart;
+            $count = $cart->where(['user_id',$user_id])->count();
+            if (!empty($limit)) {
+                $msg = $cart->select('goods_sku.sku_img','cart.num','goods_sku.goods_name','goods_sku.sku_price','cart.sku_id','goods_sku.goods_id')->join('goods_sku','goods_sku.sku_id','=','cart.sku_id')
+                    ->where(['user_id',$user_id])->offset(0)->limit(3)->get()->toArray();
+
+
+            } else {
+                 $msg = $cart->select('goods_sku.sku_img','cart.num','goods_sku.goods_name','goods_sku.sku_price','cart.sku_id','goods_sku.goods_id')->joinin('goods_sku','goods_sku.sku_id','=','cart.sku_id')
+                    ->where(['user_id',$user_id])->orderBy('add_time')->paginate(10);
+            }   
+        }  
+        $res['data'] = $msg;
+        $res['count'] = $count;   
+       
+        return json_encode($res);       
     }
 
 }
