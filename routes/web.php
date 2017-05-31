@@ -176,6 +176,10 @@ Route::group(['middleware' => ['web']], function () {
     //个人中心-积分
     Route::get('/home-personal-userPoint','Home\PersonalController@userPoint');
     Route::post('/home-personal-getPoint','Home\PersonalController@getPoint');
+
+    //个人中心-跟踪包裹
+    Route::get('/home-personal-trackingPackages','Home\PersonalController@trackingPackages');
+    Route::get('/home-personal-getTracking','Home\PersonalController@getTracking');
     /** 薛天阔 end */
 
     

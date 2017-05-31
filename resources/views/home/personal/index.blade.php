@@ -39,13 +39,13 @@
             <ul class="action-list"> 
              <li> 您加入Baby大家庭时间：{{ date('Y-m-d H:i:s',$userInfo['reg_time']) }}</li>
              <li class="rank">您的等级是    @if (time()-$userInfo['reg_time'] < 60*60*24*7 )新注册成员 @elseif(time()-$userInfo['reg_time'] < 60*60*24*365 ) 高级成员 @else 特级成员 @endif<span></span></li>
-             <li class="validat">您还没有通过邮件认证 <a href="javascript:sendHashMail()" style="color:#f70;">点此发送认证邮件</a></li> 
-            </ul> 
+             <li class="validat">您还没有通过邮件认证 <a href="javascript:sendHashMail()" style="color:#f70;">点此发送认证邮件</a></li>
+            </ul>
            </div> 
           </div> 
           <div class="portal-sub"> 
            <ul class="info-list clearfix"> 
-            <li> <h3>余额：<span class="num">9998.00<em>元</em>元</span></h3> <a href="user.php?act=account_log">查看您的账户余额<i class="iconfont"></i></a> <img src="images/portal-icon-1.png" /> </li>
+            <li> <h3>余额：<span class="num">0.00<em>元</em>元</span></h3> <a href="#">查看您的账户余额<i class="iconfont"></i></a> <img src="images/portal-icon-1.png" /> </li>
             <li> <h3>地址：<span class="num">共计 {{ $countAddress['data'] }} 个</span></h3> <a href="home-personal-userAddress">查看您的地址信息<i class="iconfont"></i></a> <img src="images/portal-icon-2.png" /> </li>
             <li> <h3>积分：<span class="num">{{ $userInfo['user_point'] }}积分</span></h3> <img src="images/portal-icon-3.png" /> </li>
             <li> <h3> 用户提醒： <span class="num"> 您最近30天内提交了{{ $countOrder['data'] }}个订单<br /> </span> </h3> <img src="images/portal-icon-4.png" /> </li>

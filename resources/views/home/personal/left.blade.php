@@ -29,7 +29,7 @@
                 <li>
                     <a class="home-personal-userPoin" href="home-personal-userPoint">积分管理</a>
                     <a class="" href="">我的红包</a>
-                    <a class="" href="">跟踪包裹</a>
+                    <a class="" href="home-personal-trackingPackages">跟踪包裹</a>
                 </li>
             </ul>
         </li>

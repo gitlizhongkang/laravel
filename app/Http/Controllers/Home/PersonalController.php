@@ -316,12 +316,13 @@ class PersonalController extends Controller
      * @param string $param
      * @return array
      * */
-    public function getUserOrder(){
+    public function getUserOrder()
+    {
         $Order = new Order();
         $uid = Input::get('uid');
         $order_id = Input::get('order_id')?Input::get('order_id'):'';
         if(!$order_id){
-            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status')->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
+            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number')->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
         } else {
             $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_type','logistics_price','consignee_tel','consignee_name','consignee_address')->where(['user_id'=>$uid,'order_id'=>$order_id])->first()->toArray();
         }
@@ -334,7 +335,8 @@ class PersonalController extends Controller
      * @param string $param
      * @return array
      * */
-    public function getCountOrder(){
+    public function getCountOrder()
+    {
         $Order = new Order();
         $uid = Input::get('uid');
         $time = Input::get('time');
@@ -356,7 +358,8 @@ class PersonalController extends Controller
     * @param string $param
     * @return array
     * */
-    public function getOrderGoods(){
+    public function getOrderGoods()
+    {
         $order_id = Input::all();
         $OrderGoods = new OrderGoods();
         $userOrders = $OrderGoods->select('goods_id','goods_name','sku_norms_value','sku_price','num')->where('order_id',$order_id)->get()->toArray();
@@ -409,6 +412,9 @@ class PersonalController extends Controller
         return json_encode($data);
     }
 
+    /**
+     * @brief 积分
+     */
     public function userPoint()
     {
         $uid = Session::get('uid');
@@ -423,6 +429,11 @@ class PersonalController extends Controller
         return view('home.personal.user-point',$data);
     }
 
+    /**
+     * @brief 查询积分-接口
+     * @param string $param
+     * @return array
+     */
     public function getPoint()
     {
         $uid = Input::get('uid');
@@ -438,6 +449,65 @@ class PersonalController extends Controller
         }
 
         return json_encode($data);
+    }
+
+    /**
+     * @brief 包裹
+     */
+    public function trackingPackages()
+    {
+        $uid = Session::get('uid');//session内拿用户uid
+        //查询订单
+        $userOrder = $this->curl('home-personal-getUserOrder', "uid=$uid", true);
+        $data['userOrder'] = json_decode($userOrder,true);
+
+        return view('home.personal.tracking-packages',$data);
+    }
+
+    /**
+     * @brief 包裹
+     */
+    public function getTracking()
+    {
+        $logistics_number = Input::get('logistics_number');
+        $this -> getPackages();
+    }
+
+    /**
+     * @brief 获取包裹-信息
+     */
+    public function getPackages()
+    {
+        /**
+         * 获取快递公司接口
+         */
+
+        $host = "http://jisukdcx.market.alicloudapi.com";
+        $path = "/express/type";
+        $method = "GET";
+        $appcode = "0d9e3bf7621746edafd3823ae2b36e5c";
+        $headers = array();
+        array_push($headers, "Authorization:APPCODE " . $appcode);
+        $querys = "";
+        $bodys = "";
+        $url = $host . $path;
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_FAILONERROR, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        if (1 == strpos("$".$host, "https://"))
+        {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        }
+
+        $result = curl_exec($curl);
+        $jsonarr = json_decode($result, true);
+        print_r($jsonarr);
     }
 
     /**
