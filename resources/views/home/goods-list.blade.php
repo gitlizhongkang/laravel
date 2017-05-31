@@ -18,7 +18,7 @@
     <div class="filter-box">
         <div class="filter-list-wrap">
             <dl class="filter-list clearfix filter-list-row-2">
-                <dt>颜色：</dt>
+                <dt>品牌：</dt>
                 <dd class="active">全部</dd>
                 <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=38.0">黄</a></dd>
                 <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=34.0">黑</a></dd>
@@ -96,17 +96,19 @@
         <form name="compareForm" action="compare.php" method="post" onSubmit="return compareGoods(this);">
             <div class="goods-list-box">
                 <div class="goods-list clearfix">
+                @if (isset($goods[0]))
+                @foreach ($goods as $k=>$v)
                     <div class="goods-item">
                         <div class="figure figure-img">
-                            <a href="goods.php?id=29"><img src="images/goods.jpg" alt="小米盒子增强版 1G" class="goodsimg" /></a>
+                            <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}"><img src="{{$v['goods_img']}}" alt="{{$v['goods_name']}}" class="goodsimg" /></a>
                         </div>
-                        <p class="desc">首款4K超高清网络机顶盒</p>
-                        <h2 class="title"><a href="goods.php?id=29" title="小米盒子增强版 1G">小米盒子增强版 1G</a></h2>
+                        <p class="desc">{{$v['brand_name']}}</p>
+                        <h2 class="title"><a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" title="{{$v['goods_name']}}">{{$v['goods_name']}}</a></h2>
                         <p class="price">
-                            本店价<font class="shop_s">299<em>元</em></font>
-                            <del>专柜价<font class="market_s">358<em>元</em></font></del>
+                            本店价<font class="shop_s">{{$v['goods_low_price']}}<em>元</em></font>
+                          <!--   <del>专柜价<font class="market_s">358<em>元</em></font></del> -->
                         </p>
-                        <div class="thumbs J_attrImg">
+                        <!-- <div class="thumbs J_attrImg">
                             <div style="width:212px;margin:0 auto;">
                                 <ul class="thumb-list clearfix J_imgList">
                                     <li class="active" data-config='{figure:"images/goods.jpg"}'>
@@ -114,83 +116,18 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(29);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(29)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
+                        </div> -->
+                        <!-- <div class="actions clearfix"> -->
+                           <!--  <a href="javascript:addToCart(29)" class="btn-buy J_buyGoods"><span>加入购物车</span> <i class="iconfont"></i></a> -->
+                        <!-- </div> -->
                         <div class="flags">
                             <div class="flag flag-saleoff">8.4折促销</div>
                         </div>
                     </div>
-                    
-                    <div class="goods-item">
-                        <div class="figure figure-img">
-                            <a href="goods.php?id=55"><img src="images/goods.jpg" alt="小米平板 64GB" class="goodsimg" /></a>
-                        </div>
-                        <p class="desc"></p>
-                        <h2 class="title"><a href="goods.php?id=55" title="小米平板 64GB">小米平板 64GB</a></h2>
-                        <p class="price">
-                            本店价<font class="shop_s">1499<em>元</em></font>
-                            <del>专柜价<font class="market_s">1799<em>元</em></font></del>
-                        </p>
-                        <div class="thumbs J_attrImg">
-                            <div style="width:212px;margin:0 auto;">
-                                <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/goods.jpg"}'>
-                                        <a><img src="images/goods.jpg" width="34" height="34"></a>
-                                    </li>
-                                    <li  data-config='{figure:"images/201509/thumb_img/55_thumb_P_1441498030464.jpg"}'>
-                                        <a><img src="images/goods.jpg" width="34" height="34"></a>
-                                    </li>
-                                    <li  data-config='{figure:"images/201509/thumb_img/55_thumb_P_1441498030567.jpg"}'>
-                                        <a><img src="images/goods.jpg" width="34" height="34"></a>
-                                    </li>
-                                    <li  data-config='{figure:"images/201509/thumb_img/55_thumb_P_1441498031661.jpg"}'>
-                                        <a><img src="images/goods.jpg" width="34" height="34"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(55);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(55)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
-
-                            <div class="flag flag-saleoff">8.3折促销</div>
-
-                        </div>
-                    </div>
-                    <div class="goods-item">
-                        <div class="figure figure-img">
-                            <a href="goods.php?id=77"><img src="images/goods.jpg" alt="小米电视/盒子遥控器" class="goodsimg" /></a>
-                        </div>
-                        <p class="desc"></p>
-                        <h2 class="title"><a href="goods.php?id=77" title="小米电视/盒子遥控器">小米电视/盒子遥控器</a></h2>
-                        <p class="price">
-                            本店价<font class="shop_s">29<em>元</em></font>
-                            <del>专柜价<font class="market_s">35<em>元</em></font></del>
-                        </p>
-                        <div class="thumbs J_attrImg">
-                            <div style="width:212px;margin:0 auto;">
-                                <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/goods1.jpg"}'>
-                                        <a><img src="images/goods.jpg" width="34" height="34"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(77);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(77)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
-
-                            <div class="flag flag-saleoff">8.3折促销</div>
-
-                        </div>
-                    </div>
+                @endforeach
+                @else
+                    <p>没有符合条件的商品！！！</p>
+                @endif     
                 </div>
             </div>
         </form>
@@ -219,7 +156,7 @@
         <form name="selectPageForm" action="/mishop/category.php" method="get">
             <div class="clearfix">
                 <div id="pager" class="pagebar">
-                    <span class="f_l f6" style="margin-right:10px;">总计 <b>10</b>  个记录</span>
+                    <div class="pagenav">{!! $goods->links() !!}</div>
                 </div>
             </div>
         </form>
@@ -236,42 +173,16 @@
         <div class="xm-recommend">
             <div class="xm-carousel-wrapper">
                 <ul class="xm-carousel-col-5-list xm-carousel-list clearfix">
+                @foreach ($userLike as $k=>$v)
                     <li class="J_xm-recommend-list">
                         <dl>
-                            <dt><a href="goods.php?id=27" target="_blank"><img src="images/goods.jpg" /></a></dt>
-                            <dd class="xm-recommend-name"><a href="goods.php?id=27" target="_blank" title="小米电视2 40英寸">小米电视2 40英寸</a></dd>
-                            <dd class="xm-recommend-price">2200<em>元</em></dd>
+                            <dt><a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" target="_blank"><img src="{{$v['goods_img']}}" /></a></dt>
+                            <dd class="xm-recommend-name"><a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" target="_blank" title="{{$v['goods_name']}}">{{$v['goods_name']}}</a></dd>
+                            <dd class="xm-recommend-price">{{$v['goods_low_price']}}<em>元</em></dd>
                             <dd class="xm-recommend-tips"> </dd>
                         </dl>
-                    </li>
-
-                    <li class="J_xm-recommend-list">
-                        <dl>
-                            <dt><a href="goods.php?id=28" target="_blank"><img src="images/goods.jpg" /></a></dt>
-                            <dd class="xm-recommend-name"><a href="goods.php?id=28" target="_blank" title="小米平板 16G">小米平板 16G</a></dd>
-                            <dd class="xm-recommend-price">1299<em>元</em></dd>
-                            <dd class="xm-recommend-tips"> </dd>
-                        </dl>
-                    </li>
-
-                    <li class="J_xm-recommend-list">
-                        <dl>
-                            <dt><a href="goods.php?id=29" target="_blank"><img src="images/goods.jpg" /></a></dt>
-                            <dd class="xm-recommend-name"><a href="goods.php?id=29" target="_blank" title="小米盒子增强版 1G">小米盒子增强版 1G</a></dd>
-                            <dd class="xm-recommend-price">299<em>元</em></dd>
-                            <dd class="xm-recommend-tips"> </dd>
-                        </dl>
-                    </li>
-
-                    <li class="J_xm-recommend-list">
-                        <dl>
-                            <dt><a href="goods.php?id=53" target="_blank"><img src="images/goods.jpg" /></a></dt>
-                            <dd class="xm-recommend-name"><a href="goods.php?id=53" target="_blank" title="小米电视2S48英寸">小米电视2S48英寸</a></dd>
-                            <dd class="xm-recommend-price">2999<em>元</em></dd>
-                            <dd class="xm-recommend-tips"> </dd>
-                        </dl>
-                    </li>
-
+                    </li>   
+                @endforeach                     
                 </ul>
             </div>
             <div class="xm-pagers-wrapper">
