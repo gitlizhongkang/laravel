@@ -7,9 +7,12 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Goods;
 use App\Models\GoodsAttr;
+use App\Models\GoodsSecond;
+use App\Models\GoodsSku;
 use App\Models\Norms;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redis;
@@ -17,6 +20,112 @@ use Illuminate\Support\Facades\Storage;
 
 class GoodsController extends Controller
 {
+
+
+    /**
+     * @brief 商品展示
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function listView()
+    {
+        $strtTime = Input::get('strt_time');
+        $endTime = Input::get('end_time');
+        $goodsName = Input::get('goods_name');
+
+        //条件搜索
+        if (!empty($strtTime) && !empty($endTime) && !empty($goodsName))
+        {
+            $dataGoods = Goods::where(['goods_name' => $goodsName])
+                ->whereBetween('add_time', [$strtTime, $endTime])
+                ->paginate('10');
+        }
+        else if (!empty($strtTime) && !empty($endTime))
+        {
+            $dataGoods = Goods::whereBetween('add_time', [$strtTime, $endTime])
+                ->paginate('10');
+        }
+        else if (!empty($goodsName))
+        {
+            $dataGoods = Goods::where(['goods_name' => $goodsName])
+                ->paginate('10');
+        }
+        else
+        {
+            $dataGoods = Goods::paginate('10');
+        }
+
+
+        //赋值渲染
+        return view('admin.goods-list', ['dataGoods' => $dataGoods]);
+    }
+
+
+    /**
+     * @brief 商品修改状态
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateStatus()
+    {
+        $field = Input::get('field');
+        $status = Input::get('status');
+        $id = Input::get('id');
+        $db = Goods::find($id);
+
+        return $this->instantChange($db, $field, $status);
+    }
+
+
+
+    /**
+     * @brief sku展示
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function skuView()
+    {
+        $id = Input::get('id');
+        $dataGoodsSku = GoodsSku::where(['goods_id' => $id])
+            ->get();
+
+        return view('admin.goods-sku', ['dataGoodsSku' => $dataGoodsSku]);
+    }
+
+
+    /**
+     * @brief sku修改
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateSku()
+    {
+        $field = Input::get('field');
+        $newVal = Input::get('newVal');
+        $id = Input::get('id');
+
+        $db = GoodsSku::find($id);
+
+        return $this->instantChange($db, $field, $newVal);
+    }
+
+
+    /**
+     * @brief 即点即改
+     * @param $db
+     * @param $field
+     * @param $newVal
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function instantChange($db, $field, $newVal)
+    {
+        $db->$field = $newVal;
+        $bool = $db->save();
+
+        //判断修改是否成功
+        if ($bool)  return response()->json(['code' => 1]);
+
+        return response()->json(['code' => 0, 'msg' => '修改失败请稍后再试']);
+    }
+
+
+
 
     /**
      * @brief 分类下拉
@@ -292,12 +401,12 @@ class GoodsController extends Controller
         $dataInfo = Input::get();
         extract($dataInfo);
 
-
         //验证
         /* $this->validate($request, [
              'title' => 'bail|required|unique:posts|max:255',
              'body.name' => 'bail|required',
          ]);*/
+
 
 
         /*
@@ -397,7 +506,6 @@ class GoodsController extends Controller
                 'norms_value' => $val,
             ];
         }
-        dd($dataGoodsNorms);
 
         //入库
         $this->insertTable('goods_norms', $dataGoodsNorms);
@@ -431,7 +539,7 @@ class GoodsController extends Controller
 
 
         //跳转
-        echo 1;
+        return redirect('/admin-goods-listView');
     }
 
     /**
@@ -458,7 +566,7 @@ class GoodsController extends Controller
      * @param $int
      * @return bool|string
      */
-    protected function substrInt($int)
+    public function substrInt($int)
     {
         if (strlen($int) >= 3)
         {
@@ -546,9 +654,57 @@ class GoodsController extends Controller
 
 
 
+    /**
+     * @brief 添加秒杀商品页面
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function addSecView()
+    {
+        $id = Input::get('id');
+        $dataOneGoods = Goods::find($id);
+        $dataGoodsSku = GoodsSku::select(['sku_id', 'sku_norms', 'sku_num'])
+            ->where(['goods_id' => $id])
+            ->get();
+
+        return view('admin.goods-addSec', ['dataOneGoods' => $dataOneGoods, 'dataGoodsSku' => $dataGoodsSku]);
+    }
+
+    /**
+     * @brief 秒杀商品添加
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
+     */
+    public function addSec()
+    {
+        $dataInfo = Input::get();
+        extract($dataInfo);
+
+        //sku修改
+        foreach ((array)$sku_id as $key => $val)
+        {
+            $db = GoodsSku::find($val);
+            $db->second_price = $second_price[$key];
+            $db->second_num = $second_num[$key];
+            $db->save();
+            $db = null;
+        }
+
+        //秒杀商品入库
+        unset($dataInfo['_token']);
+        unset($dataInfo['sku_id']);
+        unset($dataInfo['second_price']);
+        unset($dataInfo['second_num']);
+
+        //实例化表
+        $db = new GoodsSecond();
+        $db->add($dataInfo);
+
+
+        //跳转
+        return redirect('/admin-goods-listView');
+    }
+
+
 
 
 
 }
-/*Session::flash('alert-success', 'Foto uploaden gelukt');
-return redirect('/profiel');*/

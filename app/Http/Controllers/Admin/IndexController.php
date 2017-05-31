@@ -12,10 +12,13 @@ use App\Models\Part;
 class IndexController extends Controller
 {
 
-	//登录页面
+    /**
+     * 登录页面
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
-    	return view('admin/login');
+        return view('admin.index');
     }
 
     /**

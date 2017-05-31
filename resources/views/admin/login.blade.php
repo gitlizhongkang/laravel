@@ -7,14 +7,9 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- CSS -->
-        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=PT+Sans:400,700'>
-        <link rel="stylesheet" href="css/h_reset.css">
-        <link rel="stylesheet" href="css/h_supersized.css">
-        <link rel="stylesheet" href="css/h_style.css">
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+        <link rel="stylesheet" href="css/admin/reset.css">
+        <link rel="stylesheet" href="css/admin/supersized.css">
+        <link rel="stylesheet" href="css/admin/style.css">
     </head>
     <body>
         <div class="page-container">
@@ -40,7 +35,6 @@
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/supersized.3.2.7.min.js"></script>
         <script src="js/supersized-init.js"></script>
-        <script src="js/scripts.js"></script>
     </body>
 </html>
 
