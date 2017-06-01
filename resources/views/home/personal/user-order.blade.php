@@ -39,7 +39,7 @@
                                         <td bgcolor="#ffffff">操作</td>
                                     </tr>
                                     @foreach ($userOrder as $val)
-                                    <tr>
+                                    <tr class="ll">
                                         <td align="center" bgcolor="#ffffff"><a href="home-personal-orderDetail?order_id={{ $val['order_id'] }}" class="f6">{{ $val['order_sn'] }}</a></td>
                                         <td align="center" bgcolor="#ffffff">{{ date('Y-m-d H:i:s',$val['order_time']) }}</td>
                                         <td align="right" bgcolor="#ffffff">{{ $val['order_price'] }}</em>元</td>
@@ -51,7 +51,7 @@
                                 <form name="selectPageForm" action="/mishop/user.php" method="get">
                                     <div class="clearfix">
                                         <div id="pager" class="pagebar">
-                                            <span class="f_l f6" style="margin-right:10px;">总计 <b>3</b>  个记录</span>
+                                            <span class="f_l f6 " style="margin-right:10px;">总计 <b id="count"></b>  个记录</span>
                                         </div>
                                     </div>
                                 </form>
@@ -107,8 +107,12 @@
     var msg_content_empty = "留言内容为空";
     var msg_title_limit = "留言标题不能超过200个字";
 </script>
-@endsection
 <script>
+    $(document).ready(function () {
+        var length = $('.ll').length;
+        $('#count').html(length);
+    })
+
     $(document).on('click','.deleteOrder',function () {
         var status = $(this).attr('status');
         var order_id = $(this).attr('order_id');
@@ -135,3 +139,4 @@
         }
     })
 </script>
+@endsection

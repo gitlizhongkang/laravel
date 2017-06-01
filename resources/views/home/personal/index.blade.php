@@ -30,25 +30,25 @@
          <div class="userCenterBox boxCenterList clearfix" style="_height:1%; font-size:14px;"> 
           <div class="portal-main clearfix"> 
            <div class="user-card"> 
-            <h2 class="username">aaaa</h2> 
-            <p class="tip">欢迎您回到 小米商城 ~</p> 
-            <a class="link" href="user.php?act=profile">修改个人资料&gt;</a> 
+            <h2 class="username">{{ $userInfo['username'] }}</h2>
+            <p class="tip">欢迎您回到 Baby 商城 ~</p>
+            <a class="link" href="home-personal-userInfo">修改个人资料&gt;</a>
             <img class="avatar" src="images/photo.jpg" />
            </div> 
            <div class="user-actions"> 
             <ul class="action-list"> 
-             <li> 您的上一次登录时间：2017-05-19 15:08:14</li> 
-             <li class="rank">您的等级是 注册用户 <span>(,您还差 10000 积分达到 vip )</span></li> 
-             <li class="validat">您还没有通过邮件认证 <a href="javascript:sendHashMail()" style="color:#f70;">点此发送认证邮件</a></li> 
-            </ul> 
+             <li> 您加入Baby大家庭时间：{{ date('Y-m-d H:i:s',$userInfo['reg_time']) }}</li>
+             <li class="rank">您的等级是    @if (time()-$userInfo['reg_time'] < 60*60*24*7 )新注册成员 @elseif(time()-$userInfo['reg_time'] < 60*60*24*365 ) 高级成员 @else 特级成员 @endif<span></span></li>
+             <li class="validat">您还没有通过邮件认证 <a href="javascript:sendHashMail()" style="color:#f70;">点此发送认证邮件</a></li>
+            </ul>
            </div> 
           </div> 
           <div class="portal-sub"> 
            <ul class="info-list clearfix"> 
-            <li> <h3>余额：<span class="num">9998.00<em>元</em>元</span></h3> <a href="user.php?act=account_log">查看您的账户余额<i class="iconfont"></i></a> <img src="images/portal-icon-1.png" /> </li>
-            <li> <h3>红包：<span class="num">共计 0 个,价值 0.00<em>元</em></span></h3> <a href="user.php?act=bonus">查看您的账户红包<i class="iconfont"></i></a> <img src="images/portal-icon-2.png" /> </li>
-            <li> <h3>积分：<span class="num">0积分</span></h3> <img src="images/portal-icon-3.png" /> </li>
-            <li> <h3> 用户提醒： <span class="num"> 您最近30天内提交了3个订单<br /> </span> </h3> <img src="images/portal-icon-4.png" /> </li>
+            <li> <h3>余额：<span class="num">0.00<em>元</em>元</span></h3> <a href="#">查看您的账户余额<i class="iconfont"></i></a> <img src="images/portal-icon-1.png" /> </li>
+            <li> <h3>地址：<span class="num">共计 {{ $countAddress['data'] }} 个</span></h3> <a href="home-personal-userAddress">查看您的地址信息<i class="iconfont"></i></a> <img src="images/portal-icon-2.png" /> </li>
+            <li> <h3>积分：<span class="num">{{ $userInfo['user_point'] }}积分</span></h3> <img src="images/portal-icon-3.png" /> </li>
+            <li> <h3> 用户提醒： <span class="num"> 您最近30天内提交了{{ $countOrder['data'] }}个订单<br /> </span> </h3> <img src="images/portal-icon-4.png" /> </li>
            </ul> 
           </div> 
          </div> 

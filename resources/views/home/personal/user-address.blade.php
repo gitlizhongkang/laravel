@@ -126,7 +126,6 @@
                                                 </select>
                                                 <select name="city" class="city">
                                                     <option value="">请选择市</option>
-
                                                 </select>
                                                 <select name="district" class="district" style="display:none">
                                                     <option value="">请选择区</option>

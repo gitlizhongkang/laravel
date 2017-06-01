@@ -131,29 +131,39 @@ Route::group(['middleware' => ['web']], function () {
     /** 薛天阔 start */
 
     //个人中心-首页
-    Route::get('home-personal-index',  'Home\PersonalController@index');
+    Route::get('/home-personal-index',  'Home\PersonalController@index');
+    Route::post('/home-personal-getCountAddress',  'Home\PersonalController@getCountAddress');
+    Route::post('/home-personal-getCountOrder',  'Home\PersonalController@getCountOrder');
 
     //个人中心-订单
-    Route::get('home-personal-userOrder',  'Home\PersonalController@userOrder');
-    Route::post('home-personal-getUserOrder',  'Home\PersonalController@getUserOrder');
-    Route::get('home-personal-orderDetail',  'Home\PersonalController@orderDetail');
-    Route::post('home-personal-getOrderGoods',  'Home\PersonalController@getOrderGoods');
-    Route::post('home-personal-deleteOrder',  'Home\PersonalController@deleteOrder');
+    Route::get('/home-personal-userOrder',  'Home\PersonalController@userOrder');
+    Route::post('/home-personal-getUserOrder',  'Home\PersonalController@getUserOrder');
+    Route::get('/home-personal-orderDetail',  'Home\PersonalController@orderDetail');
+    Route::post('/home-personal-getOrderGoods',  'Home\PersonalController@getOrderGoods');
+    Route::post('/home-personal-updateOrder',  'Home\PersonalController@updateOrder');
+    Route::post('/home-personal-deleteOrder',  'Home\PersonalController@deleteOrder');
 
     //个人中心-收货地址
-    Route::get('home-personal-userAddress',  'Home\PersonalController@userAddress');
-    Route::post('home-personal-getUserAddress',  'Home\PersonalController@getUserAddress');
-    Route::post('home-personal-getDistrict',  'Home\PersonalController@getDistrict');
-    Route::post('home-personal-addUserAddress',  'Home\PersonalController@addUserAddress');
-    Route::post('home-personal-updateUserAddress',  'Home\PersonalController@updateUserAddress');
-    Route::post('home-personal-deleteUserAddress',  'Home\PersonalController@deleteUserAddress');
+    Route::get('/home-personal-userAddress',  'Home\PersonalController@userAddress');
+    Route::post('/home-personal-getUserAddress',  'Home\PersonalController@getUserAddress');
+    Route::post('/home-personal-getDistrict',  'Home\PersonalController@getDistrict');
+    Route::post('/home-personal-addUserAddress',  'Home\PersonalController@addUserAddress');
+    Route::post('/home-personal-updateUserAddress',  'Home\PersonalController@updateUserAddress');
+    Route::post('/home-personal-deleteUserAddress',  'Home\PersonalController@deleteUserAddress');
 
     //个人中心-用户信息
-    Route::get('home-personal-userInfo',  'Home\PersonalController@userInfo');
-    Route::post('home-personal-getUserInfo',  'Home\PersonalController@getUserInfo');
-    Route::post('home-personal-updateUserInfo',  'Home\PersonalController@updateUserInfo');
-    Route::post('home-personal-updatePassword',  'Home\PersonalController@updatePassword');
-    
+    Route::get('/home-personal-userInfo',  'Home\PersonalController@userInfo');
+    Route::post('/home-personal-getUserInfo',  'Home\PersonalController@getUserInfo');
+    Route::post('/home-personal-updateUserInfo',  'Home\PersonalController@updateUserInfo');
+    Route::post('/home-personal-updatePassword',  'Home\PersonalController@updatePassword');
+
+    //个人中心-积分
+    Route::get('/home-personal-userPoint','Home\PersonalController@userPoint');
+    Route::post('/home-personal-getPoint','Home\PersonalController@getPoint');
+
+    //个人中心-跟踪包裹
+    Route::get('/home-personal-trackingPackages','Home\PersonalController@trackingPackages');
+    Route::get('/home-personal-getTracking','Home\PersonalController@getTracking');
     /** 薛天阔 end */
 
     

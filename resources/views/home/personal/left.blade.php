@@ -18,8 +18,7 @@
                 <li>
                     <a class="home-personal-index" href="home-personal-index">我的个人中心</a>
                     <a class="home-personal-userInfo" href="home-personal-userInfo">用户信息</a>
-                    <a class="" href="user.php?act=message_list">我的留言</a>
-                    <a class="" href="user.php?act=affiliate">我的推荐</a>
+                    <a class="" href="">我的推荐</a>
                 </li>
             </ul> </li>
         <li class="item">
@@ -28,9 +27,9 @@
             </div>
             <ul>
                 <li>
-                    <a class="" href="user.php?act=bonus">我的红包</a>
-                    <a class="" href="user.php?act=track_packages">跟踪包裹</a>
-                    <a class="" href="user.php?act=account_log">资金管理</a>
+                    <a class="home-personal-userPoin" href="home-personal-userPoint">积分管理</a>
+                    <a class="" href="">我的红包</a>
+                    <a class="" href="home-personal-trackingPackages">跟踪包裹</a>
                 </li>
             </ul>
         </li>
@@ -47,8 +46,10 @@
             $('.home-personal-userInfo').addClass('on').siblings().removeAttr('class','on');
         } else if (route == 'home-personal-userAddress') {
             $('.home-personal-userAddress').addClass('on').siblings().removeAttr('class','on');
-        } else if (route == 'home-personal-userOrder') {
+        } else if (route == 'home-personal-userOrder' || route ==  'home-personal-orderDetail') {
             $('.home-personal-userOrder').addClass('on').siblings().removeAttr('class','on');
+        }else if (route == 'home-personal-userPoin') {
+            $('.home-personal-userPoin').addClass('on').siblings().removeAttr('class','on');
         }
     })
 </script>
