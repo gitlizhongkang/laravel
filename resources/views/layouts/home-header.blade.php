@@ -83,7 +83,7 @@ $user_name = Session::get('username');
                             class="iconfont"></i></a>
                     <ul class="user-menu">
                         <li><a target="_blank" href="home-personal-index">个人中心</a></li>
-                        <li><a target="_blank" href="javascript:;">跟踪包裹</a></li>
+                        <li><a target="_blank" href="home-personal-trackingPackages">跟踪包裹</a></li>
                         <li><a href="home-user-login">退出登录</a></li>
                     </ul>
                 </span>
@@ -333,8 +333,8 @@ $(function(){
                         str+='<a class="thumb" href="home-goods-goodsList?category_name='+v2+'">'+v2+'</a>';
                     })
                     str+='</li>';
-                })                    
-                 str+='</ul></div></li>';                                                              
+                })
+                 str+='</ul></div></li>';
             })
             $('#site-category-list').html(str);
         }
@@ -361,7 +361,7 @@ $(function(){
                 str += ' <p class="loading">购物车中还没有商品，赶紧选购吧！</p>'
             } else {
                 str += '<ul>'
-                $.each(msg.data,function(k,v){               
+                $.each(msg.data,function(k,v){
                     str += '<li class="clearfix first"><div class="cart-item">'
                     str += '<a class="thumb" target="_blank" href="home-goods-goodsInfo?goods_id='+v.goods_id+'"><img src="'+v.sku_img+'"></a>'
                     str += '<a class="name" target="_blank" href="home-goods-goodsInfo?goods_id='+v.goods_id+'">'+v.goods_name+'</a>'
@@ -371,7 +371,7 @@ $(function(){
                 str += '</ul><div class="count clearfix"><strong>共计：<em id="hd_cart_total">'+msg.count+'</em>件</strong></span>'
                 str += '<a class="btn btn-primary" href="home-cart-index">去购物车结算</a></div>'
             }
-            
+
             $('#J_miniCartList').html(str);
         }
 
@@ -382,8 +382,7 @@ $(function(){
     //     url:'home-goods-getCateGoods',
     //     data:{
     //         limit:5,
-    //         category_name:'奶粉',
-    //         _token:"{{csrf_token()}}"
+    //         category_name:'奶粉'
     //     },
     //     dataType:'json',
     //     success:function(msg){
@@ -405,8 +404,7 @@ $(function(){
     //     url:'home-goods-getCateGoods',
     //     data:{
     //         limit:5,
-    //         category_name:'孕妈用品',
-    //         _token:"{{csrf_token()}}"
+    //         category_name:'孕妈用品'
     //     },
     //     dataType:'json',
     //     success:function(msg){

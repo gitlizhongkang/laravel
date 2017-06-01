@@ -39,7 +39,6 @@
             <ul class="action-list"> 
              <li> 您加入Baby大家庭时间：{{ date('Y-m-d H:i:s',$userInfo['reg_time']) }}</li>
              <li class="rank">您的等级是    @if (time()-$userInfo['reg_time'] < 60*60*24*7 )新注册成员 @elseif(time()-$userInfo['reg_time'] < 60*60*24*365 ) 高级成员 @else 特级成员 @endif<span></span></li>
-             <li class="validat">您还没有通过邮件认证 <a href="javascript:sendHashMail()" style="color:#f70;">点此发送认证邮件</a></li>
             </ul>
            </div> 
           </div> 

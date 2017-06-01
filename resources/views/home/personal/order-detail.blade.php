@@ -70,13 +70,13 @@
                                 <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
                                     <tbody>
                                     <tr>
-                                        <td align="right" bgcolor="#ffffff"> 商品总价: {{ $userOrder['order_price'] }}<em>元</em> + 配送费用: {{ $userOrder['logistics_price'] }}<em>元</em> </td>
+                                        <td align="right" bgcolor="#ffffff"> 商品总价: {{ $userOrder['order_price'] }}<em>元</em> + 配送费用: {{ $userOrder['logistics_price'] }}<em>元</em> - 红包: {{ $userOrder['pack_price'] or 0.00 }}<em>元</em></td>
                                     </tr>
                                     <tr>
                                         <td align="right" bgcolor="#ffffff"> </td>
                                     </tr>
                                     <tr>
-                                        <td align="right" bgcolor="#ffffff">应付款金额: {{ $userOrder['order_price']+$userOrder['logistics_price'] }}<em>元</em> </td>
+                                        <td align="right" bgcolor="#ffffff">应付款金额: {{ $userOrder['order_price'] + $userOrder['logistics_price'] - $userOrder['pack_price'] }}<em>元</em> </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -111,7 +111,7 @@
                                 <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
                                     <tbody>
                                     <tr>
-                                        <td bgcolor="#ffffff"> 所选支付方式: 支付宝。应付款金额: <strong>{{ $userOrder['order_price']+$userOrder['logistics_price'] }}<em>元</em></strong><br /> 支付宝网站(www.alipay.com) 是国内先进的网上支付平台。<br />支付宝收款接口：在线即可开通，<font color="red"><b>零预付，免年费</b></font>，单笔阶梯费率，无流量限制。<br /><a href="http://cloud.ecshop.com/payment_apply.php?mod=alipay" target="_blank"><font color="red">立即在线申请</font></a> </td>
+                                        <td bgcolor="#ffffff"> 所选支付方式: 支付宝。应付款金额: <strong>{{ $userOrder['order_price'] + $userOrder['logistics_price'] - $userOrder['pack_price'] }}<em>元</em></strong><br /> 支付宝网站(www.alipay.com) 是国内先进的网上支付平台。<br />支付宝收款接口：在线即可开通，<font color="red"><b>零预付，免年费</b></font>，单笔阶梯费率，无流量限制。<br /><a href="http://cloud.ecshop.com/payment_apply.php?mod=alipay" target="_blank"><font color="red">立即在线申请</font></a> </td>
                                     </tr>
                                     </tbody>
                                 </table>

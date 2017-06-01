@@ -161,9 +161,16 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/home-personal-userPoint','Home\PersonalController@userPoint');
     Route::post('/home-personal-getPoint','Home\PersonalController@getPoint');
 
+    //个人中心-红包
+    Route::get('/home-personal-userPack','Home\PersonalController@userPack');
+    Route::post('/home-personal-getPack','Home\PersonalController@getPack');
+    Route::get('/home-personal-getPack','Home\PersonalController@getPack');
+    Route::post('/home-personal-addPack','Home\PersonalController@addPack');
+
     //个人中心-跟踪包裹
     Route::get('/home-personal-trackingPackages','Home\PersonalController@trackingPackages');
     Route::get('/home-personal-getTracking','Home\PersonalController@getTracking');
+    Route::get('/home-personal-getPackages','Home\PersonalController@getPackages');
     /** 薛天阔 end */
 
     

@@ -32,15 +32,20 @@
                                     <h1>我的订单</h1>
                                     <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
                                         <tr align="center">
-                                            <td bgcolor="#ccc">订单号</td>
-                                            <td bgcolor="#ccc">操作</td>
+                                            <td bgcolor="#ccc">订单号：{{ $logistics_number }}</td>
+                                            <td bgcolor="#ccc">服务商：{{ $logistics_type }}</td>
+                                            <td bgcolor="#ccc">状态：@if (!empty($result)) @if ($result['issign'] == 1) <font color="#32cd32" size="4px">已签收</font> @else <font color="red">未签收</font> @endif @else 订单号错误 @endif</td>
                                         </tr>
-                                        @foreach ($userOrder as $val)
-                                            <tr align="center">
-                                                <td bgcolor="#ffffff"><a href="home-personal-orderDetail?order_id={{ $val['order_id'] }}">{{ $val['order_sn'] }}</a></td>
-                                                <td bgcolor="#ffffff"><a href="home-personal-getTracking?logistics_number={{ $val['logistics_number'] }}&logistics_type={{ $val['logistics_type'] }}">查看物流</a></td>
-                                            </tr>
-                                        @endforeach
+                                    </table>
+                                    <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+                                        @if (!empty($result))
+                                            @foreach ($result['list'] as $val)
+                                                <tr align="center">
+                                                    <td bgcolor="#ffffff">{{ $val['status'] }}</td>
+                                                    <td bgcolor="#ffffff">{{ $val['time'] }}</td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </table>
                                 </div>
                             </div>
