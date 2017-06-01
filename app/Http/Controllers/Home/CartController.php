@@ -37,7 +37,7 @@ class CartController extends Controller
         $data['num'] = Input::get()['num'];
          
         //判断用户是否登录，若没有登录存入cookie，否则就入库     
-        $user_id = Session('uid');        
+        $user_id = Session::get('uid');        
         if (empty($user_id)) {
         	$cookie = Cookie::get('cart');       	
         	
