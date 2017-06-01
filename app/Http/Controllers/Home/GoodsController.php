@@ -341,15 +341,20 @@ class GoodsController extends Controller
 
             $log = new UserBrowerLog;
             $res = $log -> select('category_id') -> where('user_id', $user_id) -> get() -> toArray();
-            
             if (!empty($res)) {
                 //二维数组变为一维数组
                 $category_id = array_column($res, 'category_id');
-                // dd($category_id);
+//                 dd($category_id);
+
                 $recommendation = $goods -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name') 
                 -> whereIn('category_id',$category_id)->where('is_on_sale', '1') -> orderBy('add_time') 
                 -> offset(0) -> limit($limit) -> get() -> toArray();
-            }           
+            } else {
+                $recommendation = $goods -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name')
+                    -> where([['is_hot', 1],['is_on_sale', 1]])
+                    -> orderBy('add_time') -> offset(0)
+                    -> limit($limit) -> get() -> toArray();
+            }
         } else {
             $recommendation = $goods -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name') 
             -> where([['is_hot', 1],['is_on_sale', 1]]) 

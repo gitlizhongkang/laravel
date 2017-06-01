@@ -44,7 +44,6 @@ class IndexController extends Controller
         }
    	
 		$data['recommendation'] = json_decode($goods->getUserLike($user_id,8), true);
-
     	return view('/home/index' , $data);
     }
 
