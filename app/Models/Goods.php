@@ -32,6 +32,7 @@ class Goods extends Model
     //DB::table('goods_attr')->insert($dataAttributes);
     //期望接受[[1,aa],[2,bb],[3,cc]]
 
+<<<<<<< HEAD
     public function select()
     {
         $select =$this->select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name');
@@ -39,4 +40,7 @@ class Goods extends Model
         $limit = $where->offset(0)->limit($limit);
         $res = $limit->get()->toArray();
     }
+=======
+
+>>>>>>> 6c42bbce9217b40c71aee2efdddcdea6146286d1
 }

@@ -94,8 +94,14 @@ class CartController extends Controller
 				$info['user_id'] = $user_id;
 				$info['add_time'] = time();
 				$log = new UserBrowerLog;
-				$count = $log->where('user_id',$user_id)->count();
+				$cate = $log->select('category_id')->where('user_id',$user_id)->first();
 				
+                if ($cate == '') {
+                    $log->fill($info);
+                    $log->save();
+                } else {
+                    $category = explode(',',$cate['category_id']);
+                }
 				//如果浏览记录小于3则继续添加，否则替换掉最旧的那个
 				if($count < 3){
 					$log->fill($info);
