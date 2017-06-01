@@ -116,7 +116,7 @@ $user_name = Session::get('username');
                 </li>
                 <!--导航栏-->
                 <li class="nav-item">
-                    <a class="link" href="home-goods-index?category_id=1"><span>儿童</span></a>
+                    <a class="link" href="home-goods-goodsList?category_name=奶粉"><span>儿童</span></a>
                     <!-- <div class='item-children'>
                         <div class="container">
                             <ul class="children-list clearfix" id='child'>
@@ -127,7 +127,7 @@ $user_name = Session::get('username');
                 </li>
 
                 <li class="nav-item">
-                    <a class="link" href="home-goods-index?category_id=4"><span>孕妇</span></a>
+                    <a class="link" href="home-goods-goodsList?category_name=孕妈用品"><span>孕妇</span></a>
                    <!--  <div class='item-children'>
                         <div class="container">
                             <ul class="children-list clearfix" id='women'>
@@ -155,8 +155,8 @@ $user_name = Session::get('username');
                 <input type="hidden" value="k1" name="dataBi">
                 <button type="submit" class="search-btn iconfont"></button>
                 <div class="hot-words">
-                    <a href="search.php?keywords=%E5%B0%8F%E7%B1%B3%E6%89%8B%E7%8E%AF" target="_blank">小米手环</a>
-                    <a href="search.php?keywords=%E8%80%B3%E6%9C%BA" target="_blank">耳机</a>
+                    <a href="search.php?keywords=%E5%B0%8F%E7%B1%B3%E6%89%8B%E7%8E%AF" target="_blank">飞鹤奶粉</a>
+                    <a href="search.php?keywords=%E8%80%B3%E6%9C%BA" target="_blank">孕妈护肤</a>
                 </div>
             </form>
         </div>
@@ -301,9 +301,9 @@ $user_name = Session::get('username');
             </p>
         </div>
         <div class="info-links">
-            <a href="#"><img src="http://s1.mi.com/zt/12052601/cnnicVerifyseal.png" alt="可信网站"></a>
-            <a href="#"><img src="http://s1.mi.com/zt/12052601/szfwVerifyseal.gif" alt="诚信网站"></a>
-            <a href="#"><img src="http://s1.mi.com/zt/12052601/save.jpg" alt="网上交易保障中心"></a>
+            <a href="#"><img src="images/cnnicVerifyseal.png" alt="可信网站"></a>
+            <a href="#"><img src="images/szfwVerifyseal.gif" alt="诚信网站"></a>
+            <a href="#"><img src="images/save.jpg" alt="网上交易保障中心"></a>
         </div>
     </div>
 </div>
@@ -316,20 +316,23 @@ $(function(){
         type:'post',
         url:'home-index-getCategory',
         dataType:'json',
+        data:{
+            _token:"{{csrf_token()}}"
+        },
         success:function(msg){
             var str = '';
             $.each(msg,function(k,v){
                 str+='<li class="category-item">';
 
-                str+='<a class="title" href="category.php?id=69">'+k+'<i class="iconfont"></i></a>';
+                str+='<a class="title" href="home-goods-goodsList?category_name='+k+'">'+k+'<i class="iconfont"></i></a>';
                 str+='<div class="children clearfix"><ul class="children-list">';
                 $.each(v,function(k1,v1){
-                    str+='<li><a href="category.php?id=70" class="link"  style="width: 280px">';
-                    str+='<span><b style="color:pink">'+k1+'</b></span><br>';
+                    str+='<li><a href="home-goods-goodsList?category_name='+k1+'" class="link"  style="width: 280px">';
+                    str+='<span><b style="color:pink">'+k1+'</b></span></a><br>';
                     $.each(v1,function(k2,v2){
-                        str+='<span class="thumb">'+v2+'</span>';
+                        str+='<a class="thumb" href="home-goods-goodsList?category_name='+v2+'">'+v2+'</a>';
                     })
-                    str+='</a></li>';
+                    str+='</li>';
                 })                    
                  str+='</ul></div></li>';                                                              
             })
@@ -337,12 +340,18 @@ $(function(){
         }
     })
 
+    $(document).on('.link','click',function(){
+        var category_name = $(this).hrml();
+        location.href = 'home-goods-goodsList?category_name='+category_name;
+    })
+
     // 获取mini购物车
     $.ajax({
         type:'post',
         url:'home-cart-getCart',
         data:{
-            limit:3
+            limit:3,
+            _token:"{{csrf_token()}}"
         },
         dataType:'json',
         success:function(msg){
@@ -373,7 +382,8 @@ $(function(){
     //     url:'home-goods-getCateGoods',
     //     data:{
     //         limit:5,
-    //         category_name:'奶粉'
+    //         category_name:'奶粉',
+    //         _token:"{{csrf_token()}}"
     //     },
     //     dataType:'json',
     //     success:function(msg){
@@ -395,7 +405,8 @@ $(function(){
     //     url:'home-goods-getCateGoods',
     //     data:{
     //         limit:5,
-    //         category_name:'孕妈用品'
+    //         category_name:'孕妈用品',
+    //         _token:"{{csrf_token()}}"
     //     },
     //     dataType:'json',
     //     success:function(msg){

@@ -100,7 +100,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('home-index-getCategory', 'Home\IndexController@getCategory');
 
     //商品列表页
-    Route::get('/home-goods-index', 'Home\GoodsController@index');
+    Route::get('/home-goods-goodsList', 'Home\GoodsController@goodsList');
 
     //商品详情页
     Route::get('/home-goods-goodsInfo', 'Home\GoodsController@goodsInfo');
@@ -110,22 +110,6 @@ Route::group(['middleware' => ['web']], function () {
 
     //获取商品的sku
     Route::post('/home-goods-getSku',  'Home\GoodsController@getSku');
-
-    //获取单个商品信息接口
-    Route::get('/home-goods-getGoodsInfo', 'Home\GoodsController@getGoodsInfo');
-    Route::get('/home-goods-getGoodsNorms', 'Home\GoodsController@getGoodsNorms');
-    Route::get('/home-goods-getGoodsAttr', 'Home\GoodsController@getGoodsAttr');
-    Route::get('/home-goods-getGoodsImg', 'Home\GoodsController@getGoodsImg');
-    Route::get('/home-goods-getGoodsComment', 'Home\GoodsController@getGoodsComment');
-
-    //获取最新的商品接口
-    Route::get('/home-goods-getNew',  'Home\GoodsController@getNew');
-
-    //获取秒杀的商品接口
-    Route::get('/home-goods-getSecond',  'Home\GoodsController@getSecond');
-
-    //获取秒杀的商品接口
-    Route::get('/home-goods-getUserLike',  'Home\GoodsController@getUserLike');
 
     //获取分类商品接口
     Route::post('/home-goods-getCateGoods',  'Home\GoodsController@getCateGoods');
