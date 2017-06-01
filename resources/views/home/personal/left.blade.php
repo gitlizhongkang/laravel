@@ -27,9 +27,9 @@
             </div>
             <ul>
                 <li>
-                    <a class="home-personal-userPoin" href="home-personal-userPoint">积分管理</a>
-                    <a class="" href="">我的红包</a>
-                    <a class="" href="home-personal-trackingPackages">跟踪包裹</a>
+                    <a class="home-personal-userPoint" href="home-personal-userPoint">积分管理</a>
+                    <a class="home-personal-userPack" href="home-personal-userPack">我的红包</a>
+                    <a class="home-personal-trackingPackages" href="home-personal-trackingPackages">跟踪包裹</a>
                 </li>
             </ul>
         </li>
@@ -48,8 +48,12 @@
             $('.home-personal-userAddress').addClass('on').siblings().removeAttr('class','on');
         } else if (route == 'home-personal-userOrder' || route ==  'home-personal-orderDetail') {
             $('.home-personal-userOrder').addClass('on').siblings().removeAttr('class','on');
-        }else if (route == 'home-personal-userPoin') {
-            $('.home-personal-userPoin').addClass('on').siblings().removeAttr('class','on');
+        }else if (route == 'home-personal-userPoint') {
+            $('.home-personal-userPoint').addClass('on').siblings().removeAttr('class','on');
+        }else if (route == 'home-personal-userPack') {
+            $('.home-personal-userPack').addClass('on').siblings().removeAttr('class','on');
+        }else if (route == 'home-personal-trackingPackages'|| route == 'home-personal-getTracking') {
+            $('.home-personal-trackingPackages').addClass('on').siblings().removeAttr('class','on');
         }
     })
 </script>
