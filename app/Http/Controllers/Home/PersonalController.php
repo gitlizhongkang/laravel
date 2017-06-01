@@ -461,13 +461,13 @@ class PersonalController extends Controller
      */
     public function getTracking()
     {
-//        $logistics_number = Input::get('logistics_number');
-        $logistics_number = 1202516745301;
+        $logistics_number = Input::get('logistics_number');
         $data['logistics_number'] = $logistics_number;
         $data['logistics_type'] = Input::get('logistics_type');
         /**
          * 快递查询接口
          */
+//        Redis::del($logistics_number);
         if (!empty(Redis::get($logistics_number))) {
             $result = unserialize(Redis::get($logistics_number));
         } else {

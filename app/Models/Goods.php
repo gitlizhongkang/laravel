@@ -37,6 +37,6 @@ class Goods extends Model
         $select =$this->select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name');
         $where = $select->where([['is_hot', 1],['is_on_sale', 1]]);
         $limit = $where->offset(0)->limit($limit);
-        $res = $limit->get()->toArray()
+        $res = $limit->get()->toArray();
     }
 }

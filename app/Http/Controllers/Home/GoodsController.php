@@ -381,7 +381,7 @@ class GoodsController extends Controller
         
         $brand = new Brand;
         $data['brand'] = $brand->findAll();
-        dd($data['userLike']);
+//        dd($data['userLike']);
 
         return view('home/goods-list',$data);
     }
