@@ -151,15 +151,15 @@ class CartController extends Controller
         } else {
             $user = Session::get('user_id');
             $cart = new Cart;
-            $count = $cart->where(['user_id',$user_id])->count();
+            $count = $cart->where('user_id',$user_id)->count();
             if (!empty($limit)) {
                 $msg = $cart->select('goods_sku.sku_img','cart.num','goods_sku.goods_name','goods_sku.sku_price','cart.sku_id','goods_sku.goods_id')->join('goods_sku','goods_sku.sku_id','=','cart.sku_id')
-                    ->where(['user_id',$user_id])->offset(0)->limit(3)->get()->toArray();
+                    ->where('cart.user_id',$user_id)->offset(0)->limit(3)->get()->toArray();
 
 
             } else {
                  $msg = $cart->select('goods_sku.sku_img','cart.num','goods_sku.goods_name','goods_sku.sku_price','cart.sku_id','goods_sku.goods_id')->joinin('goods_sku','goods_sku.sku_id','=','cart.sku_id')
-                    ->where(['user_id',$user_id])->orderBy('add_time')->paginate(10);
+                    ->where('cart.user_id',$user_id)->orderBy('add_time')->paginate(10);
             }   
         }  
         $res['data'] = $msg;

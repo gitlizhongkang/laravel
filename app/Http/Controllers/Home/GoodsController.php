@@ -14,6 +14,7 @@ use App\Models\GoodsNorms;
 use App\Models\Category;
 use Illuminate\Support\Facades\Redis;
 use App\Models\GoodsSecond;
+use App\Models\UserBrowerLog;
 use Session;
 use App\Models\Brand;
 
@@ -380,7 +381,7 @@ class GoodsController extends Controller
         
         $brand = new Brand;
         $data['brand'] = $brand->findAll();
-        // dd($brands);
+        dd($data['userLike']);
 
         return view('home/goods-list',$data);
     }
