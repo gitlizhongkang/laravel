@@ -73,9 +73,7 @@ class PersonalController extends Controller
      * @return array
      */
     public function getDistrict($parent_id = 0){
-        if ($arr=Input::all()) {
-            $parent_id = $arr['parent_id'];
-        }
+        $parent_id = Input::get('parent_id')? Input::get('parent_id'):0;
         $District = new District();
         $District = $District->where('parent_id',$parent_id)->get()->toArray();
         if ($District) {

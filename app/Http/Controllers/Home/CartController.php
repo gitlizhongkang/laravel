@@ -110,7 +110,7 @@ class CartController extends Controller
 					$re = $log ->select('category_id')->where('user_id',$user_id)->orderBy('add_time')->first();
 					$re->category_id = $info['category_id'];
 					$re->save();
-				}				
+				}
 				
 			} else {
 				$msg['error'] =1;

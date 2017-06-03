@@ -171,6 +171,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/home-personal-trackingPackages','Home\PersonalController@trackingPackages');
     Route::get('/home-personal-getTracking','Home\PersonalController@getTracking');
     Route::get('/home-personal-getPackages','Home\PersonalController@getPackages');
+
+    //订单
+    Route::get('/home-order','Home\OrderController@setOrder');
+    Route::post('/home-order-finsh','Home\OrderController@homeOrderFinsh');
     /** 薛天阔 end */
 
     
