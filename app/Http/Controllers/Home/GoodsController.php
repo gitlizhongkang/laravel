@@ -52,6 +52,10 @@ class GoodsController extends Controller
         //获取商品的图片
         $data['img'] = json_decode($this->getGoodsImg($goods_id), true);
         // dd($data['img']);
+        if ($data['goodsInfo']['is_second'] == 1) {
+            // return view('/home/goods-second',$data);
+            return 1;
+        }
 
     	return view('/home/goods',$data);
     }
@@ -202,16 +206,6 @@ class GoodsController extends Controller
         return json_encode($res);
     }
 
-    /**
-     * @brief 商品列表
-     */
-    public function index()
-    {
-        //接值
-        $category_id = Input::get()['category_id'];
-
-        return view('home/goods-list');
-    }
 
     /**
      * @brief 获取分类商品
@@ -223,8 +217,6 @@ class GoodsController extends Controller
         if($category_name == ''){
             $category_name = Input::get()['category_name'];
         }
-       
-        // $limit = Input::get()['limit'];
 
         $where = '1=1';       
         if (!empty($category_name)) {
@@ -269,13 +261,8 @@ class GoodsController extends Controller
         $names = explode(',', $names);
 
         $goods = new Goods;
-
-        // if (empty($limit)) {
-        //     $arr = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->whereIn('category_name', $names)->get()->offset(0)
-        //         ->limit($limit)->toArray();
-        // } else {
-            $arr = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->whereIn('category_name', $names)->paginate(10);
-        // }
+        $arr = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->whereIn('category_name', $names)
+        ->where([['is_on_sale', 1], ['is_second', 0]])->paginate(10);
         
        return $arr;
 
@@ -294,7 +281,7 @@ class GoodsController extends Controller
         $goods = new Goods;
 
         $new= $goods -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name')
-        -> where('is_on_sale', '1')-> orderBy('add_time') 
+        -> where([['is_on_sale', 1], ['is_second', 0]])-> orderBy('add_time') 
         -> offset(0) -> limit($limit) -> get() -> toArray();
 
         return json_encode($new);
@@ -346,20 +333,21 @@ class GoodsController extends Controller
                 $category_id = array_column($res, 'category_id');
 //                 dd($category_id);
 
-                $recommendation = $goods -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name') 
-                -> whereIn('category_id',$category_id)->where('is_on_sale', '1') -> orderBy('add_time') 
-                -> offset(0) -> limit($limit) -> get() -> toArray();
+                $recommendation = $goods 
+                -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name') 
+                -> whereIn('category_id',$category_id)->where([['is_on_sale', 1], ['is_second', 0]]) 
+                -> orderBy('add_time') -> offset(0) -> limit($limit) -> get() -> toArray();
             } else {
-                $recommendation = $goods -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name')
-                    -> where([['is_hot', 1],['is_on_sale', 1]])
-                    -> orderBy('add_time') -> offset(0)
-                    -> limit($limit) -> get() -> toArray();
+                $recommendation = $goods 
+                -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name')
+                -> where([['is_hot', 1],['is_on_sale', 1], ['is_second',0]])
+                -> orderBy('add_time') -> offset(0)-> limit($limit) -> get() -> toArray();
             }
         } else {
-            $recommendation = $goods -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name') 
-            -> where([['is_hot', 1],['is_on_sale', 1]]) 
-            -> orderBy('add_time') -> offset(0)
-            -> limit($limit) -> get() -> toArray();
+            $recommendation = $goods 
+            -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name') 
+            -> where([['is_hot', 1],['is_on_sale', 1], ['is_second',0]]) 
+            -> orderBy('add_time') -> offset(0)-> limit($limit) -> get() -> toArray();
 
         }
 
@@ -368,6 +356,7 @@ class GoodsController extends Controller
 
     /**
      * @brief 商品列表页
+     * @param string $category_name 
      * @return json
      */
     public function goodsList()
@@ -376,6 +365,8 @@ class GoodsController extends Controller
         
         if($category_name != '') {
             $data['goods'] = $this->getCateGoods($category_name);
+        } else {
+            $data['goods'] = $this->getGoods();
         }
 
         $user_id = '';
@@ -389,5 +380,17 @@ class GoodsController extends Controller
 //        dd($data['userLike']);
 
         return view('home/goods-list',$data);
+    }
+
+    /**
+     * @brief 获取所有商品
+     * @return json
+     */
+    public function getGoods()
+    {
+        $goods = new Goods;
+        $arr = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->where([['is_on_sale', 1], ['is_second', 0]])->paginate(10);
+
+        return $arr;
     }
 }

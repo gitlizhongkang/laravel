@@ -123,6 +123,11 @@ Route::group(['middleware' => ['web']], function () {
     //获取购物车接口
     Route::post('/home-cart-getCart',  'Home\CartController@getCart');
 
+    //修改购物车商品接口
+    Route::post('/home-cart-updateNum',  'Home\CartController@updateNum');
+   
+   //删除购物车商品接口
+    Route::get('/home-cart-delOne',  'Home\CartController@delOne');
     
 
     /** 毛宏蕊 end */
