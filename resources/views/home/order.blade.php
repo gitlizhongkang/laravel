@@ -11,7 +11,7 @@
     <script type="text/javascript" src="js/jquery.SuperSlide.js"></script>
     <script type="text/javascript" src="js/xiaomi_common.js"></script>
     <script type="text/javascript" src="js/xiaomi_flow.js"></script>
-
+    <script type="text/javascript" src="js/parsonal/userAddress.js"></script>
 <body>
 
 <div class="page-main">
@@ -25,6 +25,7 @@
                         var flow_no_payment = "您必须选定一个支付方式。";
                         var flow_no_shipping = "您必须选定一个配送方式。";
                     </script>
+                    <input type="hidden" name="type" value="{{$type}}">
                     <ul class="box-main clearfix">
                         <li class="section-options clearfix">
                             <h3 class="section-header" style="height: 80px"><span>收货人信息</span></h3>
@@ -91,7 +92,7 @@
                                     </li>
                                     <li>
                                         <label class="checkout-item pay-type" for="payment_5">微信</label>
-                                        <input type="radio" name="pay_type" class="radio" id="payment_5" value="1"  isCod="0" />
+                                        <input type="radio" name="pay_type" class="radio" id="payment_5" value="2"  isCod="0" />
                                         <div class="text">
                                             <i></i>手续费：0.00<em>元</em>
                                         </div>
@@ -140,27 +141,45 @@
                                 @endif
                             </div>
                             <table width="100%" align="center" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd" class="goods-list-table">
-                                @if ($type == 'direct')
-                                <tr class="shop-list">
-                                    <td bgcolor="#ffffff">
-                                        <img src="{{$goods['sku_img']}}" title="{{$goods['goods_name']}}" width="30" height="30"/>
-                                        <a href="home-goods-goodsInfo?goods_id={{$goods['goods_id']}}" target="_blank" class="f6">{{$goods['goods_name']}}&nbsp;{{$goods['sku_norms']}}
-                                        </a>
-                                    </td>
-                                    <td bgcolor="#ffffff" align="center">{{$goods['sku_price']}}<em>元</em>&nbsp;x&nbsp;{{$num}}</td>
-                                    <td bgcolor="#ffffff" align="center"><span class="shop_price" style="color:#ff6700;">{{$goods['sku_price']*$num}}</span><em>元</em></td>
-                                    <input type="hidden" name="sku_id" value="{{$goods['sku_id']}}">
-                                    <input type="hidden" name="sku_sn" value="{{$goods['sku_sn']}}">
-                                    <input type="hidden" name="goods_id" value="{{$goods['goods_id']}}">
-                                    <input type="hidden" name="goods_name" value="{{$goods['goods_name']}}">
-                                    <input type="hidden" name="sku_norms_value" value="{{$goods['sku_norms']}}">
-                                    <input type="hidden" name="sku_img" value="{{$goods['sku_img']}}">
-                                    <input type="hidden" name="sku_price" value="{{$goods['sku_price']}}">
-                                    <input type="hidden" name="num" value="{{$num}}">
-                                </tr>
-                                @elseif ($type == 'cart')
-
-                                @endif
+                                {{--@if ($type == 'direct')--}}
+                                {{--<tr class="shop-list">--}}
+                                    {{--<td bgcolor="#ffffff">--}}
+                                        {{--<img src="{{$goods['sku_img']}}" title="{{$goods['goods_name']}}" width="30" height="30"/>--}}
+                                        {{--<a href="home-goods-goodsInfo?goods_id={{$goods['goods_id']}}" target="_blank" class="f6">{{$goods['goods_name']}}&nbsp;{{$goods['sku_norms']}}--}}
+                                        {{--</a>--}}
+                                    {{--</td>--}}
+                                    {{--<td bgcolor="#ffffff" align="center">{{$goods['sku_price']}}<em>元</em>&nbsp;x&nbsp;{{$num}}</td>--}}
+                                    {{--<td bgcolor="#ffffff" align="center"><span class="shop_price" style="color:#ff6700;">{{$goods['sku_price']*$num}}</span><em>元</em></td>--}}
+                                    {{--<input type="hidden" name="sku_id" value="{{$goods['sku_id']}}">--}}
+                                    {{--<input type="hidden" name="sku_sn" value="{{$goods['sku_sn']}}">--}}
+                                    {{--<input type="hidden" name="goods_id" value="{{$goods['goods_id']}}">--}}
+                                    {{--<input type="hidden" name="goods_name" value="{{$goods['goods_name']}}">--}}
+                                    {{--<input type="hidden" name="sku_norms_value" value="{{$goods['sku_norms']}}">--}}
+                                    {{--<input type="hidden" name="sku_img" value="{{$goods['sku_img']}}">--}}
+                                    {{--<input type="hidden" name="sku_price" value="{{$goods['sku_price']}}">--}}
+                                    {{--<input type="hidden" name="num" value="{{$num}}">--}}
+                                {{--</tr>--}}
+                                {{--@elseif ($type == 'cart')--}}
+                                    @foreach ($goods as $k => $val)
+                                        <tr class="shop-list">
+                                            <td bgcolor="#ffffff">
+                                                <img src="{{$val['sku_img']}}" title="{{$val['goods_name']}}" width="30" height="30"/>
+                                                <a href="home-goods-goodsInfo?goods_id={{$val['goods_id']}}" target="_blank" class="f6">{{$val['goods_name']}}&nbsp;{{$val['sku_norms']}}
+                                                </a>
+                                            </td>
+                                            <td bgcolor="#ffffff" align="center">{{$val['sku_price']}}<em>元</em>&nbsp;x&nbsp;{{$num[$k]}}</td>
+                                            <td bgcolor="#ffffff" align="center"><span class="shop_price" style="color:#ff6700;">{{$val['sku_price'] * $num[$k]}}</span><em>元</em></td>
+                                            <input type="hidden" name="sku_id[]" value="{{$val['sku_id']}}">
+                                            <input type="hidden" name="sku_sn[]" value="{{$val['sku_sn']}}">
+                                            <input type="hidden" name="goods_id[]" value="{{$val['goods_id']}}">
+                                            <input type="hidden" name="goods_name[]" value="{{$val['goods_name']}}">
+                                            <input type="hidden" name="sku_norms_value[]" value="{{$val['sku_norms']}}">
+                                            <input type="hidden" name="sku_img[]" value="{{$val['sku_img']}}">
+                                            <input type="hidden" name="sku_price[]" value="{{$val['sku_price']}}">
+                                            <input type="hidden" name="num[]" value="{{$num[$k]}}">
+                                        </tr>
+                                    @endforeach
+                                {{--@endif--}}
                                 <tr>
                                     <td colspan="3" align="right" style="font-size: 18px;padding-right: 50px"bgcolor="#ffffff">
                                         小计：<span class="subtotal"style="font-size:24px;color: #FF6700" ></span><em>元</em>
@@ -243,10 +262,11 @@
     </div>
 </div>
 <script>
+
     $(document).ready(function () {
-        var subtotal = '';
+        var subtotal = 0;
         for (var i=0;i<$('.shop-list').length;i++) {
-            subtotal += $('.shop-list').eq(i).children('td').eq(2).children('.shop_price').html();
+            subtotal += parseFloat($('.shop-list').eq(i).children('td').eq(2).children('.shop_price').html());
         }
         $('.subtotal').html(subtotal);
         $('.money-box').children('ul').children('li').eq(1).children("span").html(subtotal);
@@ -272,6 +292,7 @@
         }
 
     })
+
     $(document).on('click','#shipping-list li',function () {
         var obj = $(this);
         var shipping_money = obj.children("input[name='logistics_price']").val();
@@ -283,6 +304,7 @@
         $("input[name='pack_price']").val(pack_price);
         $("input[name='order_price']").val(due);
     })
+
     $(document).on('change','#ECS_BONUS',function () {
         var ECS_BONUS = $(this).val();
         var pack_price = $(this).children('option:selected').html();
@@ -309,6 +331,7 @@
         $("input[name='pack_price']").val(pack_price);
         $("input[name='order_price']").val(allprice);
     })
+
     $(document).on('click',"input[name='userAddress']",function () {
         var address_name = $(this).parents('div').children('.addr-name').html();
         var address_tel = $(this).parents('div').children('.addr-tel').html();
@@ -321,17 +344,27 @@
         $("input[name='district']").val(addrInfo[2]);
         $("input[name='address']").val(addrInfo[3]);
     })
+
     $(document).on('click','.logistics-price',function () {
         $(this).next('input[name="logistics_price"]').attr('checked',true);
         $("input[name='logistics_type']").val($(this).html());
     })
+
     $(document).on('click','.pay-type',function () {
         $(this).next('input[name="pay_type"]').attr('checked',true);
     })
+
     $(document).on('click','#submit',function () {
         var low_use_price = $('#low_use_price').html();
         var allprice = $('#allprice').html();
         var pack_price =  $("input[name='pack_price']").val();
+//        var sku_id = '';
+//        var num = '';
+//        for (var i=0;i<$("input[name='sku_id']").length;i++) {
+//            sku_id += ','+ $("input[name='sku_id']").eq(i).val();
+//            num += ','+ $("input[name='num']").eq(i).val();
+//        }
+//        sku_id = sku_id.substr(1);
         if (parseFloat(allprice)+parseFloat(pack_price) < parseFloat(low_use_price)) {
             alert('该订单不能使用该红包！')
             return false;
@@ -340,5 +373,4 @@
     })
 </script>
 <!--脚部-->
-<script type="text/javascript" src="js/parsonal/userAddress.js"></script>
 @endsection

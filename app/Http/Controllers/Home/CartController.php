@@ -84,23 +84,6 @@ class CartController extends Controller
                     $log->fill($info);
                     $log->save();
                 } else {
-<<<<<<< HEAD
-                    $category = explode(',',$cate['category_id']);
-                }
-				//如果浏览记录小于3则继续添加，否则替换掉最旧的那个
-				if($count < 3){
-					$log->fill($info);
-					$log->save();
-				} else {
-					$re = $log ->select('category_id')->where('user_id',$user_id)->orderBy('add_time')->first();
-					$re->category_id = $info['category_id'];
-					$re->save();
-				}
-				
-			} else {
-				$msg['error'] =1;
-			}   
-=======
                     $category = explode(',',$cate->category_id);
                     if(count($category)<3) {
                         array_push($category,$info['category_id']);
@@ -114,8 +97,7 @@ class CartController extends Controller
                 }               
             } else {
                  $msg['error'] = 1;
-            }										
->>>>>>> 951de310af30a48242e1e8177555ad1cf5f3655a
+            }
         }
 
     	return json_encode($msg);   
