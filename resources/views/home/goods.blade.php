@@ -1,4 +1,4 @@
-@extends('layouts.home-header')
+ @extends('layouts.home-header')
 <?php  
 $user_id = Session::get('uid');
 ?>     
@@ -54,7 +54,7 @@ $user_id = Session::get('uid');
 
                                         <span>本店价：</span> <span class="unit"> <b class="nala_price red" ><span id="ECS_SHOPPRICE">{{$goodsInfo['goods_low_price']}}</span><em>元</em> </b> </span>
 
-                                        <a href="javascript:;" id="membership" data-type="normal" class="membership">高级会员购买享有折扣</a>
+                                       <!--  <a href="javascript:;" id="membership" data-type="normal" class="membership">高级会员购买享有折扣</a>
                                         <div class="membership_con">
                                             <div class="how-bd">
                                                 <h3>会员价格</h3>
@@ -79,7 +79,7 @@ $user_id = Session::get('uid');
                                                     </tbody>
                                                 </table>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </dd>
                                     <dd>
                                         <ul>
@@ -87,7 +87,7 @@ $user_id = Session::get('uid');
                                         </ul>
                                     </dd>
                                     <dd class="goods-info-choose">
-                                        <div id="choose" class="spec_list_box" len="{{count($norms)}}" sku-id='' sku-norms='' sku-num=''>
+                                        <div id="choose" class="spec_list_box" len="{{count($norms)}}" sku-id='' sku-norms='' sku-num='' sku-img=''>
                                             <ul>
                                                 @foreach ($norms as $k=>$v)
                                                 <li  class="GeneralAttrImg">
@@ -173,9 +173,8 @@ $user_id = Session::get('uid');
                                                             $('#choose').attr('sku-norms',norms_value);
                                                             $('#choose').attr('sku-num',msg.sku_num);
                                                             $('.sku-num').html('剩余库存：'+msg.sku_num);
-                                                            $(".spec_list_box .item a").attr('rev','images/goods2.jpg');
-
-
+                                                            $(".spec_list_box .item a").attr('rev',msg.sku_img);
+                                                            $('#choose').attr('sku-img',msg.sku_img);
                                                             $('#ECS_SHOPPRICE').html(msg.sku_price);
                                                         }
                                                    }) 
@@ -475,6 +474,9 @@ $user_id = Session::get('uid');
                return false;
             }
         }
+        var sku_price = $('#ECS_SHOPPRICE').html();
+        var sku_norms =  $('#choose').attr('sku-norms'); 
+        var sku_img =  $('#choose').attr('sku-img'); 
         $.ajax({                               
             type:'post',
             url:'home-cart-add',
@@ -482,6 +484,11 @@ $user_id = Session::get('uid');
                 sku_id:sku_id,
                 num:num,
                 category_id:"{{$goodsInfo['category_id']}}",
+                goods_id:"{{$goodsInfo['goods_id']}}",
+                goods_name:"{{$goodsInfo['goods_name']}}",
+                sku_price:sku_price,
+                sku_norms:sku_norms,
+                sku_img:sku_img,
                 _token:"{{csrf_token()}}"
             },
             dataType:'json',
@@ -502,7 +509,7 @@ $user_id = Session::get('uid');
         </div>
         <div class="go">
             <a href="home-goods-goodsInfo?goods_id={{$goodsInfo['goods_id']}}" class="back">&lt;&lt;继续购物</a>
-            <a href="home-cart-cart" class="btn">去结算</a>
+            <a href="home-cart-index" class="btn">去结算</a>
         </div>
     </div>
 </div>
