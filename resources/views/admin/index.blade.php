@@ -9,12 +9,11 @@
                 <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">后台管理</a>
                 <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
                     <ul class="cl">
-                        <li>超级管理员</li>
                         <li class="dropDown dropDown_hover">
-                            <a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+                            <a href="#" class="dropDown_A">{{$user->name}} <i class="Hui-iconfont">&#xe6d5;</i></a>
                             <ul class="dropDown-menu menu radius box-shadow">
                                 <li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
-                                <li><a href="#">退出</a></li>
+                                <li><a href="{{url('/admin-index-logout')}}">退出登录</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -59,6 +58,7 @@
                     </ul>
                 </dd>
             </dl>
+            @role('admin')
             <dl id="menu-member">
                 <dt><i class="Hui-iconfont">&#xe60d;</i> 会员管理</dt>
                 <dd>
@@ -77,6 +77,7 @@
                     </ul>
                 </dd>
             </dl>
+            @endrole
         </div>
     </aside>
     <div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>

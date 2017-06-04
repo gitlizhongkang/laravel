@@ -21,7 +21,6 @@
                         <th>价格</th>
                         <th>库存</th>
                         <th>缩略图</th>
-                        <th>秒杀价</th>
                         <th>秒杀数量</th>
                     </tr>
                     </thead>
@@ -37,7 +36,6 @@
                             <td class="text-l" field="sku_price"><span class="update">{{$val->sku_price}}</span></td>
                             <td class="text-l" field="sku_num"><span class="update">{{$val->sku_num}}</span></td>
                             <td><a href="javascript:;"><img width="60" class="product-thumb" src="{{$val->sku_img}}"></a></td>
-                            <td class="text-l" field="second_price"><span class="update">{{$val->second_price}}</span></td>
                             <td class="text-l" field="second_num"><span class="update">{{$val->second_num}}</span></td>
                         </tr>
                     @endforeach
@@ -50,6 +48,7 @@
 
 
 @section('js')
+    @permission('update')
     <script type="text/javascript">
         $(function () {
 
@@ -89,4 +88,5 @@
             });
         });
     </script>
+    @endpermission
 @endsection

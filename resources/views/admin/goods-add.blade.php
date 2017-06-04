@@ -70,9 +70,13 @@
                                     <label>商品名称：</label>
                                     <input type="text" name="goods_name" size="30" required>
                                 </td></tr>
-                            <tr><td>
+                            <tr class="tr_price"><td>
                                     <label>商品最低价：</label>
                                     <input type="text" name="goods_low_price" size="20" placeholder="int" required>
+                                </td></tr>
+                            <tr class="tr_point" style="display: none"><td>
+                                    <label>商品积分：</label>
+                                    <input type="text" name="goods_point" size="20" placeholder="int" required>
                                 </td></tr>
                             <tr><td>
                                     <label>商品分类：</label>
@@ -89,7 +93,7 @@
                             <tr><td>
                                     <label>商品特性：</label>
                                     <input type="checkbox" name="is_on_sale" value="1" checked>上架商品
-                                    <input type="checkbox" name="is_point" value="1">积分商品
+                                    <input type="checkbox" class="point" name="is_point" value="1" >积分商品
                                     <input type="checkbox" name="is_second" value="1">秒杀商品
                                     <input type="checkbox" name="is_hot" value="1">热卖商品
                                 </td></tr>
@@ -210,6 +214,24 @@
 
 
         $(function () {
+            //积分商品
+            $('.point').click(function () {
+                var check = $('input[name="is_point"]:checked');
+                console.log(check)
+                if (check.length == 1)
+                {
+                    $('.tr_price').hide().find('input').attr('disabled', true);
+                    $('.tr_point').show().find('input').attr('disabled', false);
+                }
+                else
+                {
+                    $('.tr_price').show().find('input').attr('disabled', false);
+                    $('.tr_point').hide().find('input').attr('disabled', true);
+                }
+            });
+
+
+
             //编辑器
             var ue = UE.getEditor('editor');
 

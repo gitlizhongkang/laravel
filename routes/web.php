@@ -68,7 +68,13 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/admin', 'Admin\IndexController@index');
 
     //后台登录
-    Route::get('/admin-index-login', 'Admin\IndexController@login');
+    Route::get('/admin-login-view', function (){
+        return view('admin.login');
+    });
+    Route::post('/admin-login-login', 'Admin\LoginController@login');
+    Route::get('/admin-index-logout', 'Admin\IndexController@logout');
+
+    //管理员
 
     //商品页面
     Route::match(['get', 'post'],  '/admin-goods-listView',  'Admin\GoodsController@listView');
@@ -92,9 +98,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/admin-goods-skuImg', 'Admin\GoodsController@skuImg');
     Route::post('/admin-goods-add', 'Admin\GoodsController@add');
 
+    //秒杀商品页面
+    Route::get('/admin-goods-secView',  'Admin\GoodsController@secView');
     //秒杀商品添加页面
     Route::get('/admin-goods-addSecView',  'Admin\GoodsController@addSecView');
     Route::post('/admin-goods-addSec',  'Admin\GoodsController@addSec');
+
 
     
     /** 朱迪 end */

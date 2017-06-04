@@ -23,17 +23,25 @@
             </form>
 
             <div class="cl pd-5 bg-1 bk-gray mt-20">
-            <span class="l">
-                <a href="javascript:;" class="btn btn-danger radius deleteAll">
-                    <i class="Hui-iconfont">&#xe6e2;</i> 批量删除
-                </a>
-                <a class="btn btn-primary radius" onclick="product_add('添加商品','{{url('/admin-goods-addView')}}')" href="javascript:;">
-                    <i class="Hui-iconfont">&#xe600;</i> 添加产品
-                </a>
-                <a class="btn btn-primary radius" onclick="product_addSec('修改为秒杀商品')" href="javascript:;">
-                    <i class="Hui-iconfont">&#xe600;</i> 修改为秒杀商品
-                </a>
-            </span>
+                <span class="l">
+                    @permission('delete')
+                    <a href="javascript:;" class="btn btn-danger radius deleteAll">
+                        <i class="Hui-iconfont">&#xe6e2;</i> 批量删除
+                    </a>
+                    @endpermission
+
+                    @permission('insert')
+                    <a class="btn btn-primary radius" onclick="product_add('添加商品','{{url('/admin-goods-addView')}}')" href="javascript:;">
+                        <i class="Hui-iconfont">&#xe600;</i> 添加产品
+                    </a>
+                    @endpermission
+
+                    @permission('update')
+                    <a class="btn btn-primary radius" onclick="product_addSec('修改为秒杀商品')" href="javascript:;">
+                        <i class="Hui-iconfont">&#xe600;</i> 修改为秒杀商品
+                    </a>
+                    @endpermission
+                </span>
                 <span class="r">共有数据：<strong>{{count($dataGoods)}}</strong> 条</span>
             </div>
 
@@ -46,6 +54,7 @@
                         <th>货号</th>
                         <th>商品名称</th>
                         <th>最低价</th>
+                        <th>所需积分</th>
                         <th>分类</th>
                         <th>品牌</th>
                         <th>缩略图</th>
@@ -65,6 +74,7 @@
                             <td>{{$val->goods_sn}}</td>
                             <td class="text-l"><b class="text-success">{{$val->goods_name}}</b></td>
                             <td><span class="price">{{$val->goods_low_price}}</span></td>
+                            <td><span class="price">{{$val->goods_point}}</span></td>
                             <td class="text-l">{{$val->category_name}}</td>
                             <td class="text-l">{{$val->brand_name}}</td>
                             <td><a href="javascript:;"><img width="60" class="product-thumb" src="{{$val->goods_img}}"></a></td>
@@ -82,8 +92,13 @@
                             </td>
                             <td>{{$val->add_time}}</td>
                             <td class="td-manage">
-                                <a style="text-decoration:none" class="ml-5" onClick="product_show('产看sku', '{{url('/admin-goods-skuView')}}?id={{$val->goods_id}}')" href="javascript:;" title="查看sku">
-                                    <i class="Hui-iconfont">&#xe6df;</i>
+                                @if($val->is_second == 1)
+                                <a style="text-decoration:none" class="ml-5" onClick="product_show('产看秒杀商品', '{{url('/admin-goods-secView')}}?id={{$val->goods_id}}')" href="javascript:;" title="产看秒杀商品">
+                                    <i class="Hui-iconfont">&#xe6bb;</i>
+                                </a>
+                                @endif
+                                <a style="text-decoration:none" class="ml-5" onClick="product_show('产看商品规格', '{{url('/admin-goods-skuView')}}?id={{$val->goods_id}}')" href="javascript:;" title="产看商品规格">
+                                    <i class="Hui-iconfont">&#xe6aa;</i>
                                 </a>
                                 <a style="text-decoration:none" class="ml-5" onClick="product_del('{{$val->goods_id}}')" href="javascript:;" title="删除">
                                     <i class="Hui-iconfont">&#xe6e2;</i>
@@ -107,12 +122,20 @@
 @section('js')
     <script type="text/javascript" src="plug/hadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
     <script type="text/javascript">
+        @permission('update')
         $(function () {
             //特性修改
             $('.label').click(function () {
                 var _self = $(this);
+                var field = _self.attr('field');
+
+                //积分商品不可修改
+                if (field == 'is_point')
+                {
+                    return false;
+                }
+
                 layer.confirm('确认要修改产品特性吗？',function(){
-                    var field = _self.attr('field');
                     var content = _self.html();
                     var id = _self.parents('tr').attr('id');
                     var url = "{{url('/admin-goods-updateStatus')}}";
@@ -151,7 +174,9 @@
                 });
             });
         });
+        @endpermission
 
+        @permission('insert')
         /*商品-添加*/
         function product_add(title,url){
             var index = layer.open({
@@ -182,6 +207,7 @@
             });
             layer.full(index);
         }
+        @endpermission
 
         /*sku-查看*/
         function product_show(title,url){

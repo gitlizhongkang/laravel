@@ -60,13 +60,19 @@
                 </div>
             </div>
             <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">秒杀价格：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" name="second_price" required style="width:360px;">
+                </div>
+            </div>
+            <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">总数量：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <input type="text" class="input-text" name="num" readonly required style="width:360px;">
                 </div>
             </div>
             <div class="row cl">
-                <label class="form-label col-xs-4 col-sm-2">规格价格数量：</label>
+                <label class="form-label col-xs-4 col-sm-2">规格数量：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <table>
                         <thead>
@@ -74,7 +80,6 @@
                                 <th>商品规格</th>
                                 <th>商品库存</th>
                                 <th>秒杀数量</th>
-                                <th>秒杀价格</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -83,8 +88,7 @@
                                 <input type="hidden" name="sku_id[]" value="{{$val->sku_id}}">
                                 <td>{{$val->sku_norms}}</td>
                                 <td>{{$val->sku_num}}</td>
-                                <td><input type="text" name="second_num[]" class="input-text" required></td>
-                                <td><input type="text" name="second_price[]" class="input-text" required></td>
+                                <td><input type="text" name="second_num[]" class="input-text" required style="width:360px"></td>
                             </tr>
                         @endforeach
                         </tbody>
