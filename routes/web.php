@@ -180,6 +180,10 @@ Route::group(['middleware' => ['web']], function () {
     //订单
     Route::get('/home-order','Home\OrderController@setOrder');
     Route::post('/home-order-finsh','Home\OrderController@homeOrderFinsh');
+    Route::get('/home-finsh','Home\OrderController@homeFinsh');
+
+    //支付
+    Route::post('/home-pay','Home\OrderController@pay');
     /** 薛天阔 end */
 
     
