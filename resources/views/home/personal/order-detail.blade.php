@@ -36,8 +36,13 @@
                                     </tr>
                                     <tr>
                                         <td align="right" bgcolor="#ffffff">订单状态：</td>
-                                        <td align="left" bgcolor="#ffffff">@if ($userOrder['status'] == 1) 未支付   <input
-                                                    type="button" style="margin-left: 50px" value="立即使用支付宝支付" > @elseif ($userOrder['status'] == 2) 已支付 @elseif ($userOrder['status'] == 3) 已出库 @elseif ($userOrder['status'] == 4) 已收货 @endif</td>
+                                        <td align="left" bgcolor="#ffffff">
+                                            @if ($userOrder['status'] == 1) 未支付<form action="home-pay" style="display: inline-block" class="alipayform" method="post" target="_blank" charset="utf-8"> <input type="hidden" name="WIDout_trade_no" value="{{$userOrder['order_sn']}}"><input type="hidden" name="WIDsubject" value="test商品123"><input type="hidden" name="WIDtotal_fee" value="{{ $userOrder['order_price'] }}"><input type="hidden" name="WIDbody" value="即时到账测试"><input type="hidden" name="_token" value="{{csrf_token()}}"><input type="submit" style="margin-left: 50px" value="立即使用支付宝支付" ></form>
+                                            @elseif ($userOrder['status'] == 2) 已支付
+                                            @elseif ($userOrder['status'] == 3) 已出库
+                                            @elseif ($userOrder['status'] == 4) 已收货
+                                            @endif
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -62,7 +67,7 @@
                                     </tr>
                                     @endforeach
                                     <tr>
-                                        <td colspan="8" bgcolor="#ffffff" align="right"> 商品总价: {{ $userOrder['order_price'] }}<em>元</em> </td>
+                                        <td colspan="8" bgcolor="#ffffff" align="right"> 商品总价: {{ $userOrder['order_price']+$userOrder['pack_price']-$userOrder['logistics_price'] }}<em>元</em> </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -70,13 +75,13 @@
                                 <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
                                     <tbody>
                                     <tr>
-                                        <td align="right" bgcolor="#ffffff"> 商品总价: {{ $userOrder['order_price'] }}<em>元</em> + 配送费用: {{ $userOrder['logistics_price'] }}<em>元</em> - 红包: {{ $userOrder['pack_price'] or 0.00 }}<em>元</em></td>
+                                        <td align="right" bgcolor="#ffffff"> 商品总价: {{ $userOrder['order_price']+$userOrder['pack_price']-$userOrder['logistics_price'] }}<em>元</em> + 配送费用: {{ $userOrder['logistics_price'] }}<em>元</em> - 红包: {{ $userOrder['pack_price'] or 0.00 }}<em>元</em></td>
                                     </tr>
                                     <tr>
                                         <td align="right" bgcolor="#ffffff"> </td>
                                     </tr>
                                     <tr>
-                                        <td align="right" bgcolor="#ffffff">应付款金额: {{ $userOrder['order_price'] + $userOrder['logistics_price'] - $userOrder['pack_price'] }}<em>元</em> </td>
+                                        <td align="right" bgcolor="#ffffff">应付款金额: {{ $userOrder['order_price'] }}<em>元</em> </td>
                                     </tr>
                                     </tbody>
                                 </table>

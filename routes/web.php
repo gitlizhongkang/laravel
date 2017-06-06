@@ -184,6 +184,7 @@ Route::group(['middleware' => ['web']], function () {
 
     //支付
     Route::post('/home-pay','Home\OrderController@pay');
+    Route::get('/home-return-url','Home\OrderController@returnUrl');
     /** 薛天阔 end */
 
     

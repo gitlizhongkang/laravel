@@ -45,15 +45,13 @@
             <div class="section section-payment">
                 <div class="pay_action">
                     <div style="text-align:center">
-                        <form action="home-pay" class="alipayform" method="post" target="_blank">
+                        <form action="home-pay" class="alipayform" method="post">
                             <input type="hidden" name="WIDout_trade_no" value="{{$order_sn}}">
                             <input type="hidden" name="WIDsubject" value="test商品123">
                             <input type="hidden" name="WIDtotal_fee" value="{{$order_price}}">
                             <input type="hidden" name="WIDbody" value="即时到账测试">
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
-                            <div class="element">
-                                <input type="submit" value="立即使用支付宝支付" />
-                            </div>
+                            <input type="submit" value="立即使用支付宝支付" />
                         </form>
                     </div>
                 </div>
