@@ -51,7 +51,7 @@ class FactoryBuilder
     protected $faker;
 
     /**
-     * The number of Models to build.
+     * The number of models to build.
      *
      * @var int|null
      */
@@ -77,7 +77,7 @@ class FactoryBuilder
     }
 
     /**
-     * Set the amount of Models you wish to create / make.
+     * Set the amount of models you wish to create / make.
      *
      * @param  int  $amount
      * @return $this
@@ -92,7 +92,7 @@ class FactoryBuilder
     /**
      * Set the states to be applied to the model.
      *
-     * @param  array|dynamic  $states
+     * @param  array|mixed  $states
      * @return $this
      */
     public function states($states)
@@ -116,7 +116,7 @@ class FactoryBuilder
     }
 
     /**
-     * Create a collection of Models and persist them to the database.
+     * Create a collection of models and persist them to the database.
      *
      * @param  array  $attributes
      * @return mixed
@@ -143,14 +143,14 @@ class FactoryBuilder
     protected function store($results)
     {
         $results->each(function ($model) {
-            $model->setConnection($model->query()->getConnection()->getName());
+            $model->setConnection($model->newQueryWithoutScopes()->getConnection()->getName());
 
             $model->save();
         });
     }
 
     /**
-     * Create a collection of Models.
+     * Create a collection of models.
      *
      * @param  array  $attributes
      * @return mixed

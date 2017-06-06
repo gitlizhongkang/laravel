@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Concerns\BuildsQueries;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
@@ -98,7 +97,7 @@ class Builder
     }
 
     /**
-     * Create and return and un-saved model instance.
+     * Create and return an un-saved model instance.
      *
      * @param  array  $attributes
      * @return \Illuminate\Database\Eloquent\Model
@@ -229,7 +228,7 @@ class Builder
     }
 
     /**
-     * Create a collection of Models from plain arrays.
+     * Create a collection of models from plain arrays.
      *
      * @param  array  $items
      * @return \Illuminate\Database\Eloquent\Collection
@@ -244,7 +243,7 @@ class Builder
     }
 
     /**
-     * Create a collection of Models from a raw query.
+     * Create a collection of models from a raw query.
      *
      * @param  string  $query
      * @param  array  $bindings
@@ -274,7 +273,7 @@ class Builder
     }
 
     /**
-     * Find multiple Models by their primary keys.
+     * Find multiple models by their primary keys.
      *
      * @param  array  $ids
      * @param  array  $columns
@@ -441,7 +440,7 @@ class Builder
     {
         $builder = $this->applyScopes();
 
-        // If we actually found Models we will also eager load any relationships that
+        // If we actually found models we will also eager load any relationships that
         // have been specified as needing to be eager loaded, which will solve the
         // n+1 query issue for the developers to avoid running a lot of queries.
         if (count($models = $builder->getModels($columns)) > 0) {
@@ -452,7 +451,7 @@ class Builder
     }
 
     /**
-     * Get the hydrated Models without eager loading.
+     * Get the hydrated models without eager loading.
      *
      * @param  array  $columns
      * @return \Illuminate\Database\Eloquent\Model[]
@@ -465,7 +464,7 @@ class Builder
     }
 
     /**
-     * Eager load the relationships for the Models.
+     * Eager load the relationships for the models.
      *
      * @param  array  $models
      * @return array
@@ -475,7 +474,7 @@ class Builder
         foreach ($this->eagerLoad as $name => $constraints) {
             // For nested eager loads we'll skip loading them here and they will be set as an
             // eager load on the query to retrieve the relation so that they will be eager
-            // loaded on that query, because that is where they get hydrated as Models.
+            // loaded on that query, because that is where they get hydrated as models.
             if (strpos($name, '.') === false) {
                 $models = $this->eagerLoadRelation($models, $name, $constraints);
             }
@@ -485,7 +484,7 @@ class Builder
     }
 
     /**
-     * Eagerly load the relationship on a set of Models.
+     * Eagerly load the relationship on a set of models.
      *
      * @param  array  $models
      * @param  string  $name
@@ -503,9 +502,9 @@ class Builder
 
         $constraints($relation);
 
-        // Once we have the results, we just match those back up to their parent Models
+        // Once we have the results, we just match those back up to their parent models
         // using the relationship instance. Then we just return the finished arrays
-        // of Models which have been eagerly hydrated and are readied for return.
+        // of models which have been eagerly hydrated and are readied for return.
         return $relation->match(
             $relation->initRelation($models, $name),
             $relation->getEager(), $name
@@ -658,7 +657,7 @@ class Builder
 
         // If the model has a mutator for the requested column, we will spin through
         // the results and mutate the values so that the mutated version of these
-        // columns are returned as you would expect from these Eloquent Models.
+        // columns are returned as you would expect from these Eloquent models.
         if (! $this->model->hasGetMutator($column) &&
             ! $this->model->hasCast($column) &&
             ! in_array($column, $this->model->getDates())) {
@@ -691,7 +690,7 @@ class Builder
                                     ? $this->forPage($page, $perPage)->get($columns)
                                     : $this->model->newCollection();
 
-        return new LengthAwarePaginator($results, $total, $perPage, $page, [
+        return $this->paginator($results, $total, $perPage, $page, [
             'path' => Paginator::resolveCurrentPath(),
             'pageName' => $pageName,
         ]);
@@ -717,7 +716,7 @@ class Builder
         // paginator instances for these results with the given page and per page.
         $this->skip(($page - 1) * $perPage)->take($perPage + 1);
 
-        return new Paginator($this->get($columns), $perPage, $page, [
+        return $this->simplePaginator($this->get($columns), $perPage, $page, [
             'path' => Paginator::resolveCurrentPath(),
             'pageName' => $pageName,
         ]);
@@ -925,7 +924,8 @@ class Builder
         // We will keep track of how many wheres are on the query before running the
         // scope so that we can properly group the added scope constraints in the
         // query as their own isolated nested where statement and avoid issues.
-        $originalWhereCount = count($query->wheres);
+        $originalWhereCount = is_null($query->wheres)
+                    ? 0 : count($query->wheres);
 
         $result = $scope(...array_values($parameters)) ?: $this;
 

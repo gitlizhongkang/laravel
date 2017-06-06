@@ -9,7 +9,7 @@
 <div class="breadcrumbs">
     <div class="container">
         <a href="{{URL::to('/')}}">首页</a> 
-        <code>&gt;</code> <a href="home-goods-goodsInfo?category_name"></a>
+        <code>&gt;</code> <a href="javascript:;">商品列表</a>
     </div>
 </div>
 
@@ -49,20 +49,20 @@
             <form method="GET" name="listform">
                 <ul class="order-list">
                     <li class="first active">
-                        <a title="销量" href="category.php?category=76&display=grid&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=sales_volume&order=ASC#goods_list" class="curr" rel="nofollow">
+                        <a title="销量" href="javascript:;" class="curr" rel="nofollow">
                             <span class="search_DESC">销量</span>&nbsp;<i class="iconfont"></i>
                         </a>
                     </li>
                     <li class="">
-                        <a title="价格" href="category.php?category=76&display=grid&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=shop_price&order=ASC#goods_list"  rel="nofollow">
-                            <span class="">价格</span>
+                        <a title="价格" href="javascript:;"  rel="nofollow">
+                            <span class="">价格</span>&nbsp;<i class="iconfont"></i>
                         </a>
                     </li>
-                    <li class="">
+                   <!--  <li class="">
                         <a title="上架时间" href="category.php?category=76&display=grid&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=goods_id&order=DESC#goods_list" rel="nofollow">
                             <span class="">上架时间</span>
                         </a>
-                    </li>
+                    </li> -->
                     <input type="hidden" name="category" value="76" />
                     <input type="hidden" name="display" value="grid" id="display" />
                     <input type="hidden" name="brand" value="0" />
@@ -95,7 +95,7 @@
                         <p class="desc">{{$v['brand_name']}}</p>
                         <h2 class="title"><a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" title="{{$v['goods_name']}}">{{$v['goods_name']}}</a></h2>
                         <p class="price">
-                            本店价<font class="shop_s">{{$v['goods_low_price']}}<em>元</em></font>
+                            本店价：<font class="shop_s">{{$v['goods_low_price']}}<em>元</em></font>
                           <!--   <del>专柜价<font class="market_s">358<em>元</em></font></del> -->
                         </p>
                         <!-- <div class="thumbs J_attrImg">
@@ -110,9 +110,9 @@
                         <!-- <div class="actions clearfix"> -->
                            <!--  <a href="javascript:addToCart(29)" class="btn-buy J_buyGoods"><span>加入购物车</span> <i class="iconfont"></i></a> -->
                         <!-- </div> -->
-                        <div class="flags">
+                        <!-- <div class="flags">
                             <div class="flag flag-saleoff">8.4折促销</div>
-                        </div>
+                        </div> -->
                     </div>
                 @endforeach
                 @else
