@@ -31,15 +31,7 @@
     </style>
 
     <div>
-        <nav class="breadcrumb">
-            <i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 产品管理 <span class="c-gray en">&gt;</span>
-            产品列表
-            <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
-               href="javascript:location.replace(location.href);" title="刷新">
-                <i class="Hui-iconfont">&#xe68f;</i>
-            </a>
-        </nav>
-        <form action="{{url('/admin-goods-add')}}" method="post" enctype="multipart/form-data">
+        <form action="{{url('/admin-goods-add')}}" method="post" enctype="multipart/form-data" id="form-article-add">
             <div class="page-container">
                 <div class="cl pd-5 bg-1 bk-gray mt-20">
                     <span class="l">
@@ -162,8 +154,24 @@
     <script src="plug/ueditor/ueditor.config.js"></script>
     <script src="plug/ueditor/ueditor.all.min.js"></script>
     <script src="plug/ueditor/lang/zh-cn/zh-cn.js"></script>
-
+    <script src="plug/hadmin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+    <script src="plug/hadmin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
     <script>
+
+        //表单验证
+        $("#form-article-add").validate({
+            rules:{},
+            onkeyup:false,
+            focusCleanup:true,
+            success:"valid",
+            submitHandler:function(form){
+                $(form).ajaxSubmit();
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            }
+        });
+
+
         //生成分类下拉表
         $(function () {
             var url = '{{url('/admin-goods-category')}}';

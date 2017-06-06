@@ -74,7 +74,37 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/admin-login-login', 'Admin\LoginController@login');
     Route::get('/admin-index-logout', 'Admin\IndexController@logout');
 
-    //管理员
+
+
+    //管理员展示
+    Route::get('/admin-rbac-adminView', 'Admin\RbacController@adminView');
+
+
+    //管理员角色展示
+    Route::get('/admin-rbac-roleView', 'Admin\RbacController@roleView');
+    Route::get('/admin-rbac-addRoleView', function (){
+        return view('admin.rbac-addRole');
+    });
+    Route::post('/admin-rbac-addRole', 'Admin\RbacController@addRole');
+    //绑定角色
+    Route::get('/admin-rbac-bindRoleToUserView', 'Admin\RbacController@bindRoleToUserView');
+    Route::get('/admin-rbac-checkRoleToUser', 'Admin\RbacController@checkRoleToUser');
+    Route::post('/admin-rbac-bindRoleToUser', 'Admin\RbacController@bindRoleToUser');
+
+
+    //管理员权限展示
+    Route::get('/admin-rbac-permissionView', 'Admin\RbacController@permissionView');
+    Route::get('/admin-rbac-addPermissionView', function (){
+        return view('admin.rbac-addPermission');
+    });
+    Route::post('/admin-rbac-addPermission', 'Admin\RbacController@addPermission');
+    //绑定角色
+    Route::get('/admin-rbac-bindPermissionToRoleView', 'Admin\RbacController@bindPermissionToRoleView');
+    Route::get('/admin-rbac-checkPermissionToRole', 'Admin\RbacController@checkPermissionToRole');
+    Route::post('/admin-rbac-bindPermissionToRole', 'Admin\RbacController@bindPermissionToRole');
+
+
+
 
     //商品页面
     Route::match(['get', 'post'],  '/admin-goods-listView',  'Admin\GoodsController@listView');

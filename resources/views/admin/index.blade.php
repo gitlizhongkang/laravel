@@ -59,21 +59,13 @@
                 </dd>
             </dl>
             @role('admin')
-            <dl id="menu-member">
-                <dt><i class="Hui-iconfont">&#xe60d;</i> 会员管理</dt>
-                <dd>
-                    <ul>
-                        <li><a data-href="member-list.html" data-title="会员列表" href="javascript:;">会员列表</a></li>
-                    </ul>
-                </dd>
-            </dl>
             <dl id="menu-admin">
                 <dt><i class="Hui-iconfont">&#xe62d;</i> 管理员管理</dt>
                 <dd>
                     <ul>
-                        <li><a data-href="admin-role.html" data-title="角色管理" href="javascript:void(0)">角色管理</a></li>
-                        <li><a data-href="admin-permission.html" data-title="权限管理" href="javascript:void(0)">权限管理</a></li>
-                        <li><a data-href="admin-list.html" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>
+                        <li><a data-href="{{url('/admin-rbac-roleView')}}" data-title="角色管理" href="javascript:void(0)">角色管理</a></li>
+                        <li><a data-href="{{url('/admin-rbac-permissionView')}}" data-title="权限管理" href="javascript:void(0)">权限管理</a></li>
+                        <li><a data-href="{{url('/admin-rbac-adminView')}}" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>
                     </ul>
                 </dd>
             </dl>

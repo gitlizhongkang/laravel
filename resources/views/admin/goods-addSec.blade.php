@@ -97,7 +97,7 @@
             </div>
             <div class="row cl">
                 <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-                    <input type="submit" value="创建秒杀商品" class="btn btn-secondary radius">
+                    <input type="submit" class="btn btn-primary radius" value="创建秒杀商品">
                 </div>
             </div>
         </form>
@@ -108,7 +108,25 @@
 
 @section('js')
     <script type="text/javascript" src="plug/hadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+    <script type="text/javascript" src="plug/hadmin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+    <script type="text/javascript" src="plug/hadmin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+    <script type="text/javascript" src="plug/hadmin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
     <script>
+
+        //表单验证
+        $("#form-article-add").validate({
+            rules:{},
+            onkeyup:false,
+            focusCleanup:true,
+            success:"valid",
+            submitHandler:function(form){
+                $(form).ajaxSubmit();
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            }
+        });
+
+
         $(function () {
             //改变数量
             $('input[name="second_num[]"]').keyup(function () {
