@@ -1,40 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <title>商城</title>
-    <link rel="shortcut icon" href="favicon.ico" />
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
-    <link href="css/user.css" rel="stylesheet" type="text/css" />
+@extends('layouts.home-header')
 
-    <script type="text/javascript" src="js/common.js"></script>
-    <script type="text/javascript" src="js/user.js"></script>
-    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="js/jquery.json.js"></script>
-    <script type="text/javascript" src="js/transport_jquery.js"></script>
-    <script type="text/javascript" src="js/utils.js"></script>
-    <script type="text/javascript" src="js/jquery.SuperSlide.js"></script>
-    <script type="text/javascript" src="js/xiaomi_common.js"></script>
-    <script type="text/javascript">
-        function checkSearchForm()
-        {
-            if(document.getElementById('keyword').value)
-            {
-                return true;
-            }
-            else
-            {
-                alert("请输入搜索关键词！");
-                return false;
-            }
-        }
-    </script>
-</head>
+@section('content')
+<link href="css/user.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/user.js"></script>
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.json.js"></script>
+<script type="text/javascript" src="js/transport_jquery.js"></script>
+<script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript" src="js/jquery.SuperSlide.js"></script>
+<script type="text/javascript" src="js/xiaomi_common.js"></script>
 <body class="user_center">
-{{--头部--}}
-{{--@include('header')--}}
-
 <!--通栏-->
 <div class="breadcrumbs">
     <div class="container">
@@ -63,7 +39,7 @@
                                         <td bgcolor="#ffffff">操作</td>
                                     </tr>
                                     @foreach ($userOrder as $val)
-                                    <tr>
+                                    <tr class="ll">
                                         <td align="center" bgcolor="#ffffff"><a href="home-personal-orderDetail?order_id={{ $val['order_id'] }}" class="f6">{{ $val['order_sn'] }}</a></td>
                                         <td align="center" bgcolor="#ffffff">{{ date('Y-m-d H:i:s',$val['order_time']) }}</td>
                                         <td align="right" bgcolor="#ffffff">{{ $val['order_price'] }}</em>元</td>
@@ -75,7 +51,7 @@
                                 <form name="selectPageForm" action="/mishop/user.php" method="get">
                                     <div class="clearfix">
                                         <div id="pager" class="pagebar">
-                                            <span class="f_l f6" style="margin-right:10px;">总计 <b>3</b>  个记录</span>
+                                            <span class="f_l f6 " style="margin-right:10px;">总计 <b id="count"></b>  个记录</span>
                                         </div>
                                     </div>
                                 </form>
@@ -131,11 +107,12 @@
     var msg_content_empty = "留言内容为空";
     var msg_title_limit = "留言标题不能超过200个字";
 </script>
-
-
-<!--脚部-->
-{{--@include('footer')--}}
 <script>
+    $(document).ready(function () {
+        var length = $('.ll').length;
+        $('#count').html(length);
+    })
+
     $(document).on('click','.deleteOrder',function () {
         var status = $(this).attr('status');
         var order_id = $(this).attr('order_id');
@@ -162,3 +139,4 @@
         }
     })
 </script>
+@endsection

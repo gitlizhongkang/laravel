@@ -1,6 +1,9 @@
 @extends('layouts.home-header')
   
 @section('content')
+<link href="css/index.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/xiaomi_index.js"></script>
 <div class="home-hero-container container">
     <div class="home-hero">
         <div class="home-hero-slider">
@@ -129,7 +132,7 @@
                         @foreach ($recommendation as $k=>$v)
                         <li class="rainbow-item-1">
                             <a class="thumb" href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" target="_blank">
-                                <img src="images/goods.jpg"/>
+                                <img src="{{$v['goods_img']}}"/>
                             </a>
                             <h3 class="title">
                                 <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" target="_blank">{{$v['goods_name']}}</a>
@@ -202,8 +205,8 @@
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">
-                                        <img src="images/goods.jpg" width="160"
-                                             height="160" alt="小米空气净化器">
+                                        <img src="{{$v['goods_img']}}" width="160"
+                                             height="160" alt="{{$v['goods_name']}}">
                                     </a>
                                 </div>
                                 <h3 class="title">
@@ -251,12 +254,13 @@
                     </div>
                     <div class="span16">
                         <ul class="brick-list clearfix">
+                        @if (!empty($second)) 
                             @foreach ($second as $k=>$v)
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
                                     <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">
-                                        <img src="images/goods1.jpg" width="160"
-                                             height="160" alt="">
+                                        <img src="{{$v['goods_img']}}" width="160"
+                                             height="160" alt="{{$v['goods_name']}}">
                                     </a>
                                 </div>
                                 <h3 class="title">
@@ -274,6 +278,16 @@
                                 </div>
                             </li>
                             @endforeach
+                        @else
+                         <div class="add_ok" id="cart_show" style="display: block; margin: 200px 200px;">
+                            <div class="tip">
+                                最近没有秒杀商品哦！！！
+                            </div>
+                            <div class="go">
+                                <a href="home-goods-index" class="btn">去看看其他吧</a>
+                            </div>
+                        </div>
+                        @endif
                         </ul>
                     </div>
                 </div>
@@ -283,7 +297,3 @@
     </div>
 </div>
 @endsection
-
-
-
-<!--脚部-->

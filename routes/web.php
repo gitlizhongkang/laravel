@@ -59,7 +59,15 @@ Route::group(['middleware' => ['web']], function () {
     // 验证码
     Route::get("home-user-code",  'Home\UserController@code');
 
+
+    // 早教音乐首页
+    Route::get("home-music-index",  'Home\MusicController@index');
+
+    // 单个音乐播放页
+    Route::get("home-music-detail",  'Home\MusicController@detail');
+
     /** 李钟康 end */
+
 
 
     /** 朱迪 start */
@@ -78,7 +86,6 @@ Route::group(['middleware' => ['web']], function () {
 
     //管理员展示
     Route::get('/admin-rbac-adminView', 'Admin\RbacController@adminView');
-
 
     //管理员角色展示
     Route::get('/admin-rbac-roleView', 'Admin\RbacController@roleView');
@@ -105,7 +112,6 @@ Route::group(['middleware' => ['web']], function () {
 
 
 
-
     //商品页面
     Route::match(['get', 'post'],  '/admin-goods-listView',  'Admin\GoodsController@listView');
     Route::get('/admin-goods-updateStatus',  'Admin\GoodsController@updateStatus');
@@ -113,6 +119,10 @@ Route::group(['middleware' => ['web']], function () {
     //sku页面
     Route::get('/admin-goods-skuView',  'Admin\GoodsController@skuView');
     Route::get('/admin-goods-updateSku',  'Admin\GoodsController@updateSku');
+
+    //秒杀商品页面
+    Route::get('/admin-goods-secView',  'Admin\GoodsController@secView');
+
 
     //商品添加页面
     Route::get('/admin-goods-addView', function (){
@@ -126,14 +136,14 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/admin-goods-attributesType', 'Admin\GoodsController@attributesType');
     Route::get('/admin-goods-attributes', 'Admin\GoodsController@attributes');
     Route::post('/admin-goods-skuImg', 'Admin\GoodsController@skuImg');
+    //商品添加
     Route::post('/admin-goods-add', 'Admin\GoodsController@add');
 
-    //秒杀商品页面
-    Route::get('/admin-goods-secView',  'Admin\GoodsController@secView');
+
     //秒杀商品添加页面
     Route::get('/admin-goods-addSecView',  'Admin\GoodsController@addSecView');
+    //秒杀商品添加
     Route::post('/admin-goods-addSec',  'Admin\GoodsController@addSec');
-
 
     
     /** 朱迪 end */
@@ -149,6 +159,8 @@ Route::group(['middleware' => ['web']], function () {
 
     //商品列表页
     Route::get('/home-goods-index', 'Home\GoodsController@index');
+    Route::get('/home-goods-goodsList', 'Home\GoodsController@goodsList');
+
 
     //商品详情页
     Route::get('/home-goods-goodsInfo', 'Home\GoodsController@goodsInfo');
@@ -156,15 +168,31 @@ Route::group(['middleware' => ['web']], function () {
     //商品评价页面
     Route::get('/home-goods-comment',  'Home\GoodsController@comment');
 
+
     //获取商品的sku
     Route::post('/home-goods-getSku',  'Home\GoodsController@getSku');
 
-    //添加商品到购物车
+    //获取分类商品接口
+    Route::post('/home-goods-getCateGoods',  'Home\GoodsController@getCateGoods');
+
+    //添加商品到购物车接口
     Route::post('/home-cart-add',  'Home\CartController@add');
 
+    //购物车首页
     Route::get('/home-cart-index',  'Home\CartController@index');
 
+    //获取购物车接口
+    Route::post('/home-cart-getCart',  'Home\CartController@getCart');
+
+    //修改购物车商品接口
+    Route::post('/home-cart-updateNum',  'Home\CartController@updateNum');
+   
+   //删除购物车商品接口
+    Route::get('/home-cart-delOne',  'Home\CartController@delOne');
+
     /** 毛宏蕊 end */
+
+
 
 
     /** 薛天阔 start */
@@ -192,25 +220,26 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('home-personal-getUserInfo',  'Home\PersonalController@getUserInfo');
     Route::post('home-personal-updateUserInfo',  'Home\PersonalController@updateUserInfo');
     Route::post('home-personal-updatePassword',  'Home\PersonalController@updatePassword');
-    
+
+    //个人中心-积分
+    Route::get('/home-personal-userPoint','Home\PersonalController@userPoint');
+    Route::post('/home-personal-getPoint','Home\PersonalController@getPoint');
+
+    //个人中心-红包
+    Route::get('/home-personal-userPack','Home\PersonalController@userPack');
+    Route::post('/home-personal-getPack','Home\PersonalController@getPack');
+    Route::get('/home-personal-getPack','Home\PersonalController@getPack');
+    Route::post('/home-personal-addPack','Home\PersonalController@addPack');
+
+    //个人中心-跟踪包裹
+    Route::get('/home-personal-trackingPackages','Home\PersonalController@trackingPackages');
+    Route::get('/home-personal-getTracking','Home\PersonalController@getTracking');
+    Route::get('/home-personal-getPackages','Home\PersonalController@getPackages');
+
     /** 薛天阔 end */
 
     
     /** 郭洪彬 start */
-
-     /*//后台登录页面
-    Route::get('/admin',  'Admin\IndexController@index');
-    Route::post('/admin-index-login',  'Admin\IndexController@login');
-    //登录成功页面
-    Route::get('/admin-index-login_scs',  'Admin\IndexController@login_scs');
-    //权限管理-管理员
-    Route::get('/admin-index-system',  'Admin\IndexController@system');
-    //添加管理员
-    Route::get('/admin-index-add_admin',  'Admin\IndexController@add_admin');
-    Route::post('/admin-index-begin_add',  'Admin\IndexController@begin_add');
-    //统计
-    Route::get('/admin-count-sales',  'Admin\CountController@count_sales');
-    Route::post('/admin-count-count', 'Admin\CountController@count_count');*/
 
     /** 郭洪彬 end */
 });

@@ -18,8 +18,7 @@
                 <li>
                     <a class="home-personal-index" href="home-personal-index">我的个人中心</a>
                     <a class="home-personal-userInfo" href="home-personal-userInfo">用户信息</a>
-                    <a class="" href="user.php?act=message_list">我的留言</a>
-                    <a class="" href="user.php?act=affiliate">我的推荐</a>
+                    <a class="" href="">我的推荐</a>
                 </li>
             </ul> </li>
         <li class="item">
@@ -28,9 +27,9 @@
             </div>
             <ul>
                 <li>
-                    <a class="" href="user.php?act=bonus">我的红包</a>
-                    <a class="" href="user.php?act=track_packages">跟踪包裹</a>
-                    <a class="" href="user.php?act=account_log">资金管理</a>
+                    <a class="home-personal-userPoint" href="home-personal-userPoint">积分管理</a>
+                    <a class="home-personal-userPack" href="home-personal-userPack">我的红包</a>
+                    <a class="home-personal-trackingPackages" href="home-personal-trackingPackages">跟踪包裹</a>
                 </li>
             </ul>
         </li>
@@ -47,8 +46,14 @@
             $('.home-personal-userInfo').addClass('on').siblings().removeAttr('class','on');
         } else if (route == 'home-personal-userAddress') {
             $('.home-personal-userAddress').addClass('on').siblings().removeAttr('class','on');
-        } else if (route == 'home-personal-userOrder') {
+        } else if (route == 'home-personal-userOrder' || route ==  'home-personal-orderDetail') {
             $('.home-personal-userOrder').addClass('on').siblings().removeAttr('class','on');
+        }else if (route == 'home-personal-userPoint') {
+            $('.home-personal-userPoint').addClass('on').siblings().removeAttr('class','on');
+        }else if (route == 'home-personal-userPack') {
+            $('.home-personal-userPack').addClass('on').siblings().removeAttr('class','on');
+        }else if (route == 'home-personal-trackingPackages'|| route == 'home-personal-getTracking') {
+            $('.home-personal-trackingPackages').addClass('on').siblings().removeAttr('class','on');
         }
     })
 </script>

@@ -11,6 +11,12 @@ use App\Models\GoodsImg;
 use App\Models\GoodsSku;
 use App\Models\GoodsComment;
 use App\Models\GoodsNorms;
+use App\Models\Category;
+use Illuminate\Support\Facades\Redis;
+use App\Models\GoodsSecond;
+use App\Models\UserBrowerLog;
+use Session;
+use App\Models\Brand;
 
 class GoodsController extends Controller
 {
@@ -42,7 +48,14 @@ class GoodsController extends Controller
 
         //获取商品的评论
         $data['comment'] = json_decode($this->getGoodsComment($goods_id), true);
-        // dd($data['comment']);
+
+        //获取商品的图片
+        $data['img'] = json_decode($this->getGoodsImg($goods_id), true);
+        // dd($data['img']);
+        if ($data['goodsInfo']['is_second'] == 1) {
+            // return view('/home/goods-second',$data);
+            return 1;
+        }
 
     	return view('/home/goods',$data);
     }
@@ -68,12 +81,13 @@ class GoodsController extends Controller
      */
     public function getGoodsInfo($goods_id = '')
     {
-        if ($goods_id =='') {
-            $goods_id = Input::get()['goods_id'];           
-        }
+        if($goods_id == '') {
+           $goods_id = Input::get()['goods_id'];   
+        } 
+                  
 
         $goods = new Goods;
-        $res = $goods->find($goods_id);
+        $res = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->find($goods_id);
         
         return json_encode($res);
     }
@@ -85,8 +99,8 @@ class GoodsController extends Controller
      */
     public function getGoodsNorms($goods_id = '')
     {
-        if ($goods_id =='') {
-            $goods_id = Input::get()['goods_id'];           
+        if($goods_id == '') {
+           $goods_id = Input::get()['goods_id'];   
         }
 
         $goodsNorms = new GoodsNorms;
@@ -105,15 +119,32 @@ class GoodsController extends Controller
      */
     public function getGoodsAttr($goods_id = '')
     {
-        if ($goods_id =='') {
-            $goods_id = Input::get()['goods_id'];           
-        }
+       if($goods_id == '') {
+           $goods_id = Input::get()['goods_id'];   
+        }         
 
         $goodsAttr = new GoodsAttr;
         $res = $goodsAttr -> where('goods_id',$goods_id) -> get();
         foreach ($res as $k => $v) {
             $res[$k]['attr_value'] = explode(',', $v['attr_value']);
         }
+        
+        return json_encode($res);
+    }
+
+    /**
+     * @brief 获取单个商品的所有图片
+     * @param string $goods_id 商品ID 
+     * @return json
+     */
+    public function getGoodsImg($goods_id = '')
+    {
+       if($goods_id == '') {
+           $goods_id = Input::get()['goods_id'];   
+        }      
+
+        $goodsImg = new GoodsImg;
+        $res = $goodsImg ->select('img_url')-> where('goods_id',$goods_id) -> get();
         
         return json_encode($res);
     }
@@ -125,9 +156,9 @@ class GoodsController extends Controller
      */
     public function getGoodsComment($goods_id = '')
     {
-        if ($goods_id =='') {
-            $goods_id = Input::get()['goods_id'];           
-        }
+        if($goods_id == '') {
+           $goods_id = Input::get()['goods_id'];   
+        }           
 
         $goodsComment = new GoodsComment;
         $res = $goodsComment -> where('goods_id',$goods_id) -> orderBy('add_time') 
@@ -143,9 +174,9 @@ class GoodsController extends Controller
      */
     public function getGoodsComments($goods_id = '')
     {
-        if ($goods_id =='') {
-            $goods_id = Input::get()['goods_id'];           
-        }
+        if($goods_id == '') {
+           $goods_id = Input::get()['goods_id'];   
+        }         
         
         $goodsComment = new GoodsComment;
         $res = $goodsComment -> where('goods_id',$goods_id) -> paginate(5);
@@ -167,11 +198,199 @@ class GoodsController extends Controller
         $goods_id = Input::get()['goods_id'];
         $norms_value = Input::all()['norms_value'];
 
+        // echo $norms_value;die;
         $sku = new GoodsSku;
         $res = $sku -> select('sku_id','sku_sn','sku_price','sku_img','sku_num')
         -> where([['goods_id', $goods_id],['sku_norms', $norms_value]]) -> first();
 
-        echo json_encode($res);
+        return json_encode($res);
     }
 
+
+    /**
+     * @brief 获取分类商品
+     * @param string $goods_id 商品ID 
+     * @return json
+     */
+    public function getCateGoods($category_name = '')
+    {
+        if($category_name == ''){
+            $category_name = Input::get()['category_name'];
+        }
+
+        $where = '1=1';       
+        if (!empty($category_name)) {
+            $category = unserialize(Redis::get('category'));
+            $names = '';
+            foreach ($category as $k => $v) {
+                if ($k == $category_name) {
+                    $names .= $category_name . ',';
+                    if (!empty($v)) {
+                        foreach ($v as $k1 => $v1) {
+                            $names .= $k1 . ',';
+                            if (!empty($v1)) {
+                                foreach ($v1 as $k2 => $v2) {
+                                    $names .= $v2 . ',';
+                                }
+                            }                      
+                        }
+                    }
+                } else {
+                    foreach ($v as $k1 => $v1) {
+                        if ($k1 == $category_name) {
+                            $names .= $k1 . ',';
+                            if (!empty($v1)) {
+                                foreach ($v1 as $k2 => $v2) {
+                                    $names .= $v2 . ',';
+                                } 
+                            }                           
+                        } else {
+                             foreach ($v1 as $k2 => $v2) {
+                                if ($v2 == $category_name) {
+                                     $names .= $v2 .  ',';
+                                }                             
+                            }
+                        }                      
+                    }
+                }
+            }
+        }  
+        
+        $len = strlen($names);
+        $names = substr($names, 0, $len-1);
+        $names = explode(',', $names);
+
+        $goods = new Goods;
+        $arr = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->whereIn('category_name', $names)
+        ->where([['is_on_sale', 1], ['is_second', 0]])->paginate(10);
+        
+       return $arr;
+
+    }
+
+    /**
+     * @brief 获取最新的商品信息
+     * @param int $limit = 6 获取前六条数据
+     * @return json
+     */
+    public function getNew($limit = '')
+    {
+        if ($limit == '') {
+             $limit = Input::all()['limit'];
+        }       
+        $goods = new Goods;
+
+        $new= $goods -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name')
+        -> where([['is_on_sale', 1], ['is_second', 0]])-> orderBy('add_time') 
+        -> offset(0) -> limit($limit) -> get() -> toArray();
+
+        return json_encode($new);
+    }
+
+    
+    /**
+     * @brief 获取秒杀的商品信息
+     * @param int $limit = 6 获取前六条数据
+     * @return json
+     */
+    public function getSecond($limit = '')
+    {
+        if ($limit == '') {
+             $limit = Input::all()['limit'];
+        } 
+        $second = new GoodsSecond;
+
+        $time = time()+3*24*60*60;
+        $second = $second -> select('goods_id','goods_name','goods_img','original_price','category_name','brand_name') 
+        -> where('start_time','<',$time) -> orderBy('start_time') 
+        -> offset(0)-> limit($limit) -> get() -> toArray();
+
+        return json_encode($second);
+    }
+
+    /**
+     * @brief 获取用户浏览记录类似商品 猜你喜欢
+     * @param int $limit = 6 获取前六条数据
+     * @param int $user_id 用户ID
+     * @return json
+     */
+    public function getUserLike($user_id = '0',$limit = '')
+    {
+        if ($user_id == '0') {
+            $user_id = Input::all()['user_id'];
+        }        
+        if ($limit == '') {
+             $limit = Input::all()['limit'];
+        } 
+
+        $goods = new Goods;
+        if (!empty($user_id)) {
+
+            $log = new UserBrowerLog;
+            $res = $log -> select('category_id') -> where('user_id', $user_id) -> get() -> toArray();
+            if (!empty($res)) {
+                //二维数组变为一维数组
+                $category_id = array_column($res, 'category_id');
+//                 dd($category_id);
+
+                $recommendation = $goods 
+                -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name') 
+                -> whereIn('category_id',$category_id)->where([['is_on_sale', 1], ['is_second', 0]]) 
+                -> orderBy('add_time') -> offset(0) -> limit($limit) -> get() -> toArray();
+            } else {
+                $recommendation = $goods 
+                -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name')
+                -> where([['is_hot', 1],['is_on_sale', 1], ['is_second',0]])
+                -> orderBy('add_time') -> offset(0)-> limit($limit) -> get() -> toArray();
+            }
+        } else {
+            $recommendation = $goods 
+            -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name') 
+            -> where([['is_hot', 1],['is_on_sale', 1], ['is_second',0]]) 
+            -> orderBy('add_time') -> offset(0)-> limit($limit) -> get() -> toArray();
+
+        }
+
+        return json_encode($recommendation);
+    }
+
+    /**
+     * @brief 商品列表页
+     * @param string $category_name 
+     * @return json
+     */
+    public function goodsList()
+    {
+        $category_name = isset(Input::all()['category_name'])?Input::all()['category_name']:'';
+        
+        if($category_name != '') {
+            $data['goods'] = $this->getCateGoods($category_name);
+        } else {
+            $data['goods'] = $this->getGoods();
+        }
+
+        $user_id = '';
+        if (Session::has('uid')) {
+            $user_id = Session::get('uid');
+        }
+        $data['userLike'] = json_decode($this->getUserLike($user_id, 5), true);
+        
+        $brand = new Brand;
+        $data['brand'] = $brand->findAll();
+//        dd($data['userLike']);
+
+        return view('home/goods-list',$data);
+    }
+
+    /**
+     * @brief 获取所有商品
+     * @return json
+     */
+    public function getGoods()
+    {
+        $goods = new Goods;
+        $arr = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->where([['is_on_sale', 1], ['is_second', 0]])->paginate(10);
+
+        return $arr;
+    }
 }
