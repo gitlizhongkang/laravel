@@ -1,22 +1,33 @@
 <?php
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class Admin extends  Model
+class Admin extends Authenticatable
 {
+    use Notifiable;
+    use EntrustUserTrait;
+
+    //表名
     protected $table = 'admin';
-    //因为他自动带添加时间，这个false是取消时间的，用于添加时候
-    public $timestamps = false;
-    protected $fillable = ['admin_name', 'create_time', 'last_ip', 'last_time'];
-    //隐藏的
-    protected $hidden = ['pwd'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'email', 'password',
+    ];
 
-
-    public function select()
-    {
-        return $this->get();
-    }
-
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 }
-    
