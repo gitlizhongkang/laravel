@@ -9,7 +9,7 @@
 <div class="breadcrumbs">
     <div class="container">
         <a href="{{URL::to('/')}}">首页</a> 
-        <code>&gt;</code> <a href="category.php?id=76">购买电视与平板</a>
+        <code>&gt;</code> <a href="home-goods-goodsInfo?category_name"></a>
     </div>
 </div>
 
@@ -20,31 +20,21 @@
             <dl class="filter-list clearfix filter-list-row-2">
                 <dt>品牌：</dt>
                 <dd class="active">全部</dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=38.0">黄</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=34.0">黑</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=81.0">黑白</a></dd>
-            </dl>
-            <a  href="javascript:;" class="more J_filterToggle">更多<i class="iconfont"></i></a>
-        </div>
-        <div class="filter-list-wrap">
-            <dl class="filter-list clearfix filter-list-row-2">
-                <dt>尺寸：</dt>
-                <dd class="active">全部</dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=0.33">15</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=0.35">45</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=0.68">58</a></dd>
+                @foreach ($brand as $k=>$v)
+                <dd><a href="home-goods-goodsList?brand_name={{$v['brand_name']}}">{{$v['brand_name']}}</a></dd>
+                @endforeach
             </dl>
             <a  href="javascript:;" class="more J_filterToggle">更多<i class="iconfont"></i></a>
         </div>
         <div class="filter-list-wrap">
             <dl class="filter-list clearfix filter-list-row-2">
                 <dt>价格：</dt>
-                <dd class="active">全部</dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=500">0&nbsp;-&nbsp;500</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=1000&amp;price_max=1500">1000&nbsp;-&nbsp;1500</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=2000&amp;price_max=2500">2000&nbsp;-&nbsp;2500</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=2500&amp;price_max=3000">2500&nbsp;-&nbsp;3000</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=4000&amp;price_max=4500">4000&nbsp;-&nbsp;4500</a></dd>
+                <dd class="active">请输入价格区间：</dd>
+                <dd>
+                    <input type="text" id='min_price' style='width: 50px' placeholder="0">
+                    &nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;
+                    <input type="text" id='max_price' style='width: 50px'  placeholder="500">
+                </dd> 
             </dl>
             <a  href="javascript:;" class="more J_filterToggle">更多<i class="iconfont"></i></a>
         </div>

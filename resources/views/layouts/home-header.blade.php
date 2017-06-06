@@ -148,15 +148,15 @@ $user_name = Session::get('username');
 
         <!--搜索框-->
         <div class="header-search">
-            <form action="search.php" method="get" id="searchForm" name="searchForm" onSubmit="return checkSearchForm()"
+            <form action="home-goods-goodsList" method="get" id="searchForm" name="searchForm" onSubmit="return checkSearchForm()"
                   class="search-form clearfix">
                 <label class="hide">站内搜索</label>
-                <input class="search-text" type="text" name="keywords" id="keyword" value="" autocomplete="off">
-                <input type="hidden" value="k1" name="dataBi">
+                <input class="search-text" type="text" name="key" id="keyword" value="" autocomplete="off">
+                <!-- <input type="hidden" value="k1" name="dataBi"> -->
                 <button type="submit" class="search-btn iconfont"></button>
                 <div class="hot-words">
-                    <a href="search.php?keywords=%E5%B0%8F%E7%B1%B3%E6%89%8B%E7%8E%AF" target="_blank">飞鹤奶粉</a>
-                    <a href="search.php?keywords=%E8%80%B3%E6%9C%BA" target="_blank">孕妈护肤</a>
+                    <a href="home-goods-goodsList?key=飞鹤奶粉" target="_blank">飞鹤奶粉</a>
+                    <a href="home-goods-goodsList?key=孕妈护肤" target="_blank">孕妈护肤</a>
                 </div>
             </form>
         </div>
