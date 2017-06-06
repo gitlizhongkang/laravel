@@ -979,9 +979,9 @@ a:hover {
 	margin: 0;
 	padding: 20px 0;
 	list-style-type: none;
-	border: 1px solid #ff6700;
+	border: 1px solid pink;
 	color: #424242;
-	background: #fff;
+	background: #FFFAF0;
 }
 .site-category-list .title {
 	position: relative;
@@ -997,13 +997,13 @@ a:hover {
 	right: 20px;
 	font-size: 16px;
 	line-height: 16px;
-	color: #e0e0e0;
+	color: pink;
 }
 .category-hidden {
 	display: none;
 }
 .site-header .header-nav .nav-list .nav-category .site-category-list .category-item-current .title {
-	background: #ff6700;
+	background: #FFAEB9;
 	color: #fff;
 }
 .site-header .header-nav .nav-list .nav-category .site-category-list .category-item-current .children {
@@ -1016,7 +1016,7 @@ a:hover {
 	top: 0;
 	z-index: 24;
 	height: 458px;
-	border: 1px solid #e0e0e0;
+	border: 1px solid pink;
 	border-left: 0;
 	background: #fff;
 	-webkit-box-shadow: 0 8px 16px rgba(0,0,0,0.18);
@@ -1042,24 +1042,23 @@ a:hover {
 .site-header .header-nav .nav-list .nav-category .site-category-list .children-list li {
 	position: relative;
 	float: left;
-	width: 265px;
+	width: 300px;
 	height: 76px;
 }
 .site-header .header-nav .nav-list .nav-category .site-category-list .children-list li .link {
-	width: 170px;
+	width: 200px;
 	display: block;
-	padding: 18px 20px;
-	line-height: 40px;
-	color: #333;
+	padding: 18px 20px 0px 20px;
+	line-height: 30px;
+	color: pink;
 	-webkit-transition: color 0.2s;
 	transition: color 0.2s;
 }
-.site-header .header-nav .nav-list .nav-category .site-category-list .children-list .thumb:hover {
-	color: #ff6700;
+.site-header .header-nav .nav-list .nav-category .site-category-list .children-list li .thumb:hover {
+	color: pink;
 }
-.site-header .header-nav .nav-list .nav-category .site-category-list .children-list .thumb {
-	margin-right: 12px;
-	vertical-align: middle;
+.site-header .header-nav .nav-list .nav-category .site-category-list .children-list li .thumb {
+	padding: 0px 0px 18px 20px;
 }
 .site-header .header-nav .nav-list .nav-category .site-category-list .children-list .text {
 	line-height: 40px;
@@ -1077,7 +1076,7 @@ a:hover {
 	color: #ff6700;
 }
 .site-header .header-nav .nav-list .nav-item a:hover {
-	color: #ff6700;
+	color: pink;
 }
 /*导航子菜单*/
 .site-header .nav-item .item-children {
@@ -1279,7 +1278,7 @@ a:hover {
 	text-align: right;
 }
 .home-hero-slider .xm-slider-previous {
-	left: 234px;
+	left: 0px;
 }
 .xm-slider-next {
 	right: 0;
@@ -2050,7 +2049,7 @@ a:hover {
 	width: 36px;
 	height: 36px;
 	margin-right: 10px;
-	background: url(../images/logo-footer.png) no-repeat 50% 50%;
+	background: url(../images/logo.jpg) no-repeat 50% 50%;
 }
 .site-info .info-text {
 	float: left;

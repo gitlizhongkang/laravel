@@ -31,5 +31,7 @@ class Goods extends Model
     }
 
     //DB::table('goods_attr')->insert($dataAttributes);
-    //期望接受[[k1,v1],[k2,v2],[k3,v3]]
+    //期望接受[[1,aa],[2,bb],[3,cc]]
+
+
 }

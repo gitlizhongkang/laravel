@@ -6,10 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Support\Facades\Redis;
-use App\Models\Goods;
 use Session;
-use App\Models\UserBrowerLog;
-use App\Models\GoodsSecond;
+use App\Http\Controllers\Home\GoodsController;
 
 class IndexController extends Controller
 {
@@ -30,20 +28,22 @@ class IndexController extends Controller
 	 */
     public function index()
     {
-    	//获取分类列表
-    	$data['category'] = json_decode($this->getCategory(), true);
-
+        $goods = new GoodsController;
+    	
     	//获取最新的商品信息
-    	$data['new'] = json_decode($this -> getGoodsNew(), true) ;
+    	$data['new'] = json_decode($goods->getNew(6), true) ;
 
     	//获取秒杀的商品信息
-    	$data['second'] = json_decode($this -> getGoodsSecond(6), true);
+    	$data['second'] = json_decode($goods->getSecond(6), true);
+        // dd($data['second']);
 
     	//猜你喜欢  如果登录获取用户浏览记录  如果没有显示最热商品
-    	$user_id = 1;
-		$data['recommendation'] = json_decode($this -> getUserLike($user_id), true);
-
-    	
+        $user_id = '';
+        if (Session::has('uid')) {
+            $user_id = Session::get('uid');
+        }
+   	
+		$data['recommendation'] = json_decode($goods->getUserLike($user_id,8), true);
     	return view('/home/index' , $data);
     }
 
@@ -61,7 +61,11 @@ class IndexController extends Controller
     		$arr = $category->all()->toArray();
     		$res = $this->tree($arr);
     		$info = serialize($res);
-    		Redis::set('category',$info);
+            Redis::set('category',$info);
+
+            $cate = $this->tree1($arr);
+            $cate_id = serialize($cate);    		
+            Redis::set('category_id',$info);
     	}
     	
     	return json_encode($res);
@@ -97,63 +101,40 @@ class IndexController extends Controller
     	return $info;
     }
 
-     /**
-     * @brief 获取最新的商品信息
-     * @return json
-     */
-    public function getGoodsNew()
-    {
-    	$goods = new Goods;
-
-    	$new= $goods -> where('is_on_sale', '1')-> orderBy('add_time') 
-    	-> offset(0) -> limit(6) -> get() -> toArray();
-
-    	return json_encode($new);
-    }
-
-	/**
-     * @brief 获取秒杀的商品信息
-     * @param int $limit = 6 获取前六条数据
-     * @return json
-     */
-    public function getGoodsSecond($limit)
-    {
-    	$second = new GoodsSecond;
-
-    	$second = $second -> orderBy('start_time') 
-    	-> offset(0)-> limit($limit) -> get() -> toArray();
-
-    	return json_encode($second);
-    }
-
     /**
-     * @brief 获取用户浏览记录类似商品 猜你喜欢
-     * @param int $user_id 用户ID
-     * @return json
+     * @brief 获取分类ID
+     * @param array $arr['0'=>['category_id'=>1]]
+     * @return array
      */
-    public function getUserLike($user_id = '')
+    public function tree1($arr)
     {
-    	if (!empty($user_id)) {
-    		$log = new UserBrowerLog;
-    		$res = $log -> select('category_id') -> where('user_id', $user_id) -> get() -> toArray();
-    		
-    		if (!empty($res)) {
-    			//二维数组变为一维数组
-    			$category_id = array_column($res, 'category_id');
+        foreach ($arr as $k=>$v) {
+            if ($v['parent_id'] == 0) {
+                $info[$v['category_id']] = [];
 
-    			$goods = new Goods;
-	    		$recommendation = $goods -> whereIn('category_id',$category_id)
-	    		->where('is_on_sale', '1') -> orderBy('add_time') 
-	    		-> offset(0) -> limit(8) -> get() -> toArray();
-    		}   		
-    	} else {
-    		$recommendation = $goods -> where([['is_hot', '=', 1],['is_on_sale', '=', 1]]) 
-    	    -> orderBy('add_time') -> offset(0)
-    	    -> limit(8) -> get() -> toArray();
-    	}
+                foreach ($arr as $k1=>$v1) {
+                    if ($v1['parent_id'] == $v['category_id']) {
+                        $info[$v['category_id']][$v1['category_id']] = [];
 
-    	return json_encode($recommendation);
+                        foreach ($arr as $k2=>$v2) {
+                            if ($v2['parent_id'] == $v1['category_id']) {
+                                $info[$v['category_id']][$v1['category_id']][] = $v2['category_id'];
+                            } 
+                        }
+                    } 
+                }
+            }
+        }
+
+        
+        return $info;
     }
+
+   
+
+	
+
+    
 
 
 	

@@ -15,12 +15,6 @@ use App\Models\User;
 class UserController extends Controller
 
 {
-    public $request;
-    public function __construct()
-    {
-        $this->request=new Request();
-    }
-
     /**
      * 用户注册
      */
@@ -36,8 +30,8 @@ class UserController extends Controller
         $data['code']=2;
         $id=User::add($info);
            if($id){
-              Session::put("uid",$id);
               $data['code']=1;
+              $data['msg']=$id;
            }
         return json_encode($data);
     }
@@ -67,6 +61,8 @@ class UserController extends Controller
             }
             Session::forget($info['tel']);
             Session::forget("authCode");
+            Session::put("uid",$res['msg']);
+            Session::put("username",$info['username']);
             return redirect()->action("Home\\IndexController@index");
         }
     }
@@ -79,7 +75,7 @@ class UserController extends Controller
         $type=Input::get('type');
         $value=Input::get('value');
         $data[$type]=$value;
-        $res=User::check($data);
+        $res=User::check($data,'user_id');
        if(empty($res)){
            $data['code']=1;
        }else{
@@ -174,6 +170,7 @@ class UserController extends Controller
                 if($result){
                     $res['msg']="绑定成功";
                     Session::put("uid",$res['id']);
+                    Session::put("username",$res['username']);
                     Session::forget("weiboUid");
                     Session::forget("weiboUname");
                 }else{
@@ -182,6 +179,7 @@ class UserController extends Controller
                 }
             }else{
                 Session::put("uid",$res['id']);
+                Session::put("username",$res['username']);
             }
         }
         echo json_encode($res);
@@ -205,10 +203,10 @@ class UserController extends Controller
             $info['msg']="请勿重复发送";
         }else{
             $data['username']=$username;
-            $res=User::check($data);
+            $res=User::check($data,"user_id");
             if($res){
                 $data['email']=$email;
-                $_res=User::check($data);
+                $_res=User::check($data,"user_id");
                 if($_res){
                     Session::put("authEmail",$email);
                     $subject="账户密码找回邮件";
@@ -226,12 +224,7 @@ class UserController extends Controller
             }else{
                 $info['msg']='用户名不存在';
             }
-
-            if($res['code']==1){
-                Session::put("uid",$res['id']);
-            }
         }
-
         echo json_encode($info);
     }
 
@@ -305,9 +298,12 @@ class UserController extends Controller
             $val['uid']=$res['uid'];
             $uid=$res['uid'];
             $info['sina_id']=$uid;
-            $_res=User::check($info);
+            $_res=User::check($info,"user_id");
             if($_res){
+                $where['user_id']=$_res;
+                $username=User::check($where,"username");
                 Session::put("uid",$_res);
+                Session::put("username",$username);
                 return redirect()->action("Home\\IndexController@index");
             }else{
                 $showUrl=$data['show_uri'];

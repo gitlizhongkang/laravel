@@ -1,4 +1,4 @@
-@extends('layouts.home-header')
+ @extends('layouts.home-header')
 <?php  
 $user_id = Session::get('uid');
 ?>     
@@ -6,9 +6,8 @@ $user_id = Session::get('uid');
 <!--通栏-->
 <div class="breadcrumbs">
     <div class="container">
-        <a href=".">首页</a> <code>&gt;</code>
-        <a href="category.php?id=76">购买电视与平板</a> <code>&gt;</code>
-        <a href="category.php?id=77">小米电视2</a> <code>&gt;</code> 小米电视2 40英寸
+        <a href="{{URL::to('/')}}">首页</a> <code>&gt;</code>
+        <a href="home-goods-index?category_id={{$goodsInfo['category_id']}}">{{$goodsInfo['category_name']}}</a> <code>&gt;</code>{{$goodsInfo['goods_name']}}
     </div>
 </div>
 <div class="goods-detail">
@@ -19,7 +18,7 @@ $user_id = Session::get('uid');
                     <div class="goods-pic-box" id="detail_img">
                         <div class="goods-big-pic">
                             <a href="" class="MagicZoomPlus" id="Zoomer" rel="hint-text: ; selectors-effect: false; selectors-class: current; zoom-distance: 60;zoom-width: 400; zoom-height: 400;" >
-                                <img  alt="" src="images/goods.jpg">
+                                <img  alt="" src="{{$goodsInfo['goods_img']}}">
                             </a>
                         </div>
                         <div class="goods-small-pic" id="item-thumbs">
@@ -27,19 +26,13 @@ $user_id = Session::get('uid');
                             <a class="next" href="javascript:void(0);"></a>
                             <div class="bd">
                                 <ul class="cle">
-
+                                    @foreach ($img as $k=>$v) 
                                     <li class="current">
-                                        <a href="" rel="zoom-id: Zoomer" rev="images/goods.jpg">
-                                            <img alt="" src="images/goods.jpg">
+                                        <a href="" rel="zoom-id: Zoomer" rev="{{$v['img_url']}}">
+                                            <img alt="" src="{{$v['img_url']}}">
                                         </a>
                                     </li>
-                                    <li >
-                                        <a href="images/goods.jpg" rel="zoom-id: Zoomer" rev="images/goods.jpg">
-                                            <img alt="" src="images/goods.jpg">
-                                        </a>
-                                    </li>
-                                    
-
+                                    @endforeach
                                 </ul>
                             </div>
 
@@ -61,7 +54,7 @@ $user_id = Session::get('uid');
 
                                         <span>本店价：</span> <span class="unit"> <b class="nala_price red" ><span id="ECS_SHOPPRICE">{{$goodsInfo['goods_low_price']}}</span><em>元</em> </b> </span>
 
-                                        <a href="javascript:;" id="membership" data-type="normal" class="membership">高级会员购买享有折扣</a>
+                                       <!--  <a href="javascript:;" id="membership" data-type="normal" class="membership">高级会员购买享有折扣</a>
                                         <div class="membership_con">
                                             <div class="how-bd">
                                                 <h3>会员价格</h3>
@@ -86,7 +79,7 @@ $user_id = Session::get('uid');
                                                     </tbody>
                                                 </table>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </dd>
                                     <dd>
                                         <ul>
@@ -94,7 +87,7 @@ $user_id = Session::get('uid');
                                         </ul>
                                     </dd>
                                     <dd class="goods-info-choose">
-                                        <div id="choose" class="spec_list_box" len="{{count($norms)}}" sku-id='' sku-norms='' sku-num=''>
+                                        <div id="choose" class="spec_list_box" len="{{count($norms)}}" sku-id='' sku-norms='' sku-num='' sku-img=''>
                                             <ul>
                                                 @foreach ($norms as $k=>$v)
                                                 <li  class="GeneralAttrImg">
@@ -103,12 +96,13 @@ $user_id = Session::get('uid');
                                                      @foreach ($v['norms_value'] as $k1=>$v1)
                                                         <div class="item ">
                                                            <b></b>
-                                                            <a href="" title="" rel="zoom-id: Zoomer" rev="images/goods.jpg"><span>{{$v1}}</span></a>
+                                                            <a href="javascript:;" title="" rel="zoom-id: Zoomer" rev="images/goods1.jpg"><span>{{$v1}}</span></a>
                                                             <input id="spec_value_81" style="display:none;" type="radio" name="norms{{$k}}" value="{{$v1}}" />                                                            
                                                         </div>
                                                      @endforeach
                                                     </div>
-                                                </li>                                                @endforeach                                            
+                                                </li>
+                                                @endforeach                                            
                                             </ul>
                                         </div>
                                         <style>
@@ -179,9 +173,8 @@ $user_id = Session::get('uid');
                                                             $('#choose').attr('sku-norms',norms_value);
                                                             $('#choose').attr('sku-num',msg.sku_num);
                                                             $('.sku-num').html('剩余库存：'+msg.sku_num);
-                                                            $(".spec_list_box .item a").attr('rev','images/goods2.jpg');
-
-
+                                                            $(".spec_list_box .item a").attr('rev',msg.sku_img);
+                                                            $('#choose').attr('sku-img',msg.sku_img);
                                                             $('#ECS_SHOPPRICE').html(msg.sku_price);
                                                         }
                                                    }) 
@@ -228,11 +221,7 @@ $user_id = Session::get('uid');
             <div class="goods-detail-desc goods_con_item">
                 <div class="container">
                     <div class="shape-container">
-                        <p><img width="720" height="598" alt="" src="images/goods1.jpg" /></p>
-                        <p><img width="720" height="508" alt="" src="images/goods1.jpg" /></p>
-                        <p><img width="720" height="572" alt="" src="images/goods2.jpg" /></p>
-                        <p><img src="images/goods2.jpg" width="1351" height="762" alt="" /></p>
-                        <p><img src="images/goods2.jpg" width="1138" height="867" alt="" /></p>
+                        <?=$goodsInfo['goods_desc']?>
                     </div>
                 </div>
             </div>
@@ -246,7 +235,13 @@ $user_id = Session::get('uid');
             <div class="goods-detail-param">
                 <div class="container">
                     <ul class="param-list">
-                        <li class="goods-img"><img src="images/goods2.jpg" alt="小米电视2 40英寸" /></li>
+                        <li class="goods-img"><img src="{{$goodsInfo['goods_img']}}" alt="{{$goodsInfo['goods_name']}}" /></li>
+                        <li class="goods-tech-spec">
+                            <ul>
+                                <li>品牌：</li>                               
+                                <li>{{$goodsInfo['brand_name']}}</li>                              
+                            </ul>                           
+                        </li>
                         @foreach ($goodsAttr as $k=>$v)
                         <li class="goods-tech-spec">
                             <ul>
@@ -310,9 +305,10 @@ $user_id = Session::get('uid');
                             <div class="row">
                                 <div class="span20 goods-detail-comment-list">
                                     <div class="comment-order-title">
-                                        <div class="left-title"><h3 class="comment-name">最有帮助的评价（7） </h3></div>
+                                        <div class="left-title"><h3 class="comment-name">最有帮助的评价 </h3></div>
                                         <div class="right-title J_showImg"><i class="iconfont">√</i> 只显示带图评价</div>
                                     </div>
+                                    @if (!empty($comment))
                                     <ul class="comment-box-list">
                                         @foreach ($comment as $k=>$v)
                                         <li class="item-rainbow-1">
@@ -334,8 +330,11 @@ $user_id = Session::get('uid');
                                         </li>
                                         @endforeach
                                     </ul>
-                                 <!--    <a class="pagenav" href="home-goods-comment?goods_id={{$goodsInfo['goods_id']}}" >查看更多</a> -->
                                      <a href="home-goods-comment?goods_id={{$goodsInfo['goods_id']}}" class="btn  btn-primary ">查看更多</a>
+                                    @else
+                                       <p>该商品暂无评价</p>
+                                    @endif  
+                                    <hr>     
                                 </div>
                             </div>
                         </div>
@@ -475,6 +474,9 @@ $user_id = Session::get('uid');
                return false;
             }
         }
+        var sku_price = $('#ECS_SHOPPRICE').html();
+        var sku_norms =  $('#choose').attr('sku-norms'); 
+        var sku_img =  $('#choose').attr('sku-img'); 
         $.ajax({                               
             type:'post',
             url:'home-cart-add',
@@ -482,6 +484,11 @@ $user_id = Session::get('uid');
                 sku_id:sku_id,
                 num:num,
                 category_id:"{{$goodsInfo['category_id']}}",
+                goods_id:"{{$goodsInfo['goods_id']}}",
+                goods_name:"{{$goodsInfo['goods_name']}}",
+                sku_price:sku_price,
+                sku_norms:sku_norms,
+                sku_img:sku_img,
                 _token:"{{csrf_token()}}"
             },
             dataType:'json',
@@ -501,8 +508,8 @@ $user_id = Session::get('uid');
             <i class="iconfont"> </i>商品已成功加入购物车
         </div>
         <div class="go">
-            <a href="#" class="back">&lt;&lt;继续购物</a>
-            <a href="home-cart-cart" class="btn">去结算</a>
+            <a href="home-goods-goodsInfo?goods_id={{$goodsInfo['goods_id']}}" class="back">&lt;&lt;继续购物</a>
+            <a href="home-cart-index" class="btn">去结算</a>
         </div>
     </div>
 </div>

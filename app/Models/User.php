@@ -25,9 +25,9 @@ class User extends Model
     /**
      *  验证唯一性
      */
-    static function check($data)
+    static function check($data,$params)
     {
-        $res = DB::table("user")->where($data)->value("user_id");
+        $res = DB::table("user")->where($data)->value($params);
         return $res;
     }
     /**
@@ -42,11 +42,12 @@ class User extends Model
             'password'=>$pwd
         ];
         if($res){
-           $_res=self::check($data);
+           $_res=self::check($data,'user_id');
            if($_res){
                $info['code']=1;
                $info['msg']="登录成功";
                $info['id']=$_res;
+               $info['username']=$res;
            }else{
                $info['code']=2;
                $info['msg']='用户名和密码不匹配';
