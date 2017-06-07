@@ -1,4 +1,4 @@
-@extends('layouts.home-header')
+ @extends('layouts.home-header')
 <?php  
 $user_id = Session::get('uid');
 ?>     
@@ -51,43 +51,14 @@ $user_id = Session::get('uid');
                                     <dd class="goods-phone-type"><p> 现货购买</p></dd>
                                    <!--  <del>专柜价： <em class="cancel">{{$goodsInfo['goods_low_price']}}<em>元</em></em></del> -->
                                     <dd class="goods-info-head-price clearfix">
-
+                                        @if(empty($goodsInfo['goods_point']))
                                         <span>本店价：</span> <span class="unit"> <b class="nala_price red" ><span id="ECS_SHOPPRICE">{{$goodsInfo['goods_low_price']}}</span><em>元</em> </b> </span>
-
-                                        <a href="javascript:;" id="membership" data-type="normal" class="membership">高级会员购买享有折扣</a>
-                                        <div class="membership_con">
-                                            <div class="how-bd">
-                                                <h3>会员价格</h3>
-                                                <table width="100%">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td width="50%">会员等级</td>
-                                                        <td width="50%">会员价格</td>
-                                                    </tr>
-                                                    <tr id="ECS_RANKPRICE_1">
-                                                        <td>注册用户</td>
-                                                        <td>280<em>元</em></td>
-                                                    </tr>
-                                                    <tr id="ECS_RANKPRICE_2">
-                                                        <td>vip</td>
-                                                        <td>240<em>元</em></td>
-                                                    </tr>
-                                                    <tr id="ECS_RANKPRICE_99">
-                                                        <td>微信用户</td>
-                                                        <td>260<em>元</em></td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </dd>
-                                    <dd>
-                                        <ul>
-                                            <li><span>此商品可使用：<em class="red">2200</em>积分</span></li>
-                                        </ul>
+                                        @else
+                                            <span>需用积分：</span> <span class="unit"> <b class="nala_price red" ><span id="ECS_SHOPPRICE">{{$goodsInfo['goods_point']}}</span><em>分</em> </b> </span>
+                                        @endif
                                     </dd>
                                     <dd class="goods-info-choose">
-                                        <div id="choose" class="spec_list_box" len="{{count($norms)}}" sku-id='' sku-norms='' sku-num=''>
+                                        <div id="choose" class="spec_list_box" len="{{count($norms)}}" sku-id='' sku-norms='' sku-num='' sku-img=''>
                                             <ul>
                                                 @foreach ($norms as $k=>$v)
                                                 <li  class="GeneralAttrImg">
@@ -173,9 +144,8 @@ $user_id = Session::get('uid');
                                                             $('#choose').attr('sku-norms',norms_value);
                                                             $('#choose').attr('sku-num',msg.sku_num);
                                                             $('.sku-num').html('剩余库存：'+msg.sku_num);
-                                                            $(".spec_list_box .item a").attr('rev','images/goods2.jpg');
-
-
+                                                            $(".spec_list_box .item a").attr('rev',msg.sku_img);
+                                                            $('#choose').attr('sku-img',msg.sku_img);
                                                             $('#ECS_SHOPPRICE').html(msg.sku_price);
                                                         }
                                                    }) 
@@ -185,8 +155,11 @@ $user_id = Session::get('uid');
                                         </script>
 
                                     <dd class="goods-info-head-cart">
+                                        @if(empty($goodsInfo['goods_point']))
                                         <a href="javascript:;" class="btn  btn-primary goods-add-cart-btn" id="buy_btn"><i class="iconfont"></i>加入购物车</a>
+                                        @endif
                                         <a href="javascript:;" class=" btn btn-gray  goods-collect-btn " id="fav-btn"><i class="iconfont"></i>购买</a>
+
                                     </dd>
                                     <dd class="goods-info-head-userfaq clearfix">
                                         <ul>
@@ -475,6 +448,9 @@ $user_id = Session::get('uid');
                return false;
             }
         }
+        var sku_price = $('#ECS_SHOPPRICE').html();
+        var sku_norms =  $('#choose').attr('sku-norms'); 
+        var sku_img =  $('#choose').attr('sku-img'); 
         $.ajax({                               
             type:'post',
             url:'home-cart-add',
@@ -482,6 +458,11 @@ $user_id = Session::get('uid');
                 sku_id:sku_id,
                 num:num,
                 category_id:"{{$goodsInfo['category_id']}}",
+                goods_id:"{{$goodsInfo['goods_id']}}",
+                goods_name:"{{$goodsInfo['goods_name']}}",
+                sku_price:sku_price,
+                sku_norms:sku_norms,
+                sku_img:sku_img,
                 _token:"{{csrf_token()}}"
             },
             dataType:'json',
@@ -502,7 +483,7 @@ $user_id = Session::get('uid');
         </div>
         <div class="go">
             <a href="home-goods-goodsInfo?goods_id={{$goodsInfo['goods_id']}}" class="back">&lt;&lt;继续购物</a>
-            <a href="home-cart-cart" class="btn">去结算</a>
+            <a href="home-cart-index" class="btn">去结算</a>
         </div>
     </div>
 </div>

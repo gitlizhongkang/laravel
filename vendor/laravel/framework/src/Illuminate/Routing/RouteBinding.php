@@ -60,8 +60,8 @@ class RouteBinding
                 return;
             }
 
-            // For model binders, we will attempt to retrieve the Models using the first
-            // method on the model instance. If we cannot retrieve the Models we'll
+            // For model binders, we will attempt to retrieve the models using the first
+            // method on the model instance. If we cannot retrieve the models we'll
             // throw a not found exception otherwise we will return the instance.
             $instance = $container->make($class);
 

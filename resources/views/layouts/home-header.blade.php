@@ -83,7 +83,7 @@ $user_name = Session::get('username');
                             class="iconfont"></i></a>
                     <ul class="user-menu">
                         <li><a target="_blank" href="home-personal-index">个人中心</a></li>
-                        <li><a target="_blank" href="javascript:;">跟踪包裹</a></li>
+                        <li><a target="_blank" href="home-personal-trackingPackages">跟踪包裹</a></li>
                         <li><a href="home-user-login">退出登录</a></li>
                     </ul>
                 </span>
@@ -116,7 +116,7 @@ $user_name = Session::get('username');
                 </li>
                 <!--导航栏-->
                 <li class="nav-item">
-                    <a class="link" href="home-goods-index?category_id=1"><span>儿童</span></a>
+                    <a class="link" href="home-goods-goodsList?category_name=奶粉"><span>儿童</span></a>
                     <!-- <div class='item-children'>
                         <div class="container">
                             <ul class="children-list clearfix" id='child'>
@@ -127,7 +127,7 @@ $user_name = Session::get('username');
                 </li>
 
                 <li class="nav-item">
-                    <a class="link" href="home-goods-index?category_id=4"><span>孕妇</span></a>
+                    <a class="link" href="home-goods-goodsList?category_name=孕妈用品"><span>孕妇</span></a>
                    <!--  <div class='item-children'>
                         <div class="container">
                             <ul class="children-list clearfix" id='women'>
@@ -150,15 +150,15 @@ $user_name = Session::get('username');
 
         <!--搜索框-->
         <div class="header-search">
-            <form action="search.php" method="get" id="searchForm" name="searchForm" onSubmit="return checkSearchForm()"
+            <form action="home-goods-goodsList" method="get" id="searchForm" name="searchForm" onSubmit="return checkSearchForm()"
                   class="search-form clearfix">
                 <label class="hide">站内搜索</label>
-                <input class="search-text" type="text" name="keywords" id="keyword" value="" autocomplete="off">
-                <input type="hidden" value="k1" name="dataBi">
+                <input class="search-text" type="text" name="key" id="keyword" value="" autocomplete="off">
+                <!-- <input type="hidden" value="k1" name="dataBi"> -->
                 <button type="submit" class="search-btn iconfont"></button>
                 <div class="hot-words">
-                    <a href="search.php?keywords=%E5%B0%8F%E7%B1%B3%E6%89%8B%E7%8E%AF" target="_blank">小米手环</a>
-                    <a href="search.php?keywords=%E8%80%B3%E6%9C%BA" target="_blank">耳机</a>
+                    <a href="home-goods-goodsList?key=飞鹤奶粉" target="_blank">飞鹤奶粉</a>
+                    <a href="home-goods-goodsList?key=孕妈护肤" target="_blank">孕妈护肤</a>
                 </div>
             </form>
         </div>
@@ -303,9 +303,9 @@ $user_name = Session::get('username');
             </p>
         </div>
         <div class="info-links">
-            <a href="#"><img src="http://s1.mi.com/zt/12052601/cnnicVerifyseal.png" alt="可信网站"></a>
-            <a href="#"><img src="http://s1.mi.com/zt/12052601/szfwVerifyseal.gif" alt="诚信网站"></a>
-            <a href="#"><img src="http://s1.mi.com/zt/12052601/save.jpg" alt="网上交易保障中心"></a>
+            <a href="#"><img src="images/cnnicVerifyseal.png" alt="可信网站"></a>
+            <a href="#"><img src="images/szfwVerifyseal.gif" alt="诚信网站"></a>
+            <a href="#"><img src="images/save.jpg" alt="网上交易保障中心"></a>
         </div>
     </div>
 </div>
@@ -318,25 +318,33 @@ $(function(){
         type:'post',
         url:'home-index-getCategory',
         dataType:'json',
+        data:{
+            _token:"{{csrf_token()}}"
+        },
         success:function(msg){
             var str = '';
             $.each(msg,function(k,v){
                 str+='<li class="category-item">';
 
-                str+='<a class="title" href="category.php?id=69">'+k+'<i class="iconfont"></i></a>';
+                str+='<a class="title" href="home-goods-goodsList?category_name='+k+'">'+k+'<i class="iconfont"></i></a>';
                 str+='<div class="children clearfix"><ul class="children-list">';
                 $.each(v,function(k1,v1){
-                    str+='<li><a href="category.php?id=70" class="link"  style="width: 280px">';
-                    str+='<span><b style="color:pink">'+k1+'</b></span><br>';
+                    str+='<li><a href="home-goods-goodsList?category_name='+k1+'" class="link"  style="width: 280px">';
+                    str+='<span><b style="color:pink">'+k1+'</b></span></a><br>';
                     $.each(v1,function(k2,v2){
-                        str+='<span class="thumb">'+v2+'</span>';
+                        str+='<a class="thumb" href="home-goods-goodsList?category_name='+v2+'">'+v2+'</a>';
                     })
-                    str+='</a></li>';
-                })                    
-                 str+='</ul></div></li>';                                                              
+                    str+='</li>';
+                })
+                 str+='</ul></div></li>';
             })
             $('#site-category-list').html(str);
         }
+    })
+
+    $(document).on('.link','click',function(){
+        var category_name = $(this).hrml();
+        location.href = 'home-goods-goodsList?category_name='+category_name;
     })
 
     // 获取mini购物车
@@ -344,7 +352,8 @@ $(function(){
         type:'post',
         url:'home-cart-getCart',
         data:{
-            limit:3
+            limit:3,
+            _token:"{{csrf_token()}}"
         },
         dataType:'json',
         success:function(msg){
@@ -354,7 +363,7 @@ $(function(){
                 str += ' <p class="loading">购物车中还没有商品，赶紧选购吧！</p>'
             } else {
                 str += '<ul>'
-                $.each(msg.data,function(k,v){               
+                $.each(msg.data,function(k,v){
                     str += '<li class="clearfix first"><div class="cart-item">'
                     str += '<a class="thumb" target="_blank" href="home-goods-goodsInfo?goods_id='+v.goods_id+'"><img src="'+v.sku_img+'"></a>'
                     str += '<a class="name" target="_blank" href="home-goods-goodsInfo?goods_id='+v.goods_id+'">'+v.goods_name+'</a>'
@@ -364,7 +373,7 @@ $(function(){
                 str += '</ul><div class="count clearfix"><strong>共计：<em id="hd_cart_total">'+msg.count+'</em>件</strong></span>'
                 str += '<a class="btn btn-primary" href="home-cart-index">去购物车结算</a></div>'
             }
-            
+
             $('#J_miniCartList').html(str);
         }
 

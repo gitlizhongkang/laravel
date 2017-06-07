@@ -1,39 +1,17 @@
 @extends('layouts.home-header')
 
 @section('content')
-    <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="icon" href="animated_favicon.gif" type="image/gif" />
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
-    <link href="css/user.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="js/common.js"></script>
-    <script type="text/javascript" src="js/user.js"></script>
-    <body class="user_center">
-    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="js/jquery.json.js"></script>
-    <script type="text/javascript" src="js/transport_jquery.js"></script>
-    <script type="text/javascript" src="js/utils.js"></script>
-    <script type="text/javascript" src="js/jquery.SuperSlide.js"></script>
-    <script type="text/javascript" src="js/xiaomi_common.js"></script>
-    <script type="text/javascript">
-
-    <!--
-    function checkSearchForm()
-    {
-        if(document.getElementById('keyword').value)
-        {
-            return true;
-        }
-        else
-        {
-            alert("请输入搜索关键词！");
-            return false;
-        }
-    }
-    -->
-
-</script>
-{{--头部--}}
-{{--@include('header')--}}
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<link href="css/user.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/user.js"></script>
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/transport_jquery.js"></script>
+<script type="text/javascript" src="js/jquery.SuperSlide.js"></script>
+<script type="text/javascript" src="js/xiaomi_common.js"></script>
+<body class="user_center">
 <div class="breadcrumbs">
     <div class="container">
         <a href=".">首页</a>
@@ -92,18 +70,18 @@
                                 <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
                                     <tbody>
                                     <tr>
-                                        <td align="right" bgcolor="#ffffff"> 商品总价: {{ $userOrder['order_price'] }}<em>元</em> + 配送费用: {{ $userOrder['logistics_price'] }}<em>元</em> </td>
+                                        <td align="right" bgcolor="#ffffff"> 商品总价: {{ $userOrder['order_price'] }}<em>元</em> + 配送费用: {{ $userOrder['logistics_price'] }}<em>元</em> - 红包: {{ $userOrder['pack_price'] or 0.00 }}<em>元</em></td>
                                     </tr>
                                     <tr>
                                         <td align="right" bgcolor="#ffffff"> </td>
                                     </tr>
                                     <tr>
-                                        <td align="right" bgcolor="#ffffff">应付款金额: {{ $userOrder['order_price']+$userOrder['logistics_price'] }}<em>元</em> </td>
+                                        <td align="right" bgcolor="#ffffff">应付款金额: {{ $userOrder['order_price'] + $userOrder['logistics_price'] - $userOrder['pack_price'] }}<em>元</em> </td>
                                     </tr>
                                     </tbody>
                                 </table>
                                 <h1>收货人信息</h1>
-                                <form action="user.php" method="post" name="formAddress" id="formAddress">
+                                <form action="" method="post" name="formAddress" onsubmit="return false" id="formAddress">
                                     <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
                                         <tbody>
                                         <tr>
@@ -123,7 +101,7 @@
                                         </tr>
                                         @if ($userOrder['status'] < 2)
                                         <tr>
-                                            <td colspan="4" align="center" bgcolor="#ffffff"><input type="hidden" name="act" value="save_order_address" /> <input type="hidden" name="order_id" value="95" /> <input type="submit" class="btn btn-primary" value="更新收货人信息" /> </td>
+                                            <td colspan="4" align="center" bgcolor="#ffffff"><input type="submit" order_id = "{{ $userOrder['order_id'] }}" class="btn btn-primary update" value="更新收货人信息" /> </td>
                                         </tr>
                                         @endif
                                         </tbody>
@@ -133,7 +111,7 @@
                                 <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
                                     <tbody>
                                     <tr>
-                                        <td bgcolor="#ffffff"> 所选支付方式: 支付宝。应付款金额: <strong>{{ $userOrder['order_price']+$userOrder['logistics_price'] }}<em>元</em></strong><br /> 支付宝网站(www.alipay.com) 是国内先进的网上支付平台。<br />支付宝收款接口：在线即可开通，<font color="red"><b>零预付，免年费</b></font>，单笔阶梯费率，无流量限制。<br /><a href="http://cloud.ecshop.com/payment_apply.php?mod=alipay" target="_blank"><font color="red">立即在线申请</font></a> </td>
+                                        <td bgcolor="#ffffff"> 所选支付方式: 支付宝。应付款金额: <strong>{{ $userOrder['order_price'] + $userOrder['logistics_price'] - $userOrder['pack_price'] }}<em>元</em></strong><br /> 支付宝网站(www.alipay.com) 是国内先进的网上支付平台。<br />支付宝收款接口：在线即可开通，<font color="red"><b>零预付，免年费</b></font>，单笔阶梯费率，无流量限制。<br /><a href="http://cloud.ecshop.com/payment_apply.php?mod=alipay" target="_blank"><font color="red">立即在线申请</font></a> </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -162,4 +140,28 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).on('click','.update',function () {
+        var consignee_name = $('.address_name').val();
+        var oldconsignee_name = $('.address_name').attr('value');
+        var consignee_tel = $('.address_tel').val();
+        var oldconsignee_tel = $('.address_tel').attr('value');
+        var consignee_address = $('.address').val();
+        var oldconsignee_address = $('.address').attr('value');
+        var order_id = $(this).attr('order_id');
+        if (consignee_name == oldconsignee_name && consignee_address == consignee_address && consignee_tel == oldconsignee_tel) {
+            alert('您未进行任何修改');
+            return false;
+        }
+        $.ajax({
+            type:'post',
+            url:"home-personal-updateOrder",
+            data:{_token:"{{csrf_token()}}",order_id:order_id,consignee_name:consignee_name,consignee_tel:consignee_tel,consignee_address:consignee_address},
+            dataType:'json',
+            success:function (data) {
+                alert(data['msg'])
+            }
+        })
+    })
+</script>
 @endsection

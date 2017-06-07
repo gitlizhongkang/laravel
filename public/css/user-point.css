@@ -1,0 +1,81 @@
+
+.summary {
+    background-color: #f1f1f1;
+    border: 2px solid #e2e2e2;
+    padding: 28px 0;
+}
+textarea {
+    font: 12px/1.5 tahoma,arial,"宋体";
+}
+.desc {
+    color: #666;
+    font-size: 18px;
+    font-weight: 700;
+    height: 24px;
+    line-height: 24px;
+}
+.summary span {
+    display: block;
+    text-align: left;
+    text-indent: 60px;
+}
+.point {
+    color: #288c29;
+    font-size: 34px;
+    font-weight: 700;
+    height: 40px;
+    line-height: 40px;
+}
+.summary span {
+    display: block;
+    text-align: left;
+    text-indent: 60px;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+.style {
+    color: #999999;
+}
+.summary .date {
+    color: #999;
+    font-size: 12px;
+    line-height: 24px;
+}
+.summary span {
+    display: block;
+    text-align: left;
+    text-indent: 60px;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.exchange a {
+    background: #d83c59 none repeat scroll 0 0;
+    border-radius: 3px;
+    color: #fff;
+    display: block;
+    font-size: 18px;
+    height: 44px;
+    line-height: 44px;
+    margin: 28px auto;
+    text-align: center;
+    width: 260px;
+}
+a {
+    text-decoration: none;
+}
+a {
+    outline: 0 none;
+}
+.valid {
+    width: 265px;
+}
+.summary .item {
+    border-right: 1px solid #e2e2e2;
+    float: left;
+    height: 100px;
+}

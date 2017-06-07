@@ -47,6 +47,19 @@ abstract class HasOneOrMany extends Relation
     }
 
     /**
+     * Create and return an un-saved instance of the related model.
+     *
+     * @param  array  $attributes
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function make(array $attributes = [])
+    {
+        return tap($this->related->newInstance($attributes), function ($instance) {
+            $instance->setAttribute($this->getForeignKeyName(), $this->getParentKey());
+        });
+    }
+
+    /**
      * Set the base constraints on the relation query.
      *
      * @return void
@@ -112,7 +125,7 @@ abstract class HasOneOrMany extends Relation
     {
         $dictionary = $this->buildDictionary($results);
 
-        // Once we have the dictionary we can simply spin through the parent Models to
+        // Once we have the dictionary we can simply spin through the parent models to
         // link them up with their children using the keyed dictionary to make the
         // matching very convenient and easy work. Then we'll just return them.
         foreach ($models as $model) {
@@ -153,9 +166,9 @@ abstract class HasOneOrMany extends Relation
 
         $foreign = $this->getForeignKeyName();
 
-        // First we will create a dictionary of Models keyed by the foreign key of the
+        // First we will create a dictionary of models keyed by the foreign key of the
         // relationship as this will allow us to quickly access all of the related
-        // Models without having to do nested looping which will be quite slow.
+        // models without having to do nested looping which will be quite slow.
         foreach ($results as $result) {
             $dictionary[$result->{$foreign}][] = $result;
         }
@@ -243,7 +256,7 @@ abstract class HasOneOrMany extends Relation
     }
 
     /**
-     * Attach a collection of Models to the parent instance.
+     * Attach a collection of models to the parent instance.
      *
      * @param  \Traversable|array  $models
      * @return \Traversable|array
@@ -290,7 +303,7 @@ abstract class HasOneOrMany extends Relation
     }
 
     /**
-     * Perform an update on all the related Models.
+     * Perform an update on all the related models.
      *
      * @param  array  $attributes
      * @return int

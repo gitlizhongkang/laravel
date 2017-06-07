@@ -8,8 +8,8 @@ use Illuminate\Http\Response;
 use Session;
 use Illuminate\Support\Facades\Input;
 use App\Models\User;
-use App\Models\Goods;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Home\GoodsController;
 
 
 class PointMallController extends Controller
@@ -44,6 +44,23 @@ class PointMallController extends Controller
     public function info()
     {
         $goods_id=Input::get("goods_id");
+        $goods=new GoodsController();
+        //获取商品信息
+        $data['goodsInfo'] = json_decode($goods->getGoodsInfo($goods_id), true);
+
+        //获取商品规格信息
+        $data['norms']= json_decode($goods->getGoodsNorms($goods_id), true);
+
+        //获取商品的属性信息
+        $data['goodsAttr'] = json_decode($goods->getGoodsAttr($goods_id), true);
+
+        //获取商品的评论
+        $data['comment'] = json_decode($goods->getGoodsComment($goods_id), true);
+
+        //获取商品的图片
+        $data['img'] = json_decode($goods->getGoodsImg($goods_id), true);
+
+        return view('/home/goods',$data);
 
     }
     /**

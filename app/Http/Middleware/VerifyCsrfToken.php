@@ -19,7 +19,10 @@ class VerifyCsrfToken extends BaseVerifier {
         // 使用CSRF
         return parent::handle($request, $next);
         // 禁用CSRF
+
         //return $next($request);
+        // return $next($request);
+
     }
 
 
@@ -28,6 +31,8 @@ class VerifyCsrfToken extends BaseVerifier {
         'home-personal-getOrderGoods',
         'home-personal-getUserInfo',
         'home-personal-getUserAddress',
+        'home-personal-getCountAddress',
+        'home-personal-getPoint'
     ];
 }
 
