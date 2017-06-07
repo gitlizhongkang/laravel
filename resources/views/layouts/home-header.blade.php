@@ -136,7 +136,9 @@ $user_name = Session::get('username');
                         </div>
                     </div> -->
                 </li>
-
+                <li class="nav-item">
+                    <a class="link" href="home-pointMall-index"><span>积分</span></a>
+                </li>
                 <li class="nav-item">
                     <a class="link" href="home-music-index"><span>早教</span></a>
                 </li>

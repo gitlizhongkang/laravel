@@ -13,14 +13,22 @@ use App\Models\music;
 class MusicController extends Controller
 
 {
+    protected $musicModel;
+    /**
+     *  构造方法
+     */
+    public function __construct()
+    {
+        $this->musicModel=new Music();
+    }
+
     /**
      *  早教音乐首页
      */
     public function index()
     {
         $params=[0=>'title',1=>'id'];
-        $musicInfo=Music::findMusic($params);
-        var_dump($musicInfo);die;
+        $musicInfo=$this->musicModel->findMusic($params);
         return view("home/music",['musicInfo'=>$musicInfo]);
     }
     /**
@@ -29,7 +37,7 @@ class MusicController extends Controller
     public function detail()
     {
         $where['id']=Input::get("id");
-        $musicInfo=Music::findMusic("*",$where);
-       return view();
+        $musicInfo=$this->musicModel->findMusic("*",$where);
+        return view("home/music-detail",['musicInfo'=>$musicInfo[0]]);
     }
 }
