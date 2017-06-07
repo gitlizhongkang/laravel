@@ -66,6 +66,14 @@ Route::group(['middleware' => ['web']], function () {
     // 单个音乐播放页
     Route::get("home-music-detail",  'Home\MusicController@detail');
 
+    // 积分商城首页
+
+    Route::get("home-pointMall-index",  'Home\PointMallController@index');
+
+    // 积分商品详情页
+
+    Route::get("home-pointMall-info",  'Home\PointMallController@info');
+
     /** 李钟康 end */
 
 

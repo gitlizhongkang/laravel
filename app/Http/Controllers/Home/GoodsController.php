@@ -87,7 +87,7 @@ class GoodsController extends Controller
                   
 
         $goods = new Goods;
-        $res = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->find($goods_id);
+        $res = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name','goods_point')->find($goods_id);
         
         return json_encode($res);
     }
