@@ -9,7 +9,7 @@
 <div class="breadcrumbs">
     <div class="container">
         <a href="{{URL::to('/')}}">首页</a> 
-        <code>&gt;</code> <a href="category.php?id=76">购买电视与平板</a>
+        <code>&gt;</code> <a href="javascript:;">商品列表</a>
     </div>
 </div>
 
@@ -20,31 +20,21 @@
             <dl class="filter-list clearfix filter-list-row-2">
                 <dt>品牌：</dt>
                 <dd class="active">全部</dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=38.0">黄</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=34.0">黑</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=81.0">黑白</a></dd>
-            </dl>
-            <a  href="javascript:;" class="more J_filterToggle">更多<i class="iconfont"></i></a>
-        </div>
-        <div class="filter-list-wrap">
-            <dl class="filter-list clearfix filter-list-row-2">
-                <dt>尺寸：</dt>
-                <dd class="active">全部</dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=0.33">15</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=0.35">45</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=0.68">58</a></dd>
+                @foreach ($brand as $k=>$v)
+                <dd><a href="home-goods-goodsList?brand_name={{$v['brand_name']}}">{{$v['brand_name']}}</a></dd>
+                @endforeach
             </dl>
             <a  href="javascript:;" class="more J_filterToggle">更多<i class="iconfont"></i></a>
         </div>
         <div class="filter-list-wrap">
             <dl class="filter-list clearfix filter-list-row-2">
                 <dt>价格：</dt>
-                <dd class="active">全部</dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=500">0&nbsp;-&nbsp;500</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=1000&amp;price_max=1500">1000&nbsp;-&nbsp;1500</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=2000&amp;price_max=2500">2000&nbsp;-&nbsp;2500</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=2500&amp;price_max=3000">2500&nbsp;-&nbsp;3000</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=4000&amp;price_max=4500">4000&nbsp;-&nbsp;4500</a></dd>
+                <dd class="active">请输入价格区间：</dd>
+                <dd>
+                    <input type="text" id='min_price' style='width: 50px' placeholder="0">
+                    &nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;
+                    <input type="text" id='max_price' style='width: 50px'  placeholder="500">
+                </dd> 
             </dl>
             <a  href="javascript:;" class="more J_filterToggle">更多<i class="iconfont"></i></a>
         </div>
@@ -59,20 +49,20 @@
             <form method="GET" name="listform">
                 <ul class="order-list">
                     <li class="first active">
-                        <a title="销量" href="category.php?category=76&display=grid&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=sales_volume&order=ASC#goods_list" class="curr" rel="nofollow">
+                        <a title="销量" href="javascript:;" class="curr" rel="nofollow">
                             <span class="search_DESC">销量</span>&nbsp;<i class="iconfont"></i>
                         </a>
                     </li>
                     <li class="">
-                        <a title="价格" href="category.php?category=76&display=grid&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=shop_price&order=ASC#goods_list"  rel="nofollow">
-                            <span class="">价格</span>
+                        <a title="价格" href="javascript:;"  rel="nofollow">
+                            <span class="">价格</span>&nbsp;<i class="iconfont"></i>
                         </a>
                     </li>
-                    <li class="">
+                   <!--  <li class="">
                         <a title="上架时间" href="category.php?category=76&display=grid&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=goods_id&order=DESC#goods_list" rel="nofollow">
                             <span class="">上架时间</span>
                         </a>
-                    </li>
+                    </li> -->
                     <input type="hidden" name="category" value="76" />
                     <input type="hidden" name="display" value="grid" id="display" />
                     <input type="hidden" name="brand" value="0" />
@@ -105,7 +95,7 @@
                         <p class="desc">{{$v['brand_name']}}</p>
                         <h2 class="title"><a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" title="{{$v['goods_name']}}">{{$v['goods_name']}}</a></h2>
                         <p class="price">
-                            本店价<font class="shop_s">{{$v['goods_low_price']}}<em>元</em></font>
+                            本店价：<font class="shop_s">{{$v['goods_low_price']}}<em>元</em></font>
                           <!--   <del>专柜价<font class="market_s">358<em>元</em></font></del> -->
                         </p>
                         <!-- <div class="thumbs J_attrImg">
@@ -120,9 +110,9 @@
                         <!-- <div class="actions clearfix"> -->
                            <!--  <a href="javascript:addToCart(29)" class="btn-buy J_buyGoods"><span>加入购物车</span> <i class="iconfont"></i></a> -->
                         <!-- </div> -->
-                        <div class="flags">
+                        <!-- <div class="flags">
                             <div class="flag flag-saleoff">8.4折促销</div>
-                        </div>
+                        </div> -->
                     </div>
                 @endforeach
                 @else

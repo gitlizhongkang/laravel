@@ -262,7 +262,7 @@ class GoodsController extends Controller
 
         $goods = new Goods;
         $arr = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->whereIn('category_name', $names)
-        ->where([['is_on_sale', 1], ['is_second', 0]])->paginate(10);
+        ->where([['is_on_sale', 1], ['is_second', 0], ['is_point', 0]])->paginate(10);
         
        return $arr;
 
@@ -281,7 +281,7 @@ class GoodsController extends Controller
         $goods = new Goods;
 
         $new= $goods -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name')
-        -> where([['is_on_sale', 1], ['is_second', 0]])-> orderBy('add_time') 
+        -> where([['is_on_sale', 1], ['is_second', 0], ['is_point', 0]])-> orderBy('add_time') 
         -> offset(0) -> limit($limit) -> get() -> toArray();
 
         return json_encode($new);
@@ -335,7 +335,7 @@ class GoodsController extends Controller
 
                 $recommendation = $goods 
                 -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name') 
-                -> whereIn('category_id',$category_id)->where([['is_on_sale', 1], ['is_second', 0]]) 
+                -> whereIn('category_id',$category_id)->where([['is_on_sale', 1], ['is_second', 0], ['is_point', 0]]) 
                 -> orderBy('add_time') -> offset(0) -> limit($limit) -> get() -> toArray();
             } else {
                 $recommendation = $goods 
@@ -346,7 +346,7 @@ class GoodsController extends Controller
         } else {
             $recommendation = $goods 
             -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name') 
-            -> where([['is_hot', 1],['is_on_sale', 1], ['is_second',0]]) 
+            -> where([['is_hot', 1],['is_on_sale', 1], ['is_second',0], ['is_point', 0]]) 
             -> orderBy('add_time') -> offset(0)-> limit($limit) -> get() -> toArray();
 
         }
@@ -362,9 +362,11 @@ class GoodsController extends Controller
     public function goodsList()
     {
         $category_name = isset(Input::all()['category_name'])?Input::all()['category_name']:'';
-        
+        $key = isset(Input::all()['key'])?Input::all()['key']:'';
+        $brand_name =  isset(Input::all()['brand_name'])?Input::all()['brand_name']:'';
         if($category_name != '') {
             $data['goods'] = $this->getCateGoods($category_name);
+            $data['brand'] = $this->getCateBrand($category_name);
         } else {
             $data['goods'] = $this->getGoods();
         }
@@ -374,10 +376,6 @@ class GoodsController extends Controller
             $user_id = Session::get('uid');
         }
         $data['userLike'] = json_decode($this->getUserLike($user_id, 5), true);
-        
-        $brand = new Brand;
-        $data['brand'] = $brand->findAll();
-//        dd($data['userLike']);
 
         return view('home/goods-list',$data);
     }
@@ -389,7 +387,40 @@ class GoodsController extends Controller
     public function getGoods()
     {
         $goods = new Goods;
-        $arr = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->where([['is_on_sale', 1], ['is_second', 0]])->paginate(10);
+        $arr = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->where([['is_on_sale', 1], ['is_second', 0], ['is_point', 0]])->paginate(10);
+
+        return $arr;
+    }
+
+     /**
+     * @brief 获取分类品牌
+     * @return json
+     */
+    public function getCateBrand($category_name = '')
+    {
+        if ($category_name == '') {
+            $category_name = Input::get('category_name');
+        }
+
+        if (Redis::exists('category')) {
+            $cate = unserialize(Redis::get('category'));
+            foreach ($cate as $k => $v) {
+                if($k != $category_name){
+                    foreach ($v as $k1 => $v1) {
+                       if ($k != $category_name) {
+                            if (in_array($category_name, $v1)) {
+                                $category_name = $k;
+                            }
+                       } else {
+                            $category_name = $k;
+                       }
+                    }
+                }
+            }
+        }
+
+        $brand = new brand;
+        $arr = $brand->select('brand_name')->where('category_name',$category_name)->get();
 
         return $arr;
     }

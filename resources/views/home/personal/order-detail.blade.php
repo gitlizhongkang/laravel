@@ -37,7 +37,7 @@
                                     <tr>
                                         <td align="right" bgcolor="#ffffff">订单状态：</td>
                                         <td align="left" bgcolor="#ffffff">
-                                            @if ($userOrder['status'] == 1) 未支付<form action="home-pay" style="display: inline-block" class="alipayform" method="post" target="_blank" charset="utf-8"> <input type="hidden" name="WIDout_trade_no" value="{{$userOrder['order_sn']}}"><input type="hidden" name="WIDsubject" value="test商品123"><input type="hidden" name="WIDtotal_fee" value="{{ $userOrder['order_price'] }}"><input type="hidden" name="WIDbody" value="即时到账测试"><input type="hidden" name="_token" value="{{csrf_token()}}"><input type="submit" style="margin-left: 50px" value="立即使用支付宝支付" ></form>
+                                            @if ($userOrder['status'] == 1) 未支付<form action="home-pay" style="display: inline-block" class="alipayform" method="post" target="_blank" charset="utf-8"> <input type="hidden" name="WIDout_trade_no" value="{{$userOrder['order_sn']}}"><input type="hidden" name="WIDsubject" value=" @if(count($orderGoods)>1) {{$orderGoods[0]['goods_name']}}  等多件商品 @else{{$orderGoods[0]['goods_name']}} @endif "><input type="hidden" name="WIDtotal_fee" value="{{ $userOrder['order_price'] }}">@foreach($orderGoods as $val)<input type="hidden" name="WIDbody[]" value="{{$val['goods_name']}}  {{$val['sku_norms_value']}}x{{$val['num']}}">@endforeach<input type="hidden" name="_token" value="{{csrf_token()}}"><input type="submit" style="margin-left: 50px" value="立即使用支付宝支付" ></form>
                                             @elseif ($userOrder['status'] == 2) 已支付
                                             @elseif ($userOrder['status'] == 3) 已出库
                                             @elseif ($userOrder['status'] == 4) 已收货
@@ -67,7 +67,7 @@
                                     </tr>
                                     @endforeach
                                     <tr>
-                                        <td colspan="8" bgcolor="#ffffff" align="right"> 商品总价: {{ $userOrder['order_price']+$userOrder['pack_price']-$userOrder['logistics_price'] }}<em>元</em> </td>
+                                        <td colspan="8" bgcolor="#ffffff" align="right"> 商品总价: {{ round( $userOrder['pack_price'] - $userOrder['logistics_price'] + $userOrder['order_price'],2) }}<em>元</em> </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -75,7 +75,7 @@
                                 <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
                                     <tbody>
                                     <tr>
-                                        <td align="right" bgcolor="#ffffff"> 商品总价: {{ $userOrder['order_price']+$userOrder['pack_price']-$userOrder['logistics_price'] }}<em>元</em> + 配送费用: {{ $userOrder['logistics_price'] }}<em>元</em> - 红包: {{ $userOrder['pack_price'] or 0.00 }}<em>元</em></td>
+                                        <td align="right" bgcolor="#ffffff"> 商品总价:  {{ round( $userOrder['pack_price'] - $userOrder['logistics_price'] + $userOrder['order_price'],2) }}<em>元</em> + 配送费用: {{ $userOrder['logistics_price'] }}<em>元</em> - 红包: {{ $userOrder['pack_price'] or 0.00 }}<em>元</em></td>
                                     </tr>
                                     <tr>
                                         <td align="right" bgcolor="#ffffff"> </td>
@@ -116,7 +116,7 @@
                                 <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
                                     <tbody>
                                     <tr>
-                                        <td bgcolor="#ffffff"> 所选支付方式: 支付宝。应付款金额: <strong>{{ $userOrder['order_price'] + $userOrder['logistics_price'] - $userOrder['pack_price'] }}<em>元</em></strong><br /> 支付宝网站(www.alipay.com) 是国内先进的网上支付平台。<br />支付宝收款接口：在线即可开通，<font color="red"><b>零预付，免年费</b></font>，单笔阶梯费率，无流量限制。<br /><a href="http://cloud.ecshop.com/payment_apply.php?mod=alipay" target="_blank"><font color="red">立即在线申请</font></a> </td>
+                                        <td bgcolor="#ffffff"> 所选支付方式: 支付宝。应付款金额: <strong>{{ $userOrder['order_price'] }}<em>元</em></strong><br /> 支付宝网站(www.alipay.com) 是国内先进的网上支付平台。<br />支付宝收款接口：在线即可开通，<font color="red"><b>零预付，免年费</b></font>，单笔阶梯费率，无流量限制。<br /><a href="http://cloud.ecshop.com/payment_apply.php?mod=alipay" target="_blank"><font color="red">立即在线申请</font></a> </td>
                                     </tr>
                                     </tbody>
                                 </table>

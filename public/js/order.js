@@ -6,7 +6,7 @@ $(document).ready(function () {
     }
     $('.subtotal').html(subtotal);//商品总价
     $('.money-box').children('ul').children('li').eq(1).children("span").html(subtotal);
-    var due = parseFloat(subtotal) + 20.00;
+    var due = parseFloat(subtotal) + 0.00;
     $('#allprice').html(due);//订单价
     $('.f4_b').html(Math.round(subtotal));//可获积分
     $("input[name='get_point']").val(Math.round(subtotal));

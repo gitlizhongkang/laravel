@@ -17,8 +17,8 @@ use App\Models\Order;
 use App\Models\Goods;
 use App\Models\User;
 use App\Models\OrderGoods;
-use App\libs\lib\AlipaySubmit;
 
+use Illuminate\Validation\Rules\In;
 use Mail;
 
 class OrderController extends Controller
@@ -49,7 +49,9 @@ class OrderController extends Controller
         $sku = new GoodsSku();
 //        if ($data['type'] == 'cart') {
         $arr = Input::all();
-        $data['goods'] = $sku->whereIn('sku_id',explode(',',$arr['sku']))->get()->toArray();
+        foreach (explode(',',$arr['sku']) as $val) {
+            $data['goods'][] = $sku->where('sku_id',$val)->first()->toArray();
+        }
         $data['num'] = explode(',',$arr['num']);
 //        } else if($data['type'] == 'direct'){
 //            $sku_id = Input::get('sku');
@@ -91,17 +93,12 @@ class OrderController extends Controller
         $order['postscript'] = $arr['postscript'];
         $order['get_point'] = $arr['get_point'];
         $sku = new GoodsSku();
-//        $goods = new Goods();
         foreach ($arr['sku_id'] as $k =>$val) {
-//            $is_second = $goods->select('is_second')->where('goods_id',$arr['goods_id'][$k])->first()->toArray();
-//            if ($is_second['is_second'] == 1) {
-//                $num = $sku->select('second_num')->where('sku_id',$val)->get()->toArray();
-//            } else {
-                $num = $sku->select('sku_num')->where('sku_id',$val)->first()->toArray();
-//            }
+            $num = $sku->select('sku_num','goods_name','sku_norms')->where('sku_id',$val)->first()->toArray();
             if ($num['sku_num'] < $arr['num'][$k]) {
-
-                return view('/home/order-error');
+                print_r($num['sku_num']);
+                print_r($arr['num'][$k]);die;
+                return view('/home/order-error',$num);
             }
         }
         $Order = new Order();
@@ -151,23 +148,31 @@ class OrderController extends Controller
     {
         $order_sn = Input::get('order_sn');
         $order = new Order();
-        $data = $order->select('pay_type','logistics_type','order_price')->where('order_sn',$order_sn)->first()->toArray();
+        $data = $order->select('pay_type','logistics_type','order_price','order_id')->where('order_sn',$order_sn)->first()->toArray();
         $data['order_sn'] = $order_sn;
         if ($data['pay_type'] == 1) {
             $data['pay_type'] = '支付宝';
         } else if ($data['pay_type'] == 2) {
             $data['pay_type'] = '微信';
-        }else if ($data['pay_type'] == 3) {
-            $data['pay_type'] = '余额支付';
-        }else if ($data['pay_type'] == 4) {
-            $data['pay_type'] = '货到付款';
         }
+        $order_goods = new OrderGoods();
+        $data['order_goods'] = $order_goods->select('goods_name','sku_norms_value','num')->where('order_id',$data['order_id'])->get()->toArray();
 
         return view('/home/order-finsh',$data);
     }
 
-//    public function pay()
-//    {
+    public function pay()
+    {
+        $arr = Input::all();
+        $alipay=app('alipay.web');
+
+        $alipay->setOutTradeNo($arr['WIDout_trade_no']);//订单号
+        $alipay->setTotalFee($arr['WIDtotal_fee']);//订单价格
+        $alipay->setSubject($arr['WIDsubject']);//订单名称
+        $alipay->setBody(implode(',',$arr['WIDbody']));
+        $alipay->setQrPayMode('6'); //该设置为可选，添加该参数设置，支持二维码支付。
+// 跳转到支付页面。
+        return redirect()->to($alipay->getPayLink());
 //        $path = substr($_SERVER['SCRIPT_FILENAME'],0,strpos($_SERVER['SCRIPT_FILENAME'],'/public'));
 //        $alipay_config = include($path."/config/alipay.php");
 //        require_once($path."/app/libs/lib/AlipaySubmit.php");
@@ -209,9 +214,32 @@ class OrderController extends Controller
 //        $html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");
 //        echo $html_text;
 //
-//    }
+    }
 
-    public function returnUrl()
+// 异步通知支付结果
+    public function AliPayNotify(Request $request){
+// 验证请求。
+        if (!app('alipay.web')->verify()) {
+            Log::notice('Alipay notify post data verification fail.', [
+                'data' => $request->instance()->getContent()
+            ]);
+            return 'fail';
+        }
+// 判断通知类型。
+        switch ($request ->input('trade_status','')) {
+            case 'TRADE_SUCCESS':
+            case 'TRADE_FINISHED':
+                // TODO: 支付成功，取得订单号进行其它相关操作。
+                Log::debug('Alipay notify post data verification success.', [
+                    'out_trade_no' => $request -> input('out_trade_no',''),
+                    'trade_no' => $request -> input('trade_no','')
+                ]);
+                break;
+        }
+        return 'success';
+    }
+
+    public function AliPayReturn()
     {
         $arr = Input::all();
         if ($arr['trade_status'] == 'TRADE_SUCCESS' & $arr['seller_id'] == '2088002075883504') {
@@ -222,11 +250,17 @@ class OrderController extends Controller
                 $res = $orderInfo->save();
                 if ($res == true) {
                     $data['error'] = 0;
-                    $data['msg'] = '支付成功';
+                    $data['msg'] = '支付成功,请您耐心等待,并多多关注物流信息';
                 }
+            }else {
+                $data['error'] = 1;
+                $data['msg'] = "支付失败,请重新<a src='home-finsh?order_sn=".$arr['out_trade_no']."'>支付</a>";
             }
+        } else {
+            $data['error'] = 1;
+            $data['msg'] = "支付失败,请重新<a src='home-finsh?order_sn=".$arr['out_trade_no']."'>支付</a>";
         }
 
-        return view('/home/pay-success');
+        return view('/home/pay-success',$data);
     }
 }

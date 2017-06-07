@@ -111,9 +111,9 @@
                                         <div class="text">
                                             <i></i>费用：15.00<em>元</em>&nbsp;&nbsp;免费额度：0.00<em>元</em>                    </div>
                                     </li>
-                                    <li class="active">
+                                    <li>
                                         <label class="checkout-item logistics-price" for="ECS_NEEDINSURE_2">顺丰快递</label>
-                                        <input name="logistics_price" type="radio" value="20.00" checked  supportCod="1" insure="0" class="radio" />
+                                        <input name="logistics_price" type="radio" value="20.00"  supportCod="1" insure="0" class="radio" />
                                         <div class="text">
                                             <i></i>费用：20.00<em>元</em>&nbsp;&nbsp;免费额度：0.00<em>元</em>                    </div>
                                     </li>
@@ -123,11 +123,11 @@
                                         <div class="text">
                                             <i></i>费用：15.00<em>元</em>&nbsp;&nbsp;免费额度：0.00<em>元</em>                    </div>
                                     </li>
-                                    <li>
+                                    <li class="active">
                                         <label class="checkout-item logistics-price" for="ECS_NEEDINSURE_4">中通速递</label>
-                                        <input name="logistics_price" type="radio" value="10"  supportCod="0" insure="1%" class="radio" />
+                                        <input name="logistics_price" type="radio" value="0"  checked supportCod="0" insure="1%" class="radio" />
                                         <div class="text">
-                                            <i></i>费用：10.00<em>元</em>&nbsp;&nbsp;免费额度：0.00<em>元</em>                    </div>
+                                            <i></i>费用：0.00<em>元</em>&nbsp;&nbsp;免邮费</em>                    </div>
                                     </li>
                                 </ul>
                             </div>
@@ -143,21 +143,21 @@
                             <table width="100%" align="center" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd" class="goods-list-table">
                                 {{--@if ($type == 'direct')--}}
                                 {{--<tr class="shop-list">--}}
-                                    {{--<td bgcolor="#ffffff">--}}
-                                        {{--<img src="{{$goods['sku_img']}}" title="{{$goods['goods_name']}}" width="30" height="30"/>--}}
-                                        {{--<a href="home-goods-goodsInfo?goods_id={{$goods['goods_id']}}" target="_blank" class="f6">{{$goods['goods_name']}}&nbsp;{{$goods['sku_norms']}}--}}
-                                        {{--</a>--}}
-                                    {{--</td>--}}
-                                    {{--<td bgcolor="#ffffff" align="center">{{$goods['sku_price']}}<em>元</em>&nbsp;x&nbsp;{{$num}}</td>--}}
-                                    {{--<td bgcolor="#ffffff" align="center"><span class="shop_price" style="color:#ff6700;">{{$goods['sku_price']*$num}}</span><em>元</em></td>--}}
-                                    {{--<input type="hidden" name="sku_id" value="{{$goods['sku_id']}}">--}}
-                                    {{--<input type="hidden" name="sku_sn" value="{{$goods['sku_sn']}}">--}}
-                                    {{--<input type="hidden" name="goods_id" value="{{$goods['goods_id']}}">--}}
-                                    {{--<input type="hidden" name="goods_name" value="{{$goods['goods_name']}}">--}}
-                                    {{--<input type="hidden" name="sku_norms_value" value="{{$goods['sku_norms']}}">--}}
-                                    {{--<input type="hidden" name="sku_img" value="{{$goods['sku_img']}}">--}}
-                                    {{--<input type="hidden" name="sku_price" value="{{$goods['sku_price']}}">--}}
-                                    {{--<input type="hidden" name="num" value="{{$num}}">--}}
+                                {{--<td bgcolor="#ffffff">--}}
+                                {{--<img src="{{$goods['sku_img']}}" title="{{$goods['goods_name']}}" width="30" height="30"/>--}}
+                                {{--<a href="home-goods-goodsInfo?goods_id={{$goods['goods_id']}}" target="_blank" class="f6">{{$goods['goods_name']}}&nbsp;{{$goods['sku_norms']}}--}}
+                                {{--</a>--}}
+                                {{--</td>--}}
+                                {{--<td bgcolor="#ffffff" align="center">{{$goods['sku_price']}}<em>元</em>&nbsp;x&nbsp;{{$num}}</td>--}}
+                                {{--<td bgcolor="#ffffff" align="center"><span class="shop_price" style="color:#ff6700;">{{$goods['sku_price']*$num}}</span><em>元</em></td>--}}
+                                {{--<input type="hidden" name="sku_id" value="{{$goods['sku_id']}}">--}}
+                                {{--<input type="hidden" name="sku_sn" value="{{$goods['sku_sn']}}">--}}
+                                {{--<input type="hidden" name="goods_id" value="{{$goods['goods_id']}}">--}}
+                                {{--<input type="hidden" name="goods_name" value="{{$goods['goods_name']}}">--}}
+                                {{--<input type="hidden" name="sku_norms_value" value="{{$goods['sku_norms']}}">--}}
+                                {{--<input type="hidden" name="sku_img" value="{{$goods['sku_img']}}">--}}
+                                {{--<input type="hidden" name="sku_price" value="{{$goods['sku_price']}}">--}}
+                                {{--<input type="hidden" name="num" value="{{$num}}">--}}
                                 {{--</tr>--}}
                                 {{--@elseif ($type == 'cart')--}}
                                     @foreach ($goods as $k => $val)
@@ -228,7 +228,7 @@
                                         <label>商品总价：</label><span class="val"></span><em>元</em>
                                     </li>
                                     <li class="clearfix">
-                                        <label>配送费用：</label><em style="color: red">+</em> <span class="val">20.00</span><em>元</em>
+                                        <label>配送费用：</label><em style="color: red">+</em> <span class="val">0.00</span><em>元</em>
                                     </li>
                                     <li class="clearfix" style="display:none;">
                                         <label>红包：</label><em style="color: red">-</em> <span class="val">20.00</span><em>元</em>

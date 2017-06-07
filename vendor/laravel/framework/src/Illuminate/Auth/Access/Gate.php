@@ -109,6 +109,30 @@ class Gate implements GateContract
     }
 
     /**
+     * Define abilities for a resource.
+     *
+     * @param  string  $name
+     * @param  string  $class
+     * @param  array   $abilities
+     * @return $this
+     */
+    public function resource($name, $class, array $abilities = null)
+    {
+        $abilities = $abilities ?: [
+            'view'   => 'view',
+            'create' => 'create',
+            'update' => 'update',
+            'delete' => 'delete',
+        ];
+
+        foreach ($abilities as $ability => $method) {
+            $this->define($name.'.'.$ability, $class.'@'.$method);
+        }
+
+        return $this;
+    }
+
+    /**
      * Create the ability callback for a callback string.
      *
      * @param  string  $callback
@@ -404,7 +428,7 @@ class Gate implements GateContract
 
             // If this first argument is a string, that means they are passing a class name
             // to the policy. We will remove the first argument from this argument array
-            // because this policy already knows what type of Models it can authorize.
+            // because this policy already knows what type of models it can authorize.
             if (isset($arguments[0]) && is_string($arguments[0])) {
                 array_shift($arguments);
             }

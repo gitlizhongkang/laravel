@@ -330,7 +330,7 @@ class PersonalController extends Controller
         if($order_id=='' && $status==''){
             $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type')->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
         } elseif ($status=='') {
-            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_type','logistics_price','consignee_tel','consignee_name','consignee_address','pack_price')->where(['user_id'=>$uid,'order_id'=>$order_id])->first()->toArray();
+            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_type','logistics_price','consignee_tel','consignee_name','consignee_address','pack_price','get_point')->where(['user_id'=>$uid,'order_id'=>$order_id])->first()->toArray();
         } else {
             $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type')->where('status','>=',$status)->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
         }
@@ -398,6 +398,60 @@ class PersonalController extends Controller
         return json_encode($data);
     }
 
+
+    /**
+     * @brief 修改订单状态 并 增加积分
+     */
+    public function updateOrderStatus()
+    {
+        $order_id = Input::get('order_id');
+        $uid = Session::get('uid');//session内拿用户uid
+        //查询订单
+        $userOrder = $this->getUserOrder($uid,$order_id);
+        $userOrder = json_decode($userOrder,true);
+        //更改收货状态
+        $Order = new Order();
+        $order = $Order->where(['order_id'=>$order_id,'user_id'=>$uid])->first();
+        $order->status = 4;
+        $order->save();
+        if ($order['is_point'] == '1') {
+            //消耗积分
+            $User = new User();
+            $user = $User->where('user_id',$uid)->first();
+            $user->user_point -= $userOrder['order_price'];
+            $re = $user->save();
+            //添加积分日志
+            $Point = new Point();
+            $Point->user_id = $uid;
+            $Point->point = $userOrder['get_point'];
+            $Point->content = "完成了订单<a href='home-personal-orderDetail?order_id=".$userOrder['order_id']."'>".$userOrder['order_sn']."</a>，使用了".$userOrder['get_point']."的积分";
+            $Point->add_time = time();
+            $Point->status = 2;
+        } else {
+            //添加积分
+            $User = new User();
+            $user = $User->where('user_id',$uid)->first();
+            $user->user_point += $userOrder['get_point'];
+            $re = $user->save();
+            //添加积分日志
+            $Point = new Point();
+            $Point->user_id = $uid;
+            $Point->point = $userOrder['get_point'];
+            $Point->content = "完成了订单<a href='home-personal-orderDetail?order_id=".$userOrder['order_id']."'>".$userOrder['order_sn']."</a>，获得了".$userOrder['get_point']."的积分";
+            $Point->add_time = time();
+            $Point->status = 1;
+        }
+        $res = $Point->save();
+        if ($res == true & $re == true) {
+            $data['error'] = 0;
+            $data['msg'] = '修改成功！';
+        } else {
+            $data['error'] = 1;
+            $data['msg'] = '修改失败！';
+    }
+
+        echo json_encode($data);
+    }
     /**
      * @brief 取消订单-接口
      * @param string $param

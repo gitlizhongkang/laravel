@@ -314,7 +314,7 @@ trait HasEvents
     }
 
     /**
-     * Unset the event dispatcher for Models.
+     * Unset the event dispatcher for models.
      *
      * @return void
      */

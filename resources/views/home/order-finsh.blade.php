@@ -47,9 +47,11 @@
                     <div style="text-align:center">
                         <form action="home-pay" class="alipayform" method="post">
                             <input type="hidden" name="WIDout_trade_no" value="{{$order_sn}}">
-                            <input type="hidden" name="WIDsubject" value="test商品123">
+                            <input type="hidden" name="WIDsubject" value="@if(count($order_goods)>1) {{$order_goods[0]['goods_name']}}  等多件商品 @else{{$order_goods[0]['goods_name']}} @endif">
                             <input type="hidden" name="WIDtotal_fee" value="{{$order_price}}">
-                            <input type="hidden" name="WIDbody" value="即时到账测试">
+                            @foreach($order_goods as $val)
+                            <input type="hidden" name="WIDbody[]" value="{{$val['goods_name']}}  {{$val['sku_norms_value']}}x{{$val['num']}}">
+                            @endforeach
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <input type="submit" value="立即使用支付宝支付" />
                         </form>

@@ -20,25 +20,13 @@
                     <div class="order-detail">
                         <ul>
                             <li class="clearfix">
+                                @if ($error == '0')
+                                    <span style="font-size: 22px;color: orange">{{$msg}}</span>
+                                @else
+                                    <span>{{$msg}}</span>
+                                @endif
                             </li>
-                            <li class="clearfix">
-                            </li>
-                            <li class="clearfix">
-                            </li>
-                            <li class="clearfix">
-                            </li>
-                            <li class="clearfix">
-                            </li>
-
                         </ul>
-                    </div>
-                </div>
-
-                <div class="section section-payment">
-                    <div class="pay_action">
-                        <div style="text-align:center">
-
-                        </div>
                     </div>
                 </div>
 
