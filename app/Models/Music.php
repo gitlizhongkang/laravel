@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Music extends Model
 {
@@ -25,9 +24,13 @@ class Music extends Model
     /**
      *  查找乐库
      */
-    static function findMusic($params='*',$where="[1=>1]")
+    public function findMusic($params='*',$where='')
     {
-        return DB::table('music')->select($params)->where($where)->get();
+        if(empty($where)){
+            return $this->select($params)->get()->toArray();
+        }else{
+            return $this->select($params)->where($where)->get()->toArray();
+        }
     }
 
 }

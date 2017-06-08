@@ -51,40 +51,11 @@ $user_id = Session::get('uid');
                                     <dd class="goods-phone-type"><p> 现货购买</p></dd>
                                    <!--  <del>专柜价： <em class="cancel">{{$goodsInfo['goods_low_price']}}<em>元</em></em></del> -->
                                     <dd class="goods-info-head-price clearfix">
-
+                                        @if(empty($goodsInfo['goods_point']))
                                         <span>本店价：</span> <span class="unit"> <b class="nala_price red" ><span id="ECS_SHOPPRICE">{{$goodsInfo['goods_low_price']}}</span><em>元</em> </b> </span>
-
-                                       <!--  <a href="javascript:;" id="membership" data-type="normal" class="membership">高级会员购买享有折扣</a>
-                                        <div class="membership_con">
-                                            <div class="how-bd">
-                                                <h3>会员价格</h3>
-                                                <table width="100%">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td width="50%">会员等级</td>
-                                                        <td width="50%">会员价格</td>
-                                                    </tr>
-                                                    <tr id="ECS_RANKPRICE_1">
-                                                        <td>注册用户</td>
-                                                        <td>280<em>元</em></td>
-                                                    </tr>
-                                                    <tr id="ECS_RANKPRICE_2">
-                                                        <td>vip</td>
-                                                        <td>240<em>元</em></td>
-                                                    </tr>
-                                                    <tr id="ECS_RANKPRICE_99">
-                                                        <td>微信用户</td>
-                                                        <td>260<em>元</em></td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div> -->
-                                    </dd>
-                                    <dd>
-                                        <ul>
-                                            <li><span>此商品可使用：<em class="red">2200</em>积分</span></li>
-                                        </ul>
+                                        @else
+                                            <span>需用积分：</span> <span class="unit"> <b class="nala_price red" ><span id="ECS_SHOPPRICE">{{$goodsInfo['goods_point']}}</span><em>分</em> </b> </span>
+                                        @endif
                                     </dd>
                                     <dd class="goods-info-choose">
                                         <div id="choose" class="spec_list_box" len="{{count($norms)}}" sku-id='' sku-norms='' sku-num='' sku-img=''>
@@ -184,7 +155,10 @@ $user_id = Session::get('uid');
                                         </script>
 
                                     <dd class="goods-info-head-cart">
+                                        @if(empty($goodsInfo['goods_point']))
                                         <a href="javascript:;" class="btn  btn-primary goods-add-cart-btn" id="buy_btn"><i class="iconfont"></i>加入购物车</a>
+                                        <a href="javascript:;" class=" btn btn-gray  goods-collect-btn " id="fav_btn"><i class="iconfont"></i>购买</a>
+                                        @endif
                                         <a href="javascript:;" class=" btn btn-gray  goods-collect-btn " id="fav-btn"><i class="iconfont"></i>购买</a>
                                     </dd>
                                     <dd class="goods-info-head-userfaq clearfix">
@@ -501,6 +475,37 @@ $user_id = Session::get('uid');
             }
        }) 
        
+    })
+
+    //直接购买
+    $('.goods-collect-btn').click(function(){
+        var sku_id =  $('#choose').attr('sku-id');
+        if (sku_id == '') {
+            alert('您还没有选择规格哦！！！');
+            return false;
+        }
+
+        var num = $('#number').val();
+        var sku_num = $('#choose').attr('sku-num');
+        if (parseInt(sku_num) < num) {
+            alert('库存不足');
+            return false;
+        }
+
+        var user_id = "{{$user_id}}";
+        if(user_id =='') {
+            if (confirm('请先登陆！')){
+               location.href = "home-user-login";
+            } else {
+                return false;
+            }
+        }
+        if ("{{$goodsInfo['goods_point']}}" == '') {
+            location.href = "home-order?sku="+sku_id+"&num="+num+"&type=direct";
+        } else {
+            location.href = "home-order?sku="+sku_id+"&num="+num+"&type=integral";
+        }
+
     })
     </script>
     <div class="add_ok" id="cart_show">

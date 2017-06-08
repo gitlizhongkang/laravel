@@ -22,7 +22,10 @@ $(document).on('click','#userInfoSubmit',function () {
     $.ajax({
         type:'post',
         url:'home-personal-updateUserInfo',
-        data:{_token:"{{csrf_token()}}",username:username,tel:tel,sex:sex,age:age,email:email},
+        headers: {
+            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        },
+        data:{username:username,tel:tel,sex:sex,age:age,email:email},
         dataType:'json',
         success:function (data) {
             alert(data['msg']);

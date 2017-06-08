@@ -8,7 +8,10 @@ $(document).on('change','.province',function () {
     $.ajax({
         type:'post',
         url:'home-personal-getDistrict',
-        data:{_token:"{{csrf_token()}}",parent_id:district_id},
+        headers: {
+            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        },
+        data:{parent_id:district_id},
         dataType:'json',
         success:function (data) {
             if (data['error'] == 0) {
@@ -35,7 +38,10 @@ $(document).on('change','.city',function () {
     $.ajax({
         type:'post',
         url:'home-personal-getDistrict',
-        data:{_token:"{{csrf_token()}}",parent_id:district_id},
+        headers: {
+            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        },
+        data:{parent_id:district_id},
         dataType:'json',
         success:function (data) {
             if (data['error'] == 0) {
@@ -91,7 +97,10 @@ $(document).on('click','#addUserAddress',function () {
     $.ajax({
         type:'post',
         url:'home-personal-addUserAddress',
-        data:{_token:"{{csrf_token()}}",province:province,city:city,district:district,address_name:address_name,address_tel:address_tel,address:address,is_default:is_default},
+        headers: {
+            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        },
+        data:{province:province,city:city,district:district,address_name:address_name,address_tel:address_tel,address:address,is_default:is_default},
         dataType:'json',
         success:function (data) {
             if (data['error'] == 0) {
@@ -145,7 +154,10 @@ $(document).on('click','.updateUserAddress',function () {
     $.ajax({
         type:'post',
         url:'home-personal-updateUserAddress',
-        data:{_token:"{{csrf_token()}}",id:id,province:province,city:city,district:district,address_name:address_name,address_tel:address_tel,address:address,is_default:is_default},
+        headers: {
+            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        },
+        data:{id:id,province:province,city:city,district:district,address_name:address_name,address_tel:address_tel,address:address,is_default:is_default},
         dataType:'json',
         success:function (data) {
             if (data['error'] == 0) {
@@ -167,7 +179,10 @@ $(document).on('click','.delete',function () {
         $.ajax({
             type:'post',
             url:'home-personal-deleteUserAddress',
-            data:{_token:"{{csrf_token()}}",id:id},
+            headers: {
+                'X-CSRF-TOKEN': $('input[name="_token"]').val()
+            },
+            data:{id:id},
             dataType:'json',
             success:function (data) {
                 if(data['error'] == 0) {
@@ -178,4 +193,50 @@ $(document).on('click','.delete',function () {
                 }
             }
         })
+})
+
+
+//新增收货地址-订单页
+$(document).on('click','.addUserAddress',function () {
+    var obj = $(this);
+    var address_name = $('#address_name').val();
+    var address_tel = $('#address_tel').val();
+    var province = $('.province').children('option:selected').html();;
+    var city = $('.city').children('option:selected').html();;
+    var district = $('.district').children('option:selected').html();;
+    var address = $('#address').val();
+    //获取id
+    var id = obj.parents('table').attr('address_id');
+    if (confirm('需要保存收货地址吗？')){
+        $.ajax({
+            type:'post',
+            url:'home-personal-addUserAddress',
+            headers: {
+                'X-CSRF-TOKEN': $('input[name="_token"]').val()
+            },
+            data:{address_name:address_name,address_tel:address_tel,province:province,city:city,district:district,address:address,is_default:1},
+            dataType:'json',
+            success:function (data) {
+                if(data['error'] == 0) {
+                    alert(data['msg']);
+                } else {
+                    alert(data['msg']);
+                }
+            }
+        })
+    }
+    var str = '<div class="section-body" style="width: 450px"><span><input type="radio" name="userAddress" checked></span><span class="addr-name"> '+address_name+' </span><span class="addr-info">'+province+' '+city+' '+district+' '+address+' </span><span class="addr-tel">'+address_tel+'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>';
+    $('.addrss').append(str);
+})
+
+$(document).on('click','.add',function () {
+    var obj = $(this);
+    var status = obj.attr('status');
+    if (status == 1) {
+        obj.parents('li').next().css('display','block');
+        obj.attr('status','2');
+    } else {
+        obj.parents('li').next().css('display','none');
+        obj.attr('status','1');
+    }
 })

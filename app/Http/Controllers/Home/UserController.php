@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Session;
 use Illuminate\Support\Facades\Input;
 use App\Models\User;
+use App\Models\Point;
 
 
 class UserController extends Controller
@@ -63,6 +64,14 @@ class UserController extends Controller
             Session::forget("authCode");
             Session::put("uid",$res['msg']);
             Session::put("username",$info['username']);
+            // 增加积分记录
+            $pointInfo['user_id']=$res['msg'];
+            $pointInfo['point']=100;
+            $pointInfo['content']="注册成功，送100积分";
+            $pointInfo['status']=1;
+            $pointInfo['add_time']=time();
+            $point=new Point();
+            $point->addPoint($pointInfo);
             return redirect()->action("Home\\IndexController@index");
         }
     }

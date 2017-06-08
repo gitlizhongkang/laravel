@@ -29,5 +29,6 @@ class Goods extends Model
         $this->fill($data);         //期望接受[[k1,k2,k3],[v1,v2,v3]]
         return $this->save();
     }
-
+    //DB::table('goods_attr')->insert($dataAttributes);
+    //期望接受[[1,aa],[2,bb],[3,cc]]
 }
