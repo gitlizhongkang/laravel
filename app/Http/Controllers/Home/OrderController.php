@@ -30,7 +30,6 @@ class OrderController extends Controller
 
         $info=[];
         $flag = Mail::send("$file",['name'=>$username,'key'=>$key],function($message) use($email,$subject){
-
             $message ->to($email)->subject($subject);
         });
         if($flag==null){
@@ -59,7 +58,7 @@ class OrderController extends Controller
             $data['package'] = $UserPack->where(['user_id' => $uid, 'status' => '0'])->where('pack_use_time', '>', time())->get()->toArray();
         }
         $userAddress = new UserAddress();
-        $data['userAddress'] = $userAddress->select('*')->get()->toArray();
+        $data['userAddress'] = $userAddress->select('*')->where(['user_id' => $uid])->get()->toArray();
         $PersonalController = new PersonalController();
         $province = $PersonalController->getDistrict();//查询所有省份
         $province = json_decode($province,true);
@@ -213,7 +212,6 @@ class OrderController extends Controller
     {
         $arr = Input::all();
         $alipay=app('alipay.web');
-
         $alipay->setOutTradeNo($arr['WIDout_trade_no']);//订单号
         $alipay->setTotalFee($arr['WIDtotal_fee']);//订单价格
         $alipay->setSubject($arr['WIDsubject']);//订单名称
