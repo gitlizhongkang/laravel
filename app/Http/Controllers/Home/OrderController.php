@@ -50,14 +50,17 @@ class OrderController extends Controller
         $arr = Input::all();
         $uid = Session::get('uid');
         foreach (explode(',',$arr['sku']) as $val) {
+            //查询所有购买商品信息
             $data['goods'][] = $sku->where('sku_id',$val)->first()->toArray();
         }
         $data['num'] = explode(',',$arr['num']);
         if ($data['type'] != 'integral') {
+            //不是积分购买时查询红包
             $UserPack = new UserPack();            
             $data['package'] = $UserPack->where(['user_id' => $uid, 'status' => '0'])->where('pack_use_time', '>', time())->get()->toArray();
         }
         $userAddress = new UserAddress();
+        //查询收货地址
         $data['userAddress'] = $userAddress->select('*')->where(['user_id' => $uid])->get()->toArray();
         $PersonalController = new PersonalController();
         $province = $PersonalController->getDistrict();//查询所有省份
@@ -69,6 +72,9 @@ class OrderController extends Controller
         return view('/home/order',$data);
     }
 
+    /**
+     * @brief 完成订单
+     */
     public function homeOrderFinsh()
     {
         $arr = Input::all();
@@ -99,6 +105,7 @@ class OrderController extends Controller
         $sku = new GoodsSku();
         foreach ($arr['sku_id'] as $k =>$val) {
             $num = $sku->select('sku_num','goods_name','sku_norms')->where('sku_id',$val)->first()->toArray();
+            //判断sku_num是否足够
             if ($num['sku_num'] < $arr['num'][$k]) {
                 $data['error'] = 2;
                 $data['data'] = $num;
@@ -108,6 +115,7 @@ class OrderController extends Controller
         if ($type == 'integral') {
             $user = new User();
             $user_point = $user->where(['user_id'=>$uid])->first()->toArray();
+            //积分购买时，判断积分
             if ($user_point['user_point'] < $order['order_price']){
                 $data['error'] = 3;
                 $data['msg'] = '您的积分不足';
@@ -116,6 +124,7 @@ class OrderController extends Controller
         }
         $Order = new Order();
         DB::beginTransaction();
+            //添加订单
             $order_id = $Order->insertGetId($order);
             $goods = [];
             foreach ($arr['sku_id'] as $k => $val) {
@@ -128,10 +137,13 @@ class OrderController extends Controller
                 $goods[$k]['sku_price'] = $arr['sku_price'][$k];
                 $goods[$k]['num'] = $arr['num'][$k];
                 $goods[$k]['order_id'] = $order_id;
+                $goods[$k]['add_time'] = time();
             }
             $OrderGoods = new OrderGoods();
+            //添加订单商品
             $OrderGoods->insert($goods);
             if ($arr['type'] == 'cart') {
+                //如果是购物车购买清楚购物车
                 $key = 'cart'.$uid;
                 $arr = unserialize(Redis::get($key));
                 foreach ($arr as $k => $v) {
@@ -140,12 +152,19 @@ class OrderController extends Controller
                 Redis::set($key,serialize($arr));
             }
             foreach ($goods as $val) {
-                $goodsInfo = $sku->where('sku_id',$val['sku_id'])->first();
-                $goodsInfo->sku_num -= $val['num'];
+                //减去sku库存
+                $skuInfo = $sku->where('sku_id',$val['sku_id'])->first();
+                $skuInfo->sku_num -= $val['num'];
+                $skuInfo->save();
+                $Goods = new Goods();
+                //添加售出商品数量
+                $goodsInfo = $Goods->where('goods_id',$val['goods_id'])->first();
+                $goodsInfo->goods_sale_num +=  $val['num'];
                 $goodsInfo->save();
             }
             if ($type != 'integral ') {
                 if ($order['pack_id'] != '') {
+                    //不是积分商品且使用了红包，修改红包状态
                     $UserPack = new UserPack();
                     $pack = $UserPack->where('pack_id',$order['pack_id'])->first();
                     $pack->status = '1';
@@ -178,6 +197,9 @@ class OrderController extends Controller
 
             return view('/home/order-finsh',$data);
         } else {
+            /**
+             * @brief 积分支付
+             */
             $uid = Session::get('uid');
             //消耗积分
             $User = new User();
@@ -207,6 +229,9 @@ class OrderController extends Controller
         }
     }
 
+    /**
+     * @brief alipay支付
+     */
     public function pay()
     {
         $arr = Input::all();
@@ -218,47 +243,6 @@ class OrderController extends Controller
         $alipay->setQrPayMode('6'); //该设置为可选，添加该参数设置，支持二维码支付。
 // 跳转到支付页面。
         return redirect()->to($alipay->getPayLink());
-//        $path = substr($_SERVER['SCRIPT_FILENAME'],0,strpos($_SERVER['SCRIPT_FILENAME'],'/public'));
-//        $alipay_config = include($path."/config/alipay.php");
-//        require_once($path."/app/libs/lib/AlipaySubmit.php");
-//        /**************************请求参数**************************/
-//        //商户订单号，商户网站订单系统中唯一订单号，必填
-//        $out_trade_no = $_POST['WIDout_trade_no'];
-//
-//        //订单名称，必填
-//        $subject = $_POST['WIDsubject'];
-//
-//        //付款金额，必填
-//        $total_fee = $_POST['WIDtotal_fee'];
-//
-//        //商品描述，可空
-//        $body = $_POST['WIDbody'];
-//
-//        /************************************************************/
-//
-////构造要请求的参数数组，无需改动
-//        $parameter = array(
-//            "service"       => $alipay_config['service'],
-//            "partner"       => $alipay_config['partner'],
-//            "seller_id"  => $alipay_config['seller_id'],
-//            "payment_type"	=> $alipay_config['payment_type'],
-//            "notify_url"	=> $alipay_config['notify_url'],
-//            "return_url"	=> $alipay_config['return_url'],
-//
-//            "anti_phishing_key"=>$alipay_config['anti_phishing_key'],
-//            "exter_invoke_ip"=>$alipay_config['exter_invoke_ip'],
-//            "out_trade_no"	=> $out_trade_no,
-//            "subject"	=> $subject,
-//            "total_fee"	=> $total_fee,
-//            "body"	=> $body,
-//            "_input_charset"	=> trim(strtolower($alipay_config['input_charset']))
-//        );
-//
-////建立请求
-//        $alipaySubmit = new AlipaySubmit($alipay_config);
-//        $html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");
-//        echo $html_text;
-//
     }
 
 // 异步通知支付结果
@@ -284,6 +268,7 @@ class OrderController extends Controller
         return 'success';
     }
 
+// 同步通知支付结果
     public function AliPayReturn()
     {
         $arr = Input::all();
@@ -291,6 +276,7 @@ class OrderController extends Controller
             $order = new Order();
             $orderInfo = $order->where(['order_sn'=>$arr['out_trade_no']])->first();
             if ($orderInfo->order_price == $arr['total_fee']) {
+                //修改支付状态
                 $orderInfo->status = 2;
                 $res = $orderInfo->save();
                 if ($res == true) {
