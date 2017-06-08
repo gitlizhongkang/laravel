@@ -6,6 +6,7 @@
 <script type="text/javascript" src="js/global.js"></script>
 <script type="text/javascript" src="js/compare.js"></script>
 <script type="text/javascript" src="js/uri.js"></script>
+<link href="css/point.css" rel="stylesheet" type="text/css" />
 <!--通栏-->
 <div class="breadcrumbs">
     <div class="container">
@@ -223,9 +224,7 @@
         </script>
         <form name="selectPageForm" action="/mishop/category.php" method="get">
             <div class="clearfix">
-                <div id="pager" class="pagebar">
-                    <div class="pagenav">{!! $goods->appends($param)->render() !!}</div>
-                </div>
+                {!! $goods->appends($param)->render() !!}
             </div>
         </form>
         <script type="Text/Javascript" language="JavaScript">

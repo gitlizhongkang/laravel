@@ -172,7 +172,7 @@ a {
 	text-decoration: none
 }
 a:hover {
-	color: #ff6700;
+	color: #f08080;
 	text-decoration: none
 }
 .clearfix {
@@ -281,23 +281,23 @@ a:hover {
 	box-sizing: content-box
 }
 .btn-primary {
-	background-color: #ff6700;
+	background-color: #F08080;
 	border-color: #ff6700;
 	color: #fff
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary.active, .btn-primary:active {
 	color: #fff;
 	border-color: #f25807;
-	background-color: #f25807;
+	background-color: #EE6363;
 }
 .btn-line-primary {
-	border-color: #ff6700;
+	border-color: #F08080;
 	background: #fff;
 	color: #ff6700;
 }
 .btn-line-primary:hover {
 	color: #fff;
-	background-color: #f25807;
+	background-color: #EE6363;
 	border-color: #f25807;
 }
 .btn-small {
@@ -1205,26 +1205,26 @@ a:hover {
 	transition: all 0.2s;
 }
 .site-header .search-form:hover .search-text, .site-header .search-form:hover .search-btn {
-	border-color: #b0b0b0;
+	border-color: #F08080;
 }
 .site-header .search-form-focus .search-text, .site-header .search-form-focus .search-btn {
-	border-color: #ff6700;
+	border-color: #F08080;
 }
 .site-header .search-form-focus .search-btn{
 }
 .site-header .search-form-focus .search-btn{
-	color:#ff6700;	
+	color:#F08080;	
 }
 .site-header .search-form-focus:hover .search-text, .site-header .search-form-focus:hover .search-btn {
-	border-color: #ff6700;
+	border-color: #F08080;
 }
 .site-header .search-form-focus .hot-words {
 	display: none;
 }
 .site-header .header-search .search-btn:hover {
-	background: #ff6700;
+	background: #F08080;
 	color: #fff;
-	border-color: #ff6700;
+	border-color: #F08080;
 }
 .site-header .header-search .hot-words {
 	position: absolute;
@@ -1244,7 +1244,7 @@ a:hover {
 	transition: all 0.2s;
 }
 .site-header .header-search .hot-words a:hover {
-	background: #ff6700;
+	background: #F08080;
 	color: #fff;
 }
 /*首页轮播*/

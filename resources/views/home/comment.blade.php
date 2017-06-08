@@ -1,7 +1,7 @@
 @extends('layouts.home-header')
      
 @section('content')
-
+<link href="css/point.css" rel="stylesheet" type="text/css" />
   <div class="goods-detail-comment-content">
     <div class="container">
         <div class="row">
@@ -33,9 +33,7 @@
                     </li>
                     @endforeach
                 </ul>
-                <div class='pagebar'>
-                    <div class="pagenav">{!! $comment->appends(['goods_id'=>$goods_id])->render() !!}</div>
-                </div>
+                {!! $comment->appends(['goods_id'=>$goods_id])->render() !!}
             </div>
         </div>
     </div>
