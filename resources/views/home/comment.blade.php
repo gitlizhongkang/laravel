@@ -1,9 +1,6 @@
- @include('header')
- <style>
-    .pagenav li{
-        display:inline-block;
-    }
- </style>
+@extends('layouts.home-header')
+     
+@section('content')
 
   <div class="goods-detail-comment-content">
     <div class="container">
@@ -36,10 +33,13 @@
                     </li>
                     @endforeach
                 </ul>
-                <div class="pagenav">{!! $comment->links() !!}</div>
+                <div class='pagebar'>
+                    <div class="pagenav">{!! $comment->appends(['goods_id'=>$goods_id])->render() !!}</div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-@include('footer');
+<!--脚部-->
+@endsection

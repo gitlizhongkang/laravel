@@ -979,7 +979,7 @@ a:hover {
 	margin: 0;
 	padding: 20px 0;
 	list-style-type: none;
-	border: 1px solid pink;
+	border: 1px solid #FF1493;
 	color: #424242;
 	background: #FFFAF0;
 }
@@ -997,7 +997,7 @@ a:hover {
 	right: 20px;
 	font-size: 16px;
 	line-height: 16px;
-	color: pink;
+	color: #FF1493;
 }
 .category-hidden {
 	display: none;
@@ -1016,7 +1016,7 @@ a:hover {
 	top: 0;
 	z-index: 24;
 	height: 458px;
-	border: 1px solid pink;
+	border: 1px solid #FF1493;
 	border-left: 0;
 	background: #fff;
 	-webkit-box-shadow: 0 8px 16px rgba(0,0,0,0.18);
@@ -1050,12 +1050,12 @@ a:hover {
 	display: block;
 	padding: 18px 20px 0px 20px;
 	line-height: 30px;
-	color: pink;
+	color: #FF1493;
 	-webkit-transition: color 0.2s;
 	transition: color 0.2s;
 }
 .site-header .header-nav .nav-list .nav-category .site-category-list .children-list li .thumb:hover {
-	color: pink;
+	color: #FF1493;
 }
 .site-header .header-nav .nav-list .nav-category .site-category-list .children-list li .thumb {
 	padding: 0px 0px 18px 20px;
@@ -1076,7 +1076,7 @@ a:hover {
 	color: #ff6700;
 }
 .site-header .header-nav .nav-list .nav-item a:hover {
-	color: pink;
+	color: #FF1493;
 }
 /*导航子菜单*/
 .site-header .nav-item .item-children {
@@ -2427,7 +2427,7 @@ a:hover {
 	height:30px;
 	line-height:30px;	
 }
-.pagebar a,.pagebar span{
+.pagebar li,.pagebar span{
 	float:left;
 	margin:0 5px;
 	padding:0 5px;	

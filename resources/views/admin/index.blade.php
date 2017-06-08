@@ -30,13 +30,9 @@
                 <dt><i class="Hui-iconfont">&#xe61a;</i> 系统统计</dt>
                 <dd>
                     <ul>
-                        <li><a data-href="charts-1.html" data-title="折线图" href="javascript:void(0)">折线图</a></li>
-                        <li><a data-href="charts-2.html" data-title="时间轴折线图" href="javascript:void(0)">时间轴折线图</a></li>
-                        <li><a data-href="charts-3.html" data-title="区域图" href="javascript:void(0)">区域图</a></li>
-                        <li><a data-href="charts-4.html" data-title="柱状图" href="javascript:void(0)">柱状图</a></li>
-                        <li><a data-href="charts-5.html" data-title="饼状图" href="javascript:void(0)">饼状图</a></li>
-                        <li><a data-href="charts-6.html" data-title="3D柱状图" href="javascript:void(0)">3D柱状图</a></li>
-                        <li><a data-href="charts-7.html" data-title="3D饼状图" href="javascript:void(0)">3D饼状图</a></li>
+                        <li><a data-href="admin-stats-goods" data-title="商品销量" href="javascript:void(0)">商品销量</a></li>
+                        <li><a data-href="admin-stats-user" data-title="用户注册量" href="javascript:void(0)">用户注册量</a></li>
+                        <li><a data-href="admin-stats-order" data-title="订单成交量" href="javascript:void(0)">订单成交量</a></li>                        
                     </ul>
                 </dd>
             </dl>

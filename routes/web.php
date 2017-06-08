@@ -190,6 +190,13 @@ Route::group(['middleware' => ['web']], function () {
    //删除购物车商品接口
     Route::get('/home-cart-delOne',  'Home\CartController@delOne');
 
+    //统计
+    Route::get('/admin-stats-goods',  'Admin\StatsController@goods');
+    Route::get('/admin-stats-user',  'Admin\StatsController@user');
+    Route::get('/admin-stats-order',  'Admin\StatsController@order');
+    Route::post('/admin-stats-getGoods',  'Admin\StatsController@getGoods');
+    
+
     /** 毛宏蕊 end */
 
 

@@ -212,7 +212,7 @@ class GoodsController extends Controller
      * @param string $goods_id 商品ID 
      * @return json
      */
-    public function getCateGoods($category_name = '')
+    public function getCate($category_name = '')
     {
         if($category_name == ''){
             $category_name = Input::get()['category_name'];
@@ -259,12 +259,8 @@ class GoodsController extends Controller
         $len = strlen($names);
         $names = substr($names, 0, $len-1);
         $names = explode(',', $names);
-
-        $goods = new Goods;
-        $arr = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->whereIn('category_name', $names)
-        ->where([['is_on_sale', 1], ['is_second', 0], ['is_point', 0]])->paginate(10);
-        
-       return $arr;
+       
+       return $names;
 
     }
 
@@ -300,8 +296,8 @@ class GoodsController extends Controller
         } 
         $second = new GoodsSecond;
 
-        $time = time()+3*24*60*60;
-        $second = $second -> select('goods_id','goods_name','goods_img','original_price','category_name','brand_name') 
+        $time = date("Y-m-d",strtotime("+3 day"));
+        $second = $second -> select('goods_id','goods_name','goods_img','original_price','category_name','brand_name','second_price','start_time') 
         -> where('start_time','<',$time) -> orderBy('start_time') 
         -> offset(0)-> limit($limit) -> get() -> toArray();
 
@@ -361,36 +357,74 @@ class GoodsController extends Controller
      */
     public function goodsList()
     {
+        //接值
         $category_name = isset(Input::all()['category_name'])?Input::all()['category_name']:'';
         $key = isset(Input::all()['key'])?Input::all()['key']:'';
         $brand_name =  isset(Input::all()['brand_name'])?Input::all()['brand_name']:'';
-        if($category_name != '') {
-            $data['goods'] = $this->getCateGoods($category_name);
-            $data['brand'] = $this->getCateBrand($category_name);
-        } else {
-            $data['goods'] = $this->getGoods();
+        $price_min =  isset(Input::all()['price_min'])?Input::all()['price_min']:'';
+        $price_max =  isset(Input::all()['price_max'])?Input::all()['price_max']:'';
+        $order =  isset(Input::all()['order'])?Input::all()['order']:'';
+
+        $goods = new goods;
+        $select = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name');
+        
+        $data['brand'] = '';
+        if ($category_name != '') {
+            $names = $this->getCate($category_name);
+            $select = $select->whereIn('category_name', $names);
+
+            $data['brand'] = json_decode($this->getCateBrand($category_name), true);
+        }
+        
+        if ($key != '') {
+            $select = $select->where('goods_name', 'like', "%$key%")
+            ->orWhere('brand_name', 'like', "%$key%")->orWhere('category_name', 'like', "%$key%");
+        }
+        
+        if ($brand_name != '') {
+             $select = $select->where('brand_name', $brand_name);           
         }
 
+        if ($price_min !='' && $price_max != '') {
+            $select = $select->whereBetween('goods_low_price', [$price_min, $price_max]);           
+        }
+
+        if ($order != '') {
+            if ($order == 'up') {
+                $select = $select->orderBy('goods_low_price');
+            } elseif ($order == 'down') {
+                $select = $select->orderBy('goods_low_price', 'desc');
+            }                    
+        } else {
+             $select = $select->orderBy('goods_sale_num', 'desc');
+        }
+
+        $data['goods'] = $select->where([['is_on_sale', 1], ['is_second', 0], ['is_point', 0]]) 
+        ->paginate(2);
+        
+        if ($data['brand'] == '') {
+            $category_name = $data['goods'][0]['category_name'] ;
+            $data['brand'] = json_decode($this->getCateBrand($category_name), true);
+        }
+        // dd($data['goods']);
+        //猜你喜欢
         $user_id = '';
         if (Session::has('uid')) {
             $user_id = Session::get('uid');
         }
         $data['userLike'] = json_decode($this->getUserLike($user_id, 5), true);
+        
+        $data['param']['category_name'] = $category_name;
+        $data['param']['brand_name'] = $brand_name;
+        $data['param']['price_min'] = $price_min;
+        $data['param']['price_max'] = $price_max;
+        $data['param']['key'] = $key;
+        $data['param']['order'] = $order;
+
 
         return view('home/goods-list',$data);
     }
 
-    /**
-     * @brief 获取所有商品
-     * @return json
-     */
-    public function getGoods()
-    {
-        $goods = new Goods;
-        $arr = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name')->where([['is_on_sale', 1], ['is_second', 0], ['is_point', 0]])->paginate(10);
-
-        return $arr;
-    }
 
      /**
      * @brief 获取分类品牌
@@ -401,7 +435,20 @@ class GoodsController extends Controller
         if ($category_name == '') {
             $category_name = Input::get('category_name');
         }
+        
+        $category_name = $this->getParentCate($category_name);
+        $brand = new brand;
+        $arr = $brand->select('brand_name')->where('category_name',$category_name)->get();
 
+        return json_encode($arr);
+    }
+
+     /**
+     * @brief 获取顶级分类
+     * @return string
+     */
+    public function getParentCate($category_name)
+    {
         if (Redis::exists('category')) {
             $cate = unserialize(Redis::get('category'));
             foreach ($cate as $k => $v) {
@@ -419,9 +466,6 @@ class GoodsController extends Controller
             }
         }
 
-        $brand = new brand;
-        $arr = $brand->select('brand_name')->where('category_name',$category_name)->get();
-
-        return $arr;
+        return $category_name;
     }
 }

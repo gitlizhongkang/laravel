@@ -268,11 +268,11 @@
                                 </h3>
                                 <p class="desc"></p>
                                 <p class="price">
-                                   {{$v['goods_low_price']}}<em>元</em></p>
+                                   {{$v['second_price']}}<em>元</em></p>
                                 <p class="rank">商品描述</p>
                                 <div class="review-wrapper">
                                     <a href="javascript:void(0)">
-                                        <span class="review">{{$v['goods_desc']}} </span>
+                                        <span class="review">{{$v['start_time']}} <br>开抢！！！</span>
                                         <span class="author"> </span>
                                     </a>
                                 </div>
