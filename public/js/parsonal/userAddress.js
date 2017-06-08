@@ -207,6 +207,10 @@ $(document).on('click','.addUserAddress',function () {
     var address = $('#address').val();
     //获取id
     var id = obj.parents('table').attr('address_id');
+    if (address_name == ''||address_tel == ''||province == ''||city == ''||district == ''||address == '') {
+        alert('收货信息不能为空');
+        return false;
+    }
     if (confirm('需要保存收货地址吗？')){
         $.ajax({
             type:'post',
