@@ -103,7 +103,7 @@
 	line-height: 66px;
 	border-top: 1px solid #e0e0e0;
 	border-bottom: 1px solid #e0e0e0;
-	color: #ff6700;
+	color: #f08080;
 	font-size: 14px;
 	position:relative;
 }
@@ -385,7 +385,7 @@ border-top: 1px solid #e0e0e0;
 	transition: color 0.2s ease-out;
 }
 .detail-list li.on a {
-	color: #ff6700;
+	color: #F08080;
 }
 .detail-list li i {
 	color: #b0b0b0;
@@ -693,11 +693,11 @@ border-top: 1px solid #e0e0e0;
 .z-point-list li p span {
 	display: block;
 	width: 100%;
-	background: #f70;
+	background: #F08080;
 	height: 14px;
 }
 .z-point-list li em {
-	color: #f70;
+	color: #F08080;
 	margin-left: 10px;
 }
 .goods-detail-comment-groom .main-block .i-want-comment{
@@ -856,7 +856,7 @@ border-top: 1px solid #e0e0e0;
 	padding-bottom: 70px;
 	position: relative;
 }
-.comment-box-list .item-rainbow-1{border-left-color:#ffac13}
+.comment-box-list .item-rainbow-1{border-left-color:#f08080}
 .comment-box-list .item-rainbow-2{border-left-color:#83c44e}
 .comment-box-list .item-rainbow-3{border-left-color:#2196f3}
 .comment-box-list .item-rainbow-4{border-left-color:#e53935}

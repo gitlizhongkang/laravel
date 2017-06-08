@@ -58,6 +58,7 @@
                                 @if (isset($userAddressInfo))
                                 @foreach ($userAddressInfo as $val)
                                 <form action="user.php" method="post" name="theForm" onsubmit="return false">
+                                    {{ csrf_field() }}
                                     <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd" address_id="{{ $val['id'] }}">
                                         <tr>
                                             <td align="right" bgcolor="#ffffff">配送区域：</td>

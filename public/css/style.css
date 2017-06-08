@@ -172,7 +172,7 @@ a {
 	text-decoration: none
 }
 a:hover {
-	color: #ff6700;
+	color: #f08080;
 	text-decoration: none
 }
 .clearfix {
@@ -281,23 +281,23 @@ a:hover {
 	box-sizing: content-box
 }
 .btn-primary {
-	background-color: #ff6700;
+	background-color: #F08080;
 	border-color: #ff6700;
 	color: #fff
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary.active, .btn-primary:active {
 	color: #fff;
 	border-color: #f25807;
-	background-color: #f25807;
+	background-color: #EE6363;
 }
 .btn-line-primary {
-	border-color: #ff6700;
+	border-color: #F08080;
 	background: #fff;
 	color: #ff6700;
 }
 .btn-line-primary:hover {
 	color: #fff;
-	background-color: #f25807;
+	background-color: #EE6363;
 	border-color: #f25807;
 }
 .btn-small {
@@ -979,7 +979,7 @@ a:hover {
 	margin: 0;
 	padding: 20px 0;
 	list-style-type: none;
-	border: 1px solid pink;
+	border: 1px solid #FF1493;
 	color: #424242;
 	background: #FFFAF0;
 }
@@ -997,7 +997,7 @@ a:hover {
 	right: 20px;
 	font-size: 16px;
 	line-height: 16px;
-	color: pink;
+	color: #FF1493;
 }
 .category-hidden {
 	display: none;
@@ -1016,7 +1016,7 @@ a:hover {
 	top: 0;
 	z-index: 24;
 	height: 458px;
-	border: 1px solid pink;
+	border: 1px solid #FF1493;
 	border-left: 0;
 	background: #fff;
 	-webkit-box-shadow: 0 8px 16px rgba(0,0,0,0.18);
@@ -1050,12 +1050,12 @@ a:hover {
 	display: block;
 	padding: 18px 20px 0px 20px;
 	line-height: 30px;
-	color: pink;
+	color: #FF1493;
 	-webkit-transition: color 0.2s;
 	transition: color 0.2s;
 }
 .site-header .header-nav .nav-list .nav-category .site-category-list .children-list li .thumb:hover {
-	color: pink;
+	color: #FF1493;
 }
 .site-header .header-nav .nav-list .nav-category .site-category-list .children-list li .thumb {
 	padding: 0px 0px 18px 20px;
@@ -1076,7 +1076,7 @@ a:hover {
 	color: #ff6700;
 }
 .site-header .header-nav .nav-list .nav-item a:hover {
-	color: pink;
+	color: #FF1493;
 }
 /*导航子菜单*/
 .site-header .nav-item .item-children {
@@ -1205,26 +1205,26 @@ a:hover {
 	transition: all 0.2s;
 }
 .site-header .search-form:hover .search-text, .site-header .search-form:hover .search-btn {
-	border-color: #b0b0b0;
+	border-color: #F08080;
 }
 .site-header .search-form-focus .search-text, .site-header .search-form-focus .search-btn {
-	border-color: #ff6700;
+	border-color: #F08080;
 }
 .site-header .search-form-focus .search-btn{
 }
 .site-header .search-form-focus .search-btn{
-	color:#ff6700;	
+	color:#F08080;	
 }
 .site-header .search-form-focus:hover .search-text, .site-header .search-form-focus:hover .search-btn {
-	border-color: #ff6700;
+	border-color: #F08080;
 }
 .site-header .search-form-focus .hot-words {
 	display: none;
 }
 .site-header .header-search .search-btn:hover {
-	background: #ff6700;
+	background: #F08080;
 	color: #fff;
-	border-color: #ff6700;
+	border-color: #F08080;
 }
 .site-header .header-search .hot-words {
 	position: absolute;
@@ -1244,7 +1244,7 @@ a:hover {
 	transition: all 0.2s;
 }
 .site-header .header-search .hot-words a:hover {
-	background: #ff6700;
+	background: #F08080;
 	color: #fff;
 }
 /*首页轮播*/
@@ -2427,7 +2427,7 @@ a:hover {
 	height:30px;
 	line-height:30px;	
 }
-.pagebar a,.pagebar span{
+.pagebar li,.pagebar span{
 	float:left;
 	margin:0 5px;
 	padding:0 5px;	

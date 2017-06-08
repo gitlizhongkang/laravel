@@ -9,6 +9,7 @@ class VerifyCsrfToken extends BaseVerifier {
     /**
      * Handle an incoming request.
      * 指定从 CSRF 验证中排除的URL
+     *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
@@ -18,7 +19,9 @@ class VerifyCsrfToken extends BaseVerifier {
         // 使用CSRF
         return parent::handle($request, $next);
         // 禁用CSRF
+
         //return $next($request);
+        // return $next($request);
 
     }
 

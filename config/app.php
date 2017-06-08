@@ -66,6 +66,7 @@ return [
 
     'timezone' => 'PRC',
 
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
@@ -178,6 +179,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         //rbac
         Zizaco\Entrust\EntrustServiceProvider::class,
+        //支付宝
+        Latrell\Alipay\AlipayServiceProvider::class,
 
     ],
 

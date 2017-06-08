@@ -5,11 +5,13 @@
 <script type="text/javascript" src="js/xiaomi_category.js"></script>
 <script type="text/javascript" src="js/global.js"></script>
 <script type="text/javascript" src="js/compare.js"></script>
+<script type="text/javascript" src="js/uri.js"></script>
+<link href="css/point.css" rel="stylesheet" type="text/css" />
 <!--通栏-->
 <div class="breadcrumbs">
     <div class="container">
         <a href="{{URL::to('/')}}">首页</a> 
-        <code>&gt;</code> <a href="category.php?id=76">购买电视与平板</a>
+        <code>&gt;</code> <a href="javascript:;">商品列表</a>
     </div>
 </div>
 
@@ -19,34 +21,34 @@
         <div class="filter-list-wrap">
             <dl class="filter-list clearfix filter-list-row-2">
                 <dt>品牌：</dt>
-                <dd class="active">全部</dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=38.0">黄</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=34.0">黑</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=81.0">黑白</a></dd>
+                @if (empty($param['brand_name']))
+                    <dd class="active">全部</dd>
+                @else
+                    <dd class="">全部</dd>
+                @endif    
+                @foreach ($brand as $k=>$v)
+                    @if ($param['brand_name'] == $v['brand_name'])
+                    <dd class="active">
+                    @else
+                    <dd class=''>
+                    @endif 
+                        <a href="javascript:;" class='brand_name'>{{$v['brand_name']}}</a>
+                    </dd>
+                   
+                @endforeach
             </dl>
             <a  href="javascript:;" class="more J_filterToggle">更多<i class="iconfont"></i></a>
         </div>
         <div class="filter-list-wrap">
-            <dl class="filter-list clearfix filter-list-row-2">
-                <dt>尺寸：</dt>
-                <dd class="active">全部</dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=0.33">15</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=0.35">45</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=0.68">58</a></dd>
-            </dl>
-            <a  href="javascript:;" class="more J_filterToggle">更多<i class="iconfont"></i></a>
-        </div>
-        <div class="filter-list-wrap">
-            <dl class="filter-list clearfix filter-list-row-2">
+            <dl class="filter-list clearfix filter-list-row-3">
                 <dt>价格：</dt>
-                <dd class="active">全部</dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=500">0&nbsp;-&nbsp;500</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=1000&amp;price_max=1500">1000&nbsp;-&nbsp;1500</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=2000&amp;price_max=2500">2000&nbsp;-&nbsp;2500</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=2500&amp;price_max=3000">2500&nbsp;-&nbsp;3000</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=4000&amp;price_max=4500">4000&nbsp;-&nbsp;4500</a></dd>
+                <dd class="active">请输入价格区间：</dd>
+                <dd> 
+                    <input type="text" id='price_min' style='width: 50px;color:#F08080' placeholder="最低价" value="{{$param['price_min']}}">   
+                    &nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;
+                    <input type="text" id='price_max' style='width: 50px;color:#F08080'  placeholder="最高价" value="{{$param['price_max']}}">
+                </dd> 
             </dl>
-            <a  href="javascript:;" class="more J_filterToggle">更多<i class="iconfont"></i></a>
         </div>
     </div>
 </div>
@@ -56,43 +58,108 @@
     <div class="container">
         <!--排序-->
         <div class="order-list-box clearfix">
-            <form method="GET" name="listform">
+            <form method="GET" name="listform" id='search'>
                 <ul class="order-list">
-                    <li class="first active">
-                        <a title="销量" href="category.php?category=76&display=grid&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=sales_volume&order=ASC#goods_list" class="curr" rel="nofollow">
+                    @if (empty($param['order']))
+                    <li class="first active">  
+                    @else
+                    <li class="first">                   
+                    @endif                 
+                        <a title="销量" href="javascript:;" class="curr price_order" rel="nofollow"  order=''>
                             <span class="search_DESC">销量</span>&nbsp;<i class="iconfont"></i>
                         </a>
-                    </li>
+                    </li>                    
+                    @if ($param['order'] == 'down')
+                    <li class="first active">
+                    @else
                     <li class="">
-                        <a title="价格" href="category.php?category=76&display=grid&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=shop_price&order=ASC#goods_list"  rel="nofollow">
-                            <span class="">价格</span>
+                    @endif
+                        <a title="价格" href="javascript:;"  rel="nofollow" class="price_order"  order='down'>
+                            <span>价格</span>&nbsp;<i class="iconfont"></i>                           
                         </a>
                     </li>
+                    @if ($param['order'] == 'up')
+                    <li class="first active">
+                    @else
                     <li class="">
-                        <a title="上架时间" href="category.php?category=76&display=grid&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=goods_id&order=DESC#goods_list" rel="nofollow">
-                            <span class="">上架时间</span>
+                    @endif
+                        <a title="价格" href="javascript:;"  rel="nofollow" class="price_order" order='up'>
+                            <span >价格</span>&nbsp;<i style='font-family: "iconfont";-webkit-text-stroke-width: 0.2px;font-style: normal;'>↑</i>
                         </a>
                     </li>
-                    <input type="hidden" name="category" value="76" />
-                    <input type="hidden" name="display" value="grid" id="display" />
-                    <input type="hidden" name="brand" value="0" />
-                    <input type="hidden" name="price_min" value="0" />
-                    <input type="hidden" name="price_max" value="0" />
-                    <input type="hidden" name="filter_attr" value="0" />
-                    <input type="hidden" name="page" value="1" />
-                    <input type="hidden" name="sort" value="sales_volume" />
-                    <input type="hidden" name="order" value="DESC" />
                 </ul>
             </form>
-            <ul class="type-list">
-                <li>显示方式：</li>
-                <li> <a href="javascript:;" onClick="javascript:display_mode('list')"><img src="images/display_mode_list.gif" alt=""></a></li>
-                <li><a href="javascript:;" onClick="javascript:display_mode('grid')"><img src="images/display_mode_grid_act.gif" alt=""></a></li>
-                <li><a href="javascript:;" onClick="javascript:display_mode('text')"><img src="images/display_mode_text.gif" alt=""></a></li>&nbsp;&nbsp;
-            </ul>
         </div>
+        
+        <script>
+        //获取url参数值
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return decodeURI(r[2]); return null;
+        } 
+        
+        //修改url参数值
+        function changeUrl(par, par_value)
+        {
+            var sourceUrl = decodeURI(window.location);
+            // 调用方法生成新的URL
+            var newUrl = new Uri(sourceUrl).replaceQueryParam(par, par_value);
 
-        <!--内容-->
+            return newUrl.toString();
+        }
+
+        //品牌
+        $('.brand_name').click(function(){
+            var brand_name = $(this).html();
+            var par = GetQueryString('brand_name');
+
+            if (par != brand_name) {
+                location.href = changeUrl('brand_name',brand_name);
+            }
+        })
+
+        //价格区间
+        $('#price_max').blur(function(){
+            var price_max = $(this).val();
+            var price_min = $('#price_min').val();
+            if(price_min == '') {
+                alert('请输入最低价格！！！');
+                return flase;
+            } else if (price_max == '') {
+                alert('请输入最高价格！！！');
+                return flase;
+            } else if (price_min < 0 || price_max < 0) {
+                alert('请输入正确价格！！！');
+                return flase;
+            } else if (price_min > price_max) {
+                alert('最低价不能高于最高价哦！！！');
+                return flase;
+            } else if (price_min == price_max) {
+                alert('最低价不能等于最高价哦！！！');
+                return flase;
+            } else {   
+                // 调用方法生成新的URL            
+                var sourceUrl = changeUrl('price_min',price_min).toString();                
+                var newUrl = new Uri(sourceUrl).replaceQueryParam('price_max', price_max);
+                location.href = newUrl.toString();
+            }
+
+        })
+        //价格排序
+        $('.price_order').click(function(){
+            var order = $(this).attr('order');
+            var par = GetQueryString('order');
+
+            if (par != order) {
+                location.href = changeUrl('order',order);
+            }
+        })
+
+        
+        </script>
+       
+       <!--内容-->
         <form name="compareForm" action="compare.php" method="post" onSubmit="return compareGoods(this);">
             <div class="goods-list-box">
                 <div class="goods-list clearfix">
@@ -105,7 +172,7 @@
                         <p class="desc">{{$v['brand_name']}}</p>
                         <h2 class="title"><a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" title="{{$v['goods_name']}}">{{$v['goods_name']}}</a></h2>
                         <p class="price">
-                            本店价<font class="shop_s">{{$v['goods_low_price']}}<em>元</em></font>
+                            本店价：<font class="shop_s">{{$v['goods_low_price']}}<em>元</em></font>
                           <!--   <del>专柜价<font class="market_s">358<em>元</em></font></del> -->
                         </p>
                         <!-- <div class="thumbs J_attrImg">
@@ -120,11 +187,13 @@
                         <!-- <div class="actions clearfix"> -->
                            <!--  <a href="javascript:addToCart(29)" class="btn-buy J_buyGoods"><span>加入购物车</span> <i class="iconfont"></i></a> -->
                         <!-- </div> -->
-                        <div class="flags">
+                        <!-- <div class="flags">
                             <div class="flag flag-saleoff">8.4折促销</div>
-                        </div>
+                        </div> -->
                     </div>
                 @endforeach
+                <!-- <br> -->
+                <!-- <div class="xm-pagers-wrapper">{!! $goods->appends($param)->render() !!}</div> -->
                 @else
                     <p>没有符合条件的商品！！！</p>
                 @endif     
@@ -155,9 +224,7 @@
         </script>
         <form name="selectPageForm" action="/mishop/category.php" method="get">
             <div class="clearfix">
-                <div id="pager" class="pagebar">
-                    <div class="pagenav">{!! $goods->links() !!}</div>
-                </div>
+                {!! $goods->appends($param)->render() !!}
             </div>
         </form>
         <script type="Text/Javascript" language="JavaScript">
@@ -188,7 +255,7 @@
             <div class="xm-pagers-wrapper">
                 <ul class="xm-pagers">
                     <li class="pager"><span class="dot">1</span></li>
-                    <li class="pager"><span class="dot">6</span></li>
+                    <li class="pager"><span class="dot">2</span></li>
                 </ul>
             </div>
         </div>

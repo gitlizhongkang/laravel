@@ -129,6 +129,7 @@
             <div class="box-bd">
                 <div class="xm-carousel-wrapper J_carouselWrap">
                     <ul class="xm-carousel-list xm-carousel-col-5-list goods-list rainbow-list clearfix J_carouselList">
+                        @if(isset($recommendation[0]))
                         @foreach ($recommendation as $k=>$v)
                         <li class="rainbow-item-1">
                             <a class="thumb" href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" target="_blank">
@@ -143,6 +144,7 @@
                             </p>
                         </li>
                         @endforeach
+                            @endif
                     </ul>
                 </div>
             </div>
@@ -201,6 +203,7 @@
                     </div>
                     <div class="span16">
                         <ul class="brick-list clearfix">
+                            @if(isset($new[0]))
                             @foreach ($new as $k=>$v)
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
@@ -212,6 +215,7 @@
                                 <h3 class="title">
                                     <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">{{$v['goods_name']}}</a>
                                 </h3>
+
                                 <p class="desc"></p>
                                 <p class="price">
                                    {{$v['goods_low_price']}}<em>元</em></p>
@@ -224,6 +228,7 @@
                                 </div>
                             </li>
                             @endforeach
+                                @endif
                         </ul>
                     </div>
                 </div>
@@ -254,7 +259,7 @@
                     </div>
                     <div class="span16">
                         <ul class="brick-list clearfix">
-                        @if (!empty($second)) 
+                        @if (isset($second[0]))
                             @foreach ($second as $k=>$v)
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
@@ -268,11 +273,11 @@
                                 </h3>
                                 <p class="desc"></p>
                                 <p class="price">
-                                   {{$v['goods_low_price']}}<em>元</em></p>
+                                   {{$v['second_price']}}<em>元</em></p>
                                 <p class="rank">商品描述</p>
                                 <div class="review-wrapper">
                                     <a href="javascript:void(0)">
-                                        <span class="review">{{$v['goods_desc']}} </span>
+                                        <span class="review">{{$v['start_time']}} <br>开抢！！！</span>
                                         <span class="author"> </span>
                                     </a>
                                 </div>
