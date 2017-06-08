@@ -214,6 +214,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('home-personal-orderDetail',  'Home\PersonalController@orderDetail');
     Route::post('home-personal-getOrderGoods',  'Home\PersonalController@getOrderGoods');
     Route::post('home-personal-deleteOrder',  'Home\PersonalController@deleteOrder');
+    Route::post('home-personal-updateOrderStatus',  'Home\PersonalController@updateOrderStatus');
 
     //个人中心-收货地址
     Route::get('home-personal-userAddress',  'Home\PersonalController@userAddress');
@@ -243,6 +244,17 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/home-personal-trackingPackages','Home\PersonalController@trackingPackages');
     Route::get('/home-personal-getTracking','Home\PersonalController@getTracking');
     Route::get('/home-personal-getPackages','Home\PersonalController@getPackages');
+
+    //订单
+    Route::get('/home-order','Home\OrderController@setOrder');
+    Route::post('/home-order-finsh','Home\OrderController@homeOrderFinsh');
+    Route::get('/home-finsh','Home\OrderController@homeFinsh');
+
+    //支付
+    Route::post('/home-pay','Home\OrderController@pay');
+    //支付宝支付处理路由
+    Route::any('/home-notify-url','Home\OrderController@AliPayNotify'); //服务器异步通知页面路径
+    Route::any('/home-return-url','Home\OrderController@AliPayReturn');  //页面跳转同步通知页面路径
 
     /** 薛天阔 end */
 

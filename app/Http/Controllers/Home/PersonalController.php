@@ -28,13 +28,13 @@ class PersonalController extends Controller
     {
         $uid = Session::get('uid');//session内拿用户uid
         //查询用户信息
-        $userInfo = $this->curl('home-personal-getUserInfo', "uid=$uid", true);
+        $userInfo = $this->getUserInfo($uid);
         $data['userInfo'] = json_decode($userInfo,true);
         //查询地址数量
-        $countAddress = $this->curl('home-personal-getCountAddress', "uid=$uid", true);
+        $countAddress = $this->getCountAddress($uid);
         $data['countAddress'] = json_decode($countAddress,true);
         //30天内订单数量
-        $countOrder = $this->curl('home-personal-getCountOrder', ['uid'=>$uid,'time'=>30], true);
+        $countOrder = $this->getCountOrder($uid,30);
         $data['countOrder'] = json_decode($countOrder,true);
 
     	return view('/home/personal/index',$data);
@@ -47,7 +47,7 @@ class PersonalController extends Controller
     {
         $uid = Session::get('uid');//session内拿用户uid
         //查询用户信息
-        $userInfo = $this->curl('home-personal-getUserInfo', "uid=$uid", true);
+        $userInfo = $this->getUserInfo($uid);
         $data['userInfo'] = json_decode($userInfo,true);
 
         return view('/home/personal/user-info',$data);
@@ -58,10 +58,12 @@ class PersonalController extends Controller
      * @param string $param
      * @return array|string
      */
-    public function getUserInfo()
+    public function getUserInfo($uid='')
     {
         $User = new User();
-        $uid = Input::get('uid');
+        if ($uid == '') {
+            $uid = Input::get('uid');
+        }
         $UserInfos = $User->select('username','tel','email','sex','age','user_point','reg_time')->find($uid)->toArray();
 
         return json_encode($UserInfos);
@@ -73,9 +75,7 @@ class PersonalController extends Controller
      * @return array
      */
     public function getDistrict($parent_id = 0){
-        if ($arr=Input::all()) {
-            $parent_id = $arr['parent_id'];
-        }
+        $parent_id = Input::get('parent_id')? Input::get('parent_id'):0;
         $District = new District();
         $District = $District->where('parent_id',$parent_id)->get()->toArray();
         if ($District) {
@@ -151,7 +151,7 @@ class PersonalController extends Controller
     {
         $uid = Session::get('uid');//session内拿用户uid
         //查询订单
-        $userOrder = $this->curl('home-personal-getUserOrder', "uid=$uid", true);
+        $userOrder = $this->getUserOrder($uid);
         $data['userOrder'] = json_decode($userOrder,true);
 
         return view('/home/personal/user-order',$data);
@@ -165,10 +165,10 @@ class PersonalController extends Controller
         $order_id = Input::get('order_id');
         $uid = Session::get('uid');//session内拿用户uid
         //查询订单
-        $userOrder = $this->curl('home-personal-getUserOrder', "order_id=$order_id&uid=$uid", true);
+        $userOrder = $this->getUserOrder($uid,$order_id);
         $data['userOrder'] = json_decode($userOrder,true);
         //查询订单详情
-        $orderGoods = $this->curl('home-personal-getOrderGoods', "order_id=".$order_id, true);
+        $orderGoods = $this->getOrderGoods($order_id);
         $data['orderGoods'] = json_decode($orderGoods,true);
 
         return view('/home/personal/order-detail',$data);
@@ -181,7 +181,7 @@ class PersonalController extends Controller
     {
         $uid = Session::get('uid');//session内拿用户uid
         //查询用户收货地址信息
-        $userAddress = $this->curl('home-personal-getUserAddress', "uid=$uid", true);
+        $userAddress = $this->getUserAddress($uid);
         $userAddress = json_decode($userAddress,true);
         if ($userAddress['error'] == 0) {
             $data['userAddressInfo'] = $userAddress['data'];
@@ -200,9 +200,11 @@ class PersonalController extends Controller
      * @param string $param
      * @return array
      */
-    public function getUserAddress()
+    public function getUserAddress($uid='')
     {
-        $uid = Input::get('uid');
+        if ($uid == '') {
+            $uid = Input::get('uid');
+        }
         $UserAddress = new UserAddress();
         $UserAddressInfo = $UserAddress->where('user_id',$uid)->orderBy('is_default','desc')->get()->toArray();
         if ($UserAddressInfo) {
@@ -220,9 +222,11 @@ class PersonalController extends Controller
     /**
      * @brief 查询收货地址数量-接口
      */
-    public function getCountAddress()
+    public function getCountAddress($uid='')
     {
-        $uid = Input::get('uid');
+        if ($uid == '') {
+            $uid = Input::get('uid');
+        }
         $UserAddress = new UserAddress();
         $countAddress = $UserAddress->where('user_id',$uid)->count();
         $data['error'] = 0;
@@ -315,18 +319,20 @@ class PersonalController extends Controller
      * @param string $param
      * @return array
      * */
-    public function getUserOrder()
+    public function getUserOrder($uid='',$order_id='',$status='')
     {
         $Order = new Order();
-        $uid = Input::get('uid');
-        $order_id = Input::get('order_id')?Input::get('order_id'):'';
-        $status = Input::get('status')?Input::get('status'):'';
-        if(!$order_id && !$status){
-            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type')->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
-        } elseif (!$status) {
-            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_type','logistics_price','consignee_tel','consignee_name','consignee_address','pack_price')->where(['user_id'=>$uid,'order_id'=>$order_id])->first()->toArray();
+        if ($uid==''& $order_id==''& $status==''){
+            $uid = Input::get('uid');
+            $order_id = Input::get('order_id')?Input::get('order_id'):'';
+            $status = Input::get('status')?Input::get('status'):'';
+        }
+        if($order_id=='' && $status==''){
+            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
+        } elseif ($status=='') {
+            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_type','logistics_price','consignee_tel','consignee_name','consignee_address','pack_price','get_point','pay_type')->where(['user_id'=>$uid,'order_id'=>$order_id])->first()->toArray();
         } else {
-            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type')->where('status','>=',$status)->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
+            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where('status','>=',$status)->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
         }
 
         return json_encode($userOrders);
@@ -337,11 +343,13 @@ class PersonalController extends Controller
      * @param string $param
      * @return array
      * */
-    public function getCountOrder()
+    public function getCountOrder($uid='',$time='')
     {
         $Order = new Order();
-        $uid = Input::get('uid');
-        $time = Input::get('time');
+        if ($uid == '' & $time == '') {
+            $uid = Input::get('uid');
+            $time = Input::get('time');
+        }
         $countOrder = $Order->where("order_time",">","time()-3600*24*$time")->where(['user_id'=>$uid])->count();
         $data['error'] = 0;
         $data['data'] = $countOrder;
@@ -355,9 +363,11 @@ class PersonalController extends Controller
     * @param string $param
     * @return array
     * */
-    public function getOrderGoods()
+    public function getOrderGoods($order_id='')
     {
-        $order_id = Input::all();
+        if ($order_id == '') {
+            $order_id = Input::all();
+        }
         $OrderGoods = new OrderGoods();
         $userOrders = $OrderGoods->select('goods_id','goods_name','sku_norms_value','sku_price','num')->where('order_id',$order_id)->get()->toArray();
 
@@ -388,6 +398,56 @@ class PersonalController extends Controller
         return json_encode($data);
     }
 
+
+    /**
+     * @brief 修改订单状态 并 增加积分
+     */
+    public function updateOrderStatus()
+    {
+        $order_id = Input::get('order_id');
+        $uid = Session::get('uid');//session内拿用户uid
+        //查询订单
+        $userOrder = $this->getUserOrder($uid,$order_id);
+        $userOrder = json_decode($userOrder,true);
+            //更改收货状态
+            $Order = new Order();
+            $order = $Order->where(['order_id'=>$order_id,'user_id'=>$uid])->first();
+            $order->status = 4;
+            $is_order = $order->save();
+        if ($userOrder['pay_type'] != '5') {
+            //添加积分
+            $User = new User();
+            $user = $User->where('user_id',$uid)->first();
+            $user->user_point += $userOrder['get_point'];
+            $re = $user->save();
+            //添加积分日志
+            $Point = new Point();
+            $Point->user_id = $uid;
+            $Point->point = $userOrder['get_point'];
+            $Point->content = "完成了订单".$userOrder['order_sn']."，获得了".$userOrder['get_point']."的积分";
+            $Point->add_time = time();
+            $Point->status = 1;
+                $res = $Point->save();
+            if ($res == true & $re == true) {
+                $data['error'] = 0;
+                $data['msg'] = '修改成功！';
+            } else {
+                $data['error'] = 1;
+                $data['msg'] = '修改失败！';
+            }
+        } else {
+            if ($is_order == true) {
+                $data['error'] = 0;
+                $data['msg'] = '修改成功！';
+            } else {
+                $data['error'] = 1;
+                $data['msg'] = '修改失败！';
+            }
+        }
+
+
+        echo json_encode($data);
+    }
     /**
      * @brief 取消订单-接口
      * @param string $param
@@ -416,11 +476,11 @@ class PersonalController extends Controller
     {
         $uid = Session::get('uid');
         //获取积分
-        $userInfo = $this->curl('home-personal-getUserInfo', "uid=$uid", true);
+        $userInfo = $this->getUserInfo($uid);
         $userInfo = json_decode($userInfo,true);
         $data['point'] = $userInfo['user_point'];
         //获取积分详细
-        $points = $this->curl('home-personal-getPoint', "uid=$uid", true);
+        $points = $this->getPoint($uid);
         $data['points'] = json_decode($points,true)['data'];
 
         return view('home.personal.user-point',$data);
@@ -431,9 +491,11 @@ class PersonalController extends Controller
      * @param string $param
      * @return array
      */
-    public function getPoint()
+    public function getPoint($uid='')
     {
-        $uid = Input::get('uid');
+        if ($uid == '') {
+            $uid = Input::get('uid');
+        }
         $point = new Point();
         $points = $point ->where(['user_id'=>$uid])->get()->toArray();
         $data['error'] = 0;
@@ -450,7 +512,7 @@ class PersonalController extends Controller
     {
         $uid = Session::get('uid');//session内拿用户uid
         //查询订单
-        $userOrder = $this->curl('home-personal-getUserOrder', "uid=$uid&status=3", true);
+        $userOrder = $this->getUserOrder($uid,'',3);
         $data['userOrder'] = json_decode($userOrder,true);
 
         return view('home.personal.tracking-packages',$data);

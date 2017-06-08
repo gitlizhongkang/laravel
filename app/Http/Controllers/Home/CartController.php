@@ -97,7 +97,7 @@ class CartController extends Controller
                 }               
             } else {
                  $msg['error'] = 1;
-            }										
+            }
         }
 
     	return json_encode($msg);   

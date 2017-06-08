@@ -1,5 +1,7 @@
 @extends('layouts.home-header')
-     
+<?php
+$user_id = Session::get('uid');
+?>
 @section('content')
 
     <link href="css/cart.css" rel="stylesheet" type="text/css" />
@@ -38,12 +40,12 @@
                 <p>购物车空空如也<a href="{{URL::to('/')}}">去逛逛吧</a></p>
             @else
             @foreach ($data as $k=>$v)           
-                <div class="item-box">
+                <div class="item-box" sku_id = "{{$v['sku_id']}}">
                     <div class="item-table">
                         <div class="item-row clearfix">
                             <div class="col col-img"> <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" target="_blank"> <img alt="{{$v['goods_name']}}" src="{{$v['sku_img']}}"></a> </div>
                             <div class="col col-name">
-                                <h3 class="name"><a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" target="_blank">{{$v['goods_name']}}</a></h3>
+                                <h3 class="name" ><a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" target="_blank">{{$v['goods_name']}}</a></h3>
                                 <p class="desc"><span>{{$v['sku_norms']}}</span></a>
                                 </p>
                             </div>
@@ -54,7 +56,7 @@
                             <div class="col col-num">
                                 <div class="change-goods-num clearfix">
                                     <a href="javascript:void(0)" class="minus" title="减少1个数量" onclick="flowClickCartNum({{$v['sku_id']}}, -1);" ><i class="iconfont"></i></a>
-                                    <input type="text" id="goods_number_{{$v['sku_id']}}" value="{{$v['num']}}"  onchange="flowClickCartNum({{$v['sku_id']}}, 0)">
+                                    <input type="text" id="goods_number_{{$v['sku_id']}}" class="num" value="{{$v['num']}}"  onchange="flowClickCartNum({{$v['sku_id']}}, 0)">
                                     <a href="javascript:void(0)" class="add" title="增加1个数量" onclick="flowClickCartNum({{$v['sku_id']}}, +1);"><i class="iconfont"></i></a>
                                 </div>
                             </div>
@@ -75,7 +77,7 @@
                     <a class="back-shopping btn btn-gray" href="{{URL::to('/')}}">继续购物</a>
                 </div>
                 <span class="total-price"><span class="total-num"></span>&nbsp;&nbsp;&nbsp;合计：<b id="totalSkuPrice">{{$total_price}}<em>元</em></b></span>
-                <a href="flow.php?step=checkout" class="btn btn-pay btn-primary">去结算</a>
+                <a href="javascript:;" class="btn btn-pay btn-primary">去结算</a>
             </div>
         </div>
     </div>
@@ -157,7 +159,30 @@
     var is_cancel = "取消";
     var select_spe = "请选择商品属性";
 </script>
+    <script>
+        $(document).on('click','.btn-pay',function () {
+            {{--var user_id = "{{$user_id}}";--}}
+            {{--if(user_id =='') {--}}
+                {{--if (confirm('请先登陆！')){--}}
+                    {{--location.href = "home-user-login";--}}
+                {{--} else {--}}
+                    {{--return false;--}}
+                {{--}--}}
+            {{--}--}}
+            var sku_id = "";
+            for (var i=0;i<$('.item-box').length;i++) {
+                sku_id += ','+$('.item-box').eq(i).attr('sku_id');
+            }
+            sku_id = sku_id.substr(1);
+            var num = '';
+            for (var j=0;j<$('.num').length;j++) {
+                num += ','+$('.num').eq(j).val();
+            }
+            num = num.substr(1);
 
+            location.href = "home-order?sku="+sku_id+"&num="+num+"&type=cart"
+        })
+    </script>
 
 <!--脚部-->
 @endsection

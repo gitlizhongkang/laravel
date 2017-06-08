@@ -157,9 +157,9 @@ $user_id = Session::get('uid');
                                     <dd class="goods-info-head-cart">
                                         @if(empty($goodsInfo['goods_point']))
                                         <a href="javascript:;" class="btn  btn-primary goods-add-cart-btn" id="buy_btn"><i class="iconfont"></i>加入购物车</a>
+                                        <a href="javascript:;" class=" btn btn-gray  goods-collect-btn " id="fav_btn"><i class="iconfont"></i>购买</a>
                                         @endif
                                         <a href="javascript:;" class=" btn btn-gray  goods-collect-btn " id="fav-btn"><i class="iconfont"></i>购买</a>
-
                                     </dd>
                                     <dd class="goods-info-head-userfaq clearfix">
                                         <ul>
@@ -475,6 +475,37 @@ $user_id = Session::get('uid');
             }
        }) 
        
+    })
+
+    //直接购买
+    $('.goods-collect-btn').click(function(){
+        var sku_id =  $('#choose').attr('sku-id');
+        if (sku_id == '') {
+            alert('您还没有选择规格哦！！！');
+            return false;
+        }
+
+        var num = $('#number').val();
+        var sku_num = $('#choose').attr('sku-num');
+        if (parseInt(sku_num) < num) {
+            alert('库存不足');
+            return false;
+        }
+
+        var user_id = "{{$user_id}}";
+        if(user_id =='') {
+            if (confirm('请先登陆！')){
+               location.href = "home-user-login";
+            } else {
+                return false;
+            }
+        }
+        if ("{{$goodsInfo['goods_point']}}" == '') {
+            location.href = "home-order?sku="+sku_id+"&num="+num+"&type=direct";
+        } else {
+            location.href = "home-order?sku="+sku_id+"&num="+num+"&type=integral";
+        }
+
     })
     </script>
     <div class="add_ok" id="cart_show">
