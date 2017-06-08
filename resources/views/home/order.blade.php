@@ -68,6 +68,7 @@
                             <h3 class="section-header"><span>支付方式</span></h3>
                             <div class="section-body">
                                 <ul class="item-list clearfix payment-list" id="payment-list">
+                                    @if($type != 'integral')
                                     <li>
                                         <label class="checkout-item pay-type" for="payment_2">余额支付</label>
                                         <input type="radio" name="pay_type" class="radio" id="payment_2" value="3"  isCod="0" />
@@ -97,7 +98,15 @@
                                             <i></i>手续费：0.00<em>元</em>
                                         </div>
                                     </li>
-
+                                    @else
+                                    <li>
+                                        <label class="checkout-item pay-type" for="payment_5">积分</label>
+                                        <input type="radio" name="pay_type" class="radio" checked id="payment_5" value="5"  isCod="0" />
+                                        <div class="text">
+                                            <i></i>手续费：0.00<em>元</em>
+                                        </div>
+                                    </li>
+                                    @endif
                                 </ul>
                             </div>
                         </li>
@@ -105,6 +114,7 @@
                             <h3 class="section-header"><span>配送方式</span></h3>
                             <div class="section-body">
                                 <ul class="item-list clearfix payment-list" id="shipping-list">
+                                    @if($type != 'integral')
                                     <li>
                                         <label class="checkout-item logistics-price" for="ECS_NEEDINSURE_1">申通快递</label>
                                         <input name="logistics_price" type="radio" value="15.00"  supportCod="0" insure="0" class="radio" />
@@ -129,6 +139,33 @@
                                         <div class="text">
                                             <i></i>费用：0.00<em>元</em>&nbsp;&nbsp;免邮费</em>                    </div>
                                     </li>
+                                    @else
+                                        <li>
+                                            <label class="checkout-item logistics-price" for="ECS_NEEDINSURE_1">申通快递</label>
+                                            <input name="logistics_price" type="radio" value="0"  supportCod="0" insure="0" class="radio" />
+                                            <div class="text">
+                                                <i></i>费用：0.00<em>元</em>&nbsp;&nbsp;免邮费                    </div>
+                                        </li>
+                                        <li>
+                                            <label class="checkout-item logistics-price" for="ECS_NEEDINSURE_2">顺丰快递</label>
+                                            <input name="logistics_price" type="radio" value="0"  supportCod="1" insure="0" class="radio" />
+                                            <div class="text">
+                                                <i></i>费用：0.00<em>元</em>&nbsp;&nbsp;免邮费                    </div>
+                                        </li>
+                                        <li>
+                                            <label class="checkout-item logistics-price" for="ECS_NEEDINSURE_3">圆通快递</label>
+                                            <input name="logistics_price" type="radio" value="0"  supportCod="0" insure="0" class="radio" />
+                                            <div class="text">
+                                                <i></i>费用：0.00<em>元</em>&nbsp;&nbsp;免邮费                    </div>
+                                        </li>
+                                        <li class="active">
+                                            <label class="checkout-item logistics-price" for="ECS_NEEDINSURE_4">中通速递</label>
+                                            <input name="logistics_price" type="radio" value="0"  checked supportCod="0" insure="1%" class="radio" />
+                                            <div class="text">
+                                                <i></i>费用：0.00<em>元</em>&nbsp;&nbsp;免邮费                   </div>
+                                        </li>
+                                    @endif
+
                                 </ul>
                             </div>
                         </li>
@@ -141,48 +178,29 @@
                                 @endif
                             </div>
                             <table width="100%" align="center" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd" class="goods-list-table">
-                                {{--@if ($type == 'direct')--}}
-                                {{--<tr class="shop-list">--}}
-                                {{--<td bgcolor="#ffffff">--}}
-                                {{--<img src="{{$goods['sku_img']}}" title="{{$goods['goods_name']}}" width="30" height="30"/>--}}
-                                {{--<a href="home-goods-goodsInfo?goods_id={{$goods['goods_id']}}" target="_blank" class="f6">{{$goods['goods_name']}}&nbsp;{{$goods['sku_norms']}}--}}
-                                {{--</a>--}}
-                                {{--</td>--}}
-                                {{--<td bgcolor="#ffffff" align="center">{{$goods['sku_price']}}<em>元</em>&nbsp;x&nbsp;{{$num}}</td>--}}
-                                {{--<td bgcolor="#ffffff" align="center"><span class="shop_price" style="color:#ff6700;">{{$goods['sku_price']*$num}}</span><em>元</em></td>--}}
-                                {{--<input type="hidden" name="sku_id" value="{{$goods['sku_id']}}">--}}
-                                {{--<input type="hidden" name="sku_sn" value="{{$goods['sku_sn']}}">--}}
-                                {{--<input type="hidden" name="goods_id" value="{{$goods['goods_id']}}">--}}
-                                {{--<input type="hidden" name="goods_name" value="{{$goods['goods_name']}}">--}}
-                                {{--<input type="hidden" name="sku_norms_value" value="{{$goods['sku_norms']}}">--}}
-                                {{--<input type="hidden" name="sku_img" value="{{$goods['sku_img']}}">--}}
-                                {{--<input type="hidden" name="sku_price" value="{{$goods['sku_price']}}">--}}
-                                {{--<input type="hidden" name="num" value="{{$num}}">--}}
-                                {{--</tr>--}}
-                                {{--@elseif ($type == 'cart')--}}
-                                    @foreach ($goods as $k => $val)
-                                        <tr class="shop-list">
-                                            <td bgcolor="#ffffff">
-                                                <img src="{{$val['sku_img']}}" title="{{$val['goods_name']}}" width="30" height="30"/>
-                                                <a href="home-goods-goodsInfo?goods_id={{$val['goods_id']}}" target="_blank" class="f6">{{$val['goods_name']}}&nbsp;{{$val['sku_norms']}}
-                                                </a>
-                                            </td>
-                                            <td bgcolor="#ffffff" align="center">{{$val['sku_price']}}<em>元</em>&nbsp;x&nbsp;{{$num[$k]}}</td>
-                                            <td bgcolor="#ffffff" align="center"><span class="shop_price" style="color:#ff6700;">{{$val['sku_price'] * $num[$k]}}</span><em>元</em></td>
-                                            <input type="hidden" name="sku_id[]" value="{{$val['sku_id']}}">
-                                            <input type="hidden" name="sku_sn[]" value="{{$val['sku_sn']}}">
-                                            <input type="hidden" name="goods_id[]" value="{{$val['goods_id']}}">
-                                            <input type="hidden" name="goods_name[]" value="{{$val['goods_name']}}">
-                                            <input type="hidden" name="sku_norms_value[]" value="{{$val['sku_norms']}}">
-                                            <input type="hidden" name="sku_img[]" value="{{$val['sku_img']}}">
-                                            <input type="hidden" name="sku_price[]" value="{{$val['sku_price']}}">
-                                            <input type="hidden" name="num[]" value="{{$num[$k]}}">
-                                        </tr>
-                                    @endforeach
-                                {{--@endif--}}
+                                @foreach ($goods as $k => $val)
+                                    <tr class="shop-list">
+                                        <td bgcolor="#ffffff">
+                                            <img src="{{$val['sku_img']}}" title="{{$val['goods_name']}}" width="30" height="30"/>
+                                            <a href="home-goods-goodsInfo?goods_id={{$val['goods_id']}}" target="_blank" class="f6">{{$val['goods_name']}}&nbsp;{{$val['sku_norms']}}
+                                            </a>
+                                        </td>
+                                        <td bgcolor="#ffffff" align="center">{{$val['sku_price']}}<em>@if($type != 'integral')元@else分@endif</em>&nbsp;x&nbsp;{{$num[$k]}}</td>
+                                        <td bgcolor="#ffffff" align="center"><span class="shop_price" style="color:#ff6700;">{{$val['sku_price'] * $num[$k]}}</span><em>@if($type != 'integral')元@else分@endif</em></td>
+                                        <input type="hidden" name="type" value="{{$type}}">
+                                        <input type="hidden" name="sku_id[]" value="{{$val['sku_id']}}">
+                                        <input type="hidden" name="sku_sn[]" value="{{$val['sku_sn']}}">
+                                        <input type="hidden" name="goods_id[]" value="{{$val['goods_id']}}">
+                                        <input type="hidden" name="goods_name[]" value="{{$val['goods_name']}}">
+                                        <input type="hidden" name="sku_norms_value[]" value="{{$val['sku_norms']}}">
+                                        <input type="hidden" name="sku_img[]" value="{{$val['sku_img']}}">
+                                        <input type="hidden" name="sku_price[]" value="{{$val['sku_price']}}">
+                                        <input type="hidden" name="num[]" value="{{$num[$k]}}">
+                                    </tr>
+                                @endforeach
                                 <tr>
                                     <td colspan="3" align="right" style="font-size: 18px;padding-right: 50px"bgcolor="#ffffff">
-                                        小计：<span class="subtotal"style="font-size:24px;color: #FF6700" ></span><em>元</em>
+                                        小计：<span class="subtotal"style="font-size:24px;color: #FF6700" ></span><em>@if($type != 'integral')元@else分@endif</em>
                                     </td>
                                 </tr>
                             </table>
@@ -190,7 +208,7 @@
                         <li class="section-options clearfix">
                             <h3 class="section-header">其它信息</h3>
                         </li>
-
+                        @if($type != 'integral')
                         <li class="section-options clearfix">
                             <h3 class="section-header">使用红包</h3>
                             <div class="section-body">
@@ -206,7 +224,7 @@
                                 </span>
                             </div>
                         </li>
-
+                        @endif
                         <li class="section-options clearfix">
                             <h3 class="section-header">订单附言</h3>
                             <div class="section-body">
@@ -218,6 +236,7 @@
                             <!--<h3 class="section-header"><span>费用总计</span></h3>-->
                             <div id="ECS_ORDERTOTAL" class="money-box">
                                 <ul>
+                                    @if($type != 'integral')
                                     <li class="clearfix">
                                         <label>订购即送：</label>
                                         <span class="val">
@@ -236,6 +255,11 @@
                                     <li class="clearfix total-price">
                                         <label>应付款金额：</label> <span class="val"><em><em id="allprice"></em><em>元</em></em></span>
                                     </li>
+                                    @else
+                                    <li class="clearfix total-price">
+                                        <label>应付积分：</label> <span class="val"><em><em id="allprice"></em><em>分</em></em></span>
+                                    </li>
+                                    @endif
                                 </ul>
                             </div>
                         </li>
@@ -246,7 +270,7 @@
                             <input type="hidden" name="city" value="">
                             <input type="hidden" name="district" value="">
                             <input type="hidden" name="address" value="">
-                            <input type="hidden" name="logistics_type" value="顺丰快递">
+                            <input type="hidden" name="logistics_type" value="中通快递">
                             <input type="hidden" name="pack_price" value="">
                             <input type="hidden" name="order_price" value="">
                             <input type="hidden" name="get_point" value="">

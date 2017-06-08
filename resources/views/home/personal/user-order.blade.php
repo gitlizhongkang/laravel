@@ -42,7 +42,7 @@
                                     <tr class="ll">
                                         <td align="center" bgcolor="#ffffff"><a href="home-personal-orderDetail?order_id={{ $val['order_id'] }}" class="f6">{{ $val['order_sn'] }}</a></td>
                                         <td align="center" bgcolor="#ffffff">{{ date('Y-m-d H:i:s',$val['order_time']) }}</td>
-                                        <td align="right" bgcolor="#ffffff">{{ $val['order_price'] }}</em>元</td>
+                                        <td align="right" bgcolor="#ffffff">{{ $val['order_price'] }}</em>@if($val['pay_type'] == '5') 积分@else 元@endif</td>
                                         <td align="center" bgcolor="#ffffff">@if ($val['status'] == 1) 未支付 @elseif ($val['status'] == 2) 已支付 @elseif ($val['status'] == 3) 已出库 @elseif ($val['status'] == 4) 已收货 @endif</td>
                                         @if ($val['status'] == 3)
                                             <td align="center" bgcolor="#ffffff"><font class="f6"><a href="#" order_id = "{{ $val['order_id'] }}" status = "{{ $val['status'] }}"  class="click-receipt">点击收货</a></font></td>

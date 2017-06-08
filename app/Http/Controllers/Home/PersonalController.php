@@ -328,11 +328,11 @@ class PersonalController extends Controller
             $status = Input::get('status')?Input::get('status'):'';
         }
         if($order_id=='' && $status==''){
-            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type')->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
+            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
         } elseif ($status=='') {
-            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_type','logistics_price','consignee_tel','consignee_name','consignee_address','pack_price','get_point')->where(['user_id'=>$uid,'order_id'=>$order_id])->first()->toArray();
+            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_type','logistics_price','consignee_tel','consignee_name','consignee_address','pack_price','get_point','pay_type')->where(['user_id'=>$uid,'order_id'=>$order_id])->first()->toArray();
         } else {
-            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type')->where('status','>=',$status)->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
+            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where('status','>=',$status)->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
         }
 
         return json_encode($userOrders);
@@ -409,25 +409,12 @@ class PersonalController extends Controller
         //查询订单
         $userOrder = $this->getUserOrder($uid,$order_id);
         $userOrder = json_decode($userOrder,true);
-        //更改收货状态
-        $Order = new Order();
-        $order = $Order->where(['order_id'=>$order_id,'user_id'=>$uid])->first();
-        $order->status = 4;
-        $order->save();
-        if ($order['is_point'] == '1') {
-            //消耗积分
-            $User = new User();
-            $user = $User->where('user_id',$uid)->first();
-            $user->user_point -= $userOrder['order_price'];
-            $re = $user->save();
-            //添加积分日志
-            $Point = new Point();
-            $Point->user_id = $uid;
-            $Point->point = $userOrder['get_point'];
-            $Point->content = "完成了订单<a href='home-personal-orderDetail?order_id=".$userOrder['order_id']."'>".$userOrder['order_sn']."</a>，使用了".$userOrder['get_point']."的积分";
-            $Point->add_time = time();
-            $Point->status = 2;
-        } else {
+            //更改收货状态
+            $Order = new Order();
+            $order = $Order->where(['order_id'=>$order_id,'user_id'=>$uid])->first();
+            $order->status = 4;
+            $is_order = $order->save();
+        if ($userOrder['pay_type'] != '5') {
             //添加积分
             $User = new User();
             $user = $User->where('user_id',$uid)->first();
@@ -437,18 +424,27 @@ class PersonalController extends Controller
             $Point = new Point();
             $Point->user_id = $uid;
             $Point->point = $userOrder['get_point'];
-            $Point->content = "完成了订单<a href='home-personal-orderDetail?order_id=".$userOrder['order_id']."'>".$userOrder['order_sn']."</a>，获得了".$userOrder['get_point']."的积分";
+            $Point->content = "完成了订单".$userOrder['order_sn']."，获得了".$userOrder['get_point']."的积分";
             $Point->add_time = time();
             $Point->status = 1;
-        }
-        $res = $Point->save();
-        if ($res == true & $re == true) {
-            $data['error'] = 0;
-            $data['msg'] = '修改成功！';
+                $res = $Point->save();
+            if ($res == true & $re == true) {
+                $data['error'] = 0;
+                $data['msg'] = '修改成功！';
+            } else {
+                $data['error'] = 1;
+                $data['msg'] = '修改失败！';
+            }
         } else {
-            $data['error'] = 1;
-            $data['msg'] = '修改失败！';
-    }
+            if ($is_order == true) {
+                $data['error'] = 0;
+                $data['msg'] = '修改成功！';
+            } else {
+                $data['error'] = 1;
+                $data['msg'] = '修改失败！';
+            }
+        }
+
 
         echo json_encode($data);
     }

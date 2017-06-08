@@ -16,11 +16,15 @@
                         <div class="fr">
                         </div>
                     </div>
-                    <i class="iconfont icon-right">X</i>
+                    <i class="iconfont icon-right" style="color: red">X</i>
                     <div class="order-detail">
                         <ul>
                             <li class="clearfix">
-                                {{$goods_name.'  '.$sku_norms}}  商品数量不足！返回 <a href="home-cart-index" style="font-size: 22px">购物车</a> 进行修改
+                                @if ($error == 2)
+                                {{$data['goods_name'].'  '.$data['sku_norms']}}  商品数量不足！返回 <a href="home-cart-index" style="font-size: 22px">购物车</a> 进行修改
+                                @elseif($error == 3)
+                                    {{$msg}}，返回 <a href="home-pointMall-index" style="font-size: 20px">积分商城</a>
+                                @endif
                             </li>
                         </ul>
                     </div>

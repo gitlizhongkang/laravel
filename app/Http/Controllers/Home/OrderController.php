@@ -16,6 +16,7 @@ use App\Models\UserAddress;
 use App\Models\Order;
 use App\Models\Goods;
 use App\Models\User;
+use App\Models\Point;
 use App\Models\OrderGoods;
 
 use Illuminate\Validation\Rules\In;
@@ -47,20 +48,16 @@ class OrderController extends Controller
     {
         $data['type'] = Input::get('type');
         $sku = new GoodsSku();
-//        if ($data['type'] == 'cart') {
         $arr = Input::all();
         foreach (explode(',',$arr['sku']) as $val) {
             $data['goods'][] = $sku->where('sku_id',$val)->first()->toArray();
         }
         $data['num'] = explode(',',$arr['num']);
-//        } else if($data['type'] == 'direct'){
-//            $sku_id = Input::get('sku');
-//            $data['num'] = Input::get('num');
-//            $data['goods'] = $sku->select('*')->find($sku_id)->toArray();
-//        }
-        $UserPack = new UserPack();
-        $uid = Session::get('uid');
-        $data['package'] = $UserPack->where(['user_id'=>$uid,'status'=>'0'])->where('pack_use_time','>',time())->get()->toArray();
+        if ($data['type'] != 'integral') {
+            $UserPack = new UserPack();
+            $uid = Session::get('uid');
+            $data['package'] = $UserPack->where(['user_id' => $uid, 'status' => '0'])->where('pack_use_time', '>', time())->get()->toArray();
+        }
         $userAddress = new UserAddress();
         $data['userAddress'] = $userAddress->select('*')->get()->toArray();
         $PersonalController = new PersonalController();
@@ -77,6 +74,7 @@ class OrderController extends Controller
     {
         $arr = Input::all();
         $uid = Session::get('uid');
+        $type = $arr['type'];
         $order['order_sn'] = date("YmdHis",time()).$uid.$arr['pay_type'];
         $order['user_id'] = $uid;
         $order['consignee_tel'] = $arr['address_tel'];
@@ -85,20 +83,37 @@ class OrderController extends Controller
         $order['order_price'] = $arr['order_price'];
         $order['pay_type'] = $arr['pay_type'];
         $order['order_time'] = time();
-        $order['status'] = 1;
+        if ($type == 'integral') {
+            $order['status'] = 2;
+            $order['is_point'] = 1;
+            $order['logistics_price'] = null;
+            $order['pack_id'] = null;
+            $order['pack_price'] = null;
+        } else {
+            $order['status'] = 1;
+            $order['logistics_price'] = $arr['logistics_price'];
+            $order['pack_id'] =isset($arr['pack_id'])?$arr['pack_id']:null;
+            $order['pack_price'] = $arr['pack_price'];
+        }
         $order['logistics_type'] = $arr['logistics_type'];
-        $order['logistics_price'] = $arr['logistics_price'];
-        $order['pack_id'] = $arr['pack_id'];
-        $order['pack_price'] = $arr['pack_price'];
         $order['postscript'] = $arr['postscript'];
         $order['get_point'] = $arr['get_point'];
         $sku = new GoodsSku();
         foreach ($arr['sku_id'] as $k =>$val) {
             $num = $sku->select('sku_num','goods_name','sku_norms')->where('sku_id',$val)->first()->toArray();
             if ($num['sku_num'] < $arr['num'][$k]) {
-                print_r($num['sku_num']);
-                print_r($arr['num'][$k]);die;
-                return view('/home/order-error',$num);
+                $data['error'] = 2;
+                $data['data'] = $num;
+                return view('/home/order-error',$data);
+            }
+        }
+        if ($type == 'integral') {
+            $user = new User();
+            $user_point = $user->where(['user_id'=>$uid])->first()->toArray();
+            if ($user_point['user_point'] < $order['order_price']){
+                $data['error'] = 3;
+                $data['msg'] = '您的积分不足';
+                return view('/home/order-error',$data);
             }
         }
         $Order = new Order();
@@ -131,34 +146,67 @@ class OrderController extends Controller
                 $goodsInfo->sku_num -= $val['num'];
                 $goodsInfo->save();
             }
-            if ($order['pack_id'] != '') {
-                $UserPack = new UserPack();
-                $pack = $UserPack->where('pack_id',$order['pack_id'])->first();
-                $pack->status = '1';
-                $pack->save();
+            if ($type != 'integral ') {
+                if ($order['pack_id'] != '') {
+                    $UserPack = new UserPack();
+                    $pack = $UserPack->where('pack_id',$order['pack_id'])->first();
+                    $pack->status = '1';
+                    $pack->save();
+                }
             }
         DB::commit();
         DB::rollBack();
         $data['order_sn'] = $order['order_sn'];
+        $data['type'] = $type;
 
-        return redirect()->action('Home\\OrderController@homeFinsh',$data);
+        return redirect()->action('Home\\OrderController@homeFinsh', $data);
     }
 
     public function homeFinsh()
     {
         $order_sn = Input::get('order_sn');
+        $type = Input::get('type');
         $order = new Order();
         $data = $order->select('pay_type','logistics_type','order_price','order_id')->where('order_sn',$order_sn)->first()->toArray();
-        $data['order_sn'] = $order_sn;
-        if ($data['pay_type'] == 1) {
-            $data['pay_type'] = '支付宝';
-        } else if ($data['pay_type'] == 2) {
-            $data['pay_type'] = '微信';
-        }
-        $order_goods = new OrderGoods();
-        $data['order_goods'] = $order_goods->select('goods_name','sku_norms_value','num')->where('order_id',$data['order_id'])->get()->toArray();
+        if ($type != 'integral') {
+            $data['order_sn'] = $order_sn;
+            if ($data['pay_type'] == 1) {
+                $data['pay_type'] = '支付宝';
+            } else if ($data['pay_type'] == 2) {
+                $data['pay_type'] = '微信';
+            }
+            $order_goods = new OrderGoods();
+            $data['order_goods'] = $order_goods->select('goods_name','sku_norms_value','num')->where('order_id',$data['order_id'])->get()->toArray();
 
-        return view('/home/order-finsh',$data);
+            return view('/home/order-finsh',$data);
+        } else {
+            $uid = Session::get('uid');
+            //消耗积分
+            $User = new User();
+            $user = $User->where('user_id',$uid)->first();
+            $user->user_point -= $data['order_price'];
+            $re = $user->save();
+            //添加积分日志
+            $Point = new Point();
+            $Point->user_id = $uid;
+            $Point->point = $data['order_price'];
+            $Point->content = "完成了订单$order_sn，消耗了".$data['order_price']."的积分";
+            $Point->add_time = time();
+            $Point->status = 2;
+            $res = $Point->save();
+            if ($re == true & $res == true) {
+                $date['error'] = 0;
+                $date['order_sn'] = $order_sn;
+                $date['msg'] = '支付成功,请您耐心等待,并多多关注物流信息！';
+            } else {
+                $date['error'] = 1;
+                $date['order_sn'] = $order_sn;
+                $date['order_id'] = $data['order_id'];
+                $date['msg'] = '支付失败,请重新支付！';
+            }
+
+            return view('/home/pay-success',$date);
+        }
     }
 
     public function pay()
@@ -250,17 +298,21 @@ class OrderController extends Controller
                 $res = $orderInfo->save();
                 if ($res == true) {
                     $data['error'] = 0;
+                    $data['order_sn'] = $arr['out_trade_no'];
                     $data['msg'] = '支付成功,请您耐心等待,并多多关注物流信息';
                 }
             }else {
                 $data['error'] = 1;
+                $data['order_sn'] = $arr['out_trade_no'];
                 $data['msg'] = "支付失败,请重新<a src='home-finsh?order_sn=".$arr['out_trade_no']."'>支付</a>";
             }
         } else {
             $data['error'] = 1;
+            $data['order_sn'] = $arr['out_trade_no'];
             $data['msg'] = "支付失败,请重新<a src='home-finsh?order_sn=".$arr['out_trade_no']."'>支付</a>";
         }
 
         return view('/home/pay-success',$data);
     }
+
 }

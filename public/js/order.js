@@ -8,8 +8,10 @@ $(document).ready(function () {
     $('.money-box').children('ul').children('li').eq(1).children("span").html(subtotal);
     var due = parseFloat(subtotal) + 0.00;
     $('#allprice').html(due);//订单价
-    $('.f4_b').html(Math.round(subtotal));//可获积分
-    $("input[name='get_point']").val(Math.round(subtotal));
+    if ( $("input[name='type']").val() != 'integral') {
+        $('.f4_b').html(Math.round(subtotal));//可获积分
+        $("input[name='get_point']").val(Math.round(subtotal));
+    }
     $('#ECS_BONUS').val('');//红包恢复
     $("input[name='order_price']").val(due);
     $('.money-box').children('ul').children('li').eq(3).children("span").html('0.00');

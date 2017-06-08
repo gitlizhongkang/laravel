@@ -157,13 +157,9 @@ $user_id = Session::get('uid');
                                     <dd class="goods-info-head-cart">
                                         @if(empty($goodsInfo['goods_point']))
                                         <a href="javascript:;" class="btn  btn-primary goods-add-cart-btn" id="buy_btn"><i class="iconfont"></i>加入购物车</a>
-<<<<<<< HEAD
                                         <a href="javascript:;" class=" btn btn-gray  goods-collect-btn " id="fav_btn"><i class="iconfont"></i>购买</a>
-=======
                                         @endif
                                         <a href="javascript:;" class=" btn btn-gray  goods-collect-btn " id="fav-btn"><i class="iconfont"></i>购买</a>
-
->>>>>>> 70259447b8b023f8b557ba8e433aa8362b0a374d
                                     </dd>
                                     <dd class="goods-info-head-userfaq clearfix">
                                         <ul>
@@ -504,7 +500,11 @@ $user_id = Session::get('uid');
                 return false;
             }
         }
-        location.href = "home-order?sku="+sku_id+"&num="+num+"&type=direct";
+        if ("{{$goodsInfo['goods_point']}}" == '') {
+            location.href = "home-order?sku="+sku_id+"&num="+num+"&type=direct";
+        } else {
+            location.href = "home-order?sku="+sku_id+"&num="+num+"&type=integral";
+        }
 
     })
     </script>

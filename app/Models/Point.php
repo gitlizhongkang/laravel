@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\DB;
 
 class Point extends Model
@@ -24,11 +23,5 @@ class Point extends Model
   	}
 
 }
-=======
 
-class Point extends Model
-{
-    protected $table = 'point';
-    public $timestamps = false;
-}
->>>>>>> 4db62ff51a08a48c9047b4ea7465d9155c8273e1
+
