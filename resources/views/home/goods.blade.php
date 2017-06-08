@@ -157,9 +157,8 @@ $user_id = Session::get('uid');
                                     <dd class="goods-info-head-cart">
                                         @if(empty($goodsInfo['goods_point']))
                                         <a href="javascript:;" class="btn  btn-primary goods-add-cart-btn" id="buy_btn"><i class="iconfont"></i>加入购物车</a>
-                                        <a href="javascript:;" class=" btn btn-gray  goods-collect-btn " id="fav_btn"><i class="iconfont"></i>购买</a>
                                         @endif
-                                      
+                                        <a href="javascript:;" class=" btn btn-gray  goods-collect-btn " id="fav_btn"><i class="iconfont"></i>购买</a>                                        
                                     </dd>
                                     <dd class="goods-info-head-userfaq clearfix">
                                         <ul>

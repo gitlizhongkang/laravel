@@ -30,7 +30,6 @@ class OrderController extends Controller
 
         $info=[];
         $flag = Mail::send("$file",['name'=>$username,'key'=>$key],function($message) use($email,$subject){
-
             $message ->to($email)->subject($subject);
         });
         if($flag==null){
@@ -49,17 +48,17 @@ class OrderController extends Controller
         $data['type'] = Input::get('type');
         $sku = new GoodsSku();
         $arr = Input::all();
+        $uid = Session::get('uid');
         foreach (explode(',',$arr['sku']) as $val) {
             $data['goods'][] = $sku->where('sku_id',$val)->first()->toArray();
         }
         $data['num'] = explode(',',$arr['num']);
         if ($data['type'] != 'integral') {
-            $UserPack = new UserPack();
-            $uid = Session::get('uid');
+            $UserPack = new UserPack();            
             $data['package'] = $UserPack->where(['user_id' => $uid, 'status' => '0'])->where('pack_use_time', '>', time())->get()->toArray();
         }
         $userAddress = new UserAddress();
-        $data['userAddress'] = $userAddress->select('*')->get()->toArray();
+        $data['userAddress'] = $userAddress->select('*')->where(['user_id' => $uid])->get()->toArray();
         $PersonalController = new PersonalController();
         $province = $PersonalController->getDistrict();//查询所有省份
         $province = json_decode($province,true);
@@ -85,7 +84,6 @@ class OrderController extends Controller
         $order['order_time'] = time();
         if ($type == 'integral') {
             $order['status'] = 2;
-            $order['is_point'] = 1;
             $order['logistics_price'] = null;
             $order['pack_id'] = null;
             $order['pack_price'] = null;
@@ -190,7 +188,7 @@ class OrderController extends Controller
             $Point = new Point();
             $Point->user_id = $uid;
             $Point->point = $data['order_price'];
-            $Point->content = "完成了订单$order_sn，消耗了".$data['order_price']."的积分";
+            $Point->content = "完成了订单".$order_sn."，消耗了".$data['order_price']."的积分";
             $Point->add_time = time();
             $Point->status = 2;
             $res = $Point->save();
@@ -213,7 +211,6 @@ class OrderController extends Controller
     {
         $arr = Input::all();
         $alipay=app('alipay.web');
-
         $alipay->setOutTradeNo($arr['WIDout_trade_no']);//订单号
         $alipay->setTotalFee($arr['WIDtotal_fee']);//订单价格
         $alipay->setSubject($arr['WIDsubject']);//订单名称

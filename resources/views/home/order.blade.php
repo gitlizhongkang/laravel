@@ -62,7 +62,8 @@
                                 </select>
                             详细地址：<input type="text" name="" id="address">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button class="addUserAddress" style="width: 50px">确定</button>
+                            <a href="#"><span style="display:inline-block;width: 50px;hight:20px;padding-left: 17px;background-color:#F2F0F1;border:1px solid #d9d9d9;" class="addUserAddress" >确定</span></a>
+                            {{--<button type="botton" class="addUserAddress" style="width: 50px">确定</button>--}}
                         </li>
                         <li class="section-options clearfix">
                             <h3 class="section-header"><span>支付方式</span></h3>
