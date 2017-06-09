@@ -43,15 +43,3 @@ class CountController extends Controller
 
 
  
-//查询订单数
-//  select count(*) as a from `order`
-
- //查询销售总额
-//  select sum(order_price) as money from `order`
-
-
-
-// select * from order o inner join order_goods g 
-//     on o.order_id = g.order_id 
-//     inner join goods_sku sku
-//     on g.sku_id = sku.sku_id

@@ -26,8 +26,8 @@ class IndexController extends Controller
     {
         $arr=Input::all();
         $data = DB::table('admin')->where([
-            ['admin_name',  $arr['admin_name']],
-            ['admin_pwd',  md5($arr['admin_pwd'])],
+                ['admin_name',  $arr['admin_name']],
+                ['admin_pwd',  md5($arr['admin_pwd'])],
             ])->first();
 
             if ($data)

@@ -10,6 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 Route::group(['middleware' => ['web']], function () {
 
     /** 李钟康 start */
@@ -139,23 +141,33 @@ Route::group(['middleware' => ['web']], function () {
     
     /** 薛天阔 end */
 
-    
+
     /** 郭洪彬 start */
-
-     //后台登录页面
-    Route::get('/admin',  'Admin\IndexController@index');
-    Route::post('/admin-index-login',  'Admin\IndexController@login');
-    //登录成功页面
-    Route::get('/admin-index-login_scs',  'Admin\IndexController@login_scs');
-    //权限管理-管理员
-    Route::get('/admin-index-system',  'Admin\IndexController@system');
-    //添加管理员
-    Route::get('/admin-index-add_admin',  'Admin\IndexController@add_admin');
-    Route::post('/admin-index-begin_add',  'Admin\IndexController@begin_add');
-    //统计
-    Route::get('/admin-count-sales',  'Admin\CountController@count_sales');
-    Route::post('/admin-count-count', 'Admin\CountController@count_count');
-
+ 
+    //论坛主页
+    Route::get('/admin-forum-index', 'Home\ForumController@forumIndex');
+    //个人信息
+    Route::get('/admin-forum-info', 'Home\ForumController@forumInfo');
+    //写文章
+    Route::get('/admin-forum-write', function (){
+        return view('home/forum/write');
+    });
+    //图片上传
+    Route::post('/admin-forum-imgUpload', 'Home\ForumController@imgUpload');
+    //读文章
+    Route::get('/admin-forum-article', 'Home\ForumController@forumArticle');
+    Route::get('/admin-forum-zan', 'Home\ForumController@forumZan');
+    //文章评论
+    Route::post('/admin-forum-comment', 'Home\ForumController@forumComment');
+    //更换皮肤
+    Route::get('/admin-blue-skin', 'Home\ForumController@blueSkin');
+    Route::get('/admin-green-skin', 'Home\ForumController@greenSkin');
+    Route::get('/admin-red-skin', 'Home\ForumController@redSkin');
+    //全部文章
+    Route::get('/admin-forum-AllArticle', 'Home\ForumController@allArticle');
+    //无刷新搜索
+    Route::get('/admin-forum-fullSearch', 'Home\ForumController@fullSearch');
+    //搜索接口
+    Route::get('/admin-forum-duct', 'Home\ForumController@foruDuct');
     /** 郭洪彬 end */
 });
-
