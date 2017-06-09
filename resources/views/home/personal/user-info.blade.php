@@ -1,11 +1,16 @@
 @extends('layouts.home-header')
 
 @section('content')
-<link href="css/user.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="js/common.js"></script>
-<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="js/xiaomi_common.js"></script>
-<script type="text/javascript" src="js/md5.js"></script>
+    <link href="css/user.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/user.js"></script>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.json.js"></script>
+    <script type="text/javascript" src="js/transport_jquery.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/jquery.SuperSlide.js"></script>
+    <script type="text/javascript" src="js/xiaomi_common.js"></script>
+    <script type="text/javascript" src="js/md5.js"></script>
 <body class="user_center">
 
 <!--通栏-->
@@ -38,6 +43,7 @@
                                 </script>
                                 <h1>个人资料</h1>
                                 <form name="formEdit" action="home-personal-updateUserInfo" method="post" onsubmit="return false">
+                                    {{ csrf_field() }}
                                     <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
                                         <tbody username="{{ $userInfo['username'] }}" tel="{{ $userInfo['tel'] }}" sex="{{ $userInfo['sex'] }}" age="{{ $userInfo['age'] }}" email="{{ $userInfo['email'] }}">
                                         <tr>

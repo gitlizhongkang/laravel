@@ -1,7 +1,9 @@
 @extends('layouts.home-header')
   
 @section('content')
-
+<link href="css/index.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/xiaomi_index.js"></script>
 <div class="home-hero-container container">
     <div class="home-hero">
         <div class="home-hero-slider">
@@ -126,7 +128,28 @@
             </div>
             <div class="box-bd">
                 <div class="xm-carousel-wrapper J_carouselWrap">
+<<<<<<< HEAD
                     
+=======
+                    <ul class="xm-carousel-list xm-carousel-col-5-list goods-list rainbow-list clearfix J_carouselList">
+                        @if(isset($recommendation[0]))
+                        @foreach ($recommendation as $k=>$v)
+                        <li class="rainbow-item-1">
+                            <a class="thumb" href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" target="_blank">
+                                <img src="{{$v['goods_img']}}"/>
+                            </a>
+                            <h3 class="title">
+                                <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" target="_blank">{{$v['goods_name']}}</a>
+                            </h3>
+                            <p class="desc">{{$v['category_name']}}</p>
+                            <p class="price">
+                               {{$v['goods_low_price']}}<em>元</em>
+                            </p>
+                        </li>
+                        @endforeach
+                            @endif
+                    </ul>
+>>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
                 </div>
             </div>
         </div>
@@ -184,7 +207,36 @@
                     </div>
                     <div class="span16">
                         <ul class="brick-list clearfix">
+<<<<<<< HEAD
                         
+=======
+                            @if(isset($new[0]))
+                            @foreach ($new as $k=>$v)
+                            <li class="brick-item brick-item-m">
+                                <div class="figure figure-img">
+                                    <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">
+                                        <img src="{{$v['goods_img']}}" width="160"
+                                             height="160" alt="{{$v['goods_name']}}">
+                                    </a>
+                                </div>
+                                <h3 class="title">
+                                    <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">{{$v['goods_name']}}</a>
+                                </h3>
+
+                                <p class="desc"></p>
+                                <p class="price">
+                                   {{$v['goods_low_price']}}<em>元</em></p>
+                                <p class="rank">商品描述</p>
+                                <div class="review-wrapper">
+                                    <a href="javascript:void(0)">
+                                        <span class="review">{{$v['brand_name']}} </span>
+                                        <span class="author"> </span>
+                                    </a>
+                                </div>
+                            </li>
+                            @endforeach
+                                @endif
+>>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
                         </ul>
                     </div>
                 </div>
@@ -215,7 +267,44 @@
                     </div>
                     <div class="span16">
                         <ul class="brick-list clearfix">
+<<<<<<< HEAD
                              
+=======
+                        @if (isset($second[0]))
+                            @foreach ($second as $k=>$v)
+                            <li class="brick-item brick-item-m">
+                                <div class="figure figure-img">
+                                    <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">
+                                        <img src="{{$v['goods_img']}}" width="160"
+                                             height="160" alt="{{$v['goods_name']}}">
+                                    </a>
+                                </div>
+                                <h3 class="title">
+                                    <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">{{$v['goods_name']}}</a>
+                                </h3>
+                                <p class="desc"></p>
+                                <p class="price">
+                                   {{$v['second_price']}}<em>元</em></p>
+                                <p class="rank">商品描述</p>
+                                <div class="review-wrapper">
+                                    <a href="javascript:void(0)">
+                                        <span class="review">{{$v['start_time']}} <br>开抢！！！</span>
+                                        <span class="author"> </span>
+                                    </a>
+                                </div>
+                            </li>
+                            @endforeach
+                        @else
+                         <div class="add_ok" id="cart_show" style="display: block; margin: 200px 200px;">
+                            <div class="tip">
+                                最近没有秒杀商品哦！！！
+                            </div>
+                            <div class="go">
+                                <a href="home-goods-index" class="btn">去看看其他吧</a>
+                            </div>
+                        </div>
+                        @endif
+>>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
                         </ul>
                     </div>
                 </div>

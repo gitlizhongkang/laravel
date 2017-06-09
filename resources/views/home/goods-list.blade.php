@@ -1,11 +1,17 @@
 @extends('layouts.home-header')
   
 @section('content')
-
+<link href="css/category.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/xiaomi_category.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/compare.js"></script>
+<script type="text/javascript" src="js/uri.js"></script>
+<link href="css/point.css" rel="stylesheet" type="text/css" />
 <!--通栏-->
 <div class="breadcrumbs">
     <div class="container">
-        <a href=".">首页</a> <code>&gt;</code> <a href="category.php?id=76">购买电视与平板</a>
+        <a href="{{URL::to('/')}}">首页</a> 
+        <code>&gt;</code> <a href="javascript:;">商品列表</a>
     </div>
 </div>
 
@@ -14,35 +20,35 @@
     <div class="filter-box">
         <div class="filter-list-wrap">
             <dl class="filter-list clearfix filter-list-row-2">
-                <dt>颜色：</dt>
-                <dd class="active">全部</dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=38.0">黄</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=34.0">黑</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=81.0">黑白</a></dd>
+                <dt>品牌：</dt>
+                @if (empty($param['brand_name']))
+                    <dd class="active">全部</dd>
+                @else
+                    <dd class="">全部</dd>
+                @endif    
+                @foreach ($brand as $k=>$v)
+                    @if ($param['brand_name'] == $v['brand_name'])
+                    <dd class="active">
+                    @else
+                    <dd class=''>
+                    @endif 
+                        <a href="javascript:;" class='brand_name'>{{$v['brand_name']}}</a>
+                    </dd>
+                   
+                @endforeach
             </dl>
             <a  href="javascript:;" class="more J_filterToggle">更多<i class="iconfont"></i></a>
         </div>
         <div class="filter-list-wrap">
-            <dl class="filter-list clearfix filter-list-row-2">
-                <dt>尺寸：</dt>
-                <dd class="active">全部</dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=0.33">15</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=0.35">45</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=0&amp;filter_attr=0.68">58</a></dd>
-            </dl>
-            <a  href="javascript:;" class="more J_filterToggle">更多<i class="iconfont"></i></a>
-        </div>
-        <div class="filter-list-wrap">
-            <dl class="filter-list clearfix filter-list-row-2">
+            <dl class="filter-list clearfix filter-list-row-3">
                 <dt>价格：</dt>
-                <dd class="active">全部</dd>
-                <dd><a href="category.php?id=76&amp;price_min=0&amp;price_max=500">0&nbsp;-&nbsp;500</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=1000&amp;price_max=1500">1000&nbsp;-&nbsp;1500</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=2000&amp;price_max=2500">2000&nbsp;-&nbsp;2500</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=2500&amp;price_max=3000">2500&nbsp;-&nbsp;3000</a></dd>
-                <dd><a href="category.php?id=76&amp;price_min=4000&amp;price_max=4500">4000&nbsp;-&nbsp;4500</a></dd>
+                <dd class="active">请输入价格区间：</dd>
+                <dd> 
+                    <input type="text" id='price_min' style='width: 50px;color:#F08080' placeholder="最低价" value="{{$param['price_min']}}">   
+                    &nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;
+                    <input type="text" id='price_max' style='width: 50px;color:#F08080'  placeholder="最高价" value="{{$param['price_max']}}">
+                </dd> 
             </dl>
-            <a  href="javascript:;" class="more J_filterToggle">更多<i class="iconfont"></i></a>
         </div>
     </div>
 </div>
@@ -52,294 +58,145 @@
     <div class="container">
         <!--排序-->
         <div class="order-list-box clearfix">
-            <form method="GET" name="listform">
+            <form method="GET" name="listform" id='search'>
                 <ul class="order-list">
-                    <li class="first active">
-                        <a title="销量" href="category.php?category=76&display=grid&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=sales_volume&order=ASC#goods_list" class="curr" rel="nofollow">
+                    @if (empty($param['order']))
+                    <li class="first active">  
+                    @else
+                    <li class="first">                   
+                    @endif                 
+                        <a title="销量" href="javascript:;" class="curr price_order" rel="nofollow"  order=''>
                             <span class="search_DESC">销量</span>&nbsp;<i class="iconfont"></i>
                         </a>
-                    </li>
+                    </li>                    
+                    @if ($param['order'] == 'down')
+                    <li class="first active">
+                    @else
                     <li class="">
-                        <a title="价格" href="category.php?category=76&display=grid&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=shop_price&order=ASC#goods_list"  rel="nofollow">
-                            <span class="">价格</span>
+                    @endif
+                        <a title="价格" href="javascript:;"  rel="nofollow" class="price_order"  order='down'>
+                            <span>价格</span>&nbsp;<i class="iconfont"></i>                           
                         </a>
                     </li>
+                    @if ($param['order'] == 'up')
+                    <li class="first active">
+                    @else
                     <li class="">
-                        <a title="上架时间" href="category.php?category=76&display=grid&brand=0&price_min=0&price_max=0&filter_attr=0&page=1&sort=goods_id&order=DESC#goods_list" rel="nofollow">
-                            <span class="">上架时间</span>
+                    @endif
+                        <a title="价格" href="javascript:;"  rel="nofollow" class="price_order" order='up'>
+                            <span >价格</span>&nbsp;<i style='font-family: "iconfont";-webkit-text-stroke-width: 0.2px;font-style: normal;'>↑</i>
                         </a>
                     </li>
-                    <input type="hidden" name="category" value="76" />
-                    <input type="hidden" name="display" value="grid" id="display" />
-                    <input type="hidden" name="brand" value="0" />
-                    <input type="hidden" name="price_min" value="0" />
-                    <input type="hidden" name="price_max" value="0" />
-                    <input type="hidden" name="filter_attr" value="0" />
-                    <input type="hidden" name="page" value="1" />
-                    <input type="hidden" name="sort" value="sales_volume" />
-                    <input type="hidden" name="order" value="DESC" />
                 </ul>
             </form>
-            <ul class="type-list">
-                <li>显示方式：</li>
-                <li> <a href="javascript:;" onClick="javascript:display_mode('list')"><img src="themes/xiaomi/images/display_mode_list.gif" alt=""></a></li>
-                <li><a href="javascript:;" onClick="javascript:display_mode('grid')"><img src="themes/xiaomi/images/display_mode_grid_act.gif" alt=""></a></li>
-                <li><a href="javascript:;" onClick="javascript:display_mode('text')"><img src="themes/xiaomi/images/display_mode_text.gif" alt=""></a></li>&nbsp;&nbsp;
-            </ul>
         </div>
+        
+        <script>
+        //获取url参数值
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return decodeURI(r[2]); return null;
+        } 
+        
+        //修改url参数值
+        function changeUrl(par, par_value)
+        {
+            var sourceUrl = decodeURI(window.location);
+            // 调用方法生成新的URL
+            var newUrl = new Uri(sourceUrl).replaceQueryParam(par, par_value);
 
-        <!--内容-->
+            return newUrl.toString();
+        }
+
+        //品牌
+        $('.brand_name').click(function(){
+            var brand_name = $(this).html();
+            var par = GetQueryString('brand_name');
+
+            if (par != brand_name) {
+                location.href = changeUrl('brand_name',brand_name);
+            }
+        })
+
+        //价格区间
+        $('#price_max').blur(function(){
+            var price_max = $(this).val();
+            var price_min = $('#price_min').val();
+            if(price_min == '') {
+                alert('请输入最低价格！！！');
+                return flase;
+            } else if (price_max == '') {
+                alert('请输入最高价格！！！');
+                return flase;
+            } else if (price_min < 0 || price_max < 0) {
+                alert('请输入正确价格！！！');
+                return flase;
+            } else if (price_min > price_max) {
+                alert('最低价不能高于最高价哦！！！');
+                return flase;
+            } else if (price_min == price_max) {
+                alert('最低价不能等于最高价哦！！！');
+                return flase;
+            } else {   
+                // 调用方法生成新的URL            
+                var sourceUrl = changeUrl('price_min',price_min).toString();                
+                var newUrl = new Uri(sourceUrl).replaceQueryParam('price_max', price_max);
+                location.href = newUrl.toString();
+            }
+
+        })
+        //价格排序
+        $('.price_order').click(function(){
+            var order = $(this).attr('order');
+            var par = GetQueryString('order');
+
+            if (par != order) {
+                location.href = changeUrl('order',order);
+            }
+        })
+
+        
+        </script>
+       
+       <!--内容-->
         <form name="compareForm" action="compare.php" method="post" onSubmit="return compareGoods(this);">
             <div class="goods-list-box">
                 <div class="goods-list clearfix">
+                @if (isset($goods[0]))
+                @foreach ($goods as $k=>$v)
                     <div class="goods-item">
                         <div class="figure figure-img">
-                            <a href="goods.php?id=29"><img src="images/201507/thumb_img/29_thumb_G_1437074933275.jpg" alt="小米盒子增强版 1G" class="goodsimg" /></a>
+                            <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}"><img src="{{$v['goods_img']}}" alt="{{$v['goods_name']}}" class="goodsimg" /></a>
                         </div>
-                        <p class="desc">首款4K超高清网络机顶盒</p>
-                        <h2 class="title"><a href="goods.php?id=29" title="小米盒子增强版 1G">小米盒子增强版 1G</a></h2>
+                        <p class="desc">{{$v['brand_name']}}</p>
+                        <h2 class="title"><a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" title="{{$v['goods_name']}}">{{$v['goods_name']}}</a></h2>
                         <p class="price">
-                            本店价<font class="shop_s">299<em>元</em></font>
-                            <del>专柜价<font class="market_s">358<em>元</em></font></del>
+                            本店价：<font class="shop_s">{{$v['goods_low_price']}}<em>元</em></font>
+                          <!--   <del>专柜价<font class="market_s">358<em>元</em></font></del> -->
                         </p>
-                        <div class="thumbs J_attrImg">
+                        <!-- <div class="thumbs J_attrImg">
                             <div style="width:212px;margin:0 auto;">
                                 <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201507/thumb_img/29_thumb_P_1437074933782.jpg"}'>
-                                        <a><img src="images/201507/thumb_img/29_thumb_P_1437074933782.jpg" width="34" height="34"></a>
+                                    <li class="active" data-config='{figure:"images/goods.jpg"}'>
+                                        <a><img src="images/goods.jpg" width="34" height="34"></a>
                                     </li>
                                 </ul>
                             </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(29);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(29)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
+                        </div> -->
+                        <!-- <div class="actions clearfix"> -->
+                           <!--  <a href="javascript:addToCart(29)" class="btn-buy J_buyGoods"><span>加入购物车</span> <i class="iconfont"></i></a> -->
+                        <!-- </div> -->
+                        <!-- <div class="flags">
                             <div class="flag flag-saleoff">8.4折促销</div>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="goods-item">
-                        <div class="figure figure-img">
-                            <a href="goods.php?id=28"><img src="images/201507/thumb_img/28_thumb_G_1437074792369.jpg" alt="小米平板 16G" class="goodsimg" /></a>
-                        </div>
-                        <p class="desc">全球首款搭载 NVIDIA Tegra K1 处理器平板</p>
-                        <h2 class="title"><a href="goods.php?id=28" title="小米平板 16G">小米平板 16G</a></h2>
-                        <p class="price">
-                            本店价<font class="shop_s">1299<em>元</em></font>
-                            <del>专柜价<font class="market_s">1558<em>元</em></font></del>
-                        </p>
-                        <div class="thumbs J_attrImg">
-                            <div style="width:212px;margin:0 auto;">
-                                <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201507/thumb_img/28_thumb_P_1437074792079.jpg"}'>
-                                        <a><img src="images/201507/thumb_img/28_thumb_P_1437074792079.jpg" width="34" height="34"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(28);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(28)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
-
-                            <div class="flag flag-saleoff">8.3折促销</div>
-
-                        </div>
-                    </div>
-                    <div class="goods-item">
-                        <div class="figure figure-img">
-                            <a href="goods.php?id=27"><img src="images/201507/thumb_img/27_thumb_G_1437074702008.jpg" alt="小米电视2 40英寸" class="goodsimg" /></a>
-                        </div>
-                        <p class="desc">40/49/55英寸 现货购买</p>
-                        <h2 class="title"><a href="goods.php?id=27" title="小米电视2 40英寸">小米电视2 40英寸</a></h2>
-                        <p class="price">
-                            本店价<font class="shop_s">2200<em>元</em></font>
-                            <del>专柜价<font class="market_s">2640<em>元</em></font></del>
-                        </p>
-                        <div class="thumbs J_attrImg">
-                            <div style="width:212px;margin:0 auto;">
-                                <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201507/thumb_img/27_thumb_P_1437074702931.jpg"}'>
-                                        <a><img src="images/201507/thumb_img/27_thumb_P_1437074702931.jpg" width="34" height="34"></a>
-                                    </li>
-                                    <li  data-config='{figure:"images/201508/thumb_img/27_thumb_P_1440636492790.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/27_thumb_P_1440636492790.jpg" width="34" height="34"></a>
-                                    </li>
-                                    <li  data-config='{figure:"images/201508/thumb_img/27_thumb_P_1440636386334.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/27_thumb_P_1440636386334.jpg" width="34" height="34"></a>
-                                    </li>
-                                    <li  data-config='{figure:"images/201508/thumb_img/27_thumb_P_1440636396876.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/27_thumb_P_1440636396876.jpg" width="34" height="34"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(27);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(27)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
-
-                            <div class="flag flag-saleoff">8.3折促销</div>
-
-                        </div>
-                    </div>
-                    <div class="goods-item">
-                        <div class="figure figure-img">
-                            <a href="goods.php?id=76"><img src="images/201508/thumb_img/76_thumb_G_1440984280864.jpg" alt="小米盒子mini版" class="goodsimg" /></a>
-                        </div>
-                        <p class="desc"></p>
-                        <h2 class="title"><a href="goods.php?id=76" title="小米盒子mini版">小米盒子mini版</a></h2>
-                        <p class="price">
-                            本店价<font class="shop_s">199<em>元</em></font>
-                            <del>专柜价<font class="market_s">239<em>元</em></font></del>
-                        </p>
-                        <div class="thumbs J_attrImg">
-                            <div style="width:212px;margin:0 auto;">
-                                <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201508/thumb_img/76_thumb_G_1440984280864.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/76_thumb_G_1440984280864.jpg" width="34" height="34"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(76);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(76)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
-
-                            <div class="flag flag-saleoff">8.3折促销</div>
-
-                        </div>
-                    </div>
-                    <div class="goods-item">
-                        <div class="figure figure-img">
-                            <a href="goods.php?id=53"><img src="images/201508/thumb_img/53_thumb_G_1439511514539.jpg" alt="小米电视2S48英寸" class="goodsimg" /></a>
-                        </div>
-                        <p class="desc"></p>
-                        <h2 class="title"><a href="goods.php?id=53" title="小米电视2S48英寸">小米电视2S48英寸</a></h2>
-                        <p class="price">
-                            本店价<font class="shop_s">2999<em>元</em></font>
-                            <del>专柜价<font class="market_s">3599<em>元</em></font></del>
-                        </p>
-                        <div class="thumbs J_attrImg">
-                            <div style="width:212px;margin:0 auto;">
-                                <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201508/thumb_img/53_thumb_P_1439511514984.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/53_thumb_P_1439511514984.jpg" width="34" height="34"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(53);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(53)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
-
-                            <div class="flag flag-saleoff">8.3折促销</div>
-
-                        </div>
-                    </div>
-                    <div class="goods-item">
-                        <div class="figure figure-img">
-                            <a href="goods.php?id=54"><img src="images/201508/thumb_img/54_thumb_G_1439511600535.jpg" alt="小米电视2 55英寸" class="goodsimg" /></a>
-                        </div>
-                        <p class="desc"></p>
-                        <h2 class="title"><a href="goods.php?id=54" title="小米电视2 55英寸">小米电视2 55英寸</a></h2>
-                        <p class="price">
-                            本店价<font class="shop_s">4499<em>元</em></font>
-                            <del>专柜价<font class="market_s">5399<em>元</em></font></del>
-                        </p>
-                        <div class="thumbs J_attrImg">
-                            <div style="width:212px;margin:0 auto;">
-                                <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201508/thumb_img/54_thumb_P_1439511600402.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/54_thumb_P_1439511600402.jpg" width="34" height="34"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(54);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(54)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
-
-                            <div class="flag flag-saleoff">8.3折促销</div>
-
-                        </div>
-                    </div>
-                    <div class="goods-item">
-                        <div class="figure figure-img">
-                            <a href="goods.php?id=55"><img src="images/201508/thumb_img/55_thumb_G_1439511725721.jpg" alt="小米平板 64GB" class="goodsimg" /></a>
-                        </div>
-                        <p class="desc"></p>
-                        <h2 class="title"><a href="goods.php?id=55" title="小米平板 64GB">小米平板 64GB</a></h2>
-                        <p class="price">
-                            本店价<font class="shop_s">1499<em>元</em></font>
-                            <del>专柜价<font class="market_s">1799<em>元</em></font></del>
-                        </p>
-                        <div class="thumbs J_attrImg">
-                            <div style="width:212px;margin:0 auto;">
-                                <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201508/thumb_img/55_thumb_P_1439511725800.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/55_thumb_P_1439511725800.jpg" width="34" height="34"></a>
-                                    </li>
-                                    <li  data-config='{figure:"images/201509/thumb_img/55_thumb_P_1441498030464.jpg"}'>
-                                        <a><img src="images/201509/thumb_img/55_thumb_P_1441498030464.jpg" width="34" height="34"></a>
-                                    </li>
-                                    <li  data-config='{figure:"images/201509/thumb_img/55_thumb_P_1441498030567.jpg"}'>
-                                        <a><img src="images/201509/thumb_img/55_thumb_P_1441498030567.jpg" width="34" height="34"></a>
-                                    </li>
-                                    <li  data-config='{figure:"images/201509/thumb_img/55_thumb_P_1441498031661.jpg"}'>
-                                        <a><img src="images/201509/thumb_img/55_thumb_P_1441498031661.jpg" width="34" height="34"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(55);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(55)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
-
-                            <div class="flag flag-saleoff">8.3折促销</div>
-
-                        </div>
-                    </div>
-                    <div class="goods-item">
-                        <div class="figure figure-img">
-                            <a href="goods.php?id=77"><img src="images/201508/thumb_img/77_thumb_G_1440984390480.jpg" alt="小米电视/盒子遥控器" class="goodsimg" /></a>
-                        </div>
-                        <p class="desc"></p>
-                        <h2 class="title"><a href="goods.php?id=77" title="小米电视/盒子遥控器">小米电视/盒子遥控器</a></h2>
-                        <p class="price">
-                            本店价<font class="shop_s">29<em>元</em></font>
-                            <del>专柜价<font class="market_s">35<em>元</em></font></del>
-                        </p>
-                        <div class="thumbs J_attrImg">
-                            <div style="width:212px;margin:0 auto;">
-                                <ul class="thumb-list clearfix J_imgList">
-                                    <li class="active" data-config='{figure:"images/201508/thumb_img/77_thumb_G_1440984390480.jpg"}'>
-                                        <a><img src="images/201508/thumb_img/77_thumb_G_1440984390480.jpg" width="34" height="34"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="actions clearfix">
-                            <a href="javascript:collect(77);" class="btn-like J_likeGoods"><i class="iconfont"></i> <span>收藏</span></a>
-                            <a href="javascript:addToCart(77)" class="btn-buy J_buyGoods"><span>购买</span> <i class="iconfont"></i></a>
-                        </div>
-                        <div class="flags">
-
-                            <div class="flag flag-saleoff">8.3折促销</div>
-
-                        </div>
-                    </div>
+                @endforeach
+                <!-- <br> -->
+                <!-- <div class="xm-pagers-wrapper">{!! $goods->appends($param)->render() !!}</div> -->
+                @else
+                    <p>没有符合条件的商品！！！</p>
+                @endif     
                 </div>
             </div>
         </form>
@@ -367,9 +224,7 @@
         </script>
         <form name="selectPageForm" action="/mishop/category.php" method="get">
             <div class="clearfix">
-                <div id="pager" class="pagebar">
-                    <span class="f_l f6" style="margin-right:10px;">总计 <b>10</b>  个记录</span>
-                </div>
+                {!! $goods->appends($param)->render() !!}
             </div>
         </form>
         <script type="Text/Javascript" language="JavaScript">
@@ -385,48 +240,22 @@
         <div class="xm-recommend">
             <div class="xm-carousel-wrapper">
                 <ul class="xm-carousel-col-5-list xm-carousel-list clearfix">
+                @foreach ($userLike as $k=>$v)
                     <li class="J_xm-recommend-list">
                         <dl>
-                            <dt><a href="goods.php?id=27" target="_blank"><img src="images/201507/thumb_img/27_thumb_G_1437074702008.jpg" /></a></dt>
-                            <dd class="xm-recommend-name"><a href="goods.php?id=27" target="_blank" title="小米电视2 40英寸">小米电视2 40英寸</a></dd>
-                            <dd class="xm-recommend-price">2200<em>元</em></dd>
+                            <dt><a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" target="_blank"><img src="{{$v['goods_img']}}" /></a></dt>
+                            <dd class="xm-recommend-name"><a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}" target="_blank" title="{{$v['goods_name']}}">{{$v['goods_name']}}</a></dd>
+                            <dd class="xm-recommend-price">{{$v['goods_low_price']}}<em>元</em></dd>
                             <dd class="xm-recommend-tips"> </dd>
                         </dl>
-                    </li>
-
-                    <li class="J_xm-recommend-list">
-                        <dl>
-                            <dt><a href="goods.php?id=28" target="_blank"><img src="images/201507/thumb_img/28_thumb_G_1437074792369.jpg" /></a></dt>
-                            <dd class="xm-recommend-name"><a href="goods.php?id=28" target="_blank" title="小米平板 16G">小米平板 16G</a></dd>
-                            <dd class="xm-recommend-price">1299<em>元</em></dd>
-                            <dd class="xm-recommend-tips"> </dd>
-                        </dl>
-                    </li>
-
-                    <li class="J_xm-recommend-list">
-                        <dl>
-                            <dt><a href="goods.php?id=29" target="_blank"><img src="images/201507/thumb_img/29_thumb_G_1437074933275.jpg" /></a></dt>
-                            <dd class="xm-recommend-name"><a href="goods.php?id=29" target="_blank" title="小米盒子增强版 1G">小米盒子增强版 1G</a></dd>
-                            <dd class="xm-recommend-price">299<em>元</em></dd>
-                            <dd class="xm-recommend-tips"> </dd>
-                        </dl>
-                    </li>
-
-                    <li class="J_xm-recommend-list">
-                        <dl>
-                            <dt><a href="goods.php?id=53" target="_blank"><img src="images/201508/thumb_img/53_thumb_G_1439511514539.jpg" /></a></dt>
-                            <dd class="xm-recommend-name"><a href="goods.php?id=53" target="_blank" title="小米电视2S48英寸">小米电视2S48英寸</a></dd>
-                            <dd class="xm-recommend-price">2999<em>元</em></dd>
-                            <dd class="xm-recommend-tips"> </dd>
-                        </dl>
-                    </li>
-
+                    </li>   
+                @endforeach                     
                 </ul>
             </div>
             <div class="xm-pagers-wrapper">
                 <ul class="xm-pagers">
                     <li class="pager"><span class="dot">1</span></li>
-                    <li class="pager"><span class="dot">6</span></li>
+                    <li class="pager"><span class="dot">2</span></li>
                 </ul>
             </div>
         </div>

@@ -10,7 +10,9 @@
         "laravel/framework": "5.4.*",
         "laravel/scout": "^3.0",
         "laravel/tinker": "~1.0",
-        "predis/predis": "1.0.*"
+        "latrell/alipay": "dev-master",
+        "predis/predis": "1.0.*",
+        "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
