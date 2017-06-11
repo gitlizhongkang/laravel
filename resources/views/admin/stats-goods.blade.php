@@ -8,12 +8,11 @@
 	<div class="f-14 c-error"></div>
     <div>
         <form method="post">
-                {{csrf_field()}}
                 <div class="text-c"> 日期范围：
                     <input type="text" name="strt_time" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })" id="logmin" class="input-text Wdate" style="width:120px;">
                     -
                     <input type="text" name="end_time" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })" id="logmax" class="input-text Wdate" style="width:120px;">
-                    <input type="text" id="goods_name"  placeholder="商品名称或货号" style="width:220px" class="input-text">
+                    <input type="text" id="goods_name"  placeholder="商品名称" style="width:220px" class="input-text">
                     <button class="btn btn-success" type="button"><i class="Hui-iconfont">&#xe665;</i> 搜产品</button>
                 </div>
         </form>
@@ -37,16 +36,8 @@ $('button').click(function(){
         alert('请输入查询范围');
         return false;
     }
-    if (start_time > end_time) {
-        alert('开始时间不能大于结束时间');
-        return false;
-    }
-    if (start_time == end_time) {
-        alert('开始时间不能等于结束时间');
-        return false;
-    }
     if (goods_name == '') {
-        alert('请输入商品名称或货号');
+        alert('请输入商品名称');
         return false;
     }
     $.ajax({
@@ -55,61 +46,55 @@ $('button').click(function(){
         data:{
             start_time:start_time,
             end_time:end_time,
-            goods_name:goods_name
+            goods_name:goods_name,
+            _token:"{{csrf_token()}}"
         },
         dataType:'json',
         success:function(msg){
-
+            if (msg.error == 0) {
+                
+                $('#container').show();
+                Highcharts.chart('container', {
+                    title: {
+                        text: goods_name+'销量',
+                        x: -20 //center
+                    },
+                    subtitle: {
+                        text: start_time + ' -- ' + end_time,
+                        x: -20
+                    },
+                    xAxis: {
+                        categories: msg.date
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'num (件)'
+                        },
+                        tickInterval: 5, //基线宽度
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+                    tooltip: {
+                        valueSuffix: '件'
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        borderWidth: 0
+                    },
+                    series: msg.data
+                });
+            } else {
+                alert(msg.message);
+            }
         }
     })
 
 })
-$(function () {
-    Highcharts.chart('container', {
-        title: {
-            text: '销量',
-            x: -20 //center
-        },
-        subtitle: {
-            text: 'Source: WorldClimate.com',
-            x: -20
-        },
-        xAxis: {
-            categories: ['一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月']
-        },
-        yAxis: {
-            title: {
-                text: 'Temperature (°C)'
-            },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
-        },
-        tooltip: {
-            valueSuffix: '°C'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
-        },
-        series: [{
-            name: 'Tokyo',
-            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-        }, {
-            name: 'New York',
-            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-        }, {
-            name: 'Berlin',
-            data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-        }, {
-            name: 'London',
-            data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-        }]
-    });
-});
+
 </script>
 @stop

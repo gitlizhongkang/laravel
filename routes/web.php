@@ -203,8 +203,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/admin-stats-user',  'Admin\StatsController@user');
     Route::get('/admin-stats-order',  'Admin\StatsController@order');
     Route::post('/admin-stats-getGoods',  'Admin\StatsController@getGoods');
-    
-
+    Route::post('/admin-stats-getUser',  'Admin\StatsController@getUser');
+    Route::post('/admin-stats-getOrder',  'Admin\StatsController@getOrder');
     /** 毛宏蕊 end */
 
 
