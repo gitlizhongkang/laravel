@@ -20,13 +20,6 @@ class InsertUser extends Command
      * @var string
      */
     protected $description = 'insert users';
-
-    /**
-     * The user service.
-     *
-     * @var object
-     */
-    // protected $user;
     
     /**
      * Create a new command instance.
@@ -36,7 +29,6 @@ class InsertUser extends Command
     public function __construct()
     {
         parent::__construct();
-        // $this->user = new User;
     }
 
     /**
@@ -52,10 +44,6 @@ class InsertUser extends Command
         $info['password'] = md5('123456');
         $info['reg_time'] =time();
         $info['user_point'] = 100;
-        if (User::add($info)) {
-            echo 1;
-        } else {
-            echo 0;
-        }
+        User::add($info);
     }
 }
