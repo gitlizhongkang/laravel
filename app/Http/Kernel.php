@@ -62,13 +62,12 @@ class Kernel extends HttpKernel
         'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
     ];
 
-    /**
-     * 为应用注册基于闭包的命令.
+     /**
+     * The Artisan commands provided by your application.
      *
-     * @return void
+     * @var array
      */
-    protected function commands()
-    {
-        require base_path('routes/console.php');
-    }
+    protected $commands = [
+        'App\Console\Commands\InsertUser',
+    ];
 }
