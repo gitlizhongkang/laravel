@@ -61,4 +61,14 @@ class Kernel extends HttpKernel
         'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
         'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
     ];
+
+    /**
+     * 为应用注册基于闭包的命令.
+     *
+     * @return void
+     */
+    protected function commands()
+    {
+        require base_path('routes/console.php');
+    }
 }
