@@ -38,19 +38,14 @@ class IndexController extends Controller
         // dd($data['second']);
 
     	//猜你喜欢  如果登录获取用户浏览记录  如果没有显示最热商品
-<<<<<<< HEAD
-  //   	$user_id = 1;
-		// $data['recommendation'] = json_decode($this -> getUserLike($user_id), true);
 
-    	
-=======
         $user_id = '';
         if (Session::has('uid')) {
             $user_id = Session::get('uid');
         }
    	
 		$data['recommendation'] = json_decode($goods->getUserLike($user_id,8), true);
->>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
+
     	return view('/home/index' , $data);
     }
 
@@ -74,7 +69,7 @@ class IndexController extends Controller
             $cate_id = serialize($cate);    		
             Redis::set('category_id',$info);
     	}
-    	
+        
     	return json_encode($res);
     }
 
@@ -139,40 +134,35 @@ class IndexController extends Controller
 
    
 
-<<<<<<< HEAD
+
     /**
      * @brief 获取用户浏览记录类似商品 猜你喜欢
      * @param int $user_id 用户ID
      * @return json
      */
-    // public function getUserLike($user_id = '')
-    // {
-    	// if (!empty($user_id)) {
-    	// 	$log = new UserBrowerLog;
-    	// 	$res = $log -> select('category_id') -> where('user_id', $user_id) -> get() -> toArray();
+    public function getUserLike($user_id = '')
+    {
+    	if (!empty($user_id)) {
+    		$log = new UserBrowerLog;
+    		$res = $log -> select('category_id') -> where('user_id', $user_id) -> get() -> toArray();
     		
-    	// 	if (!empty($res)) {
-    	// 		//二维数组变为一维数组
-    	// 		$category_id = array_column($res, 'category_id');
+    		if (!empty($res)) {
+    			//二维数组变为一维数组
+    			$category_id = array_column($res, 'category_id');
 
-    	// 		$goods = new Goods;
-	    // 		$recommendation = $goods -> whereIn('category_id',$category_id)
-	    // 		->where('is_on_sale', '1') -> orderBy('add_time') 
-	    // 		-> offset(0) -> limit(8) -> get() -> toArray();
-    	// 	}
-    	// } else {
-    	// 	$recommendation = $goods -> where([['is_hot', '=', 1],['is_on_sale', '=', 1]]) 
-    	//     -> orderBy('add_time') -> offset(0)
-    	//     -> limit(8) -> get() -> toArray();
-    	// }
+    			$goods = new Goods;
+	    		$recommendation = $goods -> whereIn('category_id',$category_id)
+	    		->where('is_on_sale', '1') -> orderBy('add_time') 
+	    		-> offset(0) -> limit(8) -> get() -> toArray();
+    		}
+    	} else {
+    		$recommendation = $goods -> where([['is_hot', '=', 1],['is_on_sale', '=', 1]]) 
+    	    -> orderBy('add_time') -> offset(0)
+    	    -> limit(8) -> get() -> toArray();
+    	}
 
-    	// return json_encode($recommendation);
-    // }
-=======
-	
-
-    
->>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
+    	return json_encode($recommendation);
+    }
 
 
 	

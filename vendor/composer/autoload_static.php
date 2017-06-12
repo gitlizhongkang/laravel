@@ -320,7 +320,7 @@ class ComposerStaticInit7b6598027c754babb52d12e28f6f325a
         'AlgoliaSearch\\Version' => __DIR__ . '/..' . '/algolia/algoliasearch-client-php/src/AlgoliaSearch/Version.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
-<<<<<<< HEAD
+
         'App\\Http\\Controllers\\Admin\\CountController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/CountController.php',
         'App\\Http\\Controllers\\Admin\\GoodsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/GoodsController.php',
         'App\\Http\\Controllers\\Admin\\IndexController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/IndexController.php',
@@ -329,7 +329,7 @@ class ComposerStaticInit7b6598027c754babb52d12e28f6f325a
         'App\\Http\\Controllers\\Home\\ForumController' => __DIR__ . '/../..' . '/app/Http/Controllers/Home/ForumController.php',
         'App\\Http\\Controllers\\Home\\GoodsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Home/GoodsController.php',
         'App\\Http\\Controllers\\Home\\IndexController' => __DIR__ . '/../..' . '/app/Http/Controllers/Home/IndexController.php',
-=======
+
         'App\\Http\\Controllers\\Admin\\GoodsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/GoodsController.php',
         'App\\Http\\Controllers\\Admin\\IndexController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/IndexController.php',
         'App\\Http\\Controllers\\Admin\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/LoginController.php',
@@ -340,7 +340,7 @@ class ComposerStaticInit7b6598027c754babb52d12e28f6f325a
         'App\\Http\\Controllers\\Home\\GoodsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Home/GoodsController.php',
         'App\\Http\\Controllers\\Home\\IndexController' => __DIR__ . '/../..' . '/app/Http/Controllers/Home/IndexController.php',
         'App\\Http\\Controllers\\Home\\MusicController' => __DIR__ . '/../..' . '/app/Http/Controllers/Home/MusicController.php',
->>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
+
         'App\\Http\\Controllers\\Home\\OrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/Home/OrderController.php',
         'App\\Http\\Controllers\\Home\\PersonalController' => __DIR__ . '/../..' . '/app/Http/Controllers/Home/PersonalController.php',
         'App\\Http\\Controllers\\Home\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Home/UserController.php',
@@ -363,7 +363,7 @@ class ComposerStaticInit7b6598027c754babb52d12e28f6f325a
         'App\\Models\\GoodsNorms' => __DIR__ . '/../..' . '/app/Models/GoodsNorms.php',
         'App\\Models\\GoodsSecond' => __DIR__ . '/../..' . '/app/Models/GoodsSecond.php',
         'App\\Models\\GoodsSku' => __DIR__ . '/../..' . '/app/Models/GoodsSku.php',
-<<<<<<< HEAD
+
         'App\\Models\\LtCard' => __DIR__ . '/../..' . '/app/Models/LtCard.php',
         'App\\Models\\Norms' => __DIR__ . '/../..' . '/app/Models/Norms.php',
         'App\\Models\\Order' => __DIR__ . '/../..' . '/app/Models/Order.php',
@@ -372,7 +372,7 @@ class ComposerStaticInit7b6598027c754babb52d12e28f6f325a
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\UserAddress' => __DIR__ . '/../..' . '/app/Models/UserAddress.php',
         'App\\Models\\UserBrowerLog' => __DIR__ . '/../..' . '/app/Models/UserBrowerLog.php',
-=======
+
         'App\\Models\\Music' => __DIR__ . '/../..' . '/app/Models/Music.php',
         'App\\Models\\Norms' => __DIR__ . '/../..' . '/app/Models/Norms.php',
         'App\\Models\\Order' => __DIR__ . '/../..' . '/app/Models/Order.php',
@@ -386,7 +386,7 @@ class ComposerStaticInit7b6598027c754babb52d12e28f6f325a
         'App\\Models\\UserAddress' => __DIR__ . '/../..' . '/app/Models/UserAddress.php',
         'App\\Models\\UserBrowerLog' => __DIR__ . '/../..' . '/app/Models/UserBrowerLog.php',
         'App\\Models\\UserPack' => __DIR__ . '/../..' . '/app/Models/UserPack.php',
->>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
+
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
