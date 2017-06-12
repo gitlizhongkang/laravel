@@ -143,7 +143,7 @@ $user_name = Session::get('username');
                     <a class="link" href="home-music-index"><span>早教</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="link" href="javascript:;"><span>论坛</span></a>
+                    <a class="link" href="admin-forum-index"><span>论坛</span></a>
                 </li>
             </ul>
         </div>
