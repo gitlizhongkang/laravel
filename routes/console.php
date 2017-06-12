@@ -17,4 +17,6 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
 
-Artisan::command('user:add');
+Artisan::command('user:add', function (User $user) {
+    $this->info("Building {$user}!");
+});
