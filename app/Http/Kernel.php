@@ -62,12 +62,5 @@ class Kernel extends HttpKernel
         'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
     ];
 
-     /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
-     */
-    protected $commands = [
-        'App\Console\Commands\InsertUser',
-    ];
+     
 }
