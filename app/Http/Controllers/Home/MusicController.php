@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Session;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redis;
 use App\Models\music;
 
 
@@ -28,8 +29,9 @@ class MusicController extends Controller
     public function index()
     {
         $params=[0=>'title',1=>'id'];
+        $live= Redis::get("live");
         $musicInfo=$this->musicModel->findMusic($params);
-        return view("home/music",['musicInfo'=>$musicInfo]);
+        return view("home/music",['musicInfo'=>$musicInfo,'live'=>$live]);
     }
     /**
      *  早教音乐单个页面

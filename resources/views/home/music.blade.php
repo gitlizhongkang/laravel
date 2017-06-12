@@ -39,9 +39,16 @@
     </div>
     <div class="container">
         <div class="filter-box">
+            @if(empty($live))
+                暂无直播------
+                08:00-09:00  营养早餐
+                10:00-11:00  亲子栏目
+                11:30-13:00  营养午餐
+            @else
             <video id='example-video' width=960 height=540 class="video-js vjs-default-skin" controls>
             <source src="rtmp://192.168.1.172:1935/rtmplive/lizhongkang" type="rtmp/flv">
             </video>
+
             <script src="video/js/video.min.js"></script>
             <script>  
             videojs.options.flash.swf = "video/js/video-js.swf";//flash路径，有一些html播放不了的视频，就需要用到flash播放。这一句话要加在在videojs.js引入之后使用  
@@ -51,6 +58,7 @@
             var player = videojs('example-video');
             player.play();
             </script>
+            @endif
         </div>
     </div>
     <!--音乐-->

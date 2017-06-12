@@ -78,6 +78,7 @@ class PointMallController extends Controller
     public function totalCategory()
     {
         $categoryInfo=DB::table('goods')->select("category_name as cName",DB::raw('COUNT(category_id) as cCount'))->where([['is_point',1],['is_on_sale',1]])->groupBy("category_name")->get()->toArray();
+
         return $categoryInfo;
     }
 }
