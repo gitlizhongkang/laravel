@@ -17,6 +17,7 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
 
-Artisan::command('user:add', function (InsertUser $user) {
-    $this->add(User::find($user));
+use App\Models\User;
+Artisan::command('user:add', function (User $user) {
+    $this->add(User::add($user));
 });
