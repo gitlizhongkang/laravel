@@ -52,7 +52,8 @@ class InsertUser extends Command
         $info['password'] = md5('123456');
         $info['reg_time'] =time();
         $info['user_point'] = 100;
-        User::add($info);
+        $user->fill($info);
+        $user->save();
 
     }
 }

@@ -19,5 +19,5 @@ Artisan::command('inspire', function () {
 
 use App\Models\User;
 Artisan::command('user:add', function (User $user) {
-    $this->add(User::add($user));
+    $this->save();
 });
