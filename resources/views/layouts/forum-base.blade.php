@@ -93,7 +93,6 @@
 <script type='text/javascript' src='forum/js/jquery.form.js'></script>
 <script type='text/javascript' src='forum/js/jquery.validate.min.js'></script>
 <!-- 自动搜索js -->
-<!-- <script type='text/javascript' src='forum/js/custom.js'></script> -->
-
+<script type='text/javascript' src='forum/js/custom.js'></script>
         </body>
 </html>
