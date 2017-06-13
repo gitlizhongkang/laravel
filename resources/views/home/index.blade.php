@@ -57,7 +57,7 @@
             <div class="span4">
                 <ul class="home-channel-list clearfix">
                     <li>
-                        <a href="auction.php">
+                        <a href="{{url('/home-secKill-secList')}}">
                             <i class="iconfont"></i>秒杀商品
                         </a>
                     </li>
@@ -128,7 +128,6 @@
             </div>
             <div class="box-bd">
                 <div class="xm-carousel-wrapper J_carouselWrap">
-
                     <ul class="xm-carousel-list xm-carousel-col-5-list goods-list rainbow-list clearfix J_carouselList">
                         @if(isset($recommendation[0]))
                         @foreach ($recommendation as $k=>$v)
@@ -147,7 +146,6 @@
                         @endforeach
                             @endif
                     </ul>
-
                 </div>
             </div>
         </div>
@@ -205,7 +203,6 @@
                     </div>
                     <div class="span16">
                         <ul class="brick-list clearfix">
-
                             @if(isset($new[0]))
                             @foreach ($new as $k=>$v)
                             <li class="brick-item brick-item-m">
@@ -231,8 +228,7 @@
                                 </div>
                             </li>
                             @endforeach
-                                @endif
-
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -297,7 +293,6 @@
                             </div>
                         </div>
                         @endif
-
                         </ul>
                     </div>
                 </div>

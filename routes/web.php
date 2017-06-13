@@ -60,6 +60,7 @@ Route::group(['middleware' => ['web']], function () {
 
     /** 朱迪 start */
 
+    // 后台
     //后台主页
     Route::get('/admin', 'Admin\IndexController@index');
 
@@ -133,10 +134,32 @@ Route::group(['middleware' => ['web']], function () {
     //秒杀商品添加
     Route::post('/admin-goods-addSec',  'Admin\GoodsController@addSec');
 
-    
+
+
+
+    //前台
+    //秒杀商品列表
+    Route::get('/home-secKill-secList',  'Home\SecKillController@secList');
+    //秒杀商品详情
+    Route::get('/home-secKill-secInfo',  'Home\SecKillController@secInfo');
+    Route::get('/home-secKill-getGoodsSku',  'Home\SecKillController@getGoodsSku');
+    //秒杀
+    Route::get('/home-secKill-orderCheck',  'Home\SecKillController@orderCheck');
+    Route::get('/home-secKill-error/id', function (){
+        return view('home.sec-error');
+    });
+    //确认订单
+    Route::get('/home-secKill-orderInfo',  'Home\SecKillController@orderInfo');
+    //生成订单
+    Route::post('/home-secKill-order',  'Home\SecKillController@order');
+
+
     /** 朱迪 end */
 
-    
+
+
+
+
     /** 毛宏蕊 start */
 
     //前台首页
@@ -146,7 +169,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('home-index-getCategory', 'Home\IndexController@getCategory');
 
     //商品列表页
-    Route::get('/home-goods-index', 'Home\GoodsController@index');
     Route::get('/home-goods-goodsList', 'Home\GoodsController@goodsList');
 
 

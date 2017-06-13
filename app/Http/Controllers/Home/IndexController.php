@@ -38,7 +38,6 @@ class IndexController extends Controller
         // dd($data['second']);
 
     	//猜你喜欢  如果登录获取用户浏览记录  如果没有显示最热商品
-
         $user_id = '';
         if (Session::has('uid')) {
             $user_id = Session::get('uid');

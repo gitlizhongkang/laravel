@@ -5,7 +5,11 @@
         "This file is @generated automatically"
     ],
 <<<<<<< HEAD
+<<<<<<< HEAD
+    "content-hash": "df9bad3ec39a696a68fe12d27b238938",
+=======
     "content-hash": "0fedaff9d5f8e8a47d87b4d8165d3533",
+>>>>>>> e2fd8bce581cf5e2e13717285f1832a4ae92faab
 =======
     "content-hash": "e91c5d3c2ef01f8365e910bbcb867172",
 >>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
@@ -429,7 +433,11 @@
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
+                "url": "https://api.github.com/repos/laravel/scout/zipball/547ff55530a16e31b3b1142dd4dfdb654ad2bae0",
+=======
                 "url": "https://files.phpcomposer.com/files/laravel/scout/547ff55530a16e31b3b1142dd4dfdb654ad2bae0.zip",
+>>>>>>> e2fd8bce581cf5e2e13717285f1832a4ae92faab
                 "reference": "547ff55530a16e31b3b1142dd4dfdb654ad2bae0",
                 "shasum": ""
             },
