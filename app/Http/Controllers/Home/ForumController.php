@@ -17,6 +17,12 @@ class ForumController extends Controller
 {
 
     /**
+    *@brief 判断是否登录
+     */
+    public function login(){}
+
+
+    /**
     *@brief 论坛主页
     *@param $new_card  最新文章
     *@param $fire_card 最火文章

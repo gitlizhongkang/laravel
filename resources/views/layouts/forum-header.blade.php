@@ -40,11 +40,23 @@
         <span class="tag-line">Premium WordPress Theme</span>
 </div>
 
+
+
+
+ 
+
+
+
+
+
+
         <!-- Start of Main Navigation -->
 <nav class="main-nav">
         <div class="menu-top-menu-container">
                 <ul id="menu-top-menu" class="clearfix">
-                        <li class="current-menu-item"><a href="admin-forum-info">张三</a></li>
+                    <li class="current-menu-item"><a href="admin-forum-info">登录</a></li>
+                    <li class="current-menu-item"><a href="admin-forum-info">注册</a></li>
+                    <li class="current-menu-item"><a href="admin-forum-info">退出</a></li>
                         <li><a href="#">全部文章</a></li>
                         <li><a href="#">更换皮肤</a>
                                 <ul class="sub-menu">
@@ -77,10 +89,6 @@
         <div id="search-error-container"></div>
 </form>
 
-<input type="text" id="inputString" onkeyup="lookup(this.value);" onblur="fill();" />  
-<div class="suggestionsBox" id="suggestions" style="display: none;">   
-        <div class="suggestionList" id="autoSuggestionsList"> </div>  
-</div>  
  
 
 
@@ -105,7 +113,7 @@
 <!-- <script type="text/javascript" src="forum/js/jquery-1.2.1.pack.js"></script> -->
 <script type='text/javascript' src='js/jquery.min.js'></script>
 
-<input type="text" id="inputString" onkeyup="lookup(this.value);" onblur="fill();" />  
+<!-- <input type="text" id="inputString" onkeyup="lookup(this.value);" onblur="fill();" />   -->
 <div class="suggestionsBox" id="suggestions" style="display: none;">   
         <div class="suggestionList" id="autoSuggestionsList"> </div>  
 </div>  
