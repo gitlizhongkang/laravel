@@ -162,7 +162,17 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/home-secKill-secList',  'Home\SecKillController@secList');
     //秒杀商品详情
     Route::get('/home-secKill-secInfo',  'Home\SecKillController@secInfo');
-    Route::post('/home-secKill-getGoodsSku',  'Home\SecKillController@getGoodsSku');
+    Route::get('/home-secKill-getGoodsSku',  'Home\SecKillController@getGoodsSku');
+    //秒杀
+    Route::get('/home-secKill-orderCheck',  'Home\SecKillController@orderCheck');
+    Route::get('/home-secKill-error/id', function (){
+        return view('home.sec-error');
+    });
+    //确认订单
+    Route::get('/home-secKill-orderInfo',  'Home\SecKillController@orderInfo');
+    //生成订单
+    Route::post('/home-secKill-order',  'Home\SecKillController@order');
+
 
 
 

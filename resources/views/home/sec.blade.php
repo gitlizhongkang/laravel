@@ -10,7 +10,6 @@ $user_id = Session::get('uid');
                 this.each(function(){
                     var $this = $(this);
                     var o = {
-                        hm: $this.find(".hm"),
                         sec: $this.find(".sec"),
                         mini: $this.find(".mini"),
                         hour: $this.find(".hour"),
@@ -43,7 +42,6 @@ $user_id = Session::get('uid');
                             //现在将来秒差值
                             //alert(future.getTimezoneOffset());
                             var dur = (endDate - now.getTime()) / 1000 , mss = endDate - now.getTime() ,pms = {
-                                hm:"000",
                                 sec: "00",
                                 mini: "00",
                                 hour: "00",
@@ -52,7 +50,6 @@ $user_id = Session::get('uid');
                                 year: "0"
                             };
                             if(mss > 0){
-                                pms.hm = f.haomiao(mss % 1000);
                                 pms.sec = f.zero(dur % 60);
                                 pms.mini = Math.floor((dur / 60)) > 0? f.zero(Math.floor((dur / 60)) % 60) : "00";
                                 pms.hour = Math.floor((dur / 3600)) > 0? f.zero(Math.floor((dur / 3600)) % 24) : "00";
@@ -63,16 +60,12 @@ $user_id = Session::get('uid');
                                 pms.year = Math.floor((dur / 31556926)) > 0? Math.floor((dur / 31556926)) : "0";
                             }else{
                                 pms.year=pms.month=pms.day=pms.hour=pms.mini=pms.sec="00";
-                                pms.hm = "000";
                                 //alert('结束了');
                                 return;
                             }
                             return pms;
                         },
                         ui: function(){
-                            if(o.hm){
-                                o.hm.html(f.dv().hm);
-                            }
                             if(o.sec){
                                 o.sec.html(f.dv().sec);
                             }
@@ -139,13 +132,12 @@ $user_id = Session::get('uid');
                         <!-- <form action="" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" > -->
                         <div class="goods-info-box" id="item-info">
                             <div style="background:rgb(183,17,41);  WIDTH: 100%;  color:#fff;FONT-FAMILY: arial; TEXT-ALIGN: center;">
-                                <P style="font-size:.8em;line-height:2em;">距秒杀结束还有：</P>
-                                <div id="fnTimeCountDown" data-end="{{$goodsInfo['end_time']}}">
-                                    <span class="day">00</span>天
-                                    <span class="hour">00</span>时
-                                    <span class="mini">00</span>分
-                                    <span class="sec">00</span>秒
-                                    <span class="hm">000</span>
+                                <P style="font-size:.8em;line-height:2em;">距秒杀开始还有：</P>
+                                <div id="fnTimeCountDown" data-end="{{$goodsInfo['start_time']}}">
+                                    <span class="day" id="day">00</span>天
+                                    <span class="hour" id="hour">00</span>时
+                                    <span class="mini" id="mini">00</span>分
+                                    <span class="sec" id="sec">00</span>秒
                                 </div>
                             </div>
                             <script type="text/javascript">
@@ -239,7 +231,7 @@ $user_id = Session::get('uid');
                                                 return false;
                                             } else {
                                                 $.ajax({
-                                                    type:'post',
+                                                    type:'get',
                                                     url:'home-secKill-getGoodsSku',
                                                     data:{
                                                         goods_id:goods_id,
@@ -263,7 +255,7 @@ $user_id = Session::get('uid');
                                     </script>
 
                                     <dd class="goods-info-head-cart">
-                                        <a href="javascript:;" class=" btn btn-gray  goods-collect-btn" id="fav-btn"><i class="iconfont"></i>立刻抢购</a>
+                                        <button  class=" btn btn-gray  goods-collect-btn" disabled><i class="iconfont"></i>立刻抢购</button>
                                     </dd>
                                     <dd class="goods-info-head-userfaq clearfix">
                                         <ul>
@@ -514,6 +506,62 @@ $user_id = Session::get('uid');
         </div>
         {{--下拉栏--}}
     </div>
+    <script>
+        function checkStart() {
+            var day = parseInt($('#day').html());
+            var hour = parseInt($('#hour').html());
+            var mini = parseInt($('#mini').html());
+            var sec = parseInt($('#sec').html());
+            if (day === 0 && hour === 0 && mini === 0 && sec === 0)
+            {
+                $('.goods-collect-btn').prop('disabled', false);
+                window.clearInterval(int);
+            }
+        }
+        var int=self.setInterval("checkStart()",50)
+
+
+
+
+        //直接购买
+        $('.goods-collect-btn').click(function(){
+            var user_id = "{{$user_id}}";
+            if(user_id =='') {
+                if (confirm('请先登陆！')){
+                    location.href = "home-user-login";
+                }
+                return false;
+            }
+
+            var sku_id =  $('#choose').attr('sku-id');
+            if (sku_id == '') {
+                alert('您还没有选择规格哦！！！');
+                return false;
+            }
+
+            var num = $('#number').val();
+            var sku_num = $('#choose').attr('sku-num');
+            if (parseInt(sku_num) < num) {
+                alert('库存不足');
+                return false;
+            }
+
+
+            var len =$('#choose').attr('len');
+            var norms_value = '';
+            for (var i = 0; i<= len-1; i++) {
+                var norms = $('input[name=norms'+i+']');
+                for (var j = norms.length - 1; j >= 0; j--) {
+                    if (norms.eq(j).prop('checked')) {
+                        norms_value += ',' + norms.eq(j).val();
+                    }
+                }
+            }
+            norms_value = norms_value.substr(1);
+
+            location.href = "home-secKill-orderCheck?sku_id="+sku_id+"&num="+num+"&norms="+norms_value+"&goods_id={{$goodsInfo['goods_id']}}";
+        })
+    </script>
 @endsection
 
 

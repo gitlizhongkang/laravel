@@ -2,17 +2,24 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Models\District;
 use App\Models\GoodsAttr;
 use App\Models\GoodsComment;
 use App\Models\GoodsImg;
 use App\Models\GoodsNorms;
 use App\Models\GoodsSecond;
 use App\Models\GoodsSku;
+use App\Models\Order;
+use App\Models\OrderGoods;
+use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Session;
 
 class SecKillController extends Controller
 {
@@ -67,7 +74,19 @@ class SecKillController extends Controller
 
 
     /**
-     * 获取当前时间到明天05点的秒数
+     * @brief 设置数据到内存到明天05点
+     */
+    public function setLeftTimeRedis($key, $data)
+    {
+        //序列化
+        $data = serialize($data);
+        //写入内存到明天5时截止
+        $time = $this->getLeftTime();
+
+        Redis::setex($key, $time, $data);
+    }
+    /**
+     * @brief 获取当前时间到明天05点的秒数
      * @return int
      */
     public function getLeftTime()
@@ -79,19 +98,9 @@ class SecKillController extends Controller
         return $time;
     }
 
-    public function setLeftTimeRedis($key, $data)
-    {
-        //序列化
-        $data = serialize($data);
-        //写入内存到明天5时截止
-        $time = $this->getLeftTime();
-
-        Redis::setex($key, $time, $data);
-    }
-
-
 
     /**
+     * @brief 3天内的秒杀商品
      * @return array|mixed
      */
     public function getSec()
@@ -176,8 +185,7 @@ class SecKillController extends Controller
     }
     protected function getSku($id, $normsValue, $data = null)
     {
-        $dataSku = GoodsSku::select('sku_id', 'sku_sn', 'sku_price', 'sku_img', 'sku_num', 'second_num')
-            ->where([['goods_id', $id], ['sku_norms', $normsValue]])
+        $dataSku = GoodsSku::where([['goods_id', $id], ['sku_norms', $normsValue]])
             ->first()
             ->toArray();
 
@@ -193,7 +201,7 @@ class SecKillController extends Controller
 
 
     /**
-     * @brief 获取秒杀商品规格信息
+     * @brief 获取单个商品规格信息
      * @param $id
      * @return array|mixed
      */
@@ -396,7 +404,123 @@ class SecKillController extends Controller
     {
         return GoodsComment::where('goods_id',$id)->paginate(5);
     }
-    //方法结束
+    //展示信息结束
 
+
+
+
+    /**
+     * @brief 抢购筛选
+     */
+    public function orderCheck()
+    {
+        $num = Input::get('num');
+        $skuId = Input::get('sku_id');
+        $goodsId = Input::get('goods_id');
+        $norms = Input::get('norms');
+
+        //如果数量大于1直接秒杀失败
+        if ($num !== '1')
+        {
+            //sleep(5);
+            return view('home.sec-error', ['id' => $goodsId]);
+        }
+
+        //商品出队列 同时入备份列
+        $stockNum = Redis::rpoplpush('secKill'.$skuId, 'checkSafe'.$skuId);
+
+        //出列失败
+        if ($stockNum == null)
+        {
+            return view('home.sec-error', ['id' => $goodsId]);
+        }
+
+        return redirect()->action('Home\SecKillController@orderInfo', ['skuKey' => $goodsId.$norms]);
+    }
+
+
+    /**
+     * 确认订单信息
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function orderInfo()
+    {
+        $skuKey = Input::get('skuKey');
+        $uid = Session::get('uid');
+
+        $dataSku = Redis::get('d_dataSku');
+        $dataSku = unserialize($dataSku);
+        $data['goods'] = $dataSku[$skuKey];
+
+        $data['num'] = 1;
+        $data['userAddress'] = UserAddress::where(['user_id' => $uid])->get()->toArray();
+        $data['province'] = District::where('parent_id', 0)->get()->toArray();
+
+
+        return view('/home/sec-order',$data);
+    }
+
+
+    /**
+     * @brief生成订单
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function order()
+    {
+        $uid = Session::get('uid');
+        $arr = Input::all();
+
+        //开启事务
+        DB::beginTransaction();
+
+        //订单表
+        $order = [
+            'order_sn' => date("YmdHis",time()) . $uid . $arr['pay_type'],
+            'user_id' => $uid,
+            'consignee_tel' => $arr['address_tel'],
+            'consignee_name' => $arr['address_name'],
+            'consignee_address' => $arr['address'],
+            'order_price' => $arr['order_price'],
+            'pay_type' => $arr['pay_type'],
+            'order_time' => time(),
+            'status' => 1,
+            'postscript' => $arr['postscript']
+        ];
+        $order_id = Order::insertGetId($order);
+
+        //订单商品表
+        $goods = [
+            'sku_id' => $arr['sku_id'],
+            'sku_sn' => $arr['sku_sn'],
+            'goods_id' => $arr['goods_id'],
+            'goods_name' => $arr['goods_name'],
+            'sku_norms_value' => $arr['sku_norms_value'],
+            'sku_img' => $arr['sku_img'],
+            'sku_price' => $arr['sku_price'],
+            'num' => $arr['num'],
+            'order_id' => $order_id
+        ];
+        OrderGoods::insert($goods);
+
+        //减内存库存
+        $dataSku = Redis::get('d_dataSku');
+        $dataSku = unserialize($dataSku);
+        $key = $arr['goods_id'].$arr['sku_norms_value'];
+        $dataSku[$key]['second_num']--;
+
+        $this->setLeftTimeRedis('d_dataSku', $dataSku);
+        //去备份链表库存
+        Redis::rpop('checkSafe'.$arr['sku_id']);
+
+        //事务提交
+        DB::commit();
+        DB::rollBack();
+
+
+        $data['order_sn'] = $order['order_sn'];
+        $data['type'] = null;
+
+        return redirect()->action('Home\\OrderController@homeFinsh', $data);
+    }
 
 }
