@@ -92,8 +92,8 @@
             <div class="span16">
                 <ul class="home-promo-list clearfix">
                     <li class="first">
-                        <a href='' target='_blank'>
-                            <img src='images/goods.jpg' width='316' height='170' border='0'/>
+                        <a href='admin-forum-index' target='_blank'>
+                            <img src='images/forum.png' width='316' height='170' border='0' />
                         </a>
                     </li>
                      <li class="first">
@@ -128,6 +128,9 @@
             </div>
             <div class="box-bd">
                 <div class="xm-carousel-wrapper J_carouselWrap">
+<<<<<<< HEAD
+                    
+=======
                     <ul class="xm-carousel-list xm-carousel-col-5-list goods-list rainbow-list clearfix J_carouselList">
                         @if(isset($recommendation[0]))
                         @foreach ($recommendation as $k=>$v)
@@ -146,6 +149,7 @@
                         @endforeach
                             @endif
                     </ul>
+>>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
                 </div>
             </div>
         </div>
@@ -203,6 +207,9 @@
                     </div>
                     <div class="span16">
                         <ul class="brick-list clearfix">
+<<<<<<< HEAD
+                        
+=======
                             @if(isset($new[0]))
                             @foreach ($new as $k=>$v)
                             <li class="brick-item brick-item-m">
@@ -229,6 +236,7 @@
                             </li>
                             @endforeach
                                 @endif
+>>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
                         </ul>
                     </div>
                 </div>
@@ -259,6 +267,9 @@
                     </div>
                     <div class="span16">
                         <ul class="brick-list clearfix">
+<<<<<<< HEAD
+                             
+=======
                         @if (isset($second[0]))
                             @foreach ($second as $k=>$v)
                             <li class="brick-item brick-item-m">
@@ -293,6 +304,7 @@
                             </div>
                         </div>
                         @endif
+>>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
                         </ul>
                     </div>
                 </div>
