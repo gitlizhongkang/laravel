@@ -31,6 +31,7 @@ Route::group(['middleware' => ['web']], function () {
 
     // 用户找回密码页面
     Route::get('home-user-findPassword',  'Home\UserController@findPassword');
+    Route::get('home-user-session',  'Home\ParentController@session');
 
     // 第三方登录回调域
     Route::get('home-user-bind',  'Home\UserController@bind');
@@ -175,6 +176,7 @@ Route::group(['middleware' => ['web']], function () {
 
     //商品评价页面
     Route::get('/home-goods-comment',  'Home\GoodsController@comment');
+    Route::post('/home-goods-addComment',  'Home\GoodsController@addComment');
 
 
     //获取商品的sku
@@ -256,6 +258,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/home-order','Home\OrderController@setOrder');
     Route::post('/home-order-finsh','Home\OrderController@homeOrderFinsh');
     Route::get('/home-finsh','Home\OrderController@homeFinsh');
+    Route::post('/home-user-getOrder','Home\OrderController@getOrder');
 
     //支付
     Route::post('/home-pay','Home\OrderController@pay');

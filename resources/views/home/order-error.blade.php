@@ -1,4 +1,4 @@
-@extends('layouts.home-header')
+ @extends('layouts.home-header')
 
 @section('content')
     <link href="css/cart.css" rel="stylesheet" type="text/css" />
@@ -24,6 +24,8 @@
                                 {{$data['goods_name'].'  '.$data['sku_norms']}}  商品数量不足！返回 <a href="home-cart-index" style="font-size: 22px">购物车</a> 进行修改
                                 @elseif($error == 3)
                                     {{$msg}}，返回 <a href="home-pointMall-index" style="font-size: 20px">积分商城</a>
+                                @elseif($error == 4)
+                                    {{$msg}}，返回 <a href="/laravel/public/" style="font-size: 20px">商城</a>重新购买
                                 @endif
                             </li>
                         </ul>

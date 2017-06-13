@@ -242,24 +242,42 @@ $user_id = Session::get('uid');
                         <div class="container">
                             <ul class="main-block clearfix">
                                 <li class="percent">
-                                    <div class="per-num"><i>86</i>%</div>
+                                    <div class="per-num"><i>
+                                            @if($satisfaction['all'] != 0)
+                                                {{ceil($satisfaction['good']/$satisfaction['all']*100)}}
+                                            @else
+                                                0
+                                            @endif
+                                        </i>%</div>
                                     <div class="per-title">购买后满意</div>
-                                    <div class="per-amount"><i>7</i>名用户投票</div>
+                                    <div class="per-amount"><i>{{$satisfaction['all']}}</i>名用户投票</div>
                                 </li>
                                 <li>
                                     <ul class="z-point-list" id="min_points">
                                         <li>
                                             <label>好评：</label>
-                                            <p> <span style="width: 86%;"></span> </p>
-                                            <em>86%</em> </li>
+                                            <p> <span style="width: @if($satisfaction['all'] != 0){{ceil($satisfaction['good']/$satisfaction['all']*100)}}@else 0 @endif%;"></span> </p>
+                                            <em>@if($satisfaction['all'] != 0)
+                                                    {{$satisfaction['good']/$satisfaction['all']*100}}
+                                                @else
+                                                    0
+                                                @endif%</em> </li>
                                         <li>
                                             <label>中评：</label>
-                                            <p> <span style="width: 14%;"></span> </p>
-                                            <em>14%</em> </li>
+                                            <p> <span style="width:@if($satisfaction['all'] != 0) {{ceil($satisfaction['commonly']/$satisfaction['all']*100)}}@else 0 @endif%;"></span> </p>
+                                            <em>@if($satisfaction['all'] != 0)
+                                                    {{$satisfaction['commonly']/$satisfaction['all']*100}}
+                                                @else
+                                                    0
+                                                @endif%</em> </li>
                                         <li>
                                             <label>差评：</label>
-                                            <p> <span style="width: 0%;"></span> </p>
-                                            <em>14%</em> </li>
+                                            <p> <span style="width:@if($satisfaction['all'] != 0) {{ceil($satisfaction['bad']/$satisfaction['all']*100)}}@else 0 @endif%;"></span> </p>
+                                            <em>@if($satisfaction['all'] != 0)
+                                                    {{$satisfaction['bad']/$satisfaction['all']*100}}
+                                                @else
+                                                    0
+                                                @endif%</em> </li>
                                     </ul>
                                 </li>
                                 <li class="i-want-comment">
@@ -286,9 +304,27 @@ $user_id = Session::get('uid');
                                         @foreach ($comment as $k=>$v)
                                         <li class="item-rainbow-1">
                                             <div class="user-image"> <img class="face_img" src="images/goods1.jpg"> </div>
+                                            @if($v['satisfaction'] == 5)
                                             <div class="user-emoj">
                                                 超爱<i class="iconfont"></i>
                                             </div>
+                                            @elseif($v['satisfaction'] == 4)
+                                            <div class="user-emoj">
+                                                满意<i class="iconfont"></i>
+                                            </div>
+                                            @elseif($v['satisfaction'] == 3)
+                                            <div class="user-emoj">
+                                                一般<i class="iconfont"></i>
+                                            </div>
+                                            @elseif($v['satisfaction'] == 2)
+                                            <div class="user-emoj">
+                                                不满意<i class="iconfont"></i>
+                                            </div>
+                                            @elseif($v['satisfaction'] == 1)
+                                            <div class="user-emoj">
+                                                很失望<i class="iconfont"></i>
+                                            </div>
+                                            @endif
                                             <div class="user-name-info">
                                                 <span class="user-name">{{$v['user_id']}}</span>
                                                 <span class="user-time">{{date('Y-m-d h:i:s',$v['add_time'])}}</span>
@@ -340,10 +376,7 @@ $user_id = Session::get('uid');
                                     <span style="position:absolute; right:10px; top:5px; font-size:24px; cursor:pointer;" onClick="easyDialog.close();">×</span>
                                     <li>
                                         <label>用户名</label>
-                                        匿名用户      </li>
-                                    <li>
-                                        <label>E-mail</label>
-                                        <input type="text" name="email" id="email"  maxlength="100" value="" class="txt"/>
+                                        {{Session::get('username')}}
                                     </li>
                                     <li>
                                         <label>评价等级</label>
@@ -355,24 +388,15 @@ $user_id = Session::get('uid');
                                         <img src="images/stars3.gif" />
                                         <input name="comment_rank" type="radio" value="4" id="comment_rank4" />
                                         <img src="images/stars4.gif" />
-                                        <input name="comment_rank" type="radio" value="5" checked="checked" id="comment_rank5" />
+                                        <input name="comment_rank" type="radio" value="5" id="comment_rank5" />
                                         <img src="images/stars5.gif" />
                                     </li>
                                     <li>
                                         <label>评论内容</label>
                                         <textarea name="content" class="txt" style="height:80px; width:300px;"></textarea>
                                     </li>
-                                    <li>
-                                        <label>验证码</label>
-
-                                        <input type="text" class="txt" name="captcha" maxlength="6">
-                                        <img src="" alt="captcha" id="captcha" onClick="this.src='captcha.php?'+Math.random()" width="100" height="34" style="height:34px;" > </li>
-
-
-
-                                    <li>
-                                        <input type="hidden" name="cmt_type" value="0" />
-                                        <input type="hidden" name="id" value="27" />
+                                        <input type="hidden" name="id" value="{{$_GET['goods_id']}}" />
+                                        <input type="hidden" name="token" value="{{csrf_token()}}" />
                                         <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                         <input name="" type="submit"  value="提交评论" class="btn" style="border:none; height:40px; cursor:pointer; width:150px; font-size:16px;">
                                     </li>
@@ -380,33 +404,77 @@ $user_id = Session::get('uid');
                             </form>
                         </div>
 
-
-
                         <script type="text/javascript">
-                            //<![CDATA[
-                            var cmt_empty_username = "请输入您的用户名称";
-                            var cmt_empty_email = "请输入您的电子邮件地址";
-                            var cmt_error_email = "电子邮件地址格式不正确";
-                            var cmt_empty_content = "您没有输入评论的内容";
-                            var captcha_not_null = "验证码不能为空!";
-                            var cmt_invalid_comments = "无效的评论内容!";
+                            function submitComment(frm)
+                            {
+                                var cmt = new Object;
 
-                            /**
-                             * 提交评论信息
-                             */
-                            
-                            function commentsFrom(){
-                                easyDialog.open({
-                                    container : 'commentsFrom'
-                                });
+                                //cmt.username        = frm.elements['username'].value;
+                                cmt.comment_desc         = frm.elements['content'].value;
+                                cmt.goods_id              = frm.elements['id'].value;
+                                var token              = frm.elements['token'].value;
+                                cmt.satisfaction            = 0;
+
+                                for (i = 0; i < frm.elements['comment_rank'].length; i++)
+                                {
+                                    if (frm.elements['comment_rank'][i].checked)
+                                    {
+                                        cmt.satisfaction = frm.elements['comment_rank'][i].value;
+                                    }
+                                }
+                                if (cmt.satisfaction == '') {
+                                    alert('评价等级不能为空');
+                                    return false;
+                                }
+                                Ajax.call('home-goods-addComment', 'cmt=' + $.toJSON(cmt)+'&_token='+token, commentResponse, 'POST', 'JSON');
+                                return false;
                             }
 
-                            //]]>
+                            /**
+                             * 处理提交评论的反馈信息
+                             */
+                            function commentResponse(result)
+                            {
+                                if (result.error == 0)
+                                {
+                                    alert(result['msg']);
+                                    easyDialog.close();
+                                    window.location.reload();
+                                } else {
+                                    alert(result['msg']);
+                                }
+                            }
+                            function commentsFrom(){
+                                var user_id = "{{$user_id}}";
+                                var token = $("input[name='token']").val();
+                                var id = $("input[name='id']").val();
+                                if(user_id =='') {
+                                    if (confirm('请先登陆！')){
+                                        location.href = "home-user-login?URL=home-goods-goodsInfo?goods_id="+id;
+                                    } else {
+                                        return false;
+                                    }
+                                }
+                                $.ajax({
+                                    type:'post',
+                                    url:'home-user-getOrder',
+                                    data:{_token:token,goods_id:id},
+                                    dataType:'json',
+                                    success:function (data) {
+                                        if (data['error'] == 1) {
+                                            alert(data['msg']);
+                                        } else {
+                                            easyDialog.open({
+                                                container : 'commentsFrom'
+                                            });
+                                        }
+                                    }
+                                })
+                            }
 
                         </script></div>
                 </div>
             </div>
-
         </div>
     </div>
     <div class="goods-sub-bar" id="goodsSubBar">
@@ -479,6 +547,7 @@ $user_id = Session::get('uid');
     //直接购买
     $('.goods-collect-btn').click(function(){
         var sku_id =  $('#choose').attr('sku-id');
+        var goods_id =  $("input[name='id']").val();
         if (sku_id == '') {
             alert('您还没有选择规格哦！！！');
             return false;
@@ -494,7 +563,7 @@ $user_id = Session::get('uid');
         var user_id = "{{$user_id}}";
         if(user_id =='') {
             if (confirm('请先登陆！')){
-               location.href = "home-user-login";
+                location.href = "home-user-login?URL=home-goods-goodsInfo?goods_id="+goods_id;
             } else {
                 return false;
             }

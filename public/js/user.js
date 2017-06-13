@@ -661,6 +661,7 @@ function userLogin()
 {
   var  username= $("#formLogin input[name='username']");
   var  password  = $("#formLogin input[name='password']");
+  var  URL  = $("#formLogin input[name='URL']").val();
   var frm      = document.forms['formLogin'];
 
   var msg = '';
@@ -696,7 +697,11 @@ function userLogin()
       success:function(msg){
             if(msg['code']==1){
                 alert(msg['msg']);
-                window.location.href=indexUrl;
+                if (URL == ""){
+                    window.location.href=indexUrl;
+                } else {
+                    window.location.href=URL;
+                }
             }else{
                 alert(msg['msg']);
             }

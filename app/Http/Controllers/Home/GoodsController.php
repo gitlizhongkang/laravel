@@ -49,6 +49,9 @@ class GoodsController extends Controller
         //获取商品的评论
         $data['comment'] = json_decode($this->getGoodsComment($goods_id), true);
 
+        //获取商品评论的满意度
+        $data['satisfaction'] = json_decode($this->getGoodsSatisfaction($goods_id), true);
+
         //获取商品的图片
         $data['img'] = json_decode($this->getGoodsImg($goods_id), true);
         // dd($data['img']);
@@ -57,7 +60,7 @@ class GoodsController extends Controller
             return 1;
         }
 
-    	return view('/home/goods',$data);
+        return view('/home/goods',$data);
     }
 
     /**
@@ -72,6 +75,41 @@ class GoodsController extends Controller
         $data['goods_id'] = $goods_id;
 
         return view('home/comment', $data);
+    }
+
+    /**
+     * @brief 添加单个商品评价
+     * @param string $goods_id 商品ID
+     * @return json
+     */
+    public function addComment()
+    {
+        $uid = Session::get('uid');
+        $arr = Input::get('cmt');
+        $arr = json_decode($arr,true);
+        $goods_id = intval($arr['goods_id']);
+        $goodsComment = new GoodsComment();
+        $comment = $goodsComment -> where(['goods_id'=>$goods_id,'user_id'=>$uid])->where('add_time','>',strtotime(date('Ymd'))) -> first();
+        if (!empty($comment)) {
+            $data['error'] = 1;
+            $data['msg'] = '一个账号一天内只能评论一次';
+        } else {
+            $goodsComment->user_id = $uid;
+            $goodsComment->goods_id = $goods_id;
+            $goodsComment->comment_desc = $arr['comment_desc'];
+            $goodsComment->satisfaction = $arr['satisfaction'];
+            $goodsComment->add_time = time();
+            $res = $goodsComment->save();
+            if ($res == true) {
+                $data['error'] = 0;
+                $data['msg'] = '评论成功';
+            } else {
+                $data['error'] = 2;
+                $data['msg'] = '评论失败';
+            }
+        }
+
+        return json_encode($data);
     }
 
     /**
@@ -164,6 +202,26 @@ class GoodsController extends Controller
         $res = $goodsComment -> where('goods_id',$goods_id) -> orderBy('add_time') 
                 -> offset(0) -> limit(10) -> get() -> toArray();
         
+        return json_encode($res);
+    }
+
+    /**
+     * @brief 获取单个商品评价的满意度
+     * @param string $goods_id 商品ID
+     * @return json
+     */
+    public function getGoodsSatisfaction($goods_id = '')
+    {
+        if($goods_id == '') {
+           $goods_id = Input::get()['goods_id'];
+        }
+
+        $goodsComment = new GoodsComment;
+        $res['good'] = $goodsComment-> where(['goods_id'=>$goods_id,'satisfaction'=>5])->orwhere(['goods_id'=>$goods_id,'satisfaction'=>4])->count('comment_id');
+        $res['commonly'] = $goodsComment-> where(['goods_id'=>$goods_id,'satisfaction'=>3])->count('comment_id');
+        $res['bad'] = $goodsComment-> where(['goods_id'=>$goods_id,'satisfaction'=>2])->orwhere(['goods_id'=>$goods_id,'satisfaction'=>1])->count('comment_id');
+        $res['all'] = $goodsComment-> where(['goods_id'=>$goods_id])->count('comment_id');
+
         return json_encode($res);
     }
 

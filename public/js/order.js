@@ -101,13 +101,6 @@ $(document).on('click','#submit',function () {
     var low_use_price = $('#low_use_price').html();
     var allprice = $('#allprice').html();
     var pack_price =  $("input[name='pack_price']").val();
-//        var sku_id = '';
-//        var num = '';
-//        for (var i=0;i<$("input[name='sku_id']").length;i++) {
-//            sku_id += ','+ $("input[name='sku_id']").eq(i).val();
-//            num += ','+ $("input[name='num']").eq(i).val();
-//        }
-//        sku_id = sku_id.substr(1);
     if (parseFloat(allprice)+parseFloat(pack_price) < parseFloat(low_use_price)) {
         alert('该订单不能使用该红包！')
         return false;

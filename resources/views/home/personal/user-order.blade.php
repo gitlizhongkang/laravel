@@ -46,6 +46,8 @@
                                         <td align="center" bgcolor="#ffffff">@if ($val['status'] == 1) 未支付 @elseif ($val['status'] == 2) 已支付 @elseif ($val['status'] == 3) 已出库 @elseif ($val['status'] == 4) 已收货 @endif</td>
                                         @if ($val['status'] == 3)
                                             <td align="center" bgcolor="#ffffff"><font class="f6"><a href="#" order_id = "{{ $val['order_id'] }}" status = "{{ $val['status'] }}"  class="click-receipt">点击收货</a></font></td>
+                                        @elseif ($val['status'] == 4)
+                                            <td align="center" bgcolor="#ffffff"><font class="f6"><a href="#" order_id = "{{ $val['order_id'] }}" status = "{{ $val['status'] }}"  class="click-receipt">点击评价</a></font></td>
                                         @else
                                             <td align="center" bgcolor="#ffffff"><font class="f6"><a href="#" order_id = "{{ $val['order_id'] }}" status = "{{ $val['status'] }}"  class="deleteOrder">取消订单</a></font></td>
                                         @endif

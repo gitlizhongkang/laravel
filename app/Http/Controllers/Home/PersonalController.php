@@ -328,10 +328,18 @@ class PersonalController extends Controller
             $status = Input::get('status')?Input::get('status'):'';
         }
         if($order_id=='' && $status==''){
+            //用户订单
             $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
+            foreach ($userOrders as $k=>$val) {
+                if ($val['status'] == 1 & $val['order_time'] < time()-3600*30) {
+                    unset($userOrders[$k]);
+                }
+            }
         } elseif ($status=='') {
+            // 订单详细
             $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_type','logistics_price','consignee_tel','consignee_name','consignee_address','pack_price','get_point','pay_type')->where(['user_id'=>$uid,'order_id'=>$order_id])->first()->toArray();
         } else {
+            //查询包裹
             $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where('status','>=',$status)->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
         }
 
@@ -369,7 +377,7 @@ class PersonalController extends Controller
             $order_id = Input::all();
         }
         $OrderGoods = new OrderGoods();
-        $userOrders = $OrderGoods->select('goods_id','goods_name','sku_norms_value','sku_price','num')->where('order_id',$order_id)->get()->toArray();
+        $userOrders = $OrderGoods->select('goods_id','goods_name','sku_norms_value','sku_img','sku_price','num')->where('order_id',$order_id)->get()->toArray();
 
         return json_encode($userOrders);
     }

@@ -59,7 +59,7 @@
                                     </tr>
                                     @foreach ($orderGoods as $val)
                                     <tr>
-                                        <td bgcolor="#ffffff"> <a href="goods.php?id=80" target="_blank" class="f6">{{ $val['goods_name'] }}</a> </td>
+                                        <td bgcolor="#ffffff"> <img src="{{ $val['sku_img'] }}" width="70px" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="goods.php?id=80" target="_blank" class="f6">{{ $val['goods_name'] }}</a></td>
                                         <td align="left" bgcolor="#ffffff">{{ $val['sku_norms_value'] }}</td>
                                         <td align="right" bgcolor="#ffffff">{{ $val['sku_price'] }} <em>@if($userOrder['pay_type'] == '5')积分@else元@endif</em></td>
                                         <td align="center" bgcolor="#ffffff">{{ $val['num'] }}</td>

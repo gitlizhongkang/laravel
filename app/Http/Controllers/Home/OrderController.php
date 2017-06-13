@@ -80,7 +80,18 @@ class OrderController extends Controller
         $arr = Input::all();
         $uid = Session::get('uid');
         $type = $arr['type'];
-        $order['order_sn'] = date("YmdHis",time()).$uid.$arr['pay_type'];
+        //生成订单号
+        //uid(3)[支付类型][ymd][时间戳4][随机2]
+        if (strlen($uid) >= 3)
+        {
+            $uid = substr($uid, -3);
+        }
+        else
+        {
+            $length = 3 - strlen($uid);
+            $uid = str_repeat('0', $length) . $uid;
+        }
+        $order['order_sn'] = $uid.$arr['pay_type'].date("Ymd",time()).substr(time(),-4).rand(10,99);
         $order['user_id'] = $uid;
         $order['consignee_tel'] = $arr['address_tel'];
         $order['consignee_name'] = $arr['address_name'];
@@ -235,6 +246,13 @@ class OrderController extends Controller
     public function pay()
     {
         $arr = Input::all();
+        $order = new Order();
+        $userOrders = $order->where('order_sn',$arr['WIDout_trade_no'])->first()->toArray();
+        if ($userOrders['status'] == 1 & $userOrders['order_time'] < time()-3600*30) {
+            $data['error'] = 4;
+            $data['msg'] = '支付超时';
+            return view('/home/order-error',$data);
+        }
         $alipay=app('alipay.web');
         $alipay->setOutTradeNo($arr['WIDout_trade_no']);//订单号
         $alipay->setTotalFee($arr['WIDtotal_fee']);//订单价格
@@ -298,4 +316,22 @@ class OrderController extends Controller
         return view('/home/pay-success',$data);
     }
 
+    /**
+     * @brief 查询评价权限
+     * @return json
+     */
+    public function getOrder(){
+        $user_id = Session::get('uid');
+        $goods_id = Input::get('goods_id');
+        $Order = new Order();
+        $orderInfo = $Order->join('order_goods', 'order_goods.order_id', '=', 'order.order_id')->where(['user_id'=>$user_id,'status'=>4,'goods_id'=>$goods_id])->first();
+        if (empty($orderInfo)) {
+            $data['error'] = 1;
+            $data['msg'] = '只有购买过，且收货的用户才能评价';
+        } else {
+            $data['error'] = 0;
+        }
+
+        return json_encode($data);
+    }
 }
