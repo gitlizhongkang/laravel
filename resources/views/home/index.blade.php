@@ -263,13 +263,13 @@
                             @foreach ($second as $k=>$v)
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
-                                    <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">
+                                    <a href="home-secKill-secInfo?goods_id={{$v['goods_id']}}">
                                         <img src="{{$v['goods_img']}}" width="160"
                                              height="160" alt="{{$v['goods_name']}}">
                                     </a>
                                 </div>
                                 <h3 class="title">
-                                    <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">{{$v['goods_name']}}</a>
+                                    <a href="home-secKill-secInfo?goods_id={{$v['goods_id']}}">{{$v['goods_name']}}</a>
                                 </h3>
                                 <p class="desc"></p>
                                 <p class="price">

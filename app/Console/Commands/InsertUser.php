@@ -38,12 +38,14 @@ class InsertUser extends Command
      */
     public function handle()
     {
-        $info['username'] = time();
-        $info['email'] = time().'@qq.com';
-        $info['tel'] = time().'1';
-        $info['password'] = md5('123456');
-        $info['reg_time'] =time();
-        $info['user_point'] = 100;
-        User::add($info);
+        for($i=0;$i<100000;$i++){
+            $info['username'] = time();
+            $info['email'] = time().'@qq.com';
+            $info['tel'] = time().'1';
+            $info['password'] = md5('123456');
+            $info['reg_time'] =time();
+            $info['user_point'] = 100;
+            User::add($info);
+        }        
     }
 }
