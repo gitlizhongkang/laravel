@@ -43,8 +43,8 @@ class IndexController extends Controller
         if (Session::has('uid')) {
             $user_id = Session::get('uid');
         }
-   	
 		$data['recommendation'] = json_decode($this->getUserLike($user_id,8), true);
+    	
     	return view('/home/index' , $data);
     }
 
@@ -68,7 +68,7 @@ class IndexController extends Controller
             $cate_id = serialize($cate);    		
             Redis::set('category_id',$info);
     	}
-    	
+        
     	return json_encode($res);
     }
 

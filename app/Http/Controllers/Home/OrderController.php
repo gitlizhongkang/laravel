@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Home;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -261,16 +262,16 @@ class OrderController extends Controller
 //
     }
 
-// 异步通知支付结果
+    // 异步通知支付结果
     public function AliPayNotify(Request $request){
-// 验证请求。
+        // 验证请求。
         if (!app('alipay.web')->verify()) {
             Log::notice('Alipay notify post data verification fail.', [
                 'data' => $request->instance()->getContent()
             ]);
             return 'fail';
         }
-// 判断通知类型。
+        // 判断通知类型。
         switch ($request ->input('trade_status','')) {
             case 'TRADE_SUCCESS':
             case 'TRADE_FINISHED':

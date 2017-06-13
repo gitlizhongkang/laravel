@@ -57,7 +57,7 @@
             <div class="span4">
                 <ul class="home-channel-list clearfix">
                     <li>
-                        <a href="auction.php">
+                        <a href="{{url('/home-secKill-secList')}}">
                             <i class="iconfont"></i>秒杀商品
                         </a>
                     </li>
@@ -228,7 +228,7 @@
                                 </div>
                             </li>
                             @endforeach
-                                @endif
+                            @endif
                         </ul>
                     </div>
                 </div>

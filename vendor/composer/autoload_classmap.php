@@ -20,16 +20,6 @@ return array(
     'AlgoliaSearch\\Version' => $vendorDir . '/algolia/algoliasearch-client-php/src/AlgoliaSearch/Version.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
-<<<<<<< HEAD
-    'App\\Http\\Controllers\\Admin\\CountController' => $baseDir . '/app/Http/Controllers/Admin/CountController.php',
-    'App\\Http\\Controllers\\Admin\\GoodsController' => $baseDir . '/app/Http/Controllers/Admin/GoodsController.php',
-    'App\\Http\\Controllers\\Admin\\IndexController' => $baseDir . '/app/Http/Controllers/Admin/IndexController.php',
-    'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
-    'App\\Http\\Controllers\\Home\\CartController' => $baseDir . '/app/Http/Controllers/Home/CartController.php',
-    'App\\Http\\Controllers\\Home\\ForumController' => $baseDir . '/app/Http/Controllers/Home/ForumController.php',
-    'App\\Http\\Controllers\\Home\\GoodsController' => $baseDir . '/app/Http/Controllers/Home/GoodsController.php',
-    'App\\Http\\Controllers\\Home\\IndexController' => $baseDir . '/app/Http/Controllers/Home/IndexController.php',
-=======
     'App\\Http\\Controllers\\Admin\\GoodsController' => $baseDir . '/app/Http/Controllers/Admin/GoodsController.php',
     'App\\Http\\Controllers\\Admin\\IndexController' => $baseDir . '/app/Http/Controllers/Admin/IndexController.php',
     'App\\Http\\Controllers\\Admin\\LoginController' => $baseDir . '/app/Http/Controllers/Admin/LoginController.php',
@@ -40,7 +30,6 @@ return array(
     'App\\Http\\Controllers\\Home\\GoodsController' => $baseDir . '/app/Http/Controllers/Home/GoodsController.php',
     'App\\Http\\Controllers\\Home\\IndexController' => $baseDir . '/app/Http/Controllers/Home/IndexController.php',
     'App\\Http\\Controllers\\Home\\MusicController' => $baseDir . '/app/Http/Controllers/Home/MusicController.php',
->>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
     'App\\Http\\Controllers\\Home\\OrderController' => $baseDir . '/app/Http/Controllers/Home/OrderController.php',
     'App\\Http\\Controllers\\Home\\PersonalController' => $baseDir . '/app/Http/Controllers/Home/PersonalController.php',
     'App\\Http\\Controllers\\Home\\UserController' => $baseDir . '/app/Http/Controllers/Home/UserController.php',
@@ -63,16 +52,6 @@ return array(
     'App\\Models\\GoodsNorms' => $baseDir . '/app/Models/GoodsNorms.php',
     'App\\Models\\GoodsSecond' => $baseDir . '/app/Models/GoodsSecond.php',
     'App\\Models\\GoodsSku' => $baseDir . '/app/Models/GoodsSku.php',
-<<<<<<< HEAD
-    'App\\Models\\LtCard' => $baseDir . '/app/Models/LtCard.php',
-    'App\\Models\\Norms' => $baseDir . '/app/Models/Norms.php',
-    'App\\Models\\Order' => $baseDir . '/app/Models/Order.php',
-    'App\\Models\\OrderGoods' => $baseDir . '/app/Models/OrderGoods.php',
-    'App\\Models\\Part' => $baseDir . '/app/Models/Part.php',
-    'App\\Models\\User' => $baseDir . '/app/Models/User.php',
-    'App\\Models\\UserAddress' => $baseDir . '/app/Models/UserAddress.php',
-    'App\\Models\\UserBrowerLog' => $baseDir . '/app/Models/UserBrowerLog.php',
-=======
     'App\\Models\\Music' => $baseDir . '/app/Models/Music.php',
     'App\\Models\\Norms' => $baseDir . '/app/Models/Norms.php',
     'App\\Models\\Order' => $baseDir . '/app/Models/Order.php',
@@ -86,7 +65,6 @@ return array(
     'App\\Models\\UserAddress' => $baseDir . '/app/Models/UserAddress.php',
     'App\\Models\\UserBrowerLog' => $baseDir . '/app/Models/UserBrowerLog.php',
     'App\\Models\\UserPack' => $baseDir . '/app/Models/UserPack.php',
->>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
