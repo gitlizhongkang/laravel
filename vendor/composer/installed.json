@@ -3648,7 +3648,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://files.phpcomposer.com/files/laravel/scout/547ff55530a16e31b3b1142dd4dfdb654ad2bae0.zip",
+            "url": "https://api.github.com/repos/laravel/scout/zipball/547ff55530a16e31b3b1142dd4dfdb654ad2bae0",
             "reference": "547ff55530a16e31b3b1142dd4dfdb654ad2bae0",
             "shasum": ""
         },

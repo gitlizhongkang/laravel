@@ -5,18 +5,10 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
-use App\Models\Goods;
-use App\Models\GoodsAttr;
-use App\Models\GoodsImg;
-use App\Models\GoodsSku;
-use App\Models\GoodsComment;
-use App\Models\GoodsNorms;
-use App\Models\Category;
 use Illuminate\Support\Facades\Redis;
-use App\Models\GoodsSecond;
-use App\Models\UserBrowerLog;
 use Session;
-use App\Models\Brand;
+use App\Models\Goods;
+use App\Http\GoodsCommon;
 
 class GoodsController extends Controller
 {
@@ -29,7 +21,7 @@ class GoodsController extends Controller
     |
     */
    
-
+    use GoodsCommon;
 	/**
 		*@brief 商品详情页面
 	 */
@@ -75,6 +67,7 @@ class GoodsController extends Controller
         $data['goods_id'] = $goods_id;
 
         return view('home/comment', $data);
+
     }
 
     /**
@@ -342,71 +335,6 @@ class GoodsController extends Controller
     }
 
     
-    /**
-     * @brief 获取秒杀的商品信息
-     * @param int $limit = 6 获取前六条数据
-     * @return json
-     */
-    public function getSecond($limit = '')
-    {
-        if ($limit == '') {
-             $limit = Input::all()['limit'];
-        } 
-        $second = new GoodsSecond;
-
-        $time = date("Y-m-d",strtotime("+3 day"));
-        $second = $second -> select('goods_id','goods_name','goods_img','original_price','category_name','brand_name','second_price','start_time') 
-        -> where('start_time','<',$time) -> orderBy('start_time') 
-        -> offset(0)-> limit($limit) -> get() -> toArray();
-
-        return json_encode($second);
-    }
-
-    /**
-     * @brief 获取用户浏览记录类似商品 猜你喜欢
-     * @param int $limit = 6 获取前六条数据
-     * @param int $user_id 用户ID
-     * @return json
-     */
-    public function getUserLike($user_id = '0',$limit = '')
-    {
-        if ($user_id == '0') {
-            $user_id = Input::all()['user_id'];
-        }        
-        if ($limit == '') {
-             $limit = Input::all()['limit'];
-        } 
-
-        $goods = new Goods;
-        if (!empty($user_id)) {
-
-            $log = new UserBrowerLog;
-            $res = $log -> select('category_id') -> where('user_id', $user_id) -> get() -> toArray();
-            if (!empty($res)) {
-                //二维数组变为一维数组
-                $category_id = array_column($res, 'category_id');
-//                 dd($category_id);
-
-                $recommendation = $goods 
-                -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name') 
-                -> whereIn('category_id',$category_id)->where([['is_on_sale', 1], ['is_second', 0], ['is_point', 0]]) 
-                -> orderBy('add_time') -> offset(0) -> limit($limit) -> get() -> toArray();
-            } else {
-                $recommendation = $goods 
-                -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name')
-                -> where([['is_hot', 1],['is_on_sale', 1], ['is_second',0]])
-                -> orderBy('add_time') -> offset(0)-> limit($limit) -> get() -> toArray();
-            }
-        } else {
-            $recommendation = $goods 
-            -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name') 
-            -> where([['is_hot', 1],['is_on_sale', 1], ['is_second',0], ['is_point', 0]]) 
-            -> orderBy('add_time') -> offset(0)-> limit($limit) -> get() -> toArray();
-
-        }
-
-        return json_encode($recommendation);
-    }
 
     /**
      * @brief 商品列表页
@@ -484,46 +412,5 @@ class GoodsController extends Controller
     }
 
 
-     /**
-     * @brief 获取分类品牌
-     * @return json
-     */
-    public function getCateBrand($category_name = '')
-    {
-        if ($category_name == '') {
-            $category_name = Input::get('category_name');
-        }
-        
-        $category_name = $this->getParentCate($category_name);
-        $brand = new brand;
-        $arr = $brand->select('brand_name')->where('category_name',$category_name)->get();
-
-        return json_encode($arr);
-    }
-
-     /**
-     * @brief 获取顶级分类
-     * @return string
-     */
-    public function getParentCate($category_name)
-    {
-        if (Redis::exists('category')) {
-            $cate = unserialize(Redis::get('category'));
-            foreach ($cate as $k => $v) {
-                if($k != $category_name){
-                    foreach ($v as $k1 => $v1) {
-                       if ($k != $category_name) {
-                            if (in_array($category_name, $v1)) {
-                                $category_name = $k;
-                            }
-                       } else {
-                            $category_name = $k;
-                       }
-                    }
-                }
-            }
-        }
-
-        return $category_name;
-    }
+     
 }

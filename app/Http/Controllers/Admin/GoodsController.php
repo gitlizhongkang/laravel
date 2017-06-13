@@ -71,10 +71,22 @@ class GoodsController extends Controller
         $id = Input::get('id');
         $db = Goods::find($id);
 
+
         //如果是秒杀属性修改删除响应的秒杀商品
         if ($field == 'is_second' && $status == 0)
         {
             GoodsSecond::destroy($id);
+            //同时恢复sku库存
+            $sku = GoodsSku::where('goods_id', $id)->get();
+            foreach ($sku as $key => $val)
+            {
+                //从sku库存减去秒杀库存
+                $val->sku_num = $val->sku_num + $val->second_num;
+                $val->second_num = 0;
+                $val->save();
+                $val = null;
+            }
+
         }
 
         return $this->instantChange($db, $field, $status);
@@ -719,6 +731,8 @@ class GoodsController extends Controller
         foreach ((array)$sku_id as $key => $val)
         {
             $db = GoodsSku::find($val);
+            //从sku库存减去秒杀库存
+            $db->sku_num = $db->sku_num - $second_num[$key];
             $db->second_num = $second_num[$key];
             $db->save();
             $db = null;

@@ -16,3 +16,8 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+// use App\Models\User;
+// Artisan::command('user:add', function (User $user) {
+//     $this->save();
+// });

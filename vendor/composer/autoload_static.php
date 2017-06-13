@@ -352,6 +352,7 @@ class ComposerStaticInit7b6598027c754babb52d12e28f6f325a
         'App\\Models\\GoodsNorms' => __DIR__ . '/../..' . '/app/Models/GoodsNorms.php',
         'App\\Models\\GoodsSecond' => __DIR__ . '/../..' . '/app/Models/GoodsSecond.php',
         'App\\Models\\GoodsSku' => __DIR__ . '/../..' . '/app/Models/GoodsSku.php',
+        'App\\Models\\LtCard' => __DIR__ . '/../..' . '/app/Models/LtCard.php',
         'App\\Models\\Music' => __DIR__ . '/../..' . '/app/Models/Music.php',
         'App\\Models\\Norms' => __DIR__ . '/../..' . '/app/Models/Norms.php',
         'App\\Models\\Order' => __DIR__ . '/../..' . '/app/Models/Order.php',

@@ -160,10 +160,6 @@
 
         //表单验证
         $("#form-article-add").validate({
-            rules:{},
-            onkeyup:false,
-            focusCleanup:true,
-            success:"valid",
             submitHandler:function(form){
                 $(form).ajaxSubmit();
                 var index = parent.layer.getFrameIndex(window.name);

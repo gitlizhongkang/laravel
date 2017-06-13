@@ -58,7 +58,8 @@ $user_name = Session::get('username');
             }
         }
     </script>
-    <script type="text/javascript" src="js/magiczoomplus.js"></script>
+    {{--验证影响性能的js--}}
+    {{--<script type="text/javascript" src="js/magiczoomplus.js"></script>--}}
     <script type="text/javascript" src="js/easydialog.min.js"></script>
     <script type="text/javascript" src="js/xiaomi_goods.js"></script>
 </head>
@@ -106,7 +107,7 @@ $user_name = Session::get('username');
 
                 <!--商品分类导航-->
                 <li class="nav-category">
-                    <a class="btn-category-list" href="catalog.php">全部商品分类</a>
+                    <a class="btn-category-list" href="#">全部商品分类</a>
                     <div class="site-category category-hidden">
                         <ul class="site-category-list clearfix" id="site-category-list"></ul>
                     </div>
@@ -116,7 +117,7 @@ $user_name = Session::get('username');
                 </li>
                 <!--导航栏-->
                 <li class="nav-item">
-                    <a class="link" href="home-goods-goodsList?category_name=奶粉"><span>儿童</span></a>
+                    <a class="link" href="#"><span>儿童</span></a>
                     <!-- <div class='item-children'>
                         <div class="container">
                             <ul class="children-list clearfix" id='child'>
@@ -127,7 +128,7 @@ $user_name = Session::get('username');
                 </li>
 
                 <li class="nav-item">
-                    <a class="link" href="home-goods-goodsList?category_name=孕妈用品"><span>孕妇</span></a>
+                    <a class="link" href="#"><span>孕妇</span></a>
                    <!--  <div class='item-children'>
                         <div class="container">
                             <ul class="children-list clearfix" id='women'>
@@ -143,7 +144,7 @@ $user_name = Session::get('username');
                     <a class="link" href="home-music-index"><span>早教</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="link" href="javascript:;"><span>论坛</span></a>
+                    <a class="link" href="admin-forum-index"><span>论坛</span></a>
                 </li>
             </ul>
         </div>
