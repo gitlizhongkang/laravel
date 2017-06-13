@@ -38,19 +38,19 @@ class IndexController extends Controller
         // dd($data['second']);
 
     	//猜你喜欢  如果登录获取用户浏览记录  如果没有显示最热商品
-<<<<<<< HEAD
+
   //   	$user_id = 1;
 		// $data['recommendation'] = json_decode($this -> getUserLike($user_id), true);
 
     	
-=======
+
         $user_id = '';
         if (Session::has('uid')) {
             $user_id = Session::get('uid');
         }
    	
 		$data['recommendation'] = json_decode($goods->getUserLike($user_id,8), true);
->>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
+
     	return view('/home/index' , $data);
     }
 
@@ -139,7 +139,7 @@ class IndexController extends Controller
 
    
 
-<<<<<<< HEAD
+
     /**
      * @brief 获取用户浏览记录类似商品 猜你喜欢
      * @param int $user_id 用户ID
@@ -168,11 +168,7 @@ class IndexController extends Controller
 
     	// return json_encode($recommendation);
     // }
-=======
-	
 
-    
->>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
 
 
 	
