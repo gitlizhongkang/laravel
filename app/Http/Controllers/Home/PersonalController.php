@@ -505,7 +505,7 @@ class PersonalController extends Controller
             $uid = Input::get('uid');
         }
         $point = new Point();
-        $points = $point ->where(['user_id'=>$uid])->get()->toArray();
+        $points = $point ->where(['user_id'=>$uid])->orderBy('add_time','desc')->get()->toArray();
         $data['error'] = 0;
         $data['data'] = $points;
         $data['msg'] = '查询成功';
@@ -583,7 +583,7 @@ class PersonalController extends Controller
         }
         $uid = Session::get('uid');//session内拿用户uid
         //查询红包
-        $userPack = $this->curl('home-personal-getPack', "uid=$uid&page=$page", true);
+        $userPack = $this->getPack($uid);
         $data['userPack'] = json_decode($userPack,true);
 
         return view('home.personal.user-pack',$data);
@@ -592,9 +592,11 @@ class PersonalController extends Controller
     /**
      * @brief 查询红包-接口
      */
-    public function getPack()
+    public function getPack($uid)
     {
-        $uid = Input::get('uid');//接uid
+        if ($uid == ''){
+            $uid = Input::get('uid');//接uid
+        }
         $userPack = new UserPack();
         $packs = $userPack->select('*')->where(['user_id'=>$uid])->simplePaginate(2);
         if ($packs) {
@@ -619,46 +621,52 @@ class PersonalController extends Controller
         if (empty($res))
         {
             $receive_num = $pack->select('receive_num')->where(['pack_sn'=>$bonus_sn])->get()->toArray();
-            $arrPack = $pack->select('*')->where(['pack_sn'=>$bonus_sn])->where('late_receive_time','>',time())->where('pack_num','>',$receive_num)->first()->toArray();
-            if (empty($arrPack)) {
-                $arr1 = $pack->select('*')->where(['pack_sn'=>$bonus_sn])->where('late_receive_time','>',time())->first()->toArray();
-                if (empty($arr1)) {
-                    $arr2 = $pack->select('*')->where(['pack_sn'=>$bonus_sn])->first()->toArray();
-                    if (empty($arr2)) {
-                        $arr3 = $pack->select('*')->first()->toArray();
-                        if (!empty($arr3)) {
-                            $data['error'] = 1;
-                            $data['msg'] = '红包序号不存在！';
+            if (empty($receive_num)) {
+                    $data['error'] = 1;
+                    $data['msg'] = '红包序号不存在！';
+                } else {
+                $arrPack = $pack->select('*')->where(['pack_sn'=>$bonus_sn])->where('late_receive_time','>',time())->where('pack_num','>',$receive_num)->first()->toArray();
+                if (empty($arrPack)) {
+                    $arr1 = $pack->select('*')->where(['pack_sn'=>$bonus_sn])->where('late_receive_time','>',time())->first()->toArray();
+                    if (empty($arr1)) {
+                        $arr2 = $pack->select('*')->where(['pack_sn'=>$bonus_sn])->first()->toArray();
+                        if (empty($arr2)) {
+                            $arr3 = $pack->select('*')->first()->toArray();
+                            if (!empty($arr3)) {
+                                $data['error'] = 1;
+                                $data['msg'] = '红包序号不存在！';
+                            }
+                        } else {
+                            $data['error'] = 2;
+                            $data['msg'] = '你来晚了，红包领取领取时间已结束！';
                         }
                     } else {
-                        $data['error'] = 2;
-                        $data['msg'] = '你来晚了，红包领取领取时间已结束！';
+                        $data['error'] = 3;
+                        $data['msg'] = '你来晚了，红包已被领取完！';
                     }
                 } else {
-                    $data['error'] = 3;
-                    $data['msg'] = '你来晚了，红包已被领取完！';
-                }
-            } else {
-                $userPack->pack_sn = $arrPack['pack_sn'];
-                $userPack->user_id = $uid;
-                $userPack->pack_name = $arrPack['pack_name'];
-                $userPack->pack_price = $arrPack['pack_price'];
-                $userPack->pack_msg = $arrPack['pack_msg'];
-                $userPack->low_use_price = $arrPack['low_use_price'];
-                $userPack->pack_use_time = $arrPack['pack_use_time'];
-                $res = $userPack->save();
-                if ($res) {
-                    $data['error'] = 0;
-                    $data['msg'] = '添加成功';
-                } else {
-                    $data['error'] = 5;
-                    $data['msg'] = '添加失败';
+                    $userPack->pack_sn = $arrPack['pack_sn'];
+                    $userPack->user_id = $uid;
+                    $userPack->pack_name = $arrPack['pack_name'];
+                    $userPack->pack_price = $arrPack['pack_price'];
+                    $userPack->pack_msg = $arrPack['pack_msg'];
+                    $userPack->low_use_price = $arrPack['low_use_price'];
+                    $userPack->pack_use_time = $arrPack['pack_use_time'];
+                    $res = $userPack->save();
+                    if ($res) {
+                        $data['error'] = 0;
+                        $data['msg'] = '添加成功';
+                    } else {
+                        $data['error'] = 5;
+                        $data['msg'] = '添加失败';
+                    }
                 }
             }
         } else {
             $data['error'] = 4;
             $data['msg'] = '您已领取过该红包';
         }
+
 
         return json_encode($data) ;
     }

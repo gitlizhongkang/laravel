@@ -40,7 +40,7 @@
                                     <span class="date" style="color: rgb(153, 153, 153);">(已于2016.12.31过期)</span>
                                     </div>
                                     <div class="item exchange">
-                                    <a href="" target="_blank" style="margin-left: 50px;margin-right:14px " >兑换超值商品与优惠劵</a>
+                                    <a href="home-pointMall-index" target="_blank" style="margin-left: 50px;margin-right:14px " >兑换超值商品与优惠劵</a>
                                     </div>
                                     </div>
                                     <table style="margin-top: 20px;margin-left: 80px">

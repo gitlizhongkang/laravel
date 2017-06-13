@@ -270,7 +270,6 @@ Route::group(['middleware' => ['web']], function () {
 
     /** 薛天阔 end */
 
-<<<<<<< HEAD
 
     /** 郭洪彬 start */
  
@@ -299,10 +298,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/admin-forum-fullSearch', 'Home\ForumController@fullSearch');
     //搜索接口
     Route::get('/admin-forum-duct', 'Home\ForumController@foruDuct');
-=======
-    
-    /** 郭洪彬 start */
 
->>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
+
     /** 郭洪彬 end */
 });

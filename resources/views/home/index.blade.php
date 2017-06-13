@@ -128,9 +128,6 @@
             </div>
             <div class="box-bd">
                 <div class="xm-carousel-wrapper J_carouselWrap">
-<<<<<<< HEAD
-                    
-=======
                     <ul class="xm-carousel-list xm-carousel-col-5-list goods-list rainbow-list clearfix J_carouselList">
                         @if(isset($recommendation[0]))
                         @foreach ($recommendation as $k=>$v)
@@ -149,7 +146,6 @@
                         @endforeach
                             @endif
                     </ul>
->>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
                 </div>
             </div>
         </div>
@@ -207,9 +203,6 @@
                     </div>
                     <div class="span16">
                         <ul class="brick-list clearfix">
-<<<<<<< HEAD
-                        
-=======
                             @if(isset($new[0]))
                             @foreach ($new as $k=>$v)
                             <li class="brick-item brick-item-m">
@@ -236,7 +229,6 @@
                             </li>
                             @endforeach
                                 @endif
->>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
                         </ul>
                     </div>
                 </div>
@@ -267,9 +259,6 @@
                     </div>
                     <div class="span16">
                         <ul class="brick-list clearfix">
-<<<<<<< HEAD
-                             
-=======
                         @if (isset($second[0]))
                             @foreach ($second as $k=>$v)
                             <li class="brick-item brick-item-m">
@@ -304,7 +293,6 @@
                             </div>
                         </div>
                         @endif
->>>>>>> 14a25e91ca1297ecd2584ecb4e26ea242b682e82
                         </ul>
                     </div>
                 </div>
