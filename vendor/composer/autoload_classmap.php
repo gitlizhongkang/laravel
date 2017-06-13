@@ -6,6 +6,18 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AlgoliaSearch\\AlgoliaException' => $vendorDir . '/algolia/algoliasearch-client-php/src/AlgoliaSearch/AlgoliaException.php',
+    'AlgoliaSearch\\Client' => $vendorDir . '/algolia/algoliasearch-client-php/src/AlgoliaSearch/Client.php',
+    'AlgoliaSearch\\ClientContext' => $vendorDir . '/algolia/algoliasearch-client-php/src/AlgoliaSearch/ClientContext.php',
+    'AlgoliaSearch\\FailingHostsCache' => $vendorDir . '/algolia/algoliasearch-client-php/src/AlgoliaSearch/FailingHostsCache.php',
+    'AlgoliaSearch\\FileFailingHostsCache' => $vendorDir . '/algolia/algoliasearch-client-php/src/AlgoliaSearch/FileFailingHostsCache.php',
+    'AlgoliaSearch\\InMemoryFailingHostsCache' => $vendorDir . '/algolia/algoliasearch-client-php/src/AlgoliaSearch/InMemoryFailingHostsCache.php',
+    'AlgoliaSearch\\Index' => $vendorDir . '/algolia/algoliasearch-client-php/src/AlgoliaSearch/Index.php',
+    'AlgoliaSearch\\IndexBrowser' => $vendorDir . '/algolia/algoliasearch-client-php/src/AlgoliaSearch/IndexBrowser.php',
+    'AlgoliaSearch\\Json' => $vendorDir . '/algolia/algoliasearch-client-php/src/AlgoliaSearch/Json.php',
+    'AlgoliaSearch\\PlacesIndex' => $vendorDir . '/algolia/algoliasearch-client-php/src/AlgoliaSearch/PlacesIndex.php',
+    'AlgoliaSearch\\SynonymType' => $vendorDir . '/algolia/algoliasearch-client-php/src/AlgoliaSearch/SynonymType.php',
+    'AlgoliaSearch\\Version' => $vendorDir . '/algolia/algoliasearch-client-php/src/AlgoliaSearch/Version.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\Admin\\GoodsController' => $baseDir . '/app/Http/Controllers/Admin/GoodsController.php',

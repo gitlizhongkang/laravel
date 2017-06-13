@@ -92,8 +92,8 @@
             <div class="span16">
                 <ul class="home-promo-list clearfix">
                     <li class="first">
-                        <a href='' target='_blank'>
-                            <img src='images/goods.jpg' width='316' height='170' border='0'/>
+                        <a href='admin-forum-index' target='_blank'>
+                            <img src='images/forum.png' width='316' height='170' border='0' />
                         </a>
                     </li>
                      <li class="first">
@@ -228,7 +228,7 @@
                                 </div>
                             </li>
                             @endforeach
-                                @endif
+                            @endif
                         </ul>
                     </div>
                 </div>
