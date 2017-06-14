@@ -84,7 +84,7 @@ class GoodsController extends Controller
 
         $goods = new goods;
         $select = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name');
-        
+
         $data['brand'] = '';
         if ($category_name != '') {
             $names = $this->getCate($category_name);
@@ -116,14 +116,14 @@ class GoodsController extends Controller
              $select = $select->orderBy('goods_sale_num', 'desc');
         }
 
-        $data['goods'] = $select->where([['is_on_sale', 1], ['is_second', 0], ['is_point', 0]]) 
-        ->paginate(2);
+        $data['goods'] = $select->where([['is_on_sale', 1], ['is_second', 0], ['is_point', 0]])
+        ->orderBy('goods_sale_num','desc')->paginate(40);
         
         if ($data['brand'] == '') {
             $category_name = $data['goods'][0]['category_name'] ;
             $data['brand'] = json_decode($this->getCateBrand($category_name), true);
         }
-        // dd($data['goods']);
+        
         //猜你喜欢
         $user_id = '';
         if (Session::has('uid')) {
