@@ -8,10 +8,10 @@ return [
 
     // 服务器异步通知页面路径ã
     //'notify_url' => 'http://kaleozhou.iok.la/alipay/webnotify',
-    'notify_url' => url('/home-notify-url'),
+    'notify_url' => '/home-notify-url',
 
     // 页面跳转同步通知页é¢路径。
     //'return_url' => 'http://kaleozhou.iok.la/alipay/webreturn'
-    'return_url' => url('/home-return-url'),
+    'return_url' => '/home-return-url',
 
 ];

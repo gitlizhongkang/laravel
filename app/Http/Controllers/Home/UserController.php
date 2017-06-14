@@ -92,9 +92,6 @@ class UserController extends Controller
        }
         echo json_encode($data);
     }
-    /**
-     * 
-     */
 
     /**
      *  判断验证码是否正确

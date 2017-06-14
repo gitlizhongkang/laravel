@@ -18,64 +18,42 @@ Route::group(['middleware' => ['web']], function () {
 
     // 用户注册页面
     Route::get('home-user-register',  'Home\UserController@register');
-
     // 用户提交注册
     Route::post('home-user-commit',  'Home\UserController@commit');
-
     // 用户登录检查
     Route::post('home-user-loginCheck',  'Home\UserController@loginCheck');
-
     // 用户登录页面
     Route::get('home-user-login',  'Home\UserController@login');
-
     // 用户忘记密码页面
     Route::get('home-user-forgetPassword',  'Home\UserController@forgetPassword');
-
     // 用户找回密码页面
     Route::get('home-user-findPassword',  'Home\UserController@findPassword');
-
     // 第三方登录回调域
     Route::get('home-user-bind',  'Home\UserController@bind');
-
     // 用户绑定页面
     Route::get('home-user-babyBind',  'Home\UserController@babyBind');
-
     // 验证用户 发送邮箱
     Route::post('home-user-getPassword',  'Home\UserController@getPassword');
-
     // 重置密码
     Route::post('home-user-resetPassword',  'Home\UserController@resetPassword');
-
     // 发送验证码
     Route::any('home-user-send',  'Home\UserController@send');
-
     // 用户名-电话-邮箱唯一检测
     Route::get('home-user-uniqueCheck',  'Home\UserController@uniqueCheck');
-
     // 判断手机验证码
     Route::get('home-user-mobileCheck',  'Home\UserController@mobileCheck');
-
     // 验证码检测
     Route::get('home-user-codeCheck',  'Home\UserController@codeCheck');
-
     // 验证码
     Route::get("home-user-code",  'Home\UserController@code');
-
-
     // 早教音乐首页
     Route::get("home-music-index",  'Home\MusicController@index');
-
     // 单个音乐播放页
     Route::get("home-music-detail",  'Home\MusicController@detail');
-
     // 积分商城首页
-
     Route::get("home-pointMall-index",  'Home\PointMallController@index');
-
     // 积分商品详情页
-
     Route::get("home-pointMall-info",  'Home\PointMallController@info');
-
     /** 李钟康 end */
 
 
@@ -227,8 +205,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/admin-stats-user',  'Admin\StatsController@user');
     Route::get('/admin-stats-order',  'Admin\StatsController@order');
     Route::post('/admin-stats-getGoods',  'Admin\StatsController@getGoods');
-    
-
+    Route::post('/admin-stats-getUser',  'Admin\StatsController@getUser');
+    Route::post('/admin-stats-getOrder',  'Admin\StatsController@getOrder');
     /** 毛宏蕊 end */
 
 
@@ -293,29 +271,39 @@ Route::group(['middleware' => ['web']], function () {
 
     /** 郭洪彬 start */
  
+ 
     //论坛主页
     Route::get('/admin-forum-index', 'Home\ForumController@forumIndex');
+
     //个人信息
     Route::get('/admin-forum-info', 'Home\ForumController@forumInfo');
+
     //写文章
     Route::get('/admin-forum-write', function (){
         return view('home/forum/write');
     });
+
     //图片上传
     Route::post('/admin-forum-imgUpload', 'Home\ForumController@imgUpload');
+
     //读文章
     Route::get('/admin-forum-article', 'Home\ForumController@forumArticle');
     Route::get('/admin-forum-zan', 'Home\ForumController@forumZan');
+
     //文章评论
     Route::post('/admin-forum-comment', 'Home\ForumController@forumComment');
+
     //更换皮肤
     Route::get('/admin-blue-skin', 'Home\ForumController@blueSkin');
     Route::get('/admin-green-skin', 'Home\ForumController@greenSkin');
     Route::get('/admin-red-skin', 'Home\ForumController@redSkin');
+
     //全部文章
     Route::get('/admin-forum-AllArticle', 'Home\ForumController@allArticle');
+
     //无刷新搜索
     Route::get('/admin-forum-fullSearch', 'Home\ForumController@fullSearch');
+
     //搜索接口
     Route::get('/admin-forum-duct', 'Home\ForumController@foruDuct');
 
