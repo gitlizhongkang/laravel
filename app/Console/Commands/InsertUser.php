@@ -39,7 +39,7 @@ class InsertUser extends Command
     public function handle()
     {
         set_time_limit(0);
-        for($i=100000;$i<1000000;$i++){
+        for($i=270199;$i<1000000;$i++){
             $info['username'] = $i;
             $info['email'] =  $i.'@qq.com';
             $info['tel'] = time().'3';
