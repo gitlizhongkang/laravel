@@ -407,16 +407,18 @@ class GoodsController extends Controller
 
 
 
-
     /**
      * @brief 商品添加
      * @param Request $request
      * @return bool
      */
+
     public function add(Request $request)
     {
+
         $dataImg = $this->upload($request);
         $dataInfo = Input::get();
+
         extract($dataInfo);
 
         //验证
@@ -473,6 +475,9 @@ class GoodsController extends Controller
             ];
         }
 
+        DB::beginTransaction();
+        $flag = 1;
+
         //实例化表
         $db = new Goods();
         $bool = $db->add($dataGoods);
@@ -507,7 +512,7 @@ class GoodsController extends Controller
         }
 
         //入库
-        $this->insertTable('goods_attr', $dataGoodsAttr);
+        $this->insertTable('goods_attr', $dataGoodsAttr, $flag);
 
 
         /*
@@ -522,7 +527,7 @@ class GoodsController extends Controller
         }
 
         //入库
-        $this->insertTable('goods_img', $dataGoodsImg);
+        $this->insertTable('goods_img', $dataGoodsImg, $flag);
 
 
 
@@ -546,7 +551,7 @@ class GoodsController extends Controller
         }
 
         //入库
-        $this->insertTable('goods_norms', $dataGoodsNorms);
+        $this->insertTable('goods_norms', $dataGoodsNorms, $flag);
 
 
         /*
@@ -573,7 +578,17 @@ class GoodsController extends Controller
         }
 
         //入库
-        $this->insertTable('goods_sku', $dataGoodsSku);
+        $this->insertTable('goods_sku', $dataGoodsSku, $flag);
+
+        if ($flag == 0)
+        {
+            DB::rollBack();
+        }
+        else
+        {
+            //事务提交
+            DB::commit();
+        }
 
 
         //跳转
@@ -584,19 +599,17 @@ class GoodsController extends Controller
      * @brief 批量入库 错误抛出异常
      * @param $table
      * @param $data
-     * @return bool
+     * @param $flag
      */
-    protected function insertTable($table, $data)
+    protected function insertTable($table, $data, $flag)
     {
         //入库
         $bool = DB::table($table)->insert($data);
         //添加失败写入信息
         if (!$bool)
         {
-
+            $flag = 0;
         }
-
-        return true;
     }
 
     /**
