@@ -15,8 +15,10 @@ class IndexController extends Controller
      */
     public function index()
     {
+
         //非法登陆
         $user = Auth::user();
+
         if (empty($user))
         {
             return redirect('/admin-login-view');
@@ -37,9 +39,6 @@ class IndexController extends Controller
 
         return redirect('/admin-login-view');
     }
-
-
-
 
 
 }

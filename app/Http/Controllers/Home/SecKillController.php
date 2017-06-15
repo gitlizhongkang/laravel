@@ -473,9 +473,21 @@ class SecKillController extends Controller
         //开启事务
         DB::beginTransaction();
 
+        //uid(3)[支付类型][ymd][时间戳4][随机2]
+        if (strlen($uid) >= 3)
+        {
+            $userId = substr($uid, -3);
+        }
+        else
+        {
+            $length = 3 - strlen($uid);
+            $userId = str_repeat('0', $length) . $uid;
+        }
+        $sn = $userId.$arr['pay_type'].date("Ymd",time()).substr(time(),-4).rand(10,99);
+
         //订单表
         $order = [
-            'order_sn' => date("YmdHis",time()) . $uid . $arr['pay_type'],
+            'order_sn' => $sn,
             'user_id' => $uid,
             'consignee_tel' => $arr['address_tel'],
             'consignee_name' => $arr['address_name'],
