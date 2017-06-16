@@ -81,6 +81,7 @@ class OrderController extends Controller
         $arr = Input::all();
         $uid = Session::get('uid');
         $type = $arr['type'];
+        $order['user_id'] = $uid;
         //生成订单号
         //uid(3)[支付类型][ymd][时间戳4][随机2]
         if (strlen($uid) >= 3)
@@ -93,7 +94,6 @@ class OrderController extends Controller
             $uid = str_repeat('0', $length) . $uid;
         }
         $order['order_sn'] = $uid.$arr['pay_type'].date("Ymd",time()).substr(time(),-4).rand(10,99);
-        $order['user_id'] = $uid;
         $order['consignee_tel'] = $arr['address_tel'];
         $order['consignee_name'] = $arr['address_name'];
         $order['consignee_address'] = $arr['address'];
@@ -138,6 +138,7 @@ class OrderController extends Controller
         DB::beginTransaction();
             //添加订单
             $order_id = $Order->insertGetId($order);
+            //添加订单商品
             $goods = [];
             foreach ($arr['sku_id'] as $k => $val) {
                 $goods[$k]['sku_id'] = $arr['sku_id'][$k];
@@ -152,7 +153,6 @@ class OrderController extends Controller
                 $goods[$k]['add_time'] = time();
             }
             $OrderGoods = new OrderGoods();
-            //添加订单商品
             $OrderGoods->insert($goods);
             if ($arr['type'] == 'cart') {
                 //如果是购物车购买清楚购物车

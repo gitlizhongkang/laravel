@@ -150,10 +150,11 @@ class PersonalController extends Controller
     public function userOrder()
     {
         $uid = Session::get('uid');//session内拿用户uid
+        $status = Input::get('status');//session内拿用户uid
         //查询订单
-        $userOrder = $this->getUserOrder($uid);
+        $userOrder = $this->getUserOrder($uid,'',$status);
         $data['userOrder'] = json_decode($userOrder,true);
-
+//print_r($data);die;
         return view('/home/personal/user-order',$data);
     }
 
@@ -207,14 +208,9 @@ class PersonalController extends Controller
         }
         $UserAddress = new UserAddress();
         $UserAddressInfo = $UserAddress->where('user_id',$uid)->orderBy('is_default','desc')->get()->toArray();
-        if ($UserAddressInfo) {
-            $data['error'] = 0;
-            $data['data'] = $UserAddressInfo;
-            $data['msg'] = '查询成功';
-        } else {
-            $data['error'] = 1;
-            $data['msg'] = '查询失败';
-        }
+        $data['error'] = 0;
+        $data['data'] = $UserAddressInfo;
+        $data['msg'] = '查询成功';
 
         return json_encode($data);
     }
@@ -327,20 +323,33 @@ class PersonalController extends Controller
             $order_id = Input::get('order_id')?Input::get('order_id'):'';
             $status = Input::get('status')?Input::get('status'):'';
         }
-        if($order_id=='' && $status==''){
+        if($order_id==''){
             //用户订单
-            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
-            foreach ($userOrders as $k=>$val) {
-                if ($val['status'] == 1 & $val['order_time'] < time()-3600*30) {
-                    unset($userOrders[$k]);
+            if ($status == ''){
+                $userOrders['orders'] = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where(['user_id'=>$uid])->orderBy('order_time','desc')->simplePaginate(10);
+            } elseif($status == 1) {
+                $userOrders['orders'] = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where('order_time','>',time()-3600*30)->where(['user_id'=>$uid,'status'=>$status])->simplePaginate(10);
+            }elseif($status == 4) {
+                $userOrders['orders'] = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where(['user_id'=>$uid,'status'=>$status])->orderBy('order_time','desc')->simplePaginate(10);
+            } else {
+                $userOrders['orders'] = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where(['user_id'=>$uid,'status'=>$status])->orwhere(['user_id'=>$uid,'status'=>2])->orderBy('order_time','desc')->simplePaginate(10);
+            }
+
+            $userOrders['all'] = count($userOrders['orders']);
+            $userOrders['not_finish'] = $Order->select('order_id')->where(['user_id'=>$uid,'status'=>1])->where('order_time','>',time()-3600*30)->count();
+            $userOrders['not_received'] = $Order->select('order_id')->where(['user_id'=>$uid,'status'=>2])->orwhere(['user_id'=>$uid,'status'=>3])->count();
+            $userOrders['not_evaluate'] = $Order->select('order_id')->where(['user_id'=>$uid,'status'=>4])->count();
+            if ($status == '') {
+                foreach ($userOrders['orders'] as $k=>$val) {
+                    if ($val['status'] == 1 & $val['order_time'] < time()-3600*30) {
+                        $userOrders['all'] = $userOrders['all'] -1;
+                        unset($userOrders['orders'][$k]);
+                    }
                 }
             }
         } elseif ($status=='') {
             // 订单详细
             $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_type','logistics_price','consignee_tel','consignee_name','consignee_address','pack_price','get_point','pay_type')->where(['user_id'=>$uid,'order_id'=>$order_id])->first()->toArray();
-        } else {
-            //查询包裹
-            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where('status','>=',$status)->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
         }
 
         return json_encode($userOrders);
@@ -519,9 +528,9 @@ class PersonalController extends Controller
     public function trackingPackages()
     {
         $uid = Session::get('uid');//session内拿用户uid
-        //查询订单
-        $userOrder = $this->getUserOrder($uid,'',3);
-        $data['userOrder'] = json_decode($userOrder,true);
+        //查询包裹
+        $Order = new Order();
+        $data['userOrder'] = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where('status','>=',3)->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
 
         return view('home.personal.tracking-packages',$data);
     }

@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redis;
 use Session;
 use App\Models\Goods;
+use App\Models\GoodsNorms;
+use App\Models\GoodsAttr;
+use App\Models\GoodsComment;
+use App\Models\GoodsImg;
+use App\Models\GoodsSku;
 use App\Http\GoodsCommon;
 
 class GoodsController extends Controller
@@ -75,22 +80,26 @@ class GoodsController extends Controller
      * @param string $goods_id 商品ID
      * @return json
      */
-    public function addComment()
+    public function addComment(Request $request)
     {
         $uid = Session::get('uid');
-        $arr = Input::get('cmt');
-        $arr = json_decode($arr,true);
-        $goods_id = intval($arr['goods_id']);
+        $arr = Input::get();
+        $goods_id = intval($arr['id']);
         $goodsComment = new GoodsComment();
         $comment = $goodsComment -> where(['goods_id'=>$goods_id,'user_id'=>$uid])->where('add_time','>',strtotime(date('Ymd'))) -> first();
         if (!empty($comment)) {
             $data['error'] = 1;
             $data['msg'] = '一个账号一天内只能评论一次';
         } else {
+            $img = $this->upload($request);
+            foreach ($img['image_url'] as $k=>$v) {
+                $img['image_url'][$k] = 'uploads/'.$v;
+            }
             $goodsComment->user_id = $uid;
             $goodsComment->goods_id = $goods_id;
-            $goodsComment->comment_desc = $arr['comment_desc'];
-            $goodsComment->satisfaction = $arr['satisfaction'];
+            $goodsComment->comment_desc = $arr['content'];
+            $goodsComment->comment_img = implode(',',$img['image_url']);
+            $goodsComment->satisfaction = $arr['comment_rank'];
             $goodsComment->add_time = time();
             $res = $goodsComment->save();
             if ($res == true) {
@@ -102,7 +111,7 @@ class GoodsController extends Controller
             }
         }
 
-        return json_encode($data);
+        return  $data['msg'];
     }
 
     /**
@@ -411,6 +420,73 @@ class GoodsController extends Controller
         return view('home/goods-list',$data);
     }
 
+    /**
+     * @brief 文件上传，单文件多文件都可以
+     * @param Request $request
+     * @return array
+     */
+    public function upload($request)
+    {
+        $path = [];
+        $file = $request->file();
+        //多个input标签
+        foreach ($file as $key => $val)
+        {
+            //input标签是数组情况
+            if (is_array($val))
+            {
+                $keyPath = [];
+                foreach ($val as $v)
+                {
+                    $singlePath = $this->uploadSingle($v);
+                    $keyPath[] = $singlePath;
+                }
+                $path[$key] = $keyPath;
+            }
+            else
+                //input标签单个情况
+            {
+                $singlePath = $this->uploadSingle($val);
+                $path[$key] = $singlePath;
+            }
+        }
+
+        return $path;
+    }
+
+    /**
+     * @brief 文件上传辅助,也可用于单文件上传(参数为$request->file())
+     * @param Request $file
+     * @return array|bool
+     */
+    public function uploadSingle($file)
+    {
+        //检测文件是否可用
+        if ($file->isValid())
+        {
+            // 获取文件相关信息
+            $ext = $file->getClientOriginalExtension();      // 扩展名
+            $tempPath = $file->getRealPath();                //临时文件的绝对路径
+
+            //检测文件格式
+            $allowed_extensions = ["png", "jpg", "gif"];
+            if (!in_array($ext, $allowed_extensions))
+            {
+                return false;
+            }
+
+            //使用uploads本地存储空间（目录）
+            $filename = uniqid() . '.' . $ext;
+            $datePath = "comment/".date('Y-m-d');                                                   // 上传文件111
+            $singlePath = $file->storeAs($datePath, $filename, 'uploads');                      // 上传文件111
+
+            //$bool = Storage::disk('uploads')->put($filename, file_get_contents($tempPath));   // 上传文件222
+
+            return $singlePath;
+        }
+
+        return false;
+    }
 
      
 }

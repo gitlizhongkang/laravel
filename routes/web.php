@@ -268,6 +268,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::any('/home-notify-url','Home\OrderController@AliPayNotify'); //服务器异步通知页面路径
     Route::any('/home-return-url','Home\OrderController@AliPayReturn');  //页面跳转同步通知页面路径
 
+    //评论
+    Route::post('/home-goods-adddComment','Home\GoodsController@adddComment');
+
     /** 薛天阔 end */
 
 

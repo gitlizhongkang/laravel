@@ -240,7 +240,6 @@ class RbacController extends Controller
         $permissionId = Input::get('permission_id');
         $roleId = Input::get('role_id');
 
-
         //判断多管理员添加
         if (is_array($roleId))
         {
