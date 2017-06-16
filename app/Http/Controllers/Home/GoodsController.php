@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redis;
 use Session;
 use App\Models\Goods;
+use App\Models\GoodsNorms;
+use App\Models\GoodsAttr;
+use App\Models\GoodsComment;
+use App\Models\GoodsImg;
+use App\Models\GoodsSku;
 use App\Http\GoodsCommon;
 
 class GoodsController extends Controller
@@ -41,6 +46,9 @@ class GoodsController extends Controller
         //获取商品的评论
         $data['comment'] = json_decode($this->getGoodsComment($goods_id), true);
 
+        //获取商品评论的满意度
+        $data['satisfaction'] = json_decode($this->getGoodsSatisfaction($goods_id), true);
+
         //获取商品的图片
         $data['img'] = json_decode($this->getGoodsImg($goods_id), true);
         // dd($data['img']);
@@ -49,7 +57,7 @@ class GoodsController extends Controller
             return 1;
         }
 
-    	return view('/home/goods',$data);
+        return view('/home/goods',$data);
     }
 
     /**
@@ -64,7 +72,277 @@ class GoodsController extends Controller
         $data['goods_id'] = $goods_id;
 
         return view('home/comment', $data);
-    }  
+
+    }
+
+    /**
+     * @brief 添加单个商品评价
+     * @param string $goods_id 商品ID
+     * @return json
+     */
+    public function addComment(Request $request)
+    {
+        $uid = Session::get('uid');
+        $arr = Input::get();
+        $goods_id = intval($arr['id']);
+        $goodsComment = new GoodsComment();
+        $comment = $goodsComment -> where(['goods_id'=>$goods_id,'user_id'=>$uid])->where('add_time','>',strtotime(date('Ymd'))) -> first();
+        if (!empty($comment)) {
+            $data['error'] = 1;
+            $data['msg'] = '一个账号一天内只能评论一次';
+        } else {
+            $img = $this->upload($request);
+            foreach ($img['image_url'] as $k=>$v) {
+                $img['image_url'][$k] = 'uploads/'.$v;
+            }
+            $goodsComment->user_id = $uid;
+            $goodsComment->goods_id = $goods_id;
+            $goodsComment->comment_desc = $arr['content'];
+            $goodsComment->comment_img = implode(',',$img['image_url']);
+            $goodsComment->satisfaction = $arr['comment_rank'];
+            $goodsComment->add_time = time();
+            $res = $goodsComment->save();
+            if ($res == true) {
+                $data['error'] = 0;
+                $data['msg'] = '评论成功';
+            } else {
+                $data['error'] = 2;
+                $data['msg'] = '评论失败';
+            }
+        }
+
+        return  $data['msg'];
+    }
+
+    /**
+     * @brief 获取单个商品信息
+     * @param string $goods_id 商品ID
+     * @return json
+     */
+    public function getGoodsInfo($goods_id = '')
+    {
+        if($goods_id == '') {
+           $goods_id = Input::get()['goods_id'];   
+        } 
+                  
+
+        $goods = new Goods;
+        $res = $goods->select('goods_id','goods_name','goods_img','category_id','is_second','category_name','goods_low_price','goods_desc','brand_name','goods_point')->find($goods_id);
+        
+        return json_encode($res);
+    }
+
+     /**
+     * @brief 获取单个商品规格信息
+     * @param string $goods_id 商品ID
+     * @return json
+     */
+    public function getGoodsNorms($goods_id = '')
+    {
+        if($goods_id == '') {
+           $goods_id = Input::get()['goods_id'];   
+        }
+
+        $goodsNorms = new GoodsNorms;
+        $res = $goodsNorms -> where('goods_id',$goods_id) -> get();
+        foreach ($res as $k => $v) {
+            $res[$k]['norms_value'] = explode(',', $v['norms_value']);
+        }
+        
+        return json_encode($res);
+    }
+
+     /**
+     * @brief 获取单个商品属性信息
+     * @param string $goods_id 商品ID
+     * @return json
+     */
+    public function getGoodsAttr($goods_id = '')
+    {
+       if($goods_id == '') {
+           $goods_id = Input::get()['goods_id'];   
+        }         
+
+        $goodsAttr = new GoodsAttr;
+        $res = $goodsAttr -> where('goods_id',$goods_id) -> get();
+        foreach ($res as $k => $v) {
+            $res[$k]['attr_value'] = explode(',', $v['attr_value']);
+        }
+        
+        return json_encode($res);
+    }
+
+    /**
+     * @brief 获取单个商品的所有图片
+     * @param string $goods_id 商品ID 
+     * @return json
+     */
+    public function getGoodsImg($goods_id = '')
+    {
+       if($goods_id == '') {
+           $goods_id = Input::get()['goods_id'];   
+        }      
+
+        $goodsImg = new GoodsImg;
+        $res = $goodsImg ->select('img_url')-> where('goods_id',$goods_id) -> get();
+        
+        return json_encode($res);
+    }
+
+     /**
+     * @brief 获取单个商品评价
+     * @param string $goods_id 商品ID
+     * @return json
+     */
+    public function getGoodsComment($goods_id = '')
+    {
+        if($goods_id == '') {
+           $goods_id = Input::get()['goods_id'];   
+        }           
+
+        $goodsComment = new GoodsComment;
+        $res = $goodsComment -> where('goods_id',$goods_id) -> orderBy('add_time') 
+                -> offset(0) -> limit(10) -> get() -> toArray();
+        
+        return json_encode($res);
+    }
+
+    /**
+     * @brief 获取单个商品评价的满意度
+     * @param string $goods_id 商品ID
+     * @return json
+     */
+    public function getGoodsSatisfaction($goods_id = '')
+    {
+        if($goods_id == '') {
+           $goods_id = Input::get()['goods_id'];
+        }
+
+        $goodsComment = new GoodsComment;
+        $res['good'] = $goodsComment-> where(['goods_id'=>$goods_id,'satisfaction'=>5])->orwhere(['goods_id'=>$goods_id,'satisfaction'=>4])->count('comment_id');
+        $res['commonly'] = $goodsComment-> where(['goods_id'=>$goods_id,'satisfaction'=>3])->count('comment_id');
+        $res['bad'] = $goodsComment-> where(['goods_id'=>$goods_id,'satisfaction'=>2])->orwhere(['goods_id'=>$goods_id,'satisfaction'=>1])->count('comment_id');
+        $res['all'] = $goodsComment-> where(['goods_id'=>$goods_id])->count('comment_id');
+
+        return json_encode($res);
+    }
+
+    /**
+     * @brief 获取单个商品所有评价
+     * @param string $goods_id 商品ID
+     * @return array
+     */
+    public function getGoodsComments($goods_id = '')
+    {
+        if($goods_id == '') {
+           $goods_id = Input::get()['goods_id'];   
+        }         
+        
+        $goodsComment = new GoodsComment;
+        $res = $goodsComment -> where('goods_id',$goods_id) -> paginate(5);
+        
+        return $res;
+    }
+
+    
+
+
+    /**
+     * @brief 获取单个商品选中的sku
+     * @param string $goods_id 商品ID 
+     * @param string $norms_value  sku规格值
+     * @return json
+     */
+    public function getSku()
+    {
+        $goods_id = Input::get()['goods_id'];
+        $norms_value = Input::all()['norms_value'];
+
+        // echo $norms_value;die;
+        $sku = new GoodsSku;
+        $res = $sku -> select('sku_id','sku_sn','sku_price','sku_img','sku_num')
+        -> where([['goods_id', $goods_id],['sku_norms', $norms_value]]) -> first();
+
+        return json_encode($res);
+    }
+
+
+    /**
+     * @brief 获取分类商品
+     * @param string $goods_id 商品ID 
+     * @return json
+     */
+    public function getCate($category_name = '')
+    {
+        if($category_name == ''){
+            $category_name = Input::get()['category_name'];
+        }
+
+        $where = '1=1';       
+        if (!empty($category_name)) {
+            $category = unserialize(Redis::get('category'));
+            $names = '';
+            foreach ($category as $k => $v) {
+                if ($k == $category_name) {
+                    $names .= $category_name . ',';
+                    if (!empty($v)) {
+                        foreach ($v as $k1 => $v1) {
+                            $names .= $k1 . ',';
+                            if (!empty($v1)) {
+                                foreach ($v1 as $k2 => $v2) {
+                                    $names .= $v2 . ',';
+                                }
+                            }                      
+                        }
+                    }
+                } else {
+                    foreach ($v as $k1 => $v1) {
+                        if ($k1 == $category_name) {
+                            $names .= $k1 . ',';
+                            if (!empty($v1)) {
+                                foreach ($v1 as $k2 => $v2) {
+                                    $names .= $v2 . ',';
+                                } 
+                            }                           
+                        } else {
+                             foreach ($v1 as $k2 => $v2) {
+                                if ($v2 == $category_name) {
+                                     $names .= $v2 .  ',';
+                                }                             
+                            }
+                        }                      
+                    }
+                }
+            }
+        }  
+        
+        $len = strlen($names);
+        $names = substr($names, 0, $len-1);
+        $names = explode(',', $names);
+       
+       return $names;
+
+    }
+
+    /**
+     * @brief 获取最新的商品信息
+     * @param int $limit = 6 获取前六条数据
+     * @return json
+     */
+    public function getNew($limit = '')
+    {
+        if ($limit == '') {
+             $limit = Input::all()['limit'];
+        }       
+        $goods = new Goods;
+
+        $new= $goods -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name')
+        -> where([['is_on_sale', 1], ['is_second', 0], ['is_point', 0]])-> orderBy('add_time') 
+        -> offset(0) -> limit($limit) -> get() -> toArray();
+
+        return json_encode($new);
+    }
+
     
 
     /**
@@ -142,6 +420,73 @@ class GoodsController extends Controller
         return view('home/goods-list',$data);
     }
 
+    /**
+     * @brief 文件上传，单文件多文件都可以
+     * @param Request $request
+     * @return array
+     */
+    public function upload($request)
+    {
+        $path = [];
+        $file = $request->file();
+        //多个input标签
+        foreach ($file as $key => $val)
+        {
+            //input标签是数组情况
+            if (is_array($val))
+            {
+                $keyPath = [];
+                foreach ($val as $v)
+                {
+                    $singlePath = $this->uploadSingle($v);
+                    $keyPath[] = $singlePath;
+                }
+                $path[$key] = $keyPath;
+            }
+            else
+                //input标签单个情况
+            {
+                $singlePath = $this->uploadSingle($val);
+                $path[$key] = $singlePath;
+            }
+        }
+
+        return $path;
+    }
+
+    /**
+     * @brief 文件上传辅助,也可用于单文件上传(参数为$request->file())
+     * @param Request $file
+     * @return array|bool
+     */
+    public function uploadSingle($file)
+    {
+        //检测文件是否可用
+        if ($file->isValid())
+        {
+            // 获取文件相关信息
+            $ext = $file->getClientOriginalExtension();      // 扩展名
+            $tempPath = $file->getRealPath();                //临时文件的绝对路径
+
+            //检测文件格式
+            $allowed_extensions = ["png", "jpg", "gif"];
+            if (!in_array($ext, $allowed_extensions))
+            {
+                return false;
+            }
+
+            //使用uploads本地存储空间（目录）
+            $filename = uniqid() . '.' . $ext;
+            $datePath = "comment/".date('Y-m-d');                                                   // 上传文件111
+            $singlePath = $file->storeAs($datePath, $filename, 'uploads');                      // 上传文件111
+
+            //$bool = Storage::disk('uploads')->put($filename, file_get_contents($tempPath));   // 上传文件222
+
+            return $singlePath;
+        }
+
+        return false;
+    }
 
      
 }

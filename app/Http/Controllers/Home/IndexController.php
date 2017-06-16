@@ -128,5 +128,6 @@ class IndexController extends Controller
         
         return $info;
     }
+
 	
 }

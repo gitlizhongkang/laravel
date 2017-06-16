@@ -16,6 +16,7 @@
             <div class="ng-form-area show-place">
                 <form name="formLogin" id="formLogin" action="{{ URL::to("home-user-loginCheck") }}"  method="post" onSubmit="return userLogin()">
                <input name="_token" type="hidden" value="{{ csrf_token() }}">
+               <input name="URL" type="hidden" value="{{ $_GET['URL'] or '' }}">
                     <div class="shake-area">
                         <div class="enter-area">
                             <input name="username" type="text"   class="enter-item first-enter-item" placeholder="用户名/手机号/邮箱号"/>

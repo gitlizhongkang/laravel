@@ -3,14 +3,7 @@
 
 @section('content')
  <link href="css/user.css" rel="stylesheet" type="text/css" />
- <script type="text/javascript" src="js/common.js"></script>
  <script type="text/javascript" src="js/user.js"></script>
- <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
- <script type="text/javascript" src="js/jquery.json.js"></script>
- <script type="text/javascript" src="js/transport_jquery.js"></script>
- <script type="text/javascript" src="js/utils.js"></script>
- <script type="text/javascript" src="js/jquery.SuperSlide.js"></script>
- <script type="text/javascript" src="js/xiaomi_common.js"></script>
  <body class="user_center">
   <!--通栏-->
   <div class="breadcrumbs"> 

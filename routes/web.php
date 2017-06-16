@@ -28,6 +28,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('home-user-forgetPassword',  'Home\UserController@forgetPassword');
     // 用户找回密码页面
     Route::get('home-user-findPassword',  'Home\UserController@findPassword');
+
     // 第三方登录回调域
     Route::get('home-user-bind',  'Home\UserController@bind');
     // 用户绑定页面
@@ -177,6 +178,7 @@ Route::group(['middleware' => ['web']], function () {
 
     //商品评价页面
     Route::get('/home-goods-comment',  'Home\GoodsController@comment');
+    Route::post('/home-goods-addComment',  'Home\GoodsController@addComment');
 
 
     //获取商品的sku
@@ -258,6 +260,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/home-order','Home\OrderController@setOrder');
     Route::post('/home-order-finsh','Home\OrderController@homeOrderFinsh');
     Route::get('/home-finsh','Home\OrderController@homeFinsh');
+    Route::post('/home-user-getOrder','Home\OrderController@getOrder');
 
     //支付
     Route::post('/home-pay','Home\OrderController@pay');
@@ -265,7 +268,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::any('/home-notify-url','Home\OrderController@AliPayNotify'); //服务器异步通知页面路径
     Route::any('/home-return-url','Home\OrderController@AliPayReturn');  //页面跳转同步通知页面路径
 
+    //评论
+    Route::post('/home-goods-adddComment','Home\GoodsController@adddComment');
+
     /** 薛天阔 end */
+
+
 
 
 
@@ -306,6 +314,7 @@ Route::group(['middleware' => ['web']], function () {
 
     //搜索接口
     Route::get('/admin-forum-duct', 'Home\ForumController@foruDuct');
+
 
     /** 郭洪彬 end */
 });

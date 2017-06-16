@@ -1,16 +1,8 @@
 @extends('layouts.home-header')
 
 @section('content')
-<link rel="shortcut icon" href="favicon.ico" />
-<link rel="icon" href="animated_favicon.gif" type="image/gif" />
-<link href="css/style.css" rel="stylesheet" type="text/css" />
 <link href="css/user.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/user.js"></script>
-<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="js/transport_jquery.js"></script>
-<script type="text/javascript" src="js/jquery.SuperSlide.js"></script>
-<script type="text/javascript" src="js/xiaomi_common.js"></script>
 <body class="user_center">
 <div class="breadcrumbs">
     <div class="container">
@@ -59,7 +51,7 @@
                                     </tr>
                                     @foreach ($orderGoods as $val)
                                     <tr>
-                                        <td bgcolor="#ffffff"> <a href="goods.php?id=80" target="_blank" class="f6">{{ $val['goods_name'] }}</a> </td>
+                                        <td bgcolor="#ffffff"> <img src="{{ $val['sku_img'] }}" width="70px" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="goods.php?id=80" target="_blank" class="f6">{{ $val['goods_name'] }}</a></td>
                                         <td align="left" bgcolor="#ffffff">{{ $val['sku_norms_value'] }}</td>
                                         <td align="right" bgcolor="#ffffff">{{ $val['sku_price'] }} <em>@if($userOrder['pay_type'] == '5')积分@else元@endif</em></td>
                                         <td align="center" bgcolor="#ffffff">{{ $val['num'] }}</td>

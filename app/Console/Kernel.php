@@ -15,7 +15,6 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         'App\Console\Commands\InsertUser',
         'App\Console\Commands\InsertOrder',
-    	'App\Console\Commands\InsertComment',
     ];
 
     /**

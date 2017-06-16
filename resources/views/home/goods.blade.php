@@ -106,53 +106,6 @@ $user_id = Session::get('uid');
                                             </li>
                                         </ul>
                                     </dd>
-                                       <script>
-                                            $(".spec_list_box .item a").click(function(){
-                                                $(this).parents(".dd").find(".item").removeClass("selected");
-                                                $(this).parent().addClass("selected");
-                                                $(this).parents(".dd").find("input:radio").prop("checked",false);
-                                                $(this).parent().find("input:radio").prop("checked",true);
-                                                var obj =$(this);
-                                                var goods_id = "{{$goodsInfo['goods_id']}}";
-                                                var len =$('#choose').attr('len');
-                                                var norms_value = '';
-                                                for (var i = 0; i<= len-1; i++) {
-                                                    var norms = $('input[name=norms'+i+']');
-                                                    for (var j = norms.length - 1; j >= 0; j--) {
-                                                        if (norms.eq(j).prop('checked')) {
-                                                            norms_value += ',' + norms.eq(j).val();
-                                                        }
-                                                    }
-                                                }
-                                                norms_value = norms_value.substr(1);
-                                                var norms_length = norms_value.split(",");
-
-                                                if (norms_length.length < len) {
-                                                   return false;
-                                                } else {
-                                                   $.ajax({
-                                                        type:'post',
-                                                        url:'home-goods-getSku',
-                                                        data:{
-                                                            goods_id:goods_id,
-                                                            norms_value:norms_value,
-                                                            _token:"{{csrf_token()}}"
-                                                        },
-                                                        dataType:'json',
-                                                        success:function(msg){
-                                                            $('#choose').attr('sku-id',msg.sku_id);
-                                                            $('#choose').attr('sku-norms',norms_value);
-                                                            $('#choose').attr('sku-num',msg.sku_num);
-                                                            $('.sku-num').html('剩余库存：'+msg.sku_num);
-                                                            $(".spec_list_box .item a").attr('rev',msg.sku_img);
-                                                            $('#choose').attr('sku-img',msg.sku_img);
-                                                            $('#ECS_SHOPPRICE').html(msg.sku_price);
-                                                        }
-                                                   }) 
-                                                }                                               
-                                            })
-
-                                        </script>
 
                                     <dd class="goods-info-head-cart">
                                         @if(empty($goodsInfo['goods_point']))
@@ -163,8 +116,14 @@ $user_id = Session::get('uid');
                                     <dd class="goods-info-head-userfaq clearfix">
                                         <ul>
                                             <li class=""><i class="iconfont"></i> 销量 <b>1</b></li>
-                                            <li class="J_scrollcomment mid"><i class="iconfont"></i> 评价 <b>7</b></li>
-                                            <li class="J_scrollcomment"><i class="iconfont"></i> 满意度 <b>86%</b></li>
+                                            <li class="J_scrollcomment mid"><i class="iconfont"></i> 评价 <b>{{$satisfaction['all']}}</b></li>
+                                            <li class="J_scrollcomment"><i class="iconfont"></i> 满意度
+                                                <b>@if($satisfaction['all'] != 0)
+                                                        {{ceil($satisfaction['good']/$satisfaction['all']*100)}}
+                                                    @else
+                                                        0
+                                                    @endif%
+                                                </b></li>
                                         </ul>
                                     </dd>
                                 </dl>
@@ -186,7 +145,7 @@ $user_id = Session::get('uid');
                 <ul class="detail-list">
                     <li> <a class="J_scrollHref" rel="nofollow" href="javascript:void(0);">详情描述</a> </li>
                     <li> <a class="J_scrollHref" rel="nofollow" href="javascript:void(0);">规格参数</a> </li>
-                    <li><a class="J_scrollHref" href="javascript:void(0);" rel="nofollow">评价晒单(<em>7</em>)</a></li>
+                    <li><a class="J_scrollHref" href="javascript:void(0);" rel="nofollow">评价晒单(<em>{{$satisfaction['all']}}</em>)</a></li>
                 </ul>
             </div>
         </div>
@@ -242,24 +201,42 @@ $user_id = Session::get('uid');
                         <div class="container">
                             <ul class="main-block clearfix">
                                 <li class="percent">
-                                    <div class="per-num"><i>86</i>%</div>
+                                    <div class="per-num"><i>
+                                            @if($satisfaction['all'] != 0)
+                                                {{ceil($satisfaction['good']/$satisfaction['all']*100)}}
+                                            @else
+                                                0
+                                            @endif
+                                        </i>%</div>
                                     <div class="per-title">购买后满意</div>
-                                    <div class="per-amount"><i>7</i>名用户投票</div>
+                                    <div class="per-amount"><i>{{$satisfaction['all']}}</i>名用户投票</div>
                                 </li>
                                 <li>
                                     <ul class="z-point-list" id="min_points">
                                         <li>
                                             <label>好评：</label>
-                                            <p> <span style="width: 86%;"></span> </p>
-                                            <em>86%</em> </li>
+                                            <p> <span style="width: @if($satisfaction['all'] != 0){{ceil($satisfaction['good']/$satisfaction['all']*100)}}@else 0 @endif%;"></span> </p>
+                                            <em>@if($satisfaction['all'] != 0)
+                                                    {{ceil($satisfaction['good']/$satisfaction['all']*100)}}
+                                                @else
+                                                    0
+                                                @endif%</em> </li>
                                         <li>
                                             <label>中评：</label>
-                                            <p> <span style="width: 14%;"></span> </p>
-                                            <em>14%</em> </li>
+                                            <p> <span style="width:@if($satisfaction['all'] != 0) {{ceil($satisfaction['commonly']/$satisfaction['all']*100)}}@else 0 @endif%;"></span> </p>
+                                            <em>@if($satisfaction['all'] != 0)
+                                                    {{ceil($satisfaction['commonly']/$satisfaction['all']*100)}}
+                                                @else
+                                                    0
+                                                @endif%</em> </li>
                                         <li>
                                             <label>差评：</label>
-                                            <p> <span style="width: 0%;"></span> </p>
-                                            <em>14%</em> </li>
+                                            <p> <span style="width:@if($satisfaction['all'] != 0) {{ceil($satisfaction['bad']/$satisfaction['all']*100)}}@else 0 @endif%;"></span> </p>
+                                            <em>@if($satisfaction['all'] != 0)
+                                                    {{100-ceil($satisfaction['commonly']/$satisfaction['all']*100)-ceil($satisfaction['good']/$satisfaction['all']*100)}}
+                                                @else
+                                                    0
+                                                @endif%</em> </li>
                                     </ul>
                                 </li>
                                 <li class="i-want-comment">
@@ -286,16 +263,41 @@ $user_id = Session::get('uid');
                                         @foreach ($comment as $k=>$v)
                                         <li class="item-rainbow-1">
                                             <div class="user-image"> <img class="face_img" src="images/goods1.jpg"> </div>
+                                            @if($v['satisfaction'] == 5)
                                             <div class="user-emoj">
                                                 超爱<i class="iconfont"></i>
                                             </div>
+                                            @elseif($v['satisfaction'] == 4)
+                                            <div class="user-emoj">
+                                                满意<i class="iconfont"></i>
+                                            </div>
+                                            @elseif($v['satisfaction'] == 3)
+                                            <div class="user-emoj">
+                                                一般<i class="iconfont"></i>
+                                            </div>
+                                            @elseif($v['satisfaction'] == 2)
+                                            <div class="user-emoj">
+                                                不满意<i class="iconfont"></i>
+                                            </div>
+                                            @elseif($v['satisfaction'] == 1)
+                                            <div class="user-emoj">
+                                                很失望<i class="iconfont"></i>
+                                            </div>
+                                            @endif
                                             <div class="user-name-info">
                                                 <span class="user-name">{{$v['user_id']}}</span>
                                                 <span class="user-time">{{date('Y-m-d h:i:s',$v['add_time'])}}</span>
                                                 <span class="pro-info"></span>
                                             </div>
                                             <dl class="user-comment">
-                                                <dt class="user-comment-content"><p class="content-detail">{{$v['comment_desc']}}</p></dt>
+                                                <dt class="user-comment-content"><p class="content-detail">{{$v['comment_desc']}}</p>
+                                                @if(!empty($v['comment_img']))
+                                                    <?php $arr = explode(',',$v['comment_img']);?>
+                                                    @foreach($arr as $val)
+                                                            <span class="content-detail" style="margin-left: 20px"><img src="{{$val}}" width="100px" alt=""></span>
+                                                    @endforeach
+                                                @endif
+                                                </dt>
                                                 <dd class="user-comment-self-input hide">
                                                     <div class="input-block"><input type="text" placeholder="回复楼主" class="J_commentAnswerInput"><a href="javascript:void(0);" class="btn  answer-btn J_commentAnswerBtn">回复</a></div>
                                                 </dd>
@@ -335,15 +337,12 @@ $user_id = Session::get('uid');
 
 
                         <div id="commentsFrom">
-                            <form action="javascript:;" onsubmit="submitComment(this)" method="post" name="commentForm" id="commentForm">
+                            <form action="home-goods-addComment" method="post" enctype="multipart/form-data"  name="commentForm" id="commentForm">
                                 <ul class="form addr-form" id="addr-form">
                                     <span style="position:absolute; right:10px; top:5px; font-size:24px; cursor:pointer;" onClick="easyDialog.close();">×</span>
                                     <li>
                                         <label>用户名</label>
-                                        匿名用户      </li>
-                                    <li>
-                                        <label>E-mail</label>
-                                        <input type="text" name="email" id="email"  maxlength="100" value="" class="txt"/>
+                                        {{Session::get('username')}}
                                     </li>
                                     <li>
                                         <label>评价等级</label>
@@ -355,7 +354,7 @@ $user_id = Session::get('uid');
                                         <img src="images/stars3.gif" />
                                         <input name="comment_rank" type="radio" value="4" id="comment_rank4" />
                                         <img src="images/stars4.gif" />
-                                        <input name="comment_rank" type="radio" value="5" checked="checked" id="comment_rank5" />
+                                        <input name="comment_rank" type="radio" value="5" id="comment_rank5" />
                                         <img src="images/stars5.gif" />
                                     </li>
                                     <li>
@@ -363,50 +362,24 @@ $user_id = Session::get('uid');
                                         <textarea name="content" class="txt" style="height:80px; width:300px;"></textarea>
                                     </li>
                                     <li>
-                                        <label>验证码</label>
-
-                                        <input type="text" class="txt" name="captcha" maxlength="6">
-                                        <img src="" alt="captcha" id="captcha" onClick="this.src='captcha.php?'+Math.random()" width="100" height="34" style="height:34px;" > </li>
-
-
-
+                                        <label style="text-align: center;">晒图</label>
+                                        <!-- 商品相册 -->
+                                        <img class="img" src="" width="100" height="100" style="display: none;margin-left: 20px" border="0"><input type="file" name="image_url[]" style="display:none;" >
+                                        <a href="javascript:void(0)" class="copy">[ + ]</a>
+                                    </li>
                                     <li>
-                                        <input type="hidden" name="cmt_type" value="0" />
-                                        <input type="hidden" name="id" value="27" />
+                                        <input type="hidden" name="id" value="{{$_GET['goods_id']}}" />
+                                        <input type="hidden" name="_token" value="{{csrf_token()}}" />
+                                        <input type="hidden" name="uid" value="{{$user_id or ''}}" />
                                         <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                        <input name="" type="submit"  value="提交评论" class="btn" style="border:none; height:40px; cursor:pointer; width:150px; font-size:16px;">
+                                        <input name="" type="button"  value="提交评论" class="btn addComment" style="border:none; height:40px; cursor:pointer; width:150px; font-size:16px;">
                                     </li>
                                 </ul>
                             </form>
                         </div>
-
-
-
-                        <script type="text/javascript">
-                            //<![CDATA[
-                            var cmt_empty_username = "请输入您的用户名称";
-                            var cmt_empty_email = "请输入您的电子邮件地址";
-                            var cmt_error_email = "电子邮件地址格式不正确";
-                            var cmt_empty_content = "您没有输入评论的内容";
-                            var captcha_not_null = "验证码不能为空!";
-                            var cmt_invalid_comments = "无效的评论内容!";
-
-                            /**
-                             * 提交评论信息
-                             */
-                            
-                            function commentsFrom(){
-                                easyDialog.open({
-                                    container : 'commentsFrom'
-                                });
-                            }
-
-                            //]]>
-
-                        </script></div>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
     <div class="goods-sub-bar" id="goodsSubBar">
@@ -414,7 +387,7 @@ $user_id = Session::get('uid');
             <ul class="detail-list">
                 <li> <a class="J_scrollHref" rel="nofollow" href="javascript:void(0);">详情描述</a> </li>
                 <li> <a class="J_scrollHref" rel="nofollow" href="javascript:void(0);">规格参数</a> </li>
-                <li><a class="J_scrollHref" href="javascript:void(0);" name="pjxqitem" rel="nofollow">评价晒单(<em>7</em>)</a></li>
+                <li><a class="J_scrollHref" href="javascript:void(0);" name="pjxqitem" rel="nofollow">评价晒单(<em>{{$satisfaction['all']}}</em>)</a></li>
             </ul>
             <dl class="goods-sub-bar-info clearfix">
                 <dt><img src="images/goods.jpg" alt="" /></dt>
@@ -426,14 +399,27 @@ $user_id = Session::get('uid');
             <a href="javascript:;" class="btn btn-primary goods-add-cart-btn"><i class="iconfont"></i> 加入购物车</a>
         </div>
     </div>
-     <script>
-    $('.goods-add-cart-btn').click(function(){     
-        var sku_id =  $('#choose').attr('sku-id');                           
+
+    <div class="add_ok" id="cart_show">
+        <div class="tip">
+            <i class="iconfont"> </i>商品已成功加入购物车
+        </div>
+        <div class="go">
+            <a href="home-goods-goodsInfo?goods_id={{$goodsInfo['goods_id']}}" class="back">&lt;&lt;继续购物</a>
+            <a href="home-cart-index" class="btn">去结算</a>
+        </div>
+    </div>
+</div>
+<script src="js/jquery.wallform.js"></script>
+<script src="js/goods.js"></script>
+<script>
+    $('.goods-add-cart-btn').click(function(){
+        var sku_id =  $('#choose').attr('sku-id');
         if (sku_id == '') {
             alert('您还没有选择规格哦！！！');
             return false;
         }
-       
+
         var num = $('#number').val();
         var sku_num = $('#choose').attr('sku-num');
         if (parseInt(sku_num) < num) {
@@ -441,16 +427,16 @@ $user_id = Session::get('uid');
             return false;
         }
 
-        var user_id = "{{$user_id}}";
+        var user_id =  $("input[name='uid']").val();
         if(user_id =='') {
             if (!confirm('您还没有登录，添加购物车将只保存一次哦！')){
-               return false;
+                return false;
             }
         }
         var sku_price = $('#ECS_SHOPPRICE').html();
-        var sku_norms =  $('#choose').attr('sku-norms'); 
-        var sku_img =  $('#choose').attr('sku-img'); 
-        $.ajax({                               
+        var sku_norms =  $('#choose').attr('sku-norms');
+        var sku_img =  $('#choose').attr('sku-img');
+        $.ajax({
             type:'post',
             url:'home-cart-add',
             data:{
@@ -466,19 +452,20 @@ $user_id = Session::get('uid');
             },
             dataType:'json',
             success:function(msg){
-               if(msg.error == 0) {
+                if(msg.error == 0) {
                     easyDialog.open({
                         container : 'cart_show'
-                     });
-               }
+                    });
+                }
             }
-       }) 
-       
+        })
+
     })
 
     //直接购买
     $('.goods-collect-btn').click(function(){
         var sku_id =  $('#choose').attr('sku-id');
+        var goods_id =  $("input[name='id']").val();
         if (sku_id == '') {
             alert('您还没有选择规格哦！！！');
             return false;
@@ -491,10 +478,10 @@ $user_id = Session::get('uid');
             return false;
         }
 
-        var user_id = "{{$user_id}}";
+        var user_id = $("input[name='uid']").val();
         if(user_id =='') {
             if (confirm('请先登陆！')){
-               location.href = "home-user-login";
+                location.href = "home-user-login?URL=home-goods-goodsInfo?goods_id="+goods_id;
             } else {
                 return false;
             }
@@ -506,19 +493,6 @@ $user_id = Session::get('uid');
         }
 
     })
-    </script>
-    <div class="add_ok" id="cart_show">
-        <div class="tip">
-            <i class="iconfont"> </i>商品已成功加入购物车
-        </div>
-        <div class="go">
-            <a href="home-goods-goodsInfo?goods_id={{$goodsInfo['goods_id']}}" class="back">&lt;&lt;继续购物</a>
-            <a href="home-cart-index" class="btn">去结算</a>
-        </div>
-    </div>
-</div>
-<script type="text/javascript">
-  
 </script>
 @endsection
 
