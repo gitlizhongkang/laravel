@@ -28,14 +28,12 @@ class IndexController extends Controller
 	 */
     public function index()
     {
-        // $goods = new GoodsController;
         
-    	
-    	//获取最新的商品信息
-    	$data['new'] = json_decode($this->getNew(6), true) ;
+    	//获取销量最高的商品信息
+    	$data['new'] = json_decode($this->getNew(8), true) ;
 
     	//获取秒杀的商品信息
-    	$data['second'] = json_decode($this->getSecond(6), true);
+    	$data['second'] = json_decode($this->getSecond(8), true);
         // dd($data['second']);
 
     	//猜你喜欢  如果登录获取用户浏览记录  如果没有显示最热商品
@@ -43,7 +41,7 @@ class IndexController extends Controller
         if (Session::has('uid')) {
             $user_id = Session::get('uid');
         }
-		$data['recommendation'] = json_decode($this->getUserLike($user_id,8), true);
+		$data['recommendation'] = json_decode($this->getUserLike($user_id,10), true);
     	
     	return view('/home/index' , $data);
     }

@@ -70,7 +70,7 @@ $('button').click(function(){
                         title: {
                             text: 'num (件)'
                         },
-                        tickInterval: 5, //基线宽度
+                        tickInterval: 10000, //基线宽度
                         plotLines: [{
                             value: 0,
                             width: 1,

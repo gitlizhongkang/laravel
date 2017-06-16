@@ -117,7 +117,7 @@ $user_name = Session::get('username');
                 </li>
                 <!--导航栏-->
                 <li class="nav-item">
-                    <a class="link" href="#"><span>儿童</span></a>
+                    <a class="link" href="home-goods-goodsList?category_name=奶粉"><span>儿童</span></a>
                     <!-- <div class='item-children'>
                         <div class="container">
                             <ul class="children-list clearfix" id='child'>
@@ -128,7 +128,7 @@ $user_name = Session::get('username');
                 </li>
 
                 <li class="nav-item">
-                    <a class="link" href="#"><span>孕妇</span></a>
+                    <a class="link" href="home-goods-goodsList?category_name=孕妈用品"><span>孕妇</span></a>
                    <!--  <div class='item-children'>
                         <div class="container">
                             <ul class="children-list clearfix" id='women'>
@@ -158,7 +158,7 @@ $user_name = Session::get('username');
                 <!-- <input type="hidden" value="k1" name="dataBi"> -->
                 <button type="submit" class="search-btn iconfont"></button>
                 <div class="hot-words">
-                    <a href="home-goods-goodsList?key=飞鹤奶粉" target="_blank">飞鹤奶粉</a>
+                    <a href="home-goods-goodsList?key=飞鹤奶粉" target="_blank">奶粉</a>
                     <a href="home-goods-goodsList?key=孕妈护肤" target="_blank">孕妈护肤</a>
                 </div>
             </form>

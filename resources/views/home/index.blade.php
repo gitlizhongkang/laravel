@@ -22,12 +22,12 @@
                         </div>
                         <div class="slide xm-slider-slide">
                             <a target="_blank" href="http://note.sdufa.com/goods.php?id=56">
-                                <img src="images/lun1.jpg"/>
+                                <img src="images/lun3.jpg"/>
                             </a>
                         </div>
                         <div class="slide xm-slider-slide">
                             <a target="_blank" href="http://">
-                                <img src="images/lun2.jpg"/>
+                                <img src="images/lun4.jpg"/>
                             </a>
                         </div>
                     </div>
@@ -62,27 +62,27 @@
                         </a>
                     </li>
                     <li>
-                        <a href="group_buy.php">
+                        <a href="javascript:;">
                             <i class="iconfont"></i>促销商品
                         </a>
                     </li>
                     <li>
-                        <a href="exchange.php">
+                        <a href="home-pointMall-index">
                             <i class="iconfont"></i>积分商城
                         </a>
                     </li>
                     <li>
-                        <a href="snatch.php">
+                        <a href="javascript:;">
                             <i class="iconfont"></i>进口商品
                         </a>
                     </li>
                     <li>
-                        <a href="brand.php">
+                        <a href="javascript:;">
                             <i class="iconfont"></i>品牌商品
                         </a>
                     </li>
                     <li>
-                        <a href="brand.php">
+                        <a href="javascript:;">
                             <i class="iconfont"></i>国产商品
                         </a>
                     </li>
@@ -144,13 +144,13 @@
                             </p>
                         </li>
                         @endforeach
-                            @endif
+                        @endif
                     </ul>
                 </div>
             </div>
         </div>
         <div id="video" class="home-video-box xm-plain-box J_itemBox J_videoBox is-visible">
-            <div class="box-hd"><h2 class="title">视频</h2></div>
+            <div class="box-hd"><h2 class="title">往期视频</h2></div>
             <div class="box-bd J_brickBd">
                 <ul class="video-list clearfix">
                     <li class="video-item video-item-first">
@@ -183,9 +183,9 @@
     <div class="container">
         <div class="home-brick-box home-brick-row-2-box xm-plain-box J_itemBox J_brickBox is-visible loaded">
             <div class="box-hd">
-                <h2 class="title">最新商品</h2>
+                <h2 class="title">热卖商品</h2>
                 <div class="more J_brickNav">
-                    <a class="more-link" href="home-goods-index" style=" display:inline-block;">
+                    <a class="more-link" href="home-goods-goodsList" style=" display:inline-block;">
                         查看全部<i class="iconfont"></i>
                     </a>
                 </div>
@@ -194,9 +194,13 @@
                 <div class="row">
                     <div class="span4 span-first">
                         <ul class="brick-promo-list clearfix">
-                            <li class="brick-item brick-item-l">
-                                <a target="_blank" href=""> 
-                                <img src="images/1449710786109632841.jpg" width="234" height="614"/> </a>
+                            <li class="brick-item brick-item-m">
+                                <a target="_blank" href="home-goods-goodsList"> 
+                                <img src="images/left1.jpg" width="234" height="414"/> </a>                               
+                            </li>
+                            <li class="brick-item brick-item-m">
+                                <a target="_blank" href="home-goods-goodsList"> 
+                                <img src="images/left2.jpg" width="234" height="200"/> </a>                             
                             </li>
                         </ul>
 
@@ -241,7 +245,7 @@
             <div class="box-hd">
                 <h2 class="title">秒杀商品</h2>
                 <div class="more J_brickNav">
-                    <a class="more-link" href="home-goods-index" style=" display:inline-block;">
+                    <a class="more-link" href="home-secKill-secList" style=" display:inline-block;">
                         查看全部<i class="iconfont"></i>
                     </a>
                 </div>
@@ -250,9 +254,13 @@
                 <div class="row">
                     <div class="span4 span-first">
                         <ul class="brick-promo-list clearfix">
-                            <li class="brick-item brick-item-l">
-                                <a target="_blank" href=""> 
-                                <img src="images/1449710786109632841.jpg" width="234" height="614"/> </a>
+                             <li class="brick-item brick-item-m">
+                                <a target="_blank" href="home-secKill-secList"> 
+                                <img src="images/left3.jpg" width="234" height="414"/> </a>                               
+                            </li>
+                            <li class="brick-item brick-item-m">
+                                <a target="_blank" href="home-secKill-secList"> 
+                                <img src="images/left4.jpg" width="234" height="200"/> </a>                             
                             </li>
                         </ul>
 
@@ -263,13 +271,13 @@
                             @foreach ($second as $k=>$v)
                             <li class="brick-item brick-item-m">
                                 <div class="figure figure-img">
-                                    <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">
+                                    <a href="home-secKill-secInfo?goods_id={{$v['goods_id']}}">
                                         <img src="{{$v['goods_img']}}" width="160"
                                              height="160" alt="{{$v['goods_name']}}">
                                     </a>
                                 </div>
                                 <h3 class="title">
-                                    <a href="home-goods-goodsInfo?goods_id={{$v['goods_id']}}">{{$v['goods_name']}}</a>
+                                    <a href="home-secKill-secInfo?goods_id={{$v['goods_id']}}">{{$v['goods_name']}}</a>
                                 </h3>
                                 <p class="desc"></p>
                                 <p class="price">

@@ -41,8 +41,8 @@ class InsertOrder extends Command
      */
     public function handle()
     {
-        for ($j=0;$j<10000;$j++) {
-        $info['user_id'] = rand(150000,250000);
+        for ($j=0;$j<200000;$j++) {
+        $info['user_id'] = rand(150000,450000);
         //uid(3)[支付类型][ymd][时间戳4][随机2]
             $uid = substr($info['user_id'], -3);
         $info['order_sn'] = $uid.'1'.date('Ymd',time()).substr(time(),-4).rand(10,99);
@@ -64,16 +64,13 @@ class InsertOrder extends Command
         $prices = 0;
         $goodsNum = 3;
         for ($i=1;$i<=$goodsNum;$i++) {
-            $GoodsSku = new GoodsSku();
-            $sku_id = rand(1,10000);
-            $goodsInfo = $GoodsSku->where('sku_id',$sku_id)->first()->toArray();
-            $goods[$i]['sku_id'] = 2475;
-            $goods[$i]['sku_sn'] = 170613011007619002;
-            $goods[$i]['goods_id'] = 619;
-            $goods[$i]['goods_name'] = '澳洲爱他美 Aptamil';
-            $goods[$i]['sku_norms_value'] = '1l,全脂';
-            $goods[$i]['sku_img'] = 'uploads/2017-06-13/593fa307a6d76.jpg';
-            $goods[$i]['sku_price'] ='522';
+            $goods[$i]['sku_id'] = 29014;
+            $goods[$i]['sku_sn'] = 170613004005150001;
+            $goods[$i]['goods_id'] = 11150;
+            $goods[$i]['goods_name'] = '贝恩施 beiens 儿童敲打玩具敲击果虫';
+            $goods[$i]['sku_norms_value'] = '红';
+            $goods[$i]['sku_img'] = 'uploads/2017-06-13/593fde0c387f3.jpg';
+            $goods[$i]['sku_price'] ='33';
             $goods[$i]['num'] = 3;
             $goods[$i]['order_id'] = $order_id;
             $goods[$i]['add_time'] = time();

@@ -43,7 +43,7 @@ class StatsController extends Controller
 		} 
 		
 		$order = new OrderGoods;
-		$arr = $order->select('sku_norms_value', 'num','add_time')
+		$arr = $order->select('sk_norms_value', 'num','add_time')
 		->whereBetween('add_time', [$start_time, $end_time])->where('goods_name', $goods_name)
 		->get()->toArray();	
 		
@@ -121,12 +121,9 @@ class StatsController extends Controller
 		}
 
 		$user = new User;
-		$arr = $user->select('reg_time')->whereBetween('reg_time', [$start_time, $end_time])
-		->get()->toArray();
 
 		//将日期排序
 		$len = ($end_time-$start_time)/60/60/24;
-		$start = date('Y-m-d H:i:s', $start_time);
 		for ($i=0;$i<=$len;$i++) {
 			$next = date('Y-m-d', $start_time + 60*60*24*$i);
 			$date[] = $next;
@@ -134,17 +131,11 @@ class StatsController extends Controller
 
 		$info = [];		
 		foreach ($date as $k => $v) {
-			$info[$v] = 0;
 			$min = strtotime($v);
 			$max = $min+60*60*24;
-			foreach ($arr as $k1 => $v1) {
-				if ($min >= $v1['reg_time'] && $v1['reg_time'] < $max) {
-					$info[$v] += 1;
-					unset($arr[$k1]);
-				}
-			}
+			$info[$v] = $user->whereBetween('reg_time', [$min, $max])->count('user_id');
 		}
-		
+
 		$res[0] = ['name'=>'user'];
 		foreach ($info as $k => $v) {
 			$res[0]['data'][] = $v;
@@ -182,12 +173,9 @@ class StatsController extends Controller
 		}
 
 		$order = new Order;
-		$arr = $order->select('order_time')->whereBetween('order_time', [$start_time, $end_time])
-		->get()->toArray();
 
 		//将日期排序
 		$len = ($end_time-$start_time)/60/60/24;
-		$start = date('Y-m-d H:i:s', $start_time);
 		for ($i=0;$i<=$len;$i++) {
 			$next = date('Y-m-d', $start_time + 60*60*24*$i);
 			$date[] = $next;
@@ -195,15 +183,9 @@ class StatsController extends Controller
 
 		$info = [];
 		foreach ($date as $k => $v) {
-			$info[$v] = 0;
 			$min = strtotime($v);
 			$max = $min+60*60*24;
-			foreach ($arr as $k1 => $v1) {
-				if ($min >= $v1['order_time'] && $v1['order_time'] < $max) {
-					$info[$v] += 1;
-					unset($arr[$k1]);
-				}
-			}
+			$info[$v] = $order->whereBetween('order_time', [$min, $max])->count('order_id');
 		}
 		
 		$res[0] = ['name'=>'order'];

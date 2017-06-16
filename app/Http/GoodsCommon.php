@@ -17,6 +17,7 @@ use App\Models\GoodsSecond;
 use App\Models\UserBrowerLog;
 use Session;
 use App\Models\Brand;
+use Carbon\Carbon;
 
 trait GoodsCommon
 {
@@ -33,7 +34,7 @@ trait GoodsCommon
         $goods = new Goods;
 
         $new= $goods -> select('goods_id','goods_name','goods_img','goods_low_price','category_name','brand_name')
-        -> where([['is_on_sale', 1], ['is_second', 0], ['is_point', 0]])-> orderBy('add_time') 
+        -> where([['is_on_sale', 1], ['is_second', 0], ['is_point', 0]])-> orderBy('goods_sale_num','desc') 
         -> offset(0) -> limit($limit) -> get() -> toArray();
 
         return json_encode($new);
@@ -52,9 +53,9 @@ trait GoodsCommon
         } 
         $second = new GoodsSecond;
 
-        $time = date("Y-m-d",strtotime("+3 day"));
+        $time = date("Y-m-d",time());
         $second = $second -> select('goods_id','goods_name','goods_img','original_price','category_name','brand_name','second_price','start_time') 
-        -> where('start_time','<',$time) -> orderBy('start_time') 
+        -> where('start_time','<=',$time) -> orderBy('start_time') 
         -> offset(0)-> limit($limit) -> get() -> toArray();
 
         return json_encode($second);
