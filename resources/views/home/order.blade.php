@@ -70,13 +70,13 @@
                             <div class="section-body">
                                 <ul class="item-list clearfix payment-list" id="payment-list">
                                     @if($type != 'integral')
-                                    <li>
-                                        <label class="checkout-item pay-type" for="payment_2">余额支付</label>
-                                        <input type="radio" name="pay_type" class="radio" id="payment_2" value="3"  isCod="0" />
-                                        <div class="text">
-                                            <i></i>手续费：0.00<em>元</em>
-                                        </div>
-                                    </li>
+                                    {{--<li>--}}
+                                        {{--<label class="checkout-item pay-type" for="payment_2">余额支付</label>--}}
+                                        {{--<input type="radio" name="pay_type" class="radio" id="payment_2" value="3"  isCod="0" />--}}
+                                        {{--<div class="text">--}}
+                                            {{--<i></i>手续费：0.00<em>元</em>--}}
+                                        {{--</div>--}}
+                                    {{--</li>--}}
 
                                     <li>
                                         <label class="checkout-item pay-type" for="payment_4">货到付款</label>

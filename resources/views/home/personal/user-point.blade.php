@@ -2,16 +2,9 @@
 @extends('layouts.home-header')
 
 @section('content')
-    <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="icon" href="animated_favicon.gif" type="image/gif" />
     <link href="css/user.css" rel="stylesheet" type="text/css" />
     <link href="css/user-point.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript" src="js/user.js"></script>
-    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="js/transport_jquery.js"></script>
-    <script type="text/javascript" src="js/jquery.SuperSlide.js"></script>
-    <script type="text/javascript" src="js/xiaomi_common.js"></script>
     <body class="user_center">
     <div class="breadcrumbs">
         <div class="container">
@@ -40,7 +33,7 @@
                                     <span class="date" style="color: rgb(153, 153, 153);">(已于2016.12.31过期)</span>
                                     </div>
                                     <div class="item exchange">
-                                    <a href="" target="_blank" style="margin-left: 50px;margin-right:14px " >兑换超值商品与优惠劵</a>
+                                    <a href="home-pointMall-index" target="_blank" style="margin-left: 50px;margin-right:14px " >兑换超值商品与优惠劵</a>
                                     </div>
                                     </div>
                                     <table style="margin-top: 20px;margin-left: 80px">

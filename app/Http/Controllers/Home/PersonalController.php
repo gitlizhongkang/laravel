@@ -150,10 +150,11 @@ class PersonalController extends Controller
     public function userOrder()
     {
         $uid = Session::get('uid');//session内拿用户uid
+        $status = Input::get('status');//session内拿用户uid
         //查询订单
-        $userOrder = $this->getUserOrder($uid);
+        $userOrder = $this->getUserOrder($uid,'',$status);
         $data['userOrder'] = json_decode($userOrder,true);
-
+//print_r($data);die;
         return view('/home/personal/user-order',$data);
     }
 
@@ -207,14 +208,9 @@ class PersonalController extends Controller
         }
         $UserAddress = new UserAddress();
         $UserAddressInfo = $UserAddress->where('user_id',$uid)->orderBy('is_default','desc')->get()->toArray();
-        if ($UserAddressInfo) {
-            $data['error'] = 0;
-            $data['data'] = $UserAddressInfo;
-            $data['msg'] = '查询成功';
-        } else {
-            $data['error'] = 1;
-            $data['msg'] = '查询失败';
-        }
+        $data['error'] = 0;
+        $data['data'] = $UserAddressInfo;
+        $data['msg'] = '查询成功';
 
         return json_encode($data);
     }
@@ -327,12 +323,33 @@ class PersonalController extends Controller
             $order_id = Input::get('order_id')?Input::get('order_id'):'';
             $status = Input::get('status')?Input::get('status'):'';
         }
-        if($order_id=='' && $status==''){
-            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
+        if($order_id==''){
+            //用户订单
+            if ($status == ''){
+                $userOrders['orders'] = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where(['user_id'=>$uid])->orderBy('order_time','desc')->simplePaginate(10);
+            } elseif($status == 1) {
+                $userOrders['orders'] = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where('order_time','>',time()-3600*30)->where(['user_id'=>$uid,'status'=>$status])->simplePaginate(10);
+            }elseif($status == 4) {
+                $userOrders['orders'] = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where(['user_id'=>$uid,'status'=>$status])->orderBy('order_time','desc')->simplePaginate(10);
+            } else {
+                $userOrders['orders'] = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where(['user_id'=>$uid,'status'=>$status])->orwhere(['user_id'=>$uid,'status'=>2])->orderBy('order_time','desc')->simplePaginate(10);
+            }
+
+            $userOrders['all'] = count($userOrders['orders']);
+            $userOrders['not_finish'] = $Order->select('order_id')->where(['user_id'=>$uid,'status'=>1])->where('order_time','>',time()-3600*30)->count();
+            $userOrders['not_received'] = $Order->select('order_id')->where(['user_id'=>$uid,'status'=>2])->orwhere(['user_id'=>$uid,'status'=>3])->count();
+            $userOrders['not_evaluate'] = $Order->select('order_id')->where(['user_id'=>$uid,'status'=>4])->count();
+            if ($status == '') {
+                foreach ($userOrders['orders'] as $k=>$val) {
+                    if ($val['status'] == 1 & $val['order_time'] < time()-3600*30) {
+                        $userOrders['all'] = $userOrders['all'] -1;
+                        unset($userOrders['orders'][$k]);
+                    }
+                }
+            }
         } elseif ($status=='') {
+            // 订单详细
             $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_type','logistics_price','consignee_tel','consignee_name','consignee_address','pack_price','get_point','pay_type')->where(['user_id'=>$uid,'order_id'=>$order_id])->first()->toArray();
-        } else {
-            $userOrders = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where('status','>=',$status)->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
         }
 
         return json_encode($userOrders);
@@ -369,7 +386,7 @@ class PersonalController extends Controller
             $order_id = Input::all();
         }
         $OrderGoods = new OrderGoods();
-        $userOrders = $OrderGoods->select('goods_id','goods_name','sku_norms_value','sku_price','num')->where('order_id',$order_id)->get()->toArray();
+        $userOrders = $OrderGoods->select('goods_id','goods_name','sku_norms_value','sku_img','sku_price','num')->where('order_id',$order_id)->get()->toArray();
 
         return json_encode($userOrders);
     }
@@ -497,7 +514,7 @@ class PersonalController extends Controller
             $uid = Input::get('uid');
         }
         $point = new Point();
-        $points = $point ->where(['user_id'=>$uid])->get()->toArray();
+        $points = $point ->where(['user_id'=>$uid])->orderBy('add_time','desc')->get()->toArray();
         $data['error'] = 0;
         $data['data'] = $points;
         $data['msg'] = '查询成功';
@@ -511,9 +528,9 @@ class PersonalController extends Controller
     public function trackingPackages()
     {
         $uid = Session::get('uid');//session内拿用户uid
-        //查询订单
-        $userOrder = $this->getUserOrder($uid,'',3);
-        $data['userOrder'] = json_decode($userOrder,true);
+        //查询包裹
+        $Order = new Order();
+        $data['userOrder'] = $Order->select('order_id','order_sn','order_time','order_price','status','logistics_number','logistics_type','pay_type')->where('status','>=',3)->where(['user_id'=>$uid])->orderBy('order_time','desc')->get()->toArray();
 
         return view('home.personal.tracking-packages',$data);
     }
@@ -575,7 +592,7 @@ class PersonalController extends Controller
         }
         $uid = Session::get('uid');//session内拿用户uid
         //查询红包
-        $userPack = $this->curl('home-personal-getPack', "uid=$uid&page=$page", true);
+        $userPack = $this->getPack($uid);
         $data['userPack'] = json_decode($userPack,true);
 
         return view('home.personal.user-pack',$data);
@@ -584,9 +601,11 @@ class PersonalController extends Controller
     /**
      * @brief 查询红包-接口
      */
-    public function getPack()
+    public function getPack($uid)
     {
-        $uid = Input::get('uid');//接uid
+        if ($uid == ''){
+            $uid = Input::get('uid');//接uid
+        }
         $userPack = new UserPack();
         $packs = $userPack->select('*')->where(['user_id'=>$uid])->simplePaginate(2);
         if ($packs) {
@@ -611,46 +630,52 @@ class PersonalController extends Controller
         if (empty($res))
         {
             $receive_num = $pack->select('receive_num')->where(['pack_sn'=>$bonus_sn])->get()->toArray();
-            $arrPack = $pack->select('*')->where(['pack_sn'=>$bonus_sn])->where('late_receive_time','>',time())->where('pack_num','>',$receive_num)->first()->toArray();
-            if (empty($arrPack)) {
-                $arr1 = $pack->select('*')->where(['pack_sn'=>$bonus_sn])->where('late_receive_time','>',time())->first()->toArray();
-                if (empty($arr1)) {
-                    $arr2 = $pack->select('*')->where(['pack_sn'=>$bonus_sn])->first()->toArray();
-                    if (empty($arr2)) {
-                        $arr3 = $pack->select('*')->first()->toArray();
-                        if (!empty($arr3)) {
-                            $data['error'] = 1;
-                            $data['msg'] = '红包序号不存在！';
+            if (empty($receive_num)) {
+                    $data['error'] = 1;
+                    $data['msg'] = '红包序号不存在！';
+                } else {
+                $arrPack = $pack->select('*')->where(['pack_sn'=>$bonus_sn])->where('late_receive_time','>',time())->where('pack_num','>',$receive_num)->first()->toArray();
+                if (empty($arrPack)) {
+                    $arr1 = $pack->select('*')->where(['pack_sn'=>$bonus_sn])->where('late_receive_time','>',time())->first()->toArray();
+                    if (empty($arr1)) {
+                        $arr2 = $pack->select('*')->where(['pack_sn'=>$bonus_sn])->first()->toArray();
+                        if (empty($arr2)) {
+                            $arr3 = $pack->select('*')->first()->toArray();
+                            if (!empty($arr3)) {
+                                $data['error'] = 1;
+                                $data['msg'] = '红包序号不存在！';
+                            }
+                        } else {
+                            $data['error'] = 2;
+                            $data['msg'] = '你来晚了，红包领取领取时间已结束！';
                         }
                     } else {
-                        $data['error'] = 2;
-                        $data['msg'] = '你来晚了，红包领取领取时间已结束！';
+                        $data['error'] = 3;
+                        $data['msg'] = '你来晚了，红包已被领取完！';
                     }
                 } else {
-                    $data['error'] = 3;
-                    $data['msg'] = '你来晚了，红包已被领取完！';
-                }
-            } else {
-                $userPack->pack_sn = $arrPack['pack_sn'];
-                $userPack->user_id = $uid;
-                $userPack->pack_name = $arrPack['pack_name'];
-                $userPack->pack_price = $arrPack['pack_price'];
-                $userPack->pack_msg = $arrPack['pack_msg'];
-                $userPack->low_use_price = $arrPack['low_use_price'];
-                $userPack->pack_use_time = $arrPack['pack_use_time'];
-                $res = $userPack->save();
-                if ($res) {
-                    $data['error'] = 0;
-                    $data['msg'] = '添加成功';
-                } else {
-                    $data['error'] = 5;
-                    $data['msg'] = '添加失败';
+                    $userPack->pack_sn = $arrPack['pack_sn'];
+                    $userPack->user_id = $uid;
+                    $userPack->pack_name = $arrPack['pack_name'];
+                    $userPack->pack_price = $arrPack['pack_price'];
+                    $userPack->pack_msg = $arrPack['pack_msg'];
+                    $userPack->low_use_price = $arrPack['low_use_price'];
+                    $userPack->pack_use_time = $arrPack['pack_use_time'];
+                    $res = $userPack->save();
+                    if ($res) {
+                        $data['error'] = 0;
+                        $data['msg'] = '添加成功';
+                    } else {
+                        $data['error'] = 5;
+                        $data['msg'] = '添加失败';
+                    }
                 }
             }
         } else {
             $data['error'] = 4;
             $data['msg'] = '您已领取过该红包';
         }
+
 
         return json_encode($data) ;
     }

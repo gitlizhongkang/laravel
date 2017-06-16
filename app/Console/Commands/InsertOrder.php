@@ -75,7 +75,6 @@ class InsertOrder extends Command
             $goods[$i]['order_id'] = $order_id;
             $goods[$i]['add_time'] = time();
             $prices = $goods[$i]['sku_price']*$goods[$i]['num']+$prices;
-
         }
         $OrderGoods = new OrderGoods();
         $OrderGoods->insert($goods);
